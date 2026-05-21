@@ -786,6 +786,12 @@ export interface Dict {
   'workingDirPicker.showInFileManager': string;
   'workingDirPicker.replace': string;
   'workingDirPicker.recent': string;
+  'handoff.toTarget': string;
+  'handoff.action': string;
+  'handoff.fallbackTitle': string;
+  'handoff.chooseTargetAria': string;
+  'handoff.notInstalled': string;
+  'handoff.notDetectedTitle': string;
   'designSystemPicker.select': string;
   'designSystemPicker.loading': string;
   'designSystemPicker.searchPlaceholder': string;
