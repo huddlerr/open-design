@@ -98,6 +98,7 @@ ENV OD_PORT=7456
 
 EXPOSE 7456
 
-USER open-design
+# Railway mounts the persistent volume (/app/.od) owned by root, so the
+# non-root user hits EACCES creating its data dirs. Run as root to write it.
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "apps/daemon/dist/cli.js", "--no-open"]
