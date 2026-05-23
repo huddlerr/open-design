@@ -1,5 +1,5 @@
 // @ts-nocheck
-import type { DesktopExportPdfInput, DesktopExportPdfResult } from '@open-design/sidecar-proto';
+import type { DesktopExportPdfInput, DesktopExportPdfResult } from '@design-jury/sidecar-proto';
 import express from 'express';
 import multer from 'multer';
 import JSZip from 'jszip';
@@ -16,7 +16,7 @@ import {
   type OpenDesignGithubLatestReleaseResponse,
   type OpenDesignGithubRepoResponse,
   PLUGIN_SHARE_ACTION_PLUGIN_IDS,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import {
   composeSystemPrompt,
   renderCodexImagegenOverride,
@@ -24,8 +24,8 @@ import {
   shouldRenderCodexImagegenOverride,
 } from './prompts/system.js';
 import { expandHomePrefix, resolveProjectRelativePath } from './home-expansion.js';
-import { createCommandInvocation } from '@open-design/platform';
-import { SIDECAR_DEFAULTS, SIDECAR_ENV } from '@open-design/sidecar-proto';
+import { createCommandInvocation } from '@design-jury/platform';
+import { SIDECAR_DEFAULTS, SIDECAR_ENV } from '@design-jury/sidecar-proto';
 import {
   buildLiveArtifactsMcpServersForAgent,
   checkPromptArgvBudget,
@@ -212,7 +212,7 @@ import {
   agentIdToTracking,
   deriveConfigureGlobals,
   type ObservabilityEventRequest,
-} from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
 import {
   redactSecrets,
   testAgentConnection,
@@ -291,7 +291,7 @@ import {
 } from './routines.js';
 import { buildMcpInstallPayload } from './mcp-install-info.js';
 import { createDiagnosticsExportHandler } from './diagnostics-export.js';
-import { DIAGNOSTICS_EXPORT_PATH } from '@open-design/diagnostics';
+import { DIAGNOSTICS_EXPORT_PATH } from '@design-jury/diagnostics';
 import {
   buildProjectArchive,
   buildBatchArchive,
@@ -423,14 +423,14 @@ import {
   isLocalSameOrigin,
 } from './origin-validation.js';
 
-/** @typedef {import('@open-design/contracts').ApiErrorCode} ApiErrorCode */
-/** @typedef {import('@open-design/contracts').ApiError} ApiError */
-/** @typedef {import('@open-design/contracts').ApiErrorResponse} ApiErrorResponse */
-/** @typedef {import('@open-design/contracts').ChatRequest} ChatRequest */
-/** @typedef {import('@open-design/contracts').ChatSseEvent} ChatSseEvent */
-/** @typedef {import('@open-design/contracts').ProxyStreamRequest} ProxyStreamRequest */
-/** @typedef {import('@open-design/contracts').ProxySseEvent} ProxySseEvent */
-/** @typedef {import('@open-design/contracts').ProjectConversationCreatedSsePayload} ProjectConversationCreatedSsePayload */
+/** @typedef {import('@design-jury/contracts').ApiErrorCode} ApiErrorCode */
+/** @typedef {import('@design-jury/contracts').ApiError} ApiError */
+/** @typedef {import('@design-jury/contracts').ApiErrorResponse} ApiErrorResponse */
+/** @typedef {import('@design-jury/contracts').ChatRequest} ChatRequest */
+/** @typedef {import('@design-jury/contracts').ChatSseEvent} ChatSseEvent */
+/** @typedef {import('@design-jury/contracts').ProxyStreamRequest} ProxyStreamRequest */
+/** @typedef {import('@design-jury/contracts').ProxySseEvent} ProxySseEvent */
+/** @typedef {import('@design-jury/contracts').ProjectConversationCreatedSsePayload} ProjectConversationCreatedSsePayload */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -453,7 +453,7 @@ export function resolveDaemonCliPath(env: NodeJS.ProcessEnv = process.env): stri
   const configured = cleanOptionalPath(env[DAEMON_CLI_PATH_ENV]) ?? cleanOptionalPath(env.OD_BIN);
   if (configured) return configured;
 
-  const packageJsonPath = require.resolve('@open-design/daemon/package.json');
+  const packageJsonPath = require.resolve('@design-jury/daemon/package.json');
   return path.join(path.dirname(packageJsonPath), 'dist', 'cli.js');
 }
 
@@ -963,7 +963,7 @@ function resolveProcessResourcesPath() {
 
   const normalizedExecPath = process.execPath.toLowerCase();
   const windowsResourceBinMarker =
-    `${path.sep}resources${path.sep}open-design${path.sep}bin${path.sep}`.toLowerCase();
+    `${path.sep}resources${path.sep}design-jury${path.sep}bin${path.sep}`.toLowerCase();
   const windowsMarkerIndex = normalizedExecPath.indexOf(
     windowsResourceBinMarker,
   );
@@ -1066,7 +1066,7 @@ const PLUGIN_REGISTRY_DIR = resolveDaemonResourceDir(
   path.join(PROJECT_ROOT, 'plugins', 'registry'),
 );
 const OFFICIAL_MARKETPLACE_ID = 'official';
-const OFFICIAL_PLUGIN_SOURCE_REPO = 'github:nexu-io/open-design@main';
+const OFFICIAL_PLUGIN_SOURCE_REPO = 'github:nexu-io/design-jury@main';
 
 export function isStaticSpaFallbackRequest(req) {
   if (req.method !== 'GET' && req.method !== 'HEAD') return false;
@@ -1135,7 +1135,7 @@ function mergeMarketplaceEntries(manifestText, entries) {
 }
 
 async function marketplaceSeedManifestText(id, bundledMarketplaceEntries) {
-  const manifestPath = path.join(PLUGIN_REGISTRY_DIR, id, 'open-design-marketplace.json');
+  const manifestPath = path.join(PLUGIN_REGISTRY_DIR, id, 'design-jury-marketplace.json');
   if (!fs.existsSync(manifestPath)) return null;
   let manifestText = await fs.promises.readFile(manifestPath, 'utf8');
   if (id === OFFICIAL_MARKETPLACE_ID && bundledMarketplaceEntries.length > 0) {
@@ -1221,7 +1221,7 @@ const RUNTIME_DATA_DIR_CANONICAL = (() => {
 // new data root is fresh (no app.sqlite), copy the 0.3.x .od/ payload
 // across before SQLite opens. Synchronous on purpose: openDatabase below
 // would race an async copy. See apps/daemon/src/legacy-data-migrator.ts
-// and https://github.com/nexu-io/open-design/issues/710.
+// and https://github.com/nexu-io/design-jury/issues/710.
 migrateLegacyDataDirSync({
   legacyDir: process.env.OD_LEGACY_DATA_DIR,
   dataDir: RUNTIME_DATA_DIR,
@@ -1518,7 +1518,7 @@ export function createAgentRuntimeToolPrompt(
     '',
     `- Daemon URL: \`${daemonUrl}\` (also available as \`OD_DAEMON_URL\`).`,
     '- `OD_NODE_BIN` is the absolute path to the Node-compatible runtime that started the daemon; packaged desktop installs provide this even when the user has no system `node` on PATH.',
-    '- `OD_BIN` is the absolute path to the Open Design CLI script. On POSIX shells run wrappers with `"$OD_NODE_BIN" "$OD_BIN" tools ...`; do not call bare `od`, which may resolve to the system octal-dump command on Unix-like systems.',
+    '- `OD_BIN` is the absolute path to the Design Jury CLI script. On POSIX shells run wrappers with `"$OD_NODE_BIN" "$OD_BIN" tools ...`; do not call bare `od`, which may resolve to the system octal-dump command on Unix-like systems.',
     '- On PowerShell use `& $env:OD_NODE_BIN $env:OD_BIN tools ...`; on cmd.exe use `"%OD_NODE_BIN%" "%OD_BIN%" tools ...`.',
     tokenLine,
     '- Prefer project wrapper commands through `OD_NODE_BIN` + `OD_BIN` over raw HTTP. The wrappers read these environment values automatically.',
@@ -1773,14 +1773,14 @@ function execCommandViaLoginShell(command, args, opts = {}) {
 }
 
 async function readProjectPluginManifest(folder) {
-  const raw = await fs.promises.readFile(path.join(folder, 'open-design.json'), 'utf8');
+  const raw = await fs.promises.readFile(path.join(folder, 'design-jury.json'), 'utf8');
   const manifest = JSON.parse(raw);
   const name = typeof manifest.name === 'string' && manifest.name.trim()
     ? manifest.name.trim()
     : path.basename(folder);
   if (/[/\\]/.test(name) || /^\.+$/.test(name)) {
     throw new Error(
-      `open-design.json in ${folder}: name "${name}" must not contain path separators or consist only of dots`,
+      `design-jury.json in ${folder}: name "${name}" must not contain path separators or consist only of dots`,
     );
   }
   return {
@@ -1798,12 +1798,12 @@ function githubRepoNameFromPluginName(name) {
     .toLowerCase()
     .replace(/[^a-z0-9._-]+/g, '-')
     .replace(/(^[-._]+|[-._]+$)/g, '');
-  return slug || 'open-design-plugin';
+  return slug || 'design-jury-plugin';
 }
 
 const PLUGIN_SHARE_ACTION_LABELS = {
   'publish-github': 'Publish to GitHub',
-  'contribute-open-design': 'Contribute to Open Design',
+  'contribute-design-jury': 'Contribute to Design Jury',
 };
 
 const USER_PLUGIN_SOURCE_KINDS = new Set([
@@ -1850,10 +1850,10 @@ function renderPluginSharePrompt({ action, sourcePlugin, stagedPath }) {
   const title = sourcePlugin.title || sourcePlugin.id;
   if (action === 'publish-github') {
     return [
-      `Publish the local Open Design plugin "${title}" as a new public GitHub repository.`,
+      `Publish the local Design Jury plugin "${title}" as a new public GitHub repository.`,
       '',
       `The plugin source files have been copied into this project at \`${stagedPath}\`.`,
-      'Use the local daemon share endpoint so the publish flow runs through Open Design\'s validated GitHub path:',
+      'Use the local daemon share endpoint so the publish flow runs through Design Jury\'s validated GitHub path:',
       '',
       '```bash',
       `curl -sS -X POST "$OD_DAEMON_URL/api/projects/$OD_PROJECT_ID/plugins/publish-github" \\`,
@@ -1867,13 +1867,13 @@ function renderPluginSharePrompt({ action, sourcePlugin, stagedPath }) {
     ].join('\n');
   }
   return [
-    `Open a pull request to add the local Open Design plugin "${title}" to the Open Design repository.`,
+    `Open a pull request to add the local Design Jury plugin "${title}" to the Design Jury repository.`,
     '',
     `The plugin source files have been copied into this project at \`${stagedPath}\`.`,
-    'Use the local daemon share endpoint so the contribution flow runs through Open Design\'s validated GitHub path:',
+    'Use the local daemon share endpoint so the contribution flow runs through Design Jury\'s validated GitHub path:',
     '',
     '```bash',
-    `curl -sS -X POST "$OD_DAEMON_URL/api/projects/$OD_PROJECT_ID/plugins/contribute-open-design" \\`,
+    `curl -sS -X POST "$OD_DAEMON_URL/api/projects/$OD_PROJECT_ID/plugins/contribute-design-jury" \\`,
     `  -H 'content-type: application/json' \\`,
     `  -d '${JSON.stringify({ path: stagedPath })}'`,
     '```',
@@ -2470,7 +2470,7 @@ function renderOAuthResultPage(opts) {
   const title = ok ? 'Connected' : 'Authorization failed';
   const heading = ok ? '✅ Connected' : '⚠️ Authorization failed';
   const body = ok
-    ? `Your MCP server <code>${escapeHtml(opts.serverId ?? '')}</code> is now connected. You can close this tab and return to Open Design.`
+    ? `Your MCP server <code>${escapeHtml(opts.serverId ?? '')}</code> is now connected. You can close this tab and return to Design Jury.`
     : escapeHtml(opts.message ?? 'Authorization could not be completed.');
   const accent = ok ? '#1a7f37' : '#cf222e';
   const payload = ok
@@ -2480,7 +2480,7 @@ function renderOAuthResultPage(opts) {
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>${escapeHtml(title)} — Open Design</title>
+<title>${escapeHtml(title)} — Design Jury</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
   :root { color-scheme: light dark; }
@@ -2527,7 +2527,7 @@ function renderOAuthResultPage(opts) {
         window.opener.postMessage(payload, '*');
       }
       if (window.BroadcastChannel) {
-        var bc = new BroadcastChannel('open-design-mcp-oauth');
+        var bc = new BroadcastChannel('design-jury-mcp-oauth');
         bc.postMessage(payload);
         bc.close();
       }
@@ -2576,8 +2576,8 @@ function setLiveArtifactCodeHeaders(res) {
   res.setHeader('Referrer-Policy', 'no-referrer');
 }
 
-const OPEN_DESIGN_GITHUB_REPO_API = 'https://api.github.com/repos/nexu-io/open-design';
-const OPEN_DESIGN_GITHUB_RELEASE_LATEST_API = 'https://api.github.com/repos/nexu-io/open-design/releases/latest';
+const OPEN_DESIGN_GITHUB_REPO_API = 'https://api.github.com/repos/nexu-io/design-jury';
+const OPEN_DESIGN_GITHUB_RELEASE_LATEST_API = 'https://api.github.com/repos/nexu-io/design-jury/releases/latest';
 const OPEN_DESIGN_GITHUB_CACHE_TTL_MS = 60 * 60 * 1000;
 const OPEN_DESIGN_GITHUB_TIMEOUT_MS = 4_000;
 
@@ -2606,7 +2606,7 @@ async function readOpenDesignGithubRepoStats() {
       const response = await fetch(OPEN_DESIGN_GITHUB_REPO_API, {
         headers: {
           accept: 'application/vnd.github+json',
-          'user-agent': 'open-design-daemon',
+          'user-agent': 'design-jury-daemon',
         },
         signal: ctrl.signal,
       });
@@ -2659,7 +2659,7 @@ async function readOpenDesignLatestReleaseInfo() {
       const response = await fetch(OPEN_DESIGN_GITHUB_RELEASE_LATEST_API, {
         headers: {
           accept: 'application/vnd.github+json',
-          'user-agent': 'open-design-daemon',
+          'user-agent': 'design-jury-daemon',
         },
         signal: ctrl.signal,
       });
@@ -3093,11 +3093,11 @@ function pluginShareActionToCli(action) {
     };
   }
   return {
-    argv: ['plugin', 'open-design-pr'],
-    title: 'Open Design PR',
-    command: 'od plugin open-design-pr',
-    successMessage: 'Opened Open Design PR flow.',
-    failureCode: 'open-design-pr-failed',
+    argv: ['plugin', 'design-jury-pr'],
+    title: 'Design Jury PR',
+    command: 'od plugin design-jury-pr',
+    successMessage: 'Opened Design Jury PR flow.',
+    failureCode: 'design-jury-pr-failed',
   };
 }
 
@@ -3111,7 +3111,7 @@ function pluginShareProgressPlan(action) {
     ];
   }
   return [
-    'Ensure the Open Design fork exists',
+    'Ensure the Design Jury fork exists',
     'Clone the fork and prepare a branch',
     'Copy the plugin into plugins/community',
     'Push the branch and open the PR form',
@@ -3159,7 +3159,7 @@ async function runPluginShareTask(task, folder) {
     message: url
       ? (task.action === 'publish-github'
           ? `Published plugin to ${url}.`
-          : `Opened Open Design PR flow at ${url}.`)
+          : `Opened Design Jury PR flow at ${url}.`)
       : share.successMessage,
     ...(url ? { url } : {}),
     log: stepLog,
@@ -3398,6 +3398,15 @@ export async function startServer({
       // bearer; the loopback bypass exists for the localhost desktop
       // UI which has no proxy in the path.
       if (isLoopbackPeerAddress(req.socket?.remoteAddress)) return next();
+      // Same-origin browser bypass: the hosted web UI is served from this
+      // daemon's own origin and cannot attach a bearer, so allow requests
+      // whose Origin matches the request Host. Origin is client-spoofable,
+      // so this is obscurity-grade only — keep a real gate (Cloudflare
+      // Access / Tailscale) in front before trusting this publicly.
+      try {
+        const reqOrigin = req.get('origin');
+        if (reqOrigin && new URL(reqOrigin).host === req.headers.host) return next();
+      } catch { /* malformed Origin → fall through to bearer check */ }
       const auth = req.get('authorization') ?? '';
       const match = /^Bearer\s+(\S+)\s*$/i.exec(auth);
       if (!match || match[1] !== apiToken) {
@@ -3776,18 +3785,18 @@ export async function startServer({
       marketplaceProvenance: {
         sourceMarketplaceId: OFFICIAL_MARKETPLACE_ID,
         marketplaceTrust:    'official',
-        entryNamePrefix:     'open-design',
+        entryNamePrefix:     'design-jury',
       },
     });
     bundledMarketplaceEntries = result.registered.map((plugin) => ({
-      name:        `open-design/${plugin.id}`,
+      name:        `design-jury/${plugin.id}`,
       title:       plugin.title,
       title_i18n:  plugin.manifest.title_i18n,
       description: plugin.manifest.description,
       description_i18n: plugin.manifest.description_i18n,
       version:     plugin.version,
       source:      bundledPluginRegistrySource(plugin.source),
-      publisher:   { id: 'open-design', url: 'https://open-design.ai' },
+      publisher:   { id: 'design-jury', url: 'https://design-jury.ai' },
       homepage:    plugin.manifest.homepage,
       license:     plugin.manifest.license,
       tags:        plugin.manifest.tags,
@@ -3878,11 +3887,11 @@ export async function startServer({
     res.json({ version });
   });
 
-  app.get('/api/github/open-design', async (_req, res) => {
+  app.get('/api/github/design-jury', async (_req, res) => {
     try {
       const stats = await readOpenDesignGithubRepoStats();
       const payload = /** @type {OpenDesignGithubRepoResponse} */ ({
-        repo: 'nexu-io/open-design',
+        repo: 'nexu-io/design-jury',
         stargazers_count: stats.stargazersCount,
         fetchedAt: stats.fetchedAt,
         stale: stats.stale,
@@ -3895,11 +3904,11 @@ export async function startServer({
     }
   });
 
-  app.get('/api/github/open-design/releases/latest', async (_req, res) => {
+  app.get('/api/github/design-jury/releases/latest', async (_req, res) => {
     try {
       const release = await readOpenDesignLatestReleaseInfo();
       const payload = /** @type {OpenDesignGithubLatestReleaseResponse} */ ({
-        repo: 'nexu-io/open-design',
+        repo: 'nexu-io/design-jury',
         tag_name: release.tagName,
         html_url: release.htmlUrl,
         fetchedAt: release.fetchedAt,
@@ -5274,7 +5283,7 @@ export async function startServer({
     try {
       dbDeleteProject(db, req.params.id);
       await removeProjectDir(PROJECTS_DIR, req.params.id).catch(() => {});
-      /** @type {import('@open-design/contracts').OkResponse} */
+      /** @type {import('@design-jury/contracts').OkResponse} */
       const body = { ok: true };
       res.json(body);
     } catch (err) {
@@ -5928,7 +5937,7 @@ export async function startServer({
   }
 
   async function folderLooksLikePlugin(folder) {
-    const names = ['open-design.json', 'SKILL.md', path.join('.claude-plugin', 'plugin.json')];
+    const names = ['design-jury.json', 'SKILL.md', path.join('.claude-plugin', 'plugin.json')];
     for (const name of names) {
       if (fs.existsSync(path.join(folder, name))) return true;
     }
@@ -6269,7 +6278,7 @@ export async function startServer({
     type ScenarioEntry = {
       id: string;
       taskKind: 'new-generation' | 'figma-migration' | 'code-migration' | 'tune-collab';
-      pipeline: NonNullable<NonNullable<import('@open-design/contracts').PluginManifest['od']>['pipeline']>;
+      pipeline: NonNullable<NonNullable<import('@design-jury/contracts').PluginManifest['od']>['pipeline']>;
     };
     const byTaskKind = new Map<ScenarioEntry['taskKind'], ScenarioEntry>();
     try {
@@ -6346,7 +6355,7 @@ export async function startServer({
       const body = req.body && typeof req.body === 'object' ? req.body : {};
       const action = normalizePluginShareAction(body.action);
       if (!action) {
-        sendApiError(res, 400, 'BAD_REQUEST', 'action must be publish-github or contribute-open-design');
+        sendApiError(res, 400, 'BAD_REQUEST', 'action must be publish-github or contribute-design-jury');
         return;
       }
       const actionPluginId = PLUGIN_SHARE_ACTION_PLUGIN_IDS[action];
@@ -8100,7 +8109,7 @@ export async function startServer({
       if (!isDeployProviderId(providerId)) {
         return sendApiError(res, 400, 'BAD_REQUEST', 'unsupported deploy provider');
       }
-      /** @type {import('@open-design/contracts').DeployConfigResponse} */
+      /** @type {import('@design-jury/contracts').DeployConfigResponse} */
       const body = publicDeployConfigForProvider(providerId, await readDeployConfig(providerId));
       res.json(body);
     } catch (err) {
@@ -8116,7 +8125,7 @@ export async function startServer({
       if (!isDeployProviderId(providerId)) {
         return sendApiError(res, 400, 'BAD_REQUEST', 'unsupported deploy provider');
       }
-      /** @type {import('@open-design/contracts').DeployConfigResponse} */
+      /** @type {import('@design-jury/contracts').DeployConfigResponse} */
       const body = await writeDeployConfig(providerId, input);
       res.json(body);
     } catch (err) {
@@ -8126,7 +8135,7 @@ export async function startServer({
 
   app.get('/api/deploy/cloudflare-pages/zones', async (_req, res) => {
     try {
-      /** @type {import('@open-design/contracts').CloudflarePagesZonesResponse} */
+      /** @type {import('@design-jury/contracts').CloudflarePagesZonesResponse} */
       const body = await listCloudflarePagesZones(await readDeployConfig(CLOUDFLARE_PAGES_PROVIDER_ID));
       res.json(body);
     } catch (err) {
@@ -8141,7 +8150,7 @@ export async function startServer({
 
   app.get('/api/projects/:id/deployments', (req, res) => {
     try {
-      /** @type {import('@open-design/contracts').ProjectDeploymentsResponse} */
+      /** @type {import('@design-jury/contracts').ProjectDeploymentsResponse} */
       const body = { deployments: publicDeployments(listDeployments(db, req.params.id)) };
       res.json(body);
     } catch (err) {
@@ -8194,7 +8203,7 @@ export async function startServer({
             projectId: req.params.id,
           });
       const now = Date.now();
-      /** @type {import('@open-design/contracts').DeployProjectFileResponse} */
+      /** @type {import('@design-jury/contracts').DeployProjectFileResponse} */
       const body = upsertDeployment(db, {
         id: prior?.id ?? randomUUID(),
         projectId: req.params.id,
@@ -8247,7 +8256,7 @@ export async function startServer({
         return sendApiError(res, 400, 'BAD_REQUEST', 'fileName required');
       }
       const preflightProject = getProject(db, req.params.id);
-      /** @type {import('@open-design/contracts').DeployPreflightResponse} */
+      /** @type {import('@design-jury/contracts').DeployPreflightResponse} */
       const body = await prepareDeployPreflight(
         PROJECTS_DIR,
         req.params.id,
@@ -8392,7 +8401,7 @@ export async function startServer({
         if (existing.providerId === CLOUDFLARE_PAGES_PROVIDER_ID && existing.cloudflarePages?.pagesDev?.url) {
           const checked = await checkCloudflarePagesDeploymentLinks(existing);
           const now = Date.now();
-          /** @type {import('@open-design/contracts').CheckDeploymentLinkResponse} */
+          /** @type {import('@design-jury/contracts').CheckDeploymentLinkResponse} */
           const body = upsertDeployment(db, {
             ...existing,
             ...checked,
@@ -8406,7 +8415,7 @@ export async function startServer({
           : existing.url;
         const result = await checkDeploymentUrl(checkUrl);
         const now = Date.now();
-        /** @type {import('@open-design/contracts').CheckDeploymentLinkResponse} */
+        /** @type {import('@design-jury/contracts').CheckDeploymentLinkResponse} */
         const body = upsertDeployment(db, {
           ...existing,
           url: checkUrl || existing.url,
@@ -8443,7 +8452,7 @@ export async function startServer({
         since: Number.isFinite(since) ? since : undefined,
         metadata: project?.metadata,
       });
-      /** @type {import('@open-design/contracts').ProjectFilesResponse} */
+      /** @type {import('@design-jury/contracts').ProjectFilesResponse} */
       const body = { files };
       res.json(body);
     } catch (err) {
@@ -8531,7 +8540,7 @@ export async function startServer({
     }
   });
 
-  app.post('/api/projects/:id/plugins/contribute-open-design', async (req, res) => {
+  app.post('/api/projects/:id/plugins/contribute-design-jury', async (req, res) => {
     try {
       const project = getProject(db, req.params.id);
       if (!project) {
@@ -8545,7 +8554,7 @@ export async function startServer({
       const result = await execCommandViaLoginShell(OD_NODE_BIN, [
         OD_BIN,
         'plugin',
-        'open-design-pr',
+        'design-jury-pr',
         folder,
         '--json',
       ], { timeout: 300_000 });
@@ -8553,15 +8562,15 @@ export async function startServer({
       if (!result.ok || !payload?.ok) {
         res.status(500).json({
           ok: false,
-          code: payload?.error?.label || 'open-design-pr-failed',
-          message: payload?.error?.stderr || payload?.error?.stdout || 'Open Design PR creation failed.',
-          log: payload?.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [result.stderr || result.stdout || 'open-design-pr failed'],
+          code: payload?.error?.label || 'design-jury-pr-failed',
+          message: payload?.error?.stderr || payload?.error?.stdout || 'Design Jury PR creation failed.',
+          log: payload?.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [result.stderr || result.stdout || 'design-jury-pr failed'],
         });
         return;
       }
       res.json({
         ok: true,
-        message: payload.prUrl ? `Opened Open Design PR flow at ${payload.prUrl}.` : 'Opened Open Design PR flow.',
+        message: payload.prUrl ? `Opened Design Jury PR flow at ${payload.prUrl}.` : 'Opened Design Jury PR flow.',
         ...(payload.prUrl ? { url: payload.prUrl } : {}),
         log: payload.steps?.map((step) => step.stderr || step.stdout || step.command).filter(Boolean) ?? [],
       });
@@ -8581,7 +8590,7 @@ export async function startServer({
         return;
       }
       const body = req.body && typeof req.body === 'object' ? req.body : {};
-      const action = body.action === 'publish-github' || body.action === 'contribute-open-design'
+      const action = body.action === 'publish-github' || body.action === 'contribute-design-jury'
         ? body.action
         : null;
       if (!action) {
@@ -8837,7 +8846,7 @@ export async function startServer({
     try {
       const project = getProject(db, req.params.id);
       await deleteProjectFile(PROJECTS_DIR, req.params.id, req.params[0], project?.metadata);
-      /** @type {import('@open-design/contracts').DeleteProjectFileResponse} */
+      /** @type {import('@design-jury/contracts').DeleteProjectFileResponse} */
       const body = { ok: true };
       res.json(body);
     } catch (err) {
@@ -8928,7 +8937,7 @@ export async function startServer({
             uploadProject?.metadata,
           );
           fs.promises.unlink(req.file.path).catch(() => {});
-          /** @type {import('@open-design/contracts').ProjectFileResponse} */
+          /** @type {import('@design-jury/contracts').ProjectFileResponse} */
           const body = { file: meta };
           return res.json(body);
         }
@@ -8967,7 +8976,7 @@ export async function startServer({
           { artifactManifest },
           uploadProject?.metadata,
         );
-        /** @type {import('@open-design/contracts').ProjectFileResponse} */
+        /** @type {import('@design-jury/contracts').ProjectFileResponse} */
         const body = { file: meta };
         res.json(body);
       } catch (err) {
@@ -8985,7 +8994,7 @@ export async function startServer({
     try {
       const delProject = getProject(db, req.params.id);
       await deleteProjectFile(PROJECTS_DIR, req.params.id, req.params.name, delProject?.metadata);
-      /** @type {import('@open-design/contracts').DeleteProjectFileResponse} */
+      /** @type {import('@design-jury/contracts').DeleteProjectFileResponse} */
       const body = { ok: true };
       res.json(body);
     } catch (err) {
@@ -9345,7 +9354,7 @@ export async function startServer({
             // skip files that vanished mid-flight
           }
         }
-        /** @type {import('@open-design/contracts').UploadProjectFilesResponse} */
+        /** @type {import('@design-jury/contracts').UploadProjectFilesResponse} */
         const body = { files: out };
         res.json(body);
       } catch (err) {
@@ -9807,7 +9816,7 @@ export async function startServer({
         const stages = snap?.pipeline?.stages ?? [];
         if (stages.length > 0) {
           const { loadAtomBodies } = await import('./plugins/atom-bodies.js');
-          const { renderActiveStageBlock } = await import('@open-design/contracts');
+          const { renderActiveStageBlock } = await import('@design-jury/contracts');
           const blocks = [];
           for (const stage of stages) {
             const bodies = await loadAtomBodies(db, stage.atoms ?? []);
@@ -10347,7 +10356,7 @@ export async function startServer({
     });
 
     // External MCP servers configured by the user in Settings → External MCP.
-    // Open Design relays them to the agent so the model can call those tools.
+    // Design Jury relays them to the agent so the model can call those tools.
     // Two delivery shapes today:
     //   - Claude Code: write a `.mcp.json` into the project cwd. Claude Code
     //     auto-loads that file at spawn (same format the CLI accepts via
@@ -11538,7 +11547,7 @@ export async function startServer({
       systemPrompt: [
         renderOrbitTemplateSystemPrompt(template),
         systemPrompt,
-        'You are Orbit, an autonomous activity-summary agent inside Open Design.',
+        'You are Orbit, an autonomous activity-summary agent inside Design Jury.',
         'You must discover connectors and connector tools yourself through the OD CLI; the daemon has not chosen tools for you.',
         'You must create and register a Live Artifact as the final deliverable. Do not merely describe what you would do.',
         'Do not ask follow-up questions, do not emit <question-form>, and do not wait for user input. This run is unattended; pick reasonable defaults and complete the artifact.',
@@ -11688,7 +11697,7 @@ export async function startServer({
         // Linking is best-effort here; in-memory run still carries the id.
       }
     }
-    /** @type {import('@open-design/contracts').ChatRunCreateResponse} */
+    /** @type {import('@design-jury/contracts').ChatRunCreateResponse} */
     const body = {
       runId: run.id,
       ...(resolvedSnapshot?.ok
@@ -11968,7 +11977,7 @@ export async function startServer({
   app.get('/api/runs', (req, res) => {
     const { projectId, conversationId, status } = req.query;
     const runs = design.runs.list({ projectId, conversationId, status });
-    /** @type {import('@open-design/contracts').ChatRunListResponse} */
+    /** @type {import('@design-jury/contracts').ChatRunListResponse} */
     const body = { runs: runs.map(design.runs.statusBody) };
     res.json(body);
   });
@@ -11995,7 +12004,7 @@ export async function startServer({
   app.get('/api/runs/:id/agui', async (req, res) => {
     const run = design.runs.get(req.params.id);
     if (!run) return sendApiError(res, 404, 'NOT_FOUND', 'run not found');
-    const { encodeOdEventForAgui } = await import('@open-design/agui-adapter');
+    const { encodeOdEventForAgui } = await import('@design-jury/agui-adapter');
     const sse = createSseResponse(res);
     const lastEventId = Number(req.get('Last-Event-ID') || req.query.after || 0);
     const emitMapped = (record) => {
@@ -12038,7 +12047,7 @@ export async function startServer({
     const run = design.runs.get(req.params.id);
     if (!run) return sendApiError(res, 404, 'NOT_FOUND', 'run not found');
     design.runs.cancel(run);
-    /** @type {import('@open-design/contracts').ChatRunCancelResponse} */
+    /** @type {import('@design-jury/contracts').ChatRunCancelResponse} */
     const body = { ok: true };
     res.json(body);
   });
@@ -12138,7 +12147,7 @@ export async function startServer({
     // open view has to learn the conversation exists; for new-project
     // mode this is harmless (no subscribers for a project that was
     // just created milliseconds ago). The payload shape is the shared
-    // `ProjectConversationCreatedSsePayload` from `@open-design/contracts`
+    // `ProjectConversationCreatedSsePayload` from `@design-jury/contracts`
     // so the daemon producer and the web consumer cannot drift.
     /** @type {ProjectConversationCreatedSsePayload} */
     const conversationCreatedEvent = {
@@ -12444,7 +12453,7 @@ function assembleExample(templateHtml, slidesHtml, title) {
     .replace('<!-- SLIDES_HERE -->', slidesHtml)
     .replace(
       /<title>.*?<\/title>/,
-      `<title>${title} | Open Design Example</title>`,
+      `<title>${title} | Design Jury Example</title>`,
     );
 }
 
