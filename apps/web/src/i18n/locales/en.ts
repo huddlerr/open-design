@@ -3,6 +3,7 @@ import type { Dict } from '../types';
 export const en: Dict = {
   'common.cancel': 'Cancel',
   'common.save': 'Save',
+  'common.saving': 'Saving...',
   'common.close': 'Close',
   'common.delete': 'Delete',
   'common.rename': 'Rename',
@@ -1971,6 +1972,14 @@ export const en: Dict = {
     'Saved for this project. New runs in this project will route through Design Jury server-side.',
   'critiqueTheater.settingsEnabledNoProjectHint':
     'Open a project to persist this server-side. Until then, this only changes the in-browser preference.',
+  'critiqueTheater.customPanelTitle': 'Design Jury Cast & Weights',
+  'critiqueTheater.customPanelHint': 'Customize which experts review your work and adjust their scoring influence.',
+  'critiqueTheater.descCritic': 'Visual hierarchy, typography, contrast, space.',
+  'critiqueTheater.descBrand': 'Brand specs adherence, DESIGN.md tokens.',
+  'critiqueTheater.descA11y': 'WCAG contrast, focus, ARIA, headings.',
+  'critiqueTheater.descCopy': 'Tone of voice, length, clarity, no AI slop.',
+  'critiqueTheater.influence': 'influence',
+  'critiqueTheater.weight': 'Weight',
 
   'pet.title': 'Pets',
   'pet.subtitle': 'Use Show pet to control whether the companion appears in your workspace. Choose a pet below.',

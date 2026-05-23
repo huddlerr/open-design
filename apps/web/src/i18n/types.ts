@@ -33,6 +33,7 @@ export interface Dict {
   // Common
   'common.cancel': string;
   'common.save': string;
+  'common.saving': string;
   'common.close': string;
   'common.delete': string;
   'common.rename': string;
@@ -2411,6 +2412,14 @@ export interface Dict {
   'critiqueTheater.settingsEnabledDescription': string;
   'critiqueTheater.settingsEnabledProjectHint': string;
   'critiqueTheater.settingsEnabledNoProjectHint': string;
+  'critiqueTheater.customPanelTitle': string;
+  'critiqueTheater.customPanelHint': string;
+  'critiqueTheater.descCritic': string;
+  'critiqueTheater.descBrand': string;
+  'critiqueTheater.descA11y': string;
+  'critiqueTheater.descCopy': string;
+  'critiqueTheater.influence': string;
+  'critiqueTheater.weight': string;
 
   // Diagnostics export
   'diagnostics.exportTitle': string;

@@ -9414,11 +9414,9 @@ export async function startServer({
     let skillCraftRequires = [];
     let activeSkillDir = null;
     const activeSkillDirs: string[] = [];
-    // Per-skill Critique Theater override sourced from
-    // `od.critique.policy` in the resolved skill's SKILL.md frontmatter.
-    // `null` means the skill has no opinion and the lower-priority tiers
-    // (project override, env override, rollout phase default) decide.
     let skillCritiquePolicy: SkillCritiquePolicy = null;
+    let resolvedSkill = null;
+    const resolvedAdHocSkills = [];
     let critiqueSkillId = effectiveCanonicalSkillId;
     const registerSkillMode = (
       mode: NonNullable<Parameters<typeof composeSystemPrompt>[0]['skillMode']> | null | undefined,
@@ -9456,6 +9454,7 @@ export async function startServer({
       const allSkills = await loadAllSkills();
       const skill = findSkillById(allSkills, effectiveSkillId);
       if (skill) {
+        resolvedSkill = skill;
         skillBody = skill.body;
         skillName = skill.name;
         registerPrimarySkillMode(skill.mode);
@@ -9483,6 +9482,7 @@ export async function startServer({
         seen.add(canonicalId);
         const extra = findSkillById(allSkills, id);
         if (!extra) continue;
+        resolvedAdHocSkills.push(extra);
         registerSkillDir(extra.dir);
         registerSkillMode(extra.mode);
         if (!effectiveCanonicalSkillId && adHocSkillIds.length === 1) {
@@ -9698,6 +9698,40 @@ export async function startServer({
       projectOverride: projectCritiqueOverride,
       envOverride: parseEnvEnabled(process.env.OD_CRITIQUE_ENABLED),
     });
+
+    let resolvedCast = [...critiqueCfg.cast];
+    let resolvedWeights = { ...critiqueCfg.weights };
+
+    if (resolvedSkill) {
+      if (resolvedSkill.critiqueCast) {
+        resolvedCast = [...resolvedSkill.critiqueCast];
+      }
+      if (resolvedSkill.critiqueWeights) {
+        resolvedWeights = { ...resolvedWeights, ...resolvedSkill.critiqueWeights };
+      }
+    }
+
+    for (const extra of resolvedAdHocSkills) {
+      if (extra.critiqueCast) {
+        resolvedCast = [...extra.critiqueCast];
+      }
+      if (extra.critiqueWeights) {
+        resolvedWeights = { ...resolvedWeights, ...extra.critiqueWeights };
+      }
+    }
+
+    if (metadata?.critiqueCast) {
+      resolvedCast = [...metadata.critiqueCast];
+    }
+    if (metadata?.critiqueWeights) {
+      resolvedWeights = { ...resolvedWeights, ...metadata.critiqueWeights };
+    }
+
+    const activeCritiqueCfg = {
+      ...critiqueCfg,
+      cast: resolvedCast,
+      weights: resolvedWeights,
+    };
     const critiqueBrand = critiqueEnabledForRun
       && typeof designSystemTitle === 'string'
       && typeof designSystemBody === 'string'
@@ -9809,16 +9843,16 @@ export async function startServer({
       template,
       audioVoiceOptions,
       audioVoiceOptionsError,
-      // critiqueCfg.enabled is loaded from OD_CRITIQUE_ENABLED only, so a
+      // activeCritiqueCfg.enabled is loaded from OD_CRITIQUE_ENABLED only, so a
       // run that the resolver enabled via phase / project / skill (env
-      // unset) would have critiqueShouldRun = true while critiqueCfg.enabled
+      // unset) would have critiqueShouldRun = true while activeCritiqueCfg.enabled
       // remains false. Without this override the composer's own gate
       // (cfg.enabled) drops the panel addendum, the orchestrator still
       // launches, and the parser waits for <CRITIQUE_RUN> tags the model
       // was never told to emit (codex P2 on PR #1338). Build a derived
       // config that pins enabled to the resolver decision so the composer
       // and the orchestrator agree on every eligibility input.
-      critique: critiqueShouldRun ? { ...critiqueCfg, enabled: true } : undefined,
+      critique: critiqueShouldRun ? { ...activeCritiqueCfg, enabled: true } : undefined,
       critiqueBrand: critiqueShouldRun ? critiqueBrand : undefined,
       critiqueSkill: critiqueShouldRun ? critiqueSkill : undefined,
       locale: typeof locale === 'string' ? locale : undefined,
@@ -9837,7 +9871,7 @@ export async function startServer({
     // `listSkills()` scan in `startChatRun`. critiqueShouldRun threads
     // the same panel-eligibility decision down to the spawn-path
     // orchestrator gate so prompt and orchestrator stay in lockstep.
-    return { prompt, activeSkillDir, activeSkillDirs, critiqueShouldRun };
+    return { prompt, activeSkillDir, activeSkillDirs, critiqueShouldRun, critiqueCfg: activeCritiqueCfg };
   };
 
   // Plan §3.I1 / §3.D / spec §10.1: fire the pipeline schedule on a
@@ -10167,6 +10201,7 @@ export async function startServer({
       prompt: daemonSystemPrompt,
       activeSkillDirs,
       critiqueShouldRun,
+      critiqueCfg: activeCritiqueCfg,
     } =
       await composeDaemonSystemPrompt({
         agentId,
@@ -10971,7 +11006,7 @@ export async function startServer({
             skill: typeof effectiveSkillId === 'string' && effectiveSkillId
               ? effectiveSkillId
               : undefined,
-            cfg: critiqueCfg,
+            cfg: activeCritiqueCfg,
             db,
             bus: critiqueBus,
             stdout: stdoutIterable,

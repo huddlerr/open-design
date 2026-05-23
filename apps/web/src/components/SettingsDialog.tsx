@@ -5861,6 +5861,107 @@ function CritiqueTheaterSection() {
   const enabled = useCritiqueTheaterEnabled();
   const route = useRoute();
   const activeProjectId = route.kind === 'project' ? route.projectId : null;
+
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [cast, setCast] = useState<string[]>(['designer', 'critic', 'brand', 'a11y', 'copy']);
+  const [weights, setWeights] = useState<Record<string, number>>({
+    critic: 0.4,
+    brand: 0.2,
+    a11y: 0.2,
+    copy: 0.2,
+  });
+
+  useEffect(() => {
+    if (!activeProjectId) return;
+    let active = true;
+    (async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/projects/${encodeURIComponent(activeProjectId)}`);
+        if (!res.ok) throw new Error('Failed to fetch project');
+        const body = await res.json();
+        if (!active) return;
+        const metadata = body?.project?.metadata;
+        if (metadata) {
+          if (Array.isArray(metadata.critiqueCast)) {
+            setCast(metadata.critiqueCast);
+          } else {
+            setCast(['designer', 'critic', 'brand', 'a11y', 'copy']);
+          }
+          if (metadata.critiqueWeights && typeof metadata.critiqueWeights === 'object') {
+            setWeights({
+              critic: 0.4,
+              brand: 0.2,
+              a11y: 0.2,
+              copy: 0.2,
+              ...metadata.critiqueWeights
+            });
+          } else {
+            setWeights({ critic: 0.4, brand: 0.2, a11y: 0.2, copy: 0.2 });
+          }
+        }
+      } catch (err) {
+        console.error('[critique-theater] failed to fetch settings:', err);
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [activeProjectId]);
+
+  const saveSettings = async (nextCast: string[], nextWeights: Record<string, number>) => {
+    if (!activeProjectId) return;
+    try {
+      setSaving(true);
+      const res = await fetch(`/api/projects/${encodeURIComponent(activeProjectId)}`);
+      if (!res.ok) throw new Error('GET failed');
+      const body = await res.json();
+      const existingMetadata = body?.project?.metadata || {};
+      await fetch(`/api/projects/${encodeURIComponent(activeProjectId)}`, {
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          metadata: {
+            ...existingMetadata,
+            critiqueCast: nextCast,
+            critiqueWeights: nextWeights,
+          },
+        }),
+      });
+    } catch (err) {
+      console.error('[critique-theater] failed to save custom settings:', err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleTogglePanelist = async (role: string, checked: boolean) => {
+    let nextCast = [...cast];
+    if (checked) {
+      if (!nextCast.includes(role)) nextCast.push(role);
+    } else {
+      nextCast = nextCast.filter((r) => r !== role);
+    }
+    setCast(nextCast);
+    await saveSettings(nextCast, weights);
+  };
+
+  const handleChangeWeight = async (role: string, weight: number) => {
+    const nextWeights = { ...weights, [role]: weight };
+    setWeights(nextWeights);
+    await saveSettings(cast, nextWeights);
+  };
+
+  const activeCast = cast.filter((r) => r !== 'designer');
+  const total = activeCast.reduce((sum, role) => sum + (weights[role] ?? 0), 0);
+  const getPercentage = (role: string) => {
+    if (total === 0) return 0;
+    return Math.round(((weights[role] ?? 0) / total) * 100);
+  };
+
   return (
     <section className="settings-section">
       <div className="section-head">
@@ -5899,6 +6000,84 @@ function CritiqueTheaterSection() {
           </small>
         )}
       </label>
+
+      {activeProjectId !== null && (
+        <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="section-head" style={{ borderTop: '1px solid var(--border)', paddingTop: '20px' }}>
+            <div>
+              <h3>{t('critiqueTheater.customPanelTitle')}</h3>
+              <p className="hint">{t('critiqueTheater.customPanelHint')}</p>
+            </div>
+            {saving && <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{t('common.saving')}</span>}
+          </div>
+
+          {loading ? (
+            <div style={{ padding: '20px 0', color: 'var(--text-secondary)' }}>
+              {t('common.loading')}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {(['critic', 'brand', 'a11y', 'copy'] as const).map((role) => {
+                const isActive = cast.includes(role);
+                const weight = weights[role] ?? 0;
+                const percentage = getPercentage(role);
+                const roleTitle = role === 'critic' ? t('critiqueTheater.roleCritic') :
+                                  role === 'brand' ? t('critiqueTheater.roleBrand') :
+                                  role === 'a11y' ? t('critiqueTheater.roleA11y') :
+                                  t('critiqueTheater.roleCopy');
+                const roleDesc = role === 'critic' ? t('critiqueTheater.descCritic') :
+                                 role === 'brand' ? t('critiqueTheater.descBrand') :
+                                 role === 'a11y' ? t('critiqueTheater.descA11y') :
+                                 t('critiqueTheater.descCopy');
+
+                return (
+                  <div key={role} className="settings-section-card" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', border: '1px solid var(--border)', borderRadius: '8px', background: 'var(--bg-card)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
+                        <input
+                          type="checkbox"
+                          checked={isActive}
+                          onChange={(e) => handleTogglePanelist(role, e.target.checked)}
+                        />
+                        {roleTitle}
+                      </label>
+                      {isActive && (
+                        <span style={{ fontSize: '13px', padding: '2px 8px', borderRadius: '4px', background: 'var(--bg-pill)', color: 'var(--accent)', fontWeight: 'bold' }}>
+                          {percentage}% {t('critiqueTheater.influence')}
+                        </span>
+                      )}
+                    </div>
+                    
+                    <p className="hint" style={{ margin: 0, fontSize: '12px', color: 'var(--text-secondary)' }}>
+                      {roleDesc}
+                    </p>
+
+                    {isActive && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ minWidth: '40px', fontSize: '12px', color: 'var(--text-secondary)' }}>
+                          {t('critiqueTheater.weight')}:
+                        </span>
+                        <input
+                          type="range"
+                          min={0.0}
+                          max={1.0}
+                          step={0.05}
+                          value={weight}
+                          onChange={(e) => handleChangeWeight(role, Number(e.target.value))}
+                          style={{ flex: 1 }}
+                        />
+                        <span style={{ minWidth: '32px', textAlign: 'right', fontSize: '13px', fontWeight: 'bold' }}>
+                          {weight.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }

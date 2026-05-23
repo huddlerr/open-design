@@ -12,6 +12,8 @@ import path from "node:path";
 import { parseFrontmatter } from "./frontmatter.js";
 import type { SkillCritiquePolicy } from "./critique/rollout.js";
 import { skillCwdAliasSegment, SKILLS_CWD_ALIAS } from "./cwd-aliases.js";
+import { PANELIST_ROLES } from "@open-design/contracts/critique";
+import type { PanelistRole } from "@open-design/contracts/critique";
 
 // Persisted skill ids on existing projects can outlive a folder rename.
 // listSkills() derives the id from the SKILL.md frontmatter `name`, so once
@@ -97,6 +99,8 @@ export interface SkillInfo {
    * tiers (project override, env override, phase default) decide.
    */
   critiquePolicy: SkillCritiquePolicy;
+  critiqueCast?: PanelistRole[] | undefined;
+  critiqueWeights?: Partial<Record<PanelistRole, number>> | undefined;
   body: string;
   dir: string;
 }
@@ -251,6 +255,8 @@ export async function listSkills(
           ...(examplePromptI18n ? { examplePromptI18n } : {}),
           aggregatesExamples,
           critiquePolicy: normalizeCritiquePolicy(data.od?.critique?.policy),
+          critiqueCast: normalizeCritiqueCast(data.od?.critique?.cast),
+          critiqueWeights: normalizeCritiqueWeights(data.od?.critique?.weights),
           body: parentBody,
           dir,
         });
@@ -296,6 +302,8 @@ export async function listSkills(
             // single SKILL.md that opts in (or out) applies the same
             // gate to every example in its gallery.
             critiquePolicy: normalizeCritiquePolicy(data.od?.critique?.policy),
+            critiqueCast: normalizeCritiqueCast(data.od?.critique?.cast),
+            critiqueWeights: normalizeCritiqueWeights(data.od?.critique?.weights),
             // Inherit the parent's full SKILL.md body so 'Use this prompt'
             // on a derived card seeds the agent with the same workflow
             // the parent describes. Without this, picking a derived card
@@ -560,6 +568,34 @@ export function normalizeCritiquePolicy(value: unknown): SkillCritiquePolicy {
   const v = value.trim().toLowerCase();
   if (v === "required" || v === "opt-in" || v === "opt-out") return v;
   return null;
+}
+
+export function normalizeCritiqueCast(value: unknown): PanelistRole[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const out: PanelistRole[] = [];
+  for (const item of value) {
+    if (typeof item !== "string") continue;
+    const role = item.trim().toLowerCase();
+    if (PANELIST_ROLES.includes(role as PanelistRole)) {
+      out.push(role as PanelistRole);
+    }
+  }
+  return out.length > 0 ? out : undefined;
+}
+
+export function normalizeCritiqueWeights(value: unknown): Partial<Record<PanelistRole, number>> | undefined {
+  if (!isRecord(value)) return undefined;
+  const out: Partial<Record<PanelistRole, number>> = {};
+  for (const [key, val] of Object.entries(value)) {
+    const role = key.trim().toLowerCase();
+    if (PANELIST_ROLES.includes(role as PanelistRole)) {
+      const num = Number(val);
+      if (Number.isFinite(num) && num >= 0 && num <= 1) {
+        out[role as PanelistRole] = num;
+      }
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }
 
 // Coerce `od.featured` into a numeric priority. Lower numbers float to the

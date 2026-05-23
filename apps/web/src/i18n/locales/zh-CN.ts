@@ -3,6 +3,7 @@ import type { Dict } from '../types';
 export const zhCN: Dict = {
   'common.cancel': '取消',
   'common.save': '保存',
+  'common.saving': 'Saving...',
   'common.close': '关闭',
   'common.delete': '删除',
   'common.rename': '重命名',
@@ -2376,4 +2377,12 @@ export const zhCN: Dict = {
   'diagnostics.exporting': '导出中…',
   'diagnostics.exportSuccess': '诊断日志已保存到 {path}',
   'diagnostics.exportFailed': '导出诊断日志失败：{message}',
+  'critiqueTheater.customPanelTitle': 'Design Jury Cast & Weights',
+  'critiqueTheater.customPanelHint': 'Customize which experts review your work and adjust their scoring influence.',
+  'critiqueTheater.descCritic': 'Visual hierarchy, typography, contrast, space.',
+  'critiqueTheater.descBrand': 'Brand specs adherence, DESIGN.md tokens.',
+  'critiqueTheater.descA11y': 'WCAG contrast, focus, ARIA, headings.',
+  'critiqueTheater.descCopy': 'Tone of voice, length, clarity, no AI slop.',
+  'critiqueTheater.influence': 'influence',
+  'critiqueTheater.weight': 'Weight',
 };

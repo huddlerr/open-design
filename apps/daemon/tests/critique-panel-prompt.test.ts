@@ -171,4 +171,34 @@ describe('renderPanelPrompt', () => {
     // Designer must be told explicitly not to emit MUST_FIX entries.
     expect(out.toLowerCase()).toMatch(/do not emit must_fix entries inside the designer block/);
   });
+
+  it('supports dynamic cast: renders only visual critic when cast is only designer and critic', () => {
+    const cfg = {
+      ...defaultCritiqueConfig(),
+      cast: ['designer', 'critic'] as any[],
+    };
+    const out = renderPanelPrompt({ cfg, brand: DEFAULT_BRAND, skill: DEFAULT_SKILL });
+    expect(out).toContain('Speak as a 2-panelist design jury');
+    expect(out).toContain('**DESIGNER**');
+    expect(out).toContain('**CRITIC**');
+    expect(out).not.toContain('**BRAND**');
+    expect(out).not.toContain('**A11Y**');
+    expect(out).not.toContain('**COPY**');
+    expect(out).toContain('role="designer"');
+    expect(out).toContain('role="critic"');
+    expect(out).not.toContain('role="brand"');
+    expect(out).not.toContain('role="a11y"');
+    expect(out).not.toContain('role="copy"');
+  });
+
+  it('supports dynamic weights in weightsLine based on active cast only', () => {
+    const cfg = {
+      ...defaultCritiqueConfig(),
+      cast: ['designer', 'critic'] as any[],
+      weights: { designer: 0, critic: 1.0, brand: 0, a11y: 0, copy: 0 },
+    };
+    const out = renderPanelPrompt({ cfg, brand: DEFAULT_BRAND, skill: DEFAULT_SKILL });
+    expect(out).toContain('weights: designer=0, critic=1');
+    expect(out).not.toContain('brand=');
+  });
 });

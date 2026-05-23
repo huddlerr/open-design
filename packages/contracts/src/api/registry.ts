@@ -76,6 +76,8 @@ export interface SkillSummary {
   fidelity?: 'wireframe' | 'high-fidelity' | null;
   speakerNotes?: boolean | null;
   animations?: boolean | null;
+  critiqueCast?: import('../critique.js').PanelistRole[];
+  critiqueWeights?: Partial<Record<import('../critique.js').PanelistRole, number>>;
   craftRequires?: string[];
   hasBody: boolean;
   examplePrompt: string;
