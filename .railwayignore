@@ -1,0 +1,9 @@
+.git/
+node_modules/
+.tmp/
+.od/
+.od-e2e/
+e2e/.od-data/
+e2e/ui/.od-data/
+**/.claude-sessions/
+*.log
