@@ -3380,6 +3380,27 @@ export async function startServer({
   }
 
   const app = express();
+
+  // HTTP Basic Auth gate (set OD_BASIC_AUTH_USER + OD_BASIC_AUTH_PASS) — fronts
+  // the whole app (UI + API) with a username/password for public hosting. The
+  // browser shows a native login prompt; once authed everything works normally.
+  const basicUser = (process.env.OD_BASIC_AUTH_USER ?? '').trim();
+  const basicPass = process.env.OD_BASIC_AUTH_PASS ?? '';
+  if (basicUser && basicPass) {
+    app.use((req, res, next) => {
+      const hdr = req.get('authorization') ?? '';
+      if (hdr.toLowerCase().startsWith('basic ')) {
+        const decoded = Buffer.from(hdr.slice(6), 'base64').toString();
+        const idx = decoded.indexOf(':');
+        if (idx >= 0 && decoded.slice(0, idx) === basicUser && decoded.slice(idx + 1) === basicPass) {
+          return next();
+        }
+      }
+      res.set('WWW-Authenticate', 'Basic realm="Design Jury"');
+      return res.status(401).send('Authentication required');
+    });
+  }
+
   app.use(express.json({ limit: '4mb' }));
 
   // Plan §3.K1 — bearer-token middleware.
