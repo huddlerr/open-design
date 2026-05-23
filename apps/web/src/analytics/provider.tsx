@@ -16,7 +16,7 @@ import {
   ANALYTICS_HEADER_LOCALE,
   ANALYTICS_HEADER_REQUEST_ID,
   ANALYTICS_HEADER_SESSION_ID,
-} from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
 import {
   applyConsent,
   applyIdentity,
@@ -26,7 +26,7 @@ import {
   getResolvedAnonymousId,
   setConfigureGlobals,
 } from './client';
-import type { AnalyticsConfigureGlobals } from '@open-design/contracts/analytics';
+import type { AnalyticsConfigureGlobals } from '@design-jury/contracts/analytics';
 import {
   detectClientType,
   getAnonymousId,

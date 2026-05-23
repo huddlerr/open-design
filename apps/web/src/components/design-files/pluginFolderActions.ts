@@ -15,7 +15,7 @@ export function buildPluginFolderAgentActionPrompt(
     INSTALL_TITLE,
     '',
     `Plugin folder: \`${folderPath}\``,
-    `Manifest: \`${folderPath}/open-design.json\``,
+    `Manifest: \`${folderPath}/design-jury.json\``,
     '',
     'Please do this through the `od` CLI from the current project workspace, not through hidden UI APIs.',
     INSTALL_NOTE,
@@ -24,7 +24,7 @@ export function buildPluginFolderAgentActionPrompt(
   ].join('\n');
 }
 
-// `contribute` opens a draft PR against the `nexu-io/open-design` community
+// `contribute` opens a draft PR against the `nexu-io/design-jury` community
 // catalog. The agent drives the whole git/gh sequence — fork, branch, copy
 // the plugin into `plugins/community/<name>/`, commit, push, then hand the
 // `gh pr create --web` URL back so the author reviews and clicks Create in
@@ -37,15 +37,15 @@ export function buildPluginFolderAgentActionPrompt(
 //     user expected the plugin-folder buttons to satisfy.
 function buildContributePrompt(folderPath: string): string {
   return [
-    'Open a draft Pull Request that adds this generated plugin to the Open Design community catalog at `nexu-io/open-design`.',
+    'Open a draft Pull Request that adds this generated plugin to the Design Jury community catalog at `nexu-io/design-jury`.',
     'The goal is to end this turn with a single PR URL the user can click in their browser to review the pre-filled form and press Create.',
     '',
     `Plugin folder: \`${folderPath}\``,
-    `Manifest: \`${folderPath}/open-design.json\``,
+    `Manifest: \`${folderPath}/design-jury.json\``,
     '',
-    'Run this deterministic Open Design CLI workflow from the current project workspace:',
+    'Run this deterministic Design Jury CLI workflow from the current project workspace:',
     '',
-    `\`"$OD_NODE_BIN" "$OD_BIN" plugin open-design-pr ${folderPath}\``,
+    `\`"$OD_NODE_BIN" "$OD_BIN" plugin design-jury-pr ${folderPath}\``,
     '',
     'The CLI owns the GitHub auth gate and owner resolution: `--owner` if supplied, otherwise local `gh auth status`, with `gh api user --jq .login` only as a last-resort fallback. It then runs fork/clone/copy/branch/push and `gh pr create --web`. It must open the GitHub PR-create form in the browser; the author reviews and clicks Create themselves.',
     'Report the exact command, any structured CLI error, and the final PR URL printed by the CLI. Stop on failure; do not recreate the git/gh workflow manually.',
@@ -55,14 +55,14 @@ function buildContributePrompt(folderPath: string): string {
     '- Do NOT try to install `gh`, `git`, or any other binary. Detect-and-instruct only.',
     '- Do NOT auto-submit the PR. The final Create click is the author\'s.',
     '- Do NOT retry a failed step. Report the error and stop.',
-    '- Do NOT call the legacy `od plugin publish --to open-design` CLI — that flow produces an issue URL, which is the old path we are replacing.',
+    '- Do NOT call the legacy `od plugin publish --to design-jury` CLI — that flow produces an issue URL, which is the old path we are replacing.',
   ].join('\n');
 }
 
 // `publish` pushes the generated plugin to the author's own public GitHub
 // repository named by manifest `plugin.repo`. It is NOT the registry
-// submission path — `od plugin publish --to open-design` produces an
-// Open Design issue URL and belongs to the "Open Design PR" button. Before
+// submission path — `od plugin publish --to design-jury` produces an
+// Design Jury issue URL and belongs to the "Design Jury PR" button. Before
 // this rewrite the prompt said "Use the supported `od plugin publish` or
 // repository-publish flow", which let the agent route through the legacy
 // registry-link builder and never actually create the author's repo (see
@@ -74,11 +74,11 @@ function buildPublishPrompt(folderPath: string): string {
     'The goal is to end this turn with a single repo URL the user can open in their browser to verify the published plugin code.',
     '',
     `Plugin folder: \`${folderPath}\``,
-    `Manifest: \`${folderPath}/open-design.json\``,
+    `Manifest: \`${folderPath}/design-jury.json\``,
     '',
-    'This is the **repository publish** action, NOT the registry-submission action — do NOT route through `od plugin publish --to open-design`. That command emits an Open Design issue URL and belongs to the "Open Design PR" button.',
+    'This is the **repository publish** action, NOT the registry-submission action — do NOT route through `od plugin publish --to design-jury`. That command emits an Design Jury issue URL and belongs to the "Design Jury PR" button.',
     '',
-    'Run this deterministic Open Design CLI workflow from the current project workspace:',
+    'Run this deterministic Design Jury CLI workflow from the current project workspace:',
     '',
     `\`"$OD_NODE_BIN" "$OD_BIN" plugin publish-repo ${folderPath}\``,
     '',
@@ -86,7 +86,7 @@ function buildPublishPrompt(folderPath: string): string {
     'Report the exact command, any structured CLI error, and the final repo URL printed by the CLI. Stop on failure; do not recreate the git/gh workflow manually.',
     '',
     '**Hard constraints.** Treat these as inviolable:',
-    '- Do NOT call `od plugin publish --to open-design` (or any `--to <catalog>` variant). That is the registry-submission flow, not the repository-publish flow.',
+    '- Do NOT call `od plugin publish --to design-jury` (or any `--to <catalog>` variant). That is the registry-submission flow, not the repository-publish flow.',
     '- Do NOT call the `AskUserQuestion` tool at any point in this turn. Fire-and-forget.',
     '- Do NOT try to install `gh`, `git`, or any other binary. Detect-and-instruct only.',
     '- Do NOT force-push (`--force` / `--force-with-lease`) and do NOT overwrite an existing tag. Fail and report instead.',

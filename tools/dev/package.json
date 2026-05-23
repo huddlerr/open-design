@@ -1,5 +1,5 @@
 {
-  "name": "@open-design/tools-dev",
+  "name": "@design-jury/tools-dev",
   "version": "0.8.0",
   "private": true,
   "type": "module",
@@ -13,9 +13,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@open-design/platform": "workspace:*",
-    "@open-design/sidecar": "workspace:*",
-    "@open-design/sidecar-proto": "workspace:*",
+    "@design-jury/platform": "workspace:*",
+    "@design-jury/sidecar": "workspace:*",
+    "@design-jury/sidecar-proto": "workspace:*",
     "cac": "6.7.14"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import type { DesktopEvalResult, DesktopScreenshotResult, DesktopStatusSnapshot, DesktopUpdateResult } from "@open-design/sidecar-proto";
+import type { DesktopEvalResult, DesktopScreenshotResult, DesktopStatusSnapshot, DesktopUpdateResult } from "@design-jury/sidecar-proto";
 import type { CacheReport } from "../cache.js";
 import type { ToolPackConfig } from "../config.js";
 import type { INTERNAL_PACKAGES } from "./constants.js";
@@ -31,7 +31,7 @@ export type ElectronBuilderDirCacheMetadata = {
 };
 
 export type ResourceTreeCacheMetadata = {
-  resourceName: "open-design";
+  resourceName: "design-jury";
 };
 
 export type WinBuiltAppManifest = {

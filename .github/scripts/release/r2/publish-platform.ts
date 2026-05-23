@@ -146,8 +146,8 @@ const manifestRoot = optional("PLATFORM_MANIFEST_ROOT", join(runnerTemp, "releas
 let config;
 if (platform === "mac") {
   const suffix = assetVersionSuffix;
-  const dmg = `open-design-${releaseVersion}${suffix}-mac-arm64.dmg`;
-  const zip = `open-design-${releaseVersion}${suffix}-mac-arm64.zip`;
+  const dmg = `design-jury-${releaseVersion}${suffix}-mac-arm64.dmg`;
+  const zip = `design-jury-${releaseVersion}${suffix}-mac-arm64.zip`;
   const artifactMode = optional("MAC_ARTIFACT_MODE", "dmg-and-zip");
   const artifacts = { dmg: fileEntry(dmg, contentType(dmg)) };
   const assetNames = [dmg, `${dmg}.sha256`];
@@ -174,7 +174,7 @@ if (platform === "mac") {
   };
 } else if (platform === "win") {
   const suffix = optional("WIN_ASSET_SUFFIX", assetVersionSuffix);
-  const installer = `open-design-${releaseVersion}${suffix}-win-x64-setup.exe`;
+  const installer = `design-jury-${releaseVersion}${suffix}-win-x64-setup.exe`;
   config = {
     arch: "x64",
     artifacts: { installer: fileEntry(installer, contentType(installer)) },
@@ -191,7 +191,7 @@ if (platform === "mac") {
   };
 } else if (platform === "linux") {
   const suffix = optional("LINUX_ASSET_SUFFIX", assetVersionSuffix);
-  const appImage = `open-design-${releaseVersion}${suffix}-linux-x64.AppImage`;
+  const appImage = `design-jury-${releaseVersion}${suffix}-linux-x64.AppImage`;
   config = {
     arch: "x64",
     artifacts: { appImage: fileEntry(appImage, contentType(appImage)) },
@@ -204,8 +204,8 @@ if (platform === "mac") {
   };
 } else if (platform === "mac-intel") {
   const suffix = optional("MAC_INTEL_ASSET_SUFFIX", assetVersionSuffix);
-  const dmg = `open-design-${releaseVersion}${suffix}-mac-x64.dmg`;
-  const zip = `open-design-${releaseVersion}${suffix}-mac-x64.zip`;
+  const dmg = `design-jury-${releaseVersion}${suffix}-mac-x64.dmg`;
+  const zip = `design-jury-${releaseVersion}${suffix}-mac-x64.zip`;
   config = {
     arch: "x64",
     artifacts: {

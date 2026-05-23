@@ -1,5 +1,5 @@
 {
-  "name": "@open-design/download",
+  "name": "@design-jury/download",
   "version": "0.8.0",
   "private": true,
   "type": "module",
@@ -20,7 +20,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json --noEmit"
   },
   "dependencies": {
-    "@open-design/platform": "workspace:*"
+    "@design-jury/platform": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "24.12.2",

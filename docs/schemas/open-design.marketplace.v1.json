@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-design.ai/schemas/marketplace.v1.json",
-  "title": "Open Design plugin marketplace index (v1)",
-  "description": "Schema for `open-design-marketplace.json` federated catalog files. See docs/plugins-spec.md §6.",
+  "$id": "https://design-jury.ai/schemas/marketplace.v1.json",
+  "title": "Design Jury plugin marketplace index (v1)",
+  "description": "Schema for `design-jury-marketplace.json` federated catalog files. See docs/plugins-spec.md §6.",
   "type": "object",
   "required": ["specVersion", "name", "version", "plugins"],
   "additionalProperties": true,

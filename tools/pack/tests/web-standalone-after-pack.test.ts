@@ -41,9 +41,9 @@ async function writePnpmLinkedPackage(standaloneRoot: string, packageName: strin
 }
 
 async function writeRootWebPackage(resourcesRoot: string): Promise<void> {
-  const webPackageRoot = join(resourcesRoot, "app", "node_modules", "@open-design", "web");
+  const webPackageRoot = join(resourcesRoot, "app", "node_modules", "@design-jury", "web");
   await mkdir(join(webPackageRoot, "dist", "sidecar"), { recursive: true });
-  await writeFile(join(webPackageRoot, "package.json"), "{\"name\":\"@open-design/web\"}\n", "utf8");
+  await writeFile(join(webPackageRoot, "package.json"), "{\"name\":\"@design-jury/web\"}\n", "utf8");
   await writeFile(join(webPackageRoot, "dist", "sidecar", "index.js"), "module.exports = {};\n", "utf8");
 }
 
@@ -102,7 +102,7 @@ async function runFixture(options: {
   destinationRoot: string;
   root: string;
 }> {
-  const root = await mkdtemp(join(tmpdir(), "open-design-web-standalone-hook-"));
+  const root = await mkdtemp(join(tmpdir(), "design-jury-web-standalone-hook-"));
   const workspaceRoot = join(root, "workspace");
   const standaloneSourceRoot = await writeStandaloneFixture(workspaceRoot, {
     includeHoistedNext: options.includeHoistedNext ?? true,
@@ -112,9 +112,9 @@ async function runFixture(options: {
   const platformName = options.platformName ?? "win32";
   const appOutDir = join(root, "builder", platformName === "darwin" ? "mac-arm64" : "win-unpacked");
   const resourcesRoot = platformName === "darwin"
-    ? join(appOutDir, "Open Design.app", "Contents", "Resources")
+    ? join(appOutDir, "Design Jury.app", "Contents", "Resources")
     : join(appOutDir, "resources");
-  const appPath = join(appOutDir, "Open Design.app");
+  const appPath = join(appOutDir, "Design Jury.app");
   const auditReportPath = join(root, "audit.json");
   const configPath = join(root, "config.json");
   const oldConfigEnv = process.env[CONFIG_ENV];
@@ -130,7 +130,7 @@ async function runFixture(options: {
     await writeFile(join(electronFrameworkRoot, "Versions", "A", "Electron Framework"), "binary\n", "utf8");
     await writeFile(join(electronFrameworkRoot, "Versions", "Current", "Electron Framework"), "binary\n", "utf8");
     await mkdir(join(frameworksRoot, "ReactiveObjC.framework"), { recursive: true });
-    await mkdir(join(frameworksRoot, "Open Design Helper.app"), { recursive: true });
+    await mkdir(join(frameworksRoot, "Design Jury Helper.app"), { recursive: true });
   }
   if (options.omitRootWebPackage !== true) {
     await writeRootWebPackage(resourcesRoot);
@@ -147,7 +147,7 @@ async function runFixture(options: {
         ...(options.requireRootWebPackageAudit == null
           ? {}
           : { requireRootWebPackageAudit: options.requireRootWebPackageAudit }),
-        resourceName: "open-design-web-standalone",
+        resourceName: "design-jury-web-standalone",
         standaloneSourceRoot,
         version: 1,
         webPublicSourceRoot: join(workspaceRoot, "apps", "web", "public"),
@@ -165,7 +165,7 @@ async function runFixture(options: {
     await runWebStandaloneAfterPack({
       appOutDir,
       electronPlatformName: platformName,
-      packager: { appInfo: { productFilename: "Open Design" } },
+      packager: { appInfo: { productFilename: "Design Jury" } },
     });
   } catch (error) {
     await rm(root, { force: true, recursive: true });
@@ -181,7 +181,7 @@ async function runFixture(options: {
   return {
     appOutDir,
     auditReportPath,
-    destinationRoot: join(resourcesRoot, "open-design-web-standalone"),
+    destinationRoot: join(resourcesRoot, "design-jury-web-standalone"),
     root,
   };
 }
@@ -211,11 +211,11 @@ describe("web standalone afterPack hook", () => {
       );
       expect(report.copiedNextDedupeAudit.remainingPaths).toEqual([]);
       expect(resolvedNextPath).toMatch(
-        /open-design-web-standalone\/apps\/web\/node_modules\/next\/package\.json$/,
+        /design-jury-web-standalone\/apps\/web\/node_modules\/next\/package\.json$/,
       );
       expect(report.copiedAudit.brokenSymlinks).toEqual([]);
       expect(report.copiedAudit.resolvedModules["next/package.json"].split(path.sep).join("/")).toMatch(
-        /open-design-web-standalone\/apps\/web\/node_modules\/next\/package\.json$/,
+        /design-jury-web-standalone\/apps\/web\/node_modules\/next\/package\.json$/,
       );
     } finally {
       await rm(fixture.root, { force: true, recursive: true });
@@ -279,7 +279,7 @@ describe("web standalone afterPack hook", () => {
       expect(path.isAbsolute(nextTarget)).toBe(false);
       expect(report.copiedAudit.externalSymlinks).toEqual([]);
       expect(report.copiedAudit.resolvedModules["next/package.json"].split(path.sep).join("/")).toMatch(
-        /open-design-web-standalone\/node_modules\/\.pnpm\/next@0\.0\.0\/node_modules\/next\/package\.json$/,
+        /design-jury-web-standalone\/node_modules\/\.pnpm\/next@0\.0\.0\/node_modules\/next\/package\.json$/,
       );
     } finally {
       await rm(fixture.root, { force: true, recursive: true });
@@ -287,7 +287,7 @@ describe("web standalone afterPack hook", () => {
   });
 
   darwinSymlinkIt("signs versioned mac frameworks at their Current version path", async () => {
-    const codesignRoot = await mkdtemp(join(tmpdir(), "open-design-fake-codesign-"));
+    const codesignRoot = await mkdtemp(join(tmpdir(), "design-jury-fake-codesign-"));
     const codesignBin = join(codesignRoot, "bin");
     const codesignLog = join(codesignRoot, "codesign.log");
     const oldPath = process.env.PATH;
@@ -323,15 +323,15 @@ describe("web standalone afterPack hook", () => {
         expect.arrayContaining([
           expect.stringMatching(/Electron Framework\.framework\/Versions\/Current$/),
           expect.stringMatching(/ReactiveObjC\.framework$/),
-          expect.stringMatching(/Open Design Helper\.app$/),
-          expect.stringMatching(/Open Design\.app$/),
+          expect.stringMatching(/Design Jury Helper\.app$/),
+          expect.stringMatching(/Design Jury\.app$/),
         ]),
       );
       expect(signedTargets).not.toContainEqual(expect.stringMatching(/Electron Framework\.framework$/));
       await expect(
         readlink(join(
           fixture.appOutDir,
-          "Open Design.app",
+          "Design Jury.app",
           "Contents",
           "Frameworks",
           "Electron Framework.framework",
@@ -342,7 +342,7 @@ describe("web standalone afterPack hook", () => {
       await expect(
         readlink(join(
           fixture.appOutDir,
-          "Open Design.app",
+          "Design Jury.app",
           "Contents",
           "Frameworks",
           "Electron Framework.framework",
@@ -352,7 +352,7 @@ describe("web standalone afterPack hook", () => {
       await expect(
         readlink(join(
           fixture.appOutDir,
-          "Open Design.app",
+          "Design Jury.app",
           "Contents",
           "Frameworks",
           "Electron Framework.framework",

@@ -21,7 +21,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: open-design-release-stable-${{ inputs.channel }}
+  group: design-jury-release-stable-${{ inputs.channel }}
   cancel-in-progress: false
 
 env:
@@ -43,7 +43,7 @@ env:
 jobs:
   metadata:
     name: Prepare release metadata
-    if: github.repository == 'nexu-io/open-design'
+    if: github.repository == 'nexu-io/design-jury'
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -125,13 +125,13 @@ jobs:
       # (every CI run), workspace typecheck fails because:
       #   - packaged/runtime consumers resolve the daemon package export through
       #     generated `apps/daemon/dist/*.d.ts`
-      #   - `apps/packaged/src/index.ts` dynamic-imports `@open-design/desktop/main`
+      #   - `apps/packaged/src/index.ts` dynamic-imports `@design-jury/desktop/main`
       #     which resolves to `apps/desktop/dist/main/index.d.ts`
       # Build them explicitly here. Keeps the root `typecheck` script untouched.
       - name: Build daemon and desktop (typecheck dependencies)
         run: |
-          pnpm --filter @open-design/daemon build
-          pnpm --filter @open-design/desktop build
+          pnpm --filter @design-jury/daemon build
+          pnpm --filter @design-jury/desktop build
 
       - name: Typecheck workspaces
         run: pnpm -r --workspace-concurrency=4 --if-present run typecheck
@@ -198,7 +198,7 @@ jobs:
           APPLE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_SIGNING_CERTIFICATE_PASSWORD }}
         run: |
           set -euo pipefail
-          cert_path="$RUNNER_TEMP/open-design-signing.p12"
+          cert_path="$RUNNER_TEMP/design-jury-signing.p12"
           if ! printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 --decode > "$cert_path" 2>/dev/null; then
             printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 -D > "$cert_path"
           fi
@@ -246,9 +246,9 @@ jobs:
           output="$RUNNER_TEMP/mac-framework-diagnostics.txt"
           source_resolve_log="$RUNNER_TEMP/mac-framework-source-resolve.err"
           source_framework="$(node -e 'const path = require("node:path"); const { createRequire } = require("node:module"); const requireFromDesktop = createRequire(path.join(process.cwd(), "apps/desktop/package.json")); const electron = requireFromDesktop.resolve("electron"); process.stdout.write(path.join(path.dirname(electron), "dist", "Electron.app", "Contents", "Frameworks", "Electron Framework.framework"));' 2>"$source_resolve_log" || true)"
-          app_name="Open Design.app"
+          app_name="Design Jury.app"
           if [ "${{ needs.metadata.outputs.channel }}" = "nightly" ]; then
-            app_name="Open Design Nightly.app"
+            app_name="Design Jury Nightly.app"
           fi
           built_framework="$RUNNER_TEMP/tools-pack/out/mac/namespaces/${{ needs.metadata.outputs.namespace }}/builder/mac-arm64/$app_name/Contents/Frameworks/Electron Framework.framework"
 
@@ -310,7 +310,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-stable-mac-build-diagnostics
+          name: design-jury-stable-mac-build-diagnostics
           path: |
             ${{ runner.temp }}/mac-tools-pack-build.log
             ${{ runner.temp }}/mac-tools-pack-build.json
@@ -336,7 +336,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-mac-e2e-report
+          name: design-jury-release-mac-e2e-report
           path: ${{ runner.temp }}/release-report/mac
           if-no-files-found: warn
 
@@ -345,7 +345,7 @@ jobs:
         env:
           CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}
           RELEASE_CHANNEL: ${{ needs.metadata.outputs.channel }}
-          RELEASE_NOTES: Open Design ${{ needs.metadata.outputs.release_version }}
+          RELEASE_NOTES: Design Jury ${{ needs.metadata.outputs.release_version }}
           RELEASE_VERSION: ${{ needs.metadata.outputs.release_version }}
           TOOLS_PACK_NAMESPACE: ${{ needs.metadata.outputs.namespace }}
         run: bash .github/scripts/release/assets/mac.sh
@@ -353,7 +353,7 @@ jobs:
       - name: Upload mac release bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-mac-release-assets
+          name: design-jury-release-mac-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -388,7 +388,7 @@ jobs:
           APPLE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_SIGNING_CERTIFICATE_PASSWORD }}
         run: |
           set -euo pipefail
-          cert_path="$RUNNER_TEMP/open-design-signing.p12"
+          cert_path="$RUNNER_TEMP/design-jury-signing.p12"
           if ! printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 --decode > "$cert_path" 2>/dev/null; then
             printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 -D > "$cert_path"
           fi
@@ -425,7 +425,7 @@ jobs:
       - name: Upload mac intel release bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-mac-intel-release-assets
+          name: design-jury-release-mac-intel-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -565,7 +565,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-win-e2e-report
+          name: design-jury-release-win-e2e-report
           path: ${{ runner.temp }}/release-report/win
           if-no-files-found: warn
 
@@ -603,7 +603,7 @@ jobs:
         env:
           CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}
           RELEASE_CHANNEL: ${{ needs.metadata.outputs.channel }}
-          RELEASE_NOTES: Open Design ${{ needs.metadata.outputs.release_version }}
+          RELEASE_NOTES: Design Jury ${{ needs.metadata.outputs.release_version }}
           RELEASE_VERSION: ${{ needs.metadata.outputs.release_version }}
           TOOLS_PACK_NAMESPACE: ${{ needs.metadata.outputs.win_namespace }}
         run: ./.github/scripts/release/assets/win.ps1
@@ -611,7 +611,7 @@ jobs:
       - name: Upload windows release bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-win-release-assets
+          name: design-jury-release-win-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -682,7 +682,7 @@ jobs:
         env:
           OD_PACKAGED_E2E_LINUX_APPIMAGE: "1"
           OD_PACKAGED_E2E_NAMESPACE: ${{ needs.metadata.outputs.linux_namespace }}
-          OD_PACKAGED_E2E_SCREENSHOT_PATH: ${{ runner.temp }}/release-report/linux/screenshots/open-design-linux-smoke.png
+          OD_PACKAGED_E2E_SCREENSHOT_PATH: ${{ runner.temp }}/release-report/linux/screenshots/design-jury-linux-smoke.png
           OD_PACKAGED_E2E_TOOLS_PACK_DIR: ${{ runner.temp }}/tools-pack
         run: |
           set -euo pipefail
@@ -695,7 +695,7 @@ jobs:
             "releaseVersion": "${{ needs.metadata.outputs.release_version }}",
             "spec": "specs/linux.spec.ts",
             "namespace": "${{ needs.metadata.outputs.linux_namespace }}",
-            "screenshot": "screenshots/open-design-linux-smoke.png",
+            "screenshot": "screenshots/design-jury-linux-smoke.png",
             "githubRunId": "$GITHUB_RUN_ID",
             "githubRunAttempt": "$GITHUB_RUN_ATTEMPT",
             "commit": "$GITHUB_SHA"
@@ -709,7 +709,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-linux-e2e-report
+          name: design-jury-release-linux-e2e-report
           path: ${{ runner.temp }}/release-report/linux
           if-no-files-found: warn
 
@@ -722,7 +722,7 @@ jobs:
       - name: Upload linux release bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-release-linux-release-assets
+          name: design-jury-release-linux-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -799,45 +799,45 @@ jobs:
       - name: Download mac release bundle
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-mac-release-assets
+          name: design-jury-release-mac-release-assets
           path: ${{ runner.temp }}/release-assets/mac
 
       - name: Download mac intel release bundle
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-mac-intel-release-assets
+          name: design-jury-release-mac-intel-release-assets
           path: ${{ runner.temp }}/release-assets/mac-intel
 
       - name: Download windows release bundle
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-win-release-assets
+          name: design-jury-release-win-release-assets
           path: ${{ runner.temp }}/release-assets/win
 
       - name: Download linux release bundle
         if: ${{ needs.build_linux.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-linux-release-assets
+          name: design-jury-release-linux-release-assets
           path: ${{ runner.temp }}/release-assets/linux
 
       - name: Download linux e2e spec report
         if: ${{ needs.build_linux.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-linux-e2e-report
+          name: design-jury-release-linux-e2e-report
           path: ${{ runner.temp }}/release-report/linux
 
       - name: Download mac e2e spec report
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-mac-e2e-report
+          name: design-jury-release-mac-e2e-report
           path: ${{ runner.temp }}/release-report/mac
 
       - name: Download windows e2e spec report
         uses: actions/download-artifact@v8
         with:
-          name: open-design-release-win-e2e-report
+          name: design-jury-release-win-e2e-report
           path: ${{ runner.temp }}/release-report/win
 
       - name: Write stable release notes

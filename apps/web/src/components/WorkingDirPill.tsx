@@ -3,7 +3,7 @@ import {
   isOpenDesignHostAvailable,
   openHostProjectPath,
   pickAndReplaceHostProjectWorkingDir,
-} from '@open-design/host';
+} from '@design-jury/host';
 import {
   openFolderDialog,
   replaceProjectWorkingDir,
@@ -12,7 +12,7 @@ import { useT } from '../i18n';
 import type { Project } from '../types';
 import { Icon } from './Icon';
 
-const RECENT_DIRS_KEY = 'open-design:recent-working-dirs';
+const RECENT_DIRS_KEY = 'design-jury:recent-working-dirs';
 const RECENT_DIRS_LIMIT = 6;
 
 interface Props {

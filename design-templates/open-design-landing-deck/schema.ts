@@ -1,7 +1,7 @@
 /**
- * open-design-landing-deck — input schema.
+ * design-jury-landing-deck — input schema.
  *
- * Sister skill to `open-design-landing`. Produces a single-file slide
+ * Sister skill to `design-jury-landing`. Produces a single-file slide
  * deck (horizontal swipe pagination, magazine-style) in the Atelier
  * Zero visual language, reusing the same `styles.css` + the same
  * 16-slot image library.
@@ -11,7 +11,7 @@
  * viewport-height/width frame. Brand identity is shared across slides.
  */
 
-import type { MixedText, BrandBlock, ImageryConfig } from '../open-design-landing/schema';
+import type { MixedText, BrandBlock, ImageryConfig } from '../design-jury-landing/schema';
 
 export type { MixedText, BrandBlock, ImageryConfig };
 
@@ -20,7 +20,7 @@ export type { MixedText, BrandBlock, ImageryConfig };
 /** Cover slide — title plate at the start of the deck. */
 export interface CoverSlide {
   kind: 'cover';
-  /** Eyebrow above the title — `'Open Design · Vol. 01'`. */
+  /** Eyebrow above the title — `'Design Jury · Vol. 01'`. */
   eyebrow: string;
   /** Display title; encoded as `MixedText` for italic-serif rhythm. */
   title: MixedText;
@@ -92,7 +92,7 @@ export interface CTASlide {
 /** End slide — huge italic kicker word and footer signature. */
 export interface EndSlide {
   kind: 'end';
-  /** The huge kicker — `'Open Design.'`. */
+  /** The huge kicker — `'Design Jury.'`. */
   mega: MixedText;
   /** Footer text under the kicker — `'Apache-2.0 · MMXXVI · Berlin'`. */
   footer?: string;
@@ -112,7 +112,7 @@ export type Slide =
 export interface OpenDesignLandingDeckInputs {
   $schema?: string;
   brand: BrandBlock;
-  /** Deck-wide title shown in the HUD — `'Open Design · Vol. 01'`. */
+  /** Deck-wide title shown in the HUD — `'Design Jury · Vol. 01'`. */
   deck_title: string;
   slides: Slide[];
   imagery: ImageryConfig;

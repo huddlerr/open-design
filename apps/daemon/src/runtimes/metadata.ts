@@ -24,7 +24,7 @@ const AGENT_INSTALL_LINKS: Record<
     docsUrl: 'https://github.com/sst/opencode',
   },
   hermes: {
-    installUrl: 'https://github.com/nexu-io/open-design/blob/main/docs/agent-adapters.md',
+    installUrl: 'https://github.com/nexu-io/design-jury/blob/main/docs/agent-adapters.md',
     docsUrl: 'https://hermes-agent.nousresearch.com/docs/',
   },
   kimi: {
@@ -48,7 +48,7 @@ const AGENT_INSTALL_LINKS: Record<
     docsUrl: 'https://docs.github.com/en/copilot/how-tos/use-copilot-extensions/use-in-cli',
   },
   pi: {
-    installUrl: 'https://github.com/nexu-io/open-design/blob/main/docs/agent-adapters.md',
+    installUrl: 'https://github.com/nexu-io/design-jury/blob/main/docs/agent-adapters.md',
     docsUrl: 'https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/README.md',
   },
   kiro: {

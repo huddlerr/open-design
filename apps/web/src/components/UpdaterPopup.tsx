@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { OpenDesignHostUpdaterStatusSnapshot } from '@open-design/host';
+import type { OpenDesignHostUpdaterStatusSnapshot } from '@design-jury/host';
 
 import { Icon } from './Icon';
 import {

@@ -15,7 +15,7 @@ import type {
   PluginInstallOutcome,
   PluginShareAction,
   ProjectPluginFolderInstallRequest,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { randomUUID } from '../utils/uuid';
 import type {
   ChatMessage,
@@ -26,8 +26,8 @@ import type {
   ProjectTemplate,
 } from '../types';
 
-export type { PluginInstallOutcome } from '@open-design/contracts';
-export type { PluginShareAction } from '@open-design/contracts';
+export type { PluginInstallOutcome } from '@design-jury/contracts';
+export type { PluginShareAction } from '@design-jury/contracts';
 
 export async function listProjects(): Promise<Project[]> {
   try {
@@ -66,7 +66,7 @@ export async function createProject(input: {
 }): Promise<{ project: Project; conversationId: string; appliedPluginSnapshotId?: string } | null> {
   try {
     // `randomUUID` falls back to `crypto.getRandomValues` / `Math.random`
-    // when `crypto.randomUUID` is unavailable. Open Design served over
+    // when `crypto.randomUUID` is unavailable. Design Jury served over
     // plain HTTP on a LAN IP (Docker / unRAID self-hosting) is a
     // non-secure context, where `crypto.randomUUID` is undefined and
     // calling it directly throws — the surrounding try/catch then turns
@@ -494,7 +494,7 @@ export async function installGeneratedPluginFolder(
     );
     const outcome = await readPluginInstallOutcome(resp);
     if (outcome.ok && typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('open-design:plugins-changed'));
+      window.dispatchEvent(new CustomEvent('design-jury:plugins-changed'));
     }
     return outcome;
   } catch (err) {
@@ -517,7 +517,7 @@ export interface PluginShareOutcome {
 
 export interface PluginShareTaskStart {
   taskId: string;
-  action: 'publish-github' | 'contribute-open-design';
+  action: 'publish-github' | 'contribute-design-jury';
   path: string;
   status: 'queued' | 'running' | 'done' | 'failed';
   startedAt: number;
@@ -537,7 +537,7 @@ export interface PluginShareTaskError {
 
 export interface PluginShareTaskSnapshot {
   taskId: string;
-  action: 'publish-github' | 'contribute-open-design';
+  action: 'publish-github' | 'contribute-design-jury';
   path: string;
   status: 'queued' | 'running' | 'done' | 'failed';
   startedAt: number;
@@ -559,13 +559,13 @@ export async function contributeGeneratedPluginToOpenDesign(
   projectId: string,
   relativePath: string,
 ): Promise<PluginShareOutcome> {
-  return postGeneratedPluginShareAction(projectId, relativePath, 'contribute-open-design');
+  return postGeneratedPluginShareAction(projectId, relativePath, 'contribute-design-jury');
 }
 
 export async function startGeneratedPluginShareTask(
   projectId: string,
   relativePath: string,
-  action: 'publish-github' | 'contribute-open-design',
+  action: 'publish-github' | 'contribute-design-jury',
 ): Promise<PluginShareTaskStart> {
   const resp = await fetch(
     `/api/projects/${encodeURIComponent(projectId)}/plugins/share-tasks`,
@@ -675,7 +675,7 @@ export async function createPluginShareProject(
 async function postGeneratedPluginShareAction(
   projectId: string,
   relativePath: string,
-  action: 'publish-github' | 'contribute-open-design',
+  action: 'publish-github' | 'contribute-design-jury',
 ): Promise<PluginShareOutcome> {
   try {
     const resp = await fetch(

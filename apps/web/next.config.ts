@@ -54,7 +54,7 @@ function resolveWorkspaceRoot(): string {
     // Require the resolved path to be a real pnpm workspace root. Without this,
     // an ancestor like `<repo>/apps` would pass the relative-path check but
     // miss the sibling `packages/*` directory that `apps/web` imports from
-    // (for example `@open-design/contracts`), and Next would later fail deep
+    // (for example `@design-jury/contracts`), and Next would later fail deep
     // inside file tracing / Turbopack with a much harder-to-diagnose error.
     if (!existsSync(resolve(canonicalResolved, 'pnpm-workspace.yaml'))) {
       throw new Error(

@@ -51,9 +51,9 @@ describe("resolveToolPackConfig namespace defaults", () => {
 
 describe("resolveToolPackConfig telemetry relay", () => {
   it("reads and normalizes OPEN_DESIGN_TELEMETRY_RELAY_URL for packaged config", () => {
-    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = "https://telemetry.open-design.ai/api/langfuse//";
+    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = "https://telemetry.design-jury.ai/api/langfuse//";
     const config = resolveToolPackConfig("mac", { namespace: "telemetry-test" });
-    expect(config.telemetryRelayUrl).toBe("https://telemetry.open-design.ai/api/langfuse");
+    expect(config.telemetryRelayUrl).toBe("https://telemetry.design-jury.ai/api/langfuse");
   });
 
   it("rejects invalid telemetry relay URLs", () => {
@@ -64,7 +64,7 @@ describe("resolveToolPackConfig telemetry relay", () => {
   });
 
   it("rejects plaintext telemetry relay URLs for packaged config", () => {
-    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = "http://telemetry.open-design.ai/api/langfuse";
+    process.env.OPEN_DESIGN_TELEMETRY_RELAY_URL = "http://telemetry.design-jury.ai/api/langfuse";
     expect(() => resolveToolPackConfig("mac")).toThrow(
       /OPEN_DESIGN_TELEMETRY_RELAY_URL must use https/,
     );

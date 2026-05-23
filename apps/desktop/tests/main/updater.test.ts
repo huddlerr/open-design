@@ -11,7 +11,7 @@ import {
   DESKTOP_UPDATE_CHANNELS,
   DESKTOP_UPDATE_STATES,
   SIDECAR_SOURCES,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 
 import {
   compareVersions,
@@ -96,8 +96,8 @@ async function createUpdaterFixture(options: {
   const artifactExt = platform === "win" ? "exe" : "dmg";
   const arch = platform === "win" ? "x64" : "arm64";
   const artifactName = platform === "win"
-    ? `open-design-${version}-win-x64-setup.exe`
-    : `open-design-${version}-mac-arm64.dmg`;
+    ? `design-jury-${version}-win-x64-setup.exe`
+    : `design-jury-${version}-mac-arm64.dmg`;
   const artifactPath = `/artifact.${artifactExt}`;
   const artifactBody = Buffer.from(options.artifactBody ?? "open design updater fixture");
   const digest = createHash("sha256").update(artifactBody).digest("hex");
@@ -226,10 +226,10 @@ function metadataResponse(version: string): Response {
         enabled: true,
         artifacts: {
           dmg: {
-            name: `open-design-${version}-mac-arm64.dmg`,
+            name: `design-jury-${version}-mac-arm64.dmg`,
             sha256: "0".repeat(64),
             size: 1,
-            url: `https://example.invalid/open-design-${version}-mac-arm64.dmg`,
+            url: `https://example.invalid/design-jury-${version}-mac-arm64.dmg`,
           },
         },
       },
@@ -673,8 +673,8 @@ describe("desktop updater", () => {
     const root = makeRoot();
     const fixture = await createUpdaterFixture();
     try {
-      await writeFile(join(root, ".open-design-updater-root.json"), JSON.stringify({
-        owner: "open-design-updater",
+      await writeFile(join(root, ".design-jury-updater-root.json"), JSON.stringify({
+        owner: "design-jury-updater",
         version: 1,
       }));
       await writeFile(join(root, "state.json"), "{}");
@@ -1158,10 +1158,10 @@ describe("desktop updater", () => {
         incoming: {
           arch: "x64",
           artifact: {
-            name: "open-design-1.0.1-win-x64-setup.exe",
+            name: "design-jury-1.0.1-win-x64-setup.exe",
             platformKey: "win",
             type: "installer",
-            url: "https://fixture.test/open-design-1.0.1-win-x64-setup.exe",
+            url: "https://fixture.test/design-jury-1.0.1-win-x64-setup.exe",
           },
           channel: "stable",
           cycleId,
@@ -1314,7 +1314,7 @@ describe("desktop updater", () => {
       const checked = await updater.checkForUpdates();
       expect(checked.state).toBe(DESKTOP_UPDATE_STATES.ERROR);
       expect(checked.error?.code).toBe("update-root-not-owned");
-      expect(existsSync(join(realRoot, ".open-design-updater-root.json"))).toBe(false);
+      expect(existsSync(join(realRoot, ".design-jury-updater-root.json"))).toBe(false);
     } finally {
       await fixture.close();
       rmSync(linkParent, { force: true, recursive: true });

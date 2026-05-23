@@ -311,7 +311,7 @@ export async function detectAcpModels({
   cwd = process.cwd(),
   env = process.env,
   timeoutMs = DEFAULT_TIMEOUT_MS,
-  clientName = 'open-design-detect',
+  clientName = 'design-jury-detect',
   clientVersion = 'runtime-adapter',
   defaultModelOption = { id: 'default', label: 'Default (CLI config)' },
 }: DetectAcpModelsOptions): Promise<ModelOption[]> {
@@ -423,7 +423,7 @@ export function attachAcpSession({
   model,
   mcpServers,
   send,
-  clientName = 'open-design',
+  clientName = 'design-jury',
   clientVersion = 'runtime-adapter',
   stageTimeoutMs = DEFAULT_STAGE_TIMEOUT_MS,
 }: AttachAcpSessionOptions) {

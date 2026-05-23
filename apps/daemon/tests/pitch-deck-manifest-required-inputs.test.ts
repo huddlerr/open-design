@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { parseManifest } from '@open-design/plugin-runtime';
+import { parseManifest } from '@design-jury/plugin-runtime';
 
 // The pitch-deck example's prompt instructs the agent to "confirm three
 // things first" — name + one-line pitch, key traction numbers, ask + use
@@ -18,7 +18,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../../..');
 const manifestPath = path.join(
   repoRoot,
-  'plugins/_official/examples/html-ppt-pitch-deck/open-design.json',
+  'plugins/_official/examples/html-ppt-pitch-deck/design-jury.json',
 );
 
 describe('html-ppt-pitch-deck manifest inputs', () => {

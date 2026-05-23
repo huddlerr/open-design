@@ -108,7 +108,7 @@ function createConfig(root: string, cacheRoot: string): ToolPackConfig {
 
 describe("ensureWorkspaceBuildArtifacts", () => {
   it("builds once and skips when the key and outputs are still valid", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-workspace-build-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-workspace-build-"));
     const cache = new ToolPackCache(join(root, ".cache"));
     const config = createConfig(root, cache.root);
     let builds = 0;
@@ -137,7 +137,7 @@ describe("ensureWorkspaceBuildArtifacts", () => {
   });
 
   it("materializes cached outputs when an expected workspace output is missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-workspace-build-stale-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-workspace-build-stale-"));
     const cache = new ToolPackCache(join(root, ".cache"));
     const config = createConfig(root, cache.root);
     let builds = 0;
@@ -163,7 +163,7 @@ describe("ensureWorkspaceBuildArtifacts", () => {
   });
 
   it("keeps platform-specific workspace build cache nodes separate", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-workspace-build-platform-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-workspace-build-platform-"));
     const cache = new ToolPackCache(join(root, ".cache"));
     const winConfig = createConfig(root, cache.root);
     const macConfig: ToolPackConfig = {

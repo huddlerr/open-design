@@ -13,8 +13,8 @@ import {
   defaultScenarioPluginIdForProjectMetadata,
   type ConnectorDetail,
   type InstalledPluginRecord,
-} from '@open-design/contracts';
-import type { OpenDesignHostProjectImportSuccess } from '@open-design/host';
+} from '@design-jury/contracts';
+import type { OpenDesignHostProjectImportSuccess } from '@design-jury/host';
 import type { DesignSystemGenerateSnapshot } from './DesignSystemFlow';
 import { useAnalytics } from '../analytics/provider';
 import {
@@ -39,8 +39,8 @@ import type {
   TrackingOnboardingCompletionResult,
   TrackingOnboardingCompletionType,
   TrackingCliProviderId,
-} from '@open-design/contracts/analytics';
-import { agentIdToTracking } from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
+import { agentIdToTracking } from '@design-jury/contracts/analytics';
 import { useT } from '../i18n';
 import { navigate, useRoute } from '../router';
 import type {
@@ -105,7 +105,7 @@ import { fetchProviderModels } from '../providers/provider-models';
 // `display` based on `--compact-topbar` breakpoint (900px).
 
 // Default scenario plugin for each project kind/intent. The mapping
-// lives in `@open-design/contracts` so the daemon's `/api/projects`
+// lives in `@design-jury/contracts` so the daemon's `/api/projects`
 // and `/api/runs` fallbacks resolve to the same plugin id when no
 // `pluginId` is on the request body — plan §3.3 of
 // `specs/current/plugin-driven-flow-plan.md`.
@@ -551,8 +551,8 @@ export function EntryShell({
               <a
                 className="entry-discord-badge"
                 href="https://discord.gg/mHAjSMV6gz"
-                aria-label="Join the Open Design Discord"
-                title="Join the Open Design Discord"
+                aria-label="Join the Design Jury Discord"
+                title="Join the Design Jury Discord"
                 data-testid="entry-discord-badge"
               >
                 <Icon name="discord" size={14} className="entry-discord-badge__icon" />
@@ -932,7 +932,7 @@ function OnboardingView({
   // truly-empty distinction the dashboard needs.
   function deriveOnboardingSourceType(
     snapshot: DesignSystemGenerateSnapshot,
-  ): import('@open-design/contracts/analytics').TrackingOnboardingSourceType {
+  ): import('@design-jury/contracts/analytics').TrackingOnboardingSourceType {
     if (snapshot.sourceCount === 0) {
       return snapshot.hasBrandDescription ? 'text' : 'none';
     }

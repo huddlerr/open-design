@@ -190,7 +190,7 @@ export function registerImportRoutes(app: Express, ctx: RegisterImportRoutesDeps
         return sendApiError(res, 404, 'PROJECT_NOT_FOUND', 'project not found');
       }
       if (entryFile) setTabs(db, projectId, [entryFile], entryFile);
-      /** @type {import('@open-design/contracts').ReplaceProjectWorkingDirResponse} */
+      /** @type {import('@design-jury/contracts').ReplaceProjectWorkingDirResponse} */
       const body = { project: updated, baseDir: normalizedPath, entryFile };
       res.json(body);
     } catch (err: any) {
@@ -327,7 +327,7 @@ export function registerImportRoutes(app: Express, ctx: RegisterImportRoutesDeps
         updatedAt: now,
       });
       if (entryFile) setTabs(db, id, [entryFile], entryFile);
-      /** @type {import('@open-design/contracts').ImportFolderResponse} */
+      /** @type {import('@design-jury/contracts').ImportFolderResponse} */
       const body = { project, conversationId: cid, entryFile };
       res.json(body);
     } catch (err: any) {
@@ -492,8 +492,8 @@ export function registerProjectExportRoutes(app: Express, ctx: RegisterProjectEx
   // would otherwise pass the daemon middleware) cannot escalate to
   // daemon-origin privileges through script execution.
   //
-  // See nexu-io/open-design#368 and the architecture lock at
-  // https://github.com/nexu-io/open-design/issues/368#issuecomment-4366243218.
+  // See nexu-io/design-jury#368 and the architecture lock at
+  // https://github.com/nexu-io/design-jury/issues/368#issuecomment-4366243218.
   app.get('/api/projects/:id/export/*', async (req, res) => {
     try {
       if (!isSafeId(req.params.id)) {

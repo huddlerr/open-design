@@ -3,7 +3,7 @@
  *
  *   Usage: tsx submit-sitemap.ts [--feed <url>]
  *
- * Default feed: https://open-design.ai/sitemap-index.xml.
+ * Default feed: https://design-jury.ai/sitemap-index.xml.
  *
  * Rationale (blog-indexing-automation skill, Step 3): for standard blog
  * content prefer sitemap submission over per-URL forced indexing. One

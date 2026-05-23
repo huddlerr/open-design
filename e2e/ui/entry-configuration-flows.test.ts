@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'design-jury:config';
 
 const CONNECTORS = [
   {
@@ -49,9 +49,9 @@ const IMAGE_TEMPLATE = {
   model: 'gpt-image-1',
   aspect: '4:5',
   source: {
-    repo: 'open-design/test-prompts',
+    repo: 'design-jury/test-prompts',
     license: 'MIT',
-    author: 'Open Design QA',
+    author: 'Design Jury QA',
   },
 };
 

@@ -8,7 +8,7 @@ import { promisify } from "node:util";
 const execFile = promisify(execFileCallback);
 
 const stableVersionPattern = /^(\d+)\.(\d+)\.(\d+)$/;
-const stableTagPattern = /^open-design-v(\d+\.\d+\.\d+)$/;
+const stableTagPattern = /^design-jury-v(\d+\.\d+\.\d+)$/;
 const previewReleaseBranchPattern = /^preview\/v(\d+\.\d+\.\d+)$/;
 const previewVersionPattern = /^(\d+\.\d+\.\d+)-preview\.(\d+)$/;
 
@@ -247,7 +247,7 @@ if (branchVersion !== packagedVersion) {
   fail(`preview branch version ${branchVersion} must match apps/packaged/package.json version ${packagedVersion}`);
 }
 
-const tags = await fetchGitTags("open-design-v*");
+const tags = await fetchGitTags("design-jury-v*");
 let latestStable: ParsedStableVersion | null = null;
 for (const tag of tags) {
   const stableVersion = extractStableVersionFromTag(tag);
@@ -304,7 +304,7 @@ if (latestPreview != null) {
 
 const previewVersion = `${packagedVersion}-preview.${previewNumber}`;
 const commit = process.env.GITHUB_SHA ?? "";
-const releaseName = `Open Design Preview ${previewVersion}`;
+const releaseName = `Design Jury Preview ${previewVersion}`;
 
 console.log("[release-preview] channel: preview");
 console.log(`[release-preview] base version: ${packagedVersion}`);

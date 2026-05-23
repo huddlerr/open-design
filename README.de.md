@@ -1,33 +1,33 @@
-# Open Design — die offizielle Open-Source-Alternative zu [Claude Design][cd]
+# Design Jury — die offizielle Open-Source-Alternative zu [Claude Design][cd]
 
-> **Open Design ist die Open-Source- und Local-first-Alternative zu [Claude Design][cd].** Web-deploybar, BYOK auf jeder Ebene: **16 coding-agent CLIs** werden automatisch in Ihrem `PATH` erkannt (Claude Code, Codex, Devin for Terminal, Cursor Agent, Gemini CLI, OpenCode, Qwen, Qoder CLI, GitHub Copilot CLI, Hermes, Kimi, Pi, Kiro, Kilo, Mistral Vibe, DeepSeek TUI) und werden zur Design-Engine, gesteuert von **31 kombinierbaren Skills** und **72 brandreifen Design Systems**. Keine CLI? Ein OpenAI-kompatibler BYOK-Proxy ist dieselbe Schleife ohne Spawn.
+> **Design Jury ist die Open-Source- und Local-first-Alternative zu [Claude Design][cd].** Web-deploybar, BYOK auf jeder Ebene: **16 coding-agent CLIs** werden automatisch in Ihrem `PATH` erkannt (Claude Code, Codex, Devin for Terminal, Cursor Agent, Gemini CLI, OpenCode, Qwen, Qoder CLI, GitHub Copilot CLI, Hermes, Kimi, Pi, Kiro, Kilo, Mistral Vibe, DeepSeek TUI) und werden zur Design-Engine, gesteuert von **31 kombinierbaren Skills** und **72 brandreifen Design Systems**. Keine CLI? Ein OpenAI-kompatibler BYOK-Proxy ist dieselbe Schleife ohne Spawn.
 
 > [!IMPORTANT]
 > ### 🔥 `0.8.0-preview` ist da. Hier endet die alte Welt des Designs.
 >
 > Eine Open-Source-Alternative zu Claude Design / Figma — 40k Sterne in zwei Wochen haben uns hierher gebracht. **Wir brauchen dich für den Rest des Weges.**
 >
-> **Schnelle Iteration auf `main`** — 0.8.0 ist die nächste Phase von Open Design. Schick einen PR, wirf eine wilde Idee rein, melde einen Bug — was du mitbringst, dazu wird diese Bewegung.
+> **Schnelle Iteration auf `main`** — 0.8.0 ist die nächste Phase von Design Jury. Schick einen PR, wirf eine wilde Idee rein, melde einen Bug — was du mitbringst, dazu wird diese Bewegung.
 >
-> → [**Ankündigung lesen · Installer herunterladen · der Bewegung beitreten**](https://github.com/nexu-io/open-design/discussions/1727) · läuft parallel zu deinem aktuellen 0.7.
+> → [**Ankündigung lesen · Installer herunterladen · der Bewegung beitreten**](https://github.com/nexu-io/design-jury/discussions/1727) · läuft parallel zu deinem aktuellen 0.7.
 
 <p align="center">
-  <img src="docs/assets/banner.png" alt="Open Design — editorial cover: design with the agent on your laptop" width="100%" />
+  <img src="docs/assets/banner.png" alt="Design Jury — editorial cover: design with the agent on your laptop" width="100%" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=ffd700&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=2ecc71&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/issues"><img alt="Issues" src="https://img.shields.io/github/issues/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=ff6b6b&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/pulls"><img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=9b59b6&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=3498db&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/commits/main"><img alt="Commit activity" src="https://img.shields.io/github/commit-activity/m/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=e67e22&logo=git&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=8e44ad&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=ffd700&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=2ecc71&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/issues"><img alt="Issues" src="https://img.shields.io/github/issues/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=ff6b6b&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/pulls"><img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=9b59b6&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=3498db&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/commits/main"><img alt="Commit activity" src="https://img.shields.io/github/commit-activity/m/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=e67e22&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=8e44ad&logo=git&logoColor=white" /></a>
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/"><img alt="Herunterladen" src="https://img.shields.io/badge/download-open--design.ai-ff6b35?style=flat-square" /></a>
-  <a href="https://github.com/nexu-io/open-design/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/nexu-io/open-design?style=flat-square&color=blueviolet&label=release&include_prereleases&display_name=tag" /></a>
+  <a href="https://design-jury.ai/"><img alt="Herunterladen" src="https://img.shields.io/badge/download-open--design.ai-ff6b35?style=flat-square" /></a>
+  <a href="https://github.com/nexu-io/design-jury/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/nexu-io/design-jury?style=flat-square&color=blueviolet&label=release&include_prereleases&display_name=tag" /></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" /></a>
   <a href="#supported-coding-agents"><img alt="Agents" src="https://img.shields.io/badge/agents-16%20CLIs%20%2B%20BYOK%20proxy-black?style=flat-square" /></a>
   <a href="#design-systems"><img alt="Design systems" src="https://img.shields.io/badge/design%20systems-149-orange?style=flat-square" /></a>
@@ -44,7 +44,7 @@
 
 Anthropics [Claude Design][cd] (veröffentlicht am 2026-04-17, Opus 4.7) hat gezeigt, was passiert, wenn ein LLM aufhört, Prosa zu schreiben, und anfängt, Design-Artefakte zu liefern. Es ging viral und blieb closed-source, nur bezahlt, nur Cloud, fest an Anthropics Modell und Anthropics Skills gebunden. Kein Checkout, kein Self-Hosting, kein Vercel-Deploy, kein Austausch gegen Ihren eigenen Agent.
 
-**Open Design (OD) ist die Open-Source-Alternative.** Dieselbe Schleife, dasselbe artifact-first Denkmodell, aber ohne Lock-in. Wir liefern keinen Agent: Die stärksten coding agents laufen bereits auf Ihrem Laptop. Wir verbinden sie mit einem skillgesteuerten Design-Workflow, der lokal mit `pnpm tools-dev` läuft, die Web-Schicht zu Vercel deployen kann und auf jeder Ebene BYOK bleibt.
+**Design Jury (OD) ist die Open-Source-Alternative.** Dieselbe Schleife, dasselbe artifact-first Denkmodell, aber ohne Lock-in. Wir liefern keinen Agent: Die stärksten coding agents laufen bereits auf Ihrem Laptop. Wir verbinden sie mit einem skillgesteuerten Design-Workflow, der lokal mit `pnpm tools-dev` läuft, die Web-Schicht zu Vercel deployen kann und auf jeder Ebene BYOK bleibt.
 
 Geben Sie `make me a magazine-style pitch deck for our seed round` ein. Das interaktive Fragenformular erscheint, bevor das Modell auch nur ein Pixel improvisiert. Der Agent wählt eine von fünf kuratierten visuellen Richtungen. Ein live `TodoWrite` Plan streamt in die UI. Der daemon baut einen echten Projektordner auf der Festplatte mit Seed-Template, Layout-Bibliothek und Self-Check-Checklist. Der Agent liest sie, der Pre-Flight ist erzwungen, bewertet seine eigene Ausgabe mit einer fünfdimensionalen Kritik und gibt ein einzelnes `<artifact>` aus, das Sekunden später in einem sandboxed iframe rendert.
 
@@ -73,7 +73,7 @@ OD steht auf den Schultern von vier Open-Source-Projekten:
 | **Persistence** | SQLite in `.od/app.sqlite`: projects · conversations · messages · tabs · saved templates. Morgen wieder öffnen, todo card und offene Dateien sind genau dort, wo Sie sie verlassen haben. |
 | **Lebenszyklus** | Ein Einstiegspunkt: `pnpm tools-dev` (start / stop / run / status / logs / inspect / check) — startet daemon + web (+ desktop) unter typisierten sidecar stamps |
 | **Desktop** | Optionale Electron Shell mit sandboxed renderer + sidecar IPC (STATUS / EVAL / SCREENSHOT / CONSOLE / CLICK / SHUTDOWN) — treibt `tools-dev inspect desktop screenshot` für E2E |
-| **Bereitstellbar auf** | Lokal (`pnpm tools-dev`) · Vercel Web Layer · paketierte Electron Desktop-App für macOS (Apple Silicon) und Windows (x64) — Download von [open-design.ai](https://open-design.ai/) oder dem [neuesten Release](https://github.com/nexu-io/open-design/releases) |
+| **Bereitstellbar auf** | Lokal (`pnpm tools-dev`) · Vercel Web Layer · paketierte Electron Desktop-App für macOS (Apple Silicon) und Windows (x64) — Download von [design-jury.ai](https://design-jury.ai/) oder dem [neuesten Release](https://github.com/nexu-io/design-jury/releases) |
 | **Lizenz** | Apache-2.0 |
 
 [acd2]: https://github.com/VoltAgent/awesome-design-md
@@ -283,7 +283,7 @@ Jede Ebene ist kombinierbar. Jede Ebene ist eine Datei, die Sie editieren könne
    │  /api/upload          /api/projects/:id/files…
    │  /artifacts (static)  /frames (static)
    │
-   │  optional: sidecar IPC at /tmp/open-design/ipc/<ns>/<app>.sock
+   │  optional: sidecar IPC at /tmp/design-jury/ipc/<ns>/<app>.sock
    │  (STATUS · EVAL · SCREENSHOT · CONSOLE · CLICK · SHUTDOWN)
    └─────────┬────────────────────────┘
              │ spawn(cli, [...], { cwd: .od/projects/<id> })
@@ -311,16 +311,16 @@ Jede Ebene ist kombinierbar. Jede Ebene ist eine Datei, die Sie editieren könne
 
 ### Desktop-App herunterladen (kein Build erforderlich)
 
-Der schnellste Weg, Open Design auszuprobieren, ist die vorgefertigte Desktop-App — kein Node, kein pnpm, kein Klonen:
+Der schnellste Weg, Design Jury auszuprobieren, ist die vorgefertigte Desktop-App — kein Node, kein pnpm, kein Klonen:
 
-- **[open-design.ai](https://open-design.ai/)** — offizielle Download-Seite
-- **[GitHub Releases](https://github.com/nexu-io/open-design/releases)**
+- **[design-jury.ai](https://design-jury.ai/)** — offizielle Download-Seite
+- **[GitHub Releases](https://github.com/nexu-io/design-jury/releases)**
 
 ### Aus dem Quellcode ausführen
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury
 corepack enable
 corepack pnpm --version   # should print 10.33.2
 pnpm install
@@ -365,7 +365,7 @@ Vollständige Dateistruktur, Skripte und Fehlerbehebung → [`QUICKSTART.de.md`]
 ## Repository-Struktur
 
 ```
-open-design/
+design-jury/
 ├── README.md                      ← English
 ├── README.de.md                   ← Deutsch
 ├── README.zh-CN.md                ← 简体中文
@@ -404,7 +404,7 @@ open-design/
 │
 ├── packages/
 │   ├── contracts/                 ← shared web/daemon app contracts
-│   ├── sidecar-proto/             ← Open Design sidecar protocol contract
+│   ├── sidecar-proto/             ← Design Jury sidecar protocol contract
 │   ├── sidecar/                   ← generic sidecar runtime primitives
 │   └── platform/                  ← generic process/platform primitives
 │
@@ -551,7 +551,7 @@ Klicken Sie auf ein Thumbnail, um das tatsächlich gerenderte MP4 abzuspielen. K
 
 ### HyperFrames — HTML→MP4 Motion Graphics (11 sofort reproduzierbare Templates)
 
-[**`heygen-com/hyperframes`**](https://github.com/heygen-com/hyperframes) ist HeyGens Open-Source-, agent-natives Video-Framework — Sie (oder der Agent) schreiben HTML + CSS + GSAP, HyperFrames rendert deterministisch zu MP4 via Headless-Chrome + FFmpeg. Open Design liefert HyperFrames als first-class Video-Modell (`hyperframes-html`) verdrahtet im daemon-Dispatch, plus den `skills/hyperframes/`-Skill, der dem Agent Timeline-Vertrag, Scene-Transition-Regeln, Audio-Reactive-Patterns, Captions/TTS und die Catalog-Blocks (`npx hyperframes add <slug>`) beibringt.
+[**`heygen-com/hyperframes`**](https://github.com/heygen-com/hyperframes) ist HeyGens Open-Source-, agent-natives Video-Framework — Sie (oder der Agent) schreiben HTML + CSS + GSAP, HyperFrames rendert deterministisch zu MP4 via Headless-Chrome + FFmpeg. Design Jury liefert HyperFrames als first-class Video-Modell (`hyperframes-html`) verdrahtet im daemon-Dispatch, plus den `skills/hyperframes/`-Skill, der dem Agent Timeline-Vertrag, Scene-Transition-Regeln, Audio-Reactive-Patterns, Captions/TTS und die Catalog-Blocks (`npx hyperframes add <slug>`) beibringt.
 
 Elf HyperFrames-Prompts liegen unter [`prompt-templates/video/hyperframes-*.json`](prompt-templates/video/), jeder ein konkreter Brief, der einen spezifischen Archetyp produziert:
 
@@ -589,7 +589,7 @@ Der Chat-/Artifact-Loop steht im Rampenlicht, aber einige weniger sichtbare Fäh
 - **User-saved templates.** Wenn Ihnen ein Render gefällt, snapshottet `POST /api/templates` HTML + Metadata in die SQLite `templates` Tabelle. Das nächste Projekt wählt es aus einer "your templates" Zeile im Picker: dieselbe Oberfläche wie die mitgelieferten 31, aber Ihre eigene.
 - **Tab persistence.** Jedes Projekt merkt sich offene Dateien und aktiven Tab in der `tabs` Tabelle. Öffnen Sie das Projekt morgen wieder, und der Workspace sieht genau so aus, wie Sie ihn verlassen haben.
 - **Artifact lint API.** `POST /api/artifacts/lint` führt strukturelle Checks auf einem generierten Artifact aus (kaputtes `<artifact>` Framing, fehlende Side Files, stale palette tokens) und gibt Findings zurück, die der Agent in seinen nächsten Turn einlesen kann. Die fünfdimensionale Self-Critique nutzt das, um ihren Score auf echte Evidenz statt Vibes zu stützen.
-- **Sidecar protocol + desktop automation.** Daemon-, Web- und Desktop-Prozesse tragen typisierte Five-Field-Stamps (`app · mode · namespace · ipc · source`) und expose'n einen JSON-RPC IPC Channel unter `/tmp/open-design/ipc/<namespace>/<app>.sock`. `tools-dev inspect desktop status \| eval \| screenshot` steuert diesen Channel, sodass Headless-E2E gegen eine echte Electron Shell funktioniert, ohne bespoke Harnesses ([`packages/sidecar-proto/`](packages/sidecar-proto/), [`apps/desktop/src/main/`](apps/desktop/src/main/)).
+- **Sidecar protocol + desktop automation.** Daemon-, Web- und Desktop-Prozesse tragen typisierte Five-Field-Stamps (`app · mode · namespace · ipc · source`) und expose'n einen JSON-RPC IPC Channel unter `/tmp/design-jury/ipc/<namespace>/<app>.sock`. `tools-dev inspect desktop status \| eval \| screenshot` steuert diesen Channel, sodass Headless-E2E gegen eine echte Electron Shell funktioniert, ohne bespoke Harnesses ([`packages/sidecar-proto/`](packages/sidecar-proto/), [`apps/desktop/src/main/`](apps/desktop/src/main/)).
 - **Windows-friendly spawning.** Jeder Adapter, der sonst am ~32 KB argv Limit von `CreateProcess` bei langen zusammengesetzten Prompts scheitern würde (Codex, Gemini, OpenCode, Cursor Agent, Qwen, Qoder CLI, Pi), füttert den Prompt stattdessen über stdin. Claude Code und Copilot behalten `-p`; der daemon fällt auf eine temp prompt-file zurück, wenn selbst das überläuft.
 - **Per-namespace runtime data.** `OD_DATA_DIR` und `--namespace` geben Ihnen vollständig isolierte `.od/`-artige Trees, damit Playwright, Beta Channels und Ihre echten Projekte nie dieselbe SQLite-Datei teilen.
 
@@ -606,7 +606,7 @@ Die gesamte Maschinerie unten ist das [`huashu-design`](https://github.com/alcha
 
 ## Vergleich
 
-| Achse | [Claude Design][cd] (Anthropic) | [Open CoDesign][ocod] | **Open Design** |
+| Achse | [Claude Design][cd] (Anthropic) | [Open CoDesign][ocod] | **Design Jury** |
 |---|---|---|---|
 | Lizenz | Closed | MIT | **Apache-2.0** |
 | Formfaktor | Web (claude.ai) | Desktop (Electron) | **Web-App + lokaler Daemon** |
@@ -695,7 +695,7 @@ Der ausführliche Provenienztext, was wir jeweils übernehmen und was bewusst ni
 - [ ] Vercel + tunnel deployment recipe (Topology B)
 - [ ] One-command `npx od init` to scaffold a project with `DESIGN.md`
 - [ ] Skill marketplace (`od skills install <github-repo>`) and `od skill add | list | remove | test` CLI surface (drafted in [`docs/skills-protocol.md`](docs/skills-protocol.md), implementation pending)
-- [x] Packaged Electron build out of `apps/packaged/` — macOS (Apple Silicon) und Windows (x64) Downloads auf [open-design.ai](https://open-design.ai/) und der [GitHub Releases-Seite](https://github.com/nexu-io/open-design/releases)
+- [x] Packaged Electron build out of `apps/packaged/` — macOS (Apple Silicon) und Windows (x64) Downloads auf [design-jury.ai](https://design-jury.ai/) und der [GitHub Releases-Seite](https://github.com/nexu-io/design-jury/releases)
 
 Phased delivery → [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -706,10 +706,10 @@ Dies ist eine frühe Implementierung: Der geschlossene Loop (detect → pick ski
 ## Geben Sie uns einen Star
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design"><img src="docs/assets/star-us.png" alt="Star Open Design on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
+  <a href="https://github.com/nexu-io/design-jury"><img src="docs/assets/star-us.png" alt="Star Design Jury on GitHub — github.com/nexu-io/design-jury" width="100%" /></a>
 </p>
 
-Wenn Ihnen das dreißig Minuten gespart hat, geben Sie ein ★. Stars bezahlen keine Miete, aber sie zeigen dem nächsten Designer, Agent und Contributor, dass dieses Experiment Aufmerksamkeit verdient. Ein Klick, drei Sekunden, echtes Signal: [github.com/nexu-io/open-design](https://github.com/nexu-io/open-design).
+Wenn Ihnen das dreißig Minuten gespart hat, geben Sie ein ★. Stars bezahlen keine Miete, aber sie zeigen dem nächsten Designer, Agent und Contributor, dass dieses Experiment Aufmerksamkeit verdient. Ein Klick, drei Sekunden, echtes Signal: [github.com/nexu-io/design-jury](https://github.com/nexu-io/design-jury).
 
 ## Mitwirken
 
@@ -723,29 +723,29 @@ Vollständiger Walkthrough, Merge-Messlatte, Code Style und was wir nicht annehm
 
 ## Mitwirkende
 
-Danke an alle, die Open Design vorangebracht haben: durch Code, Docs, Feedback, neue Skills, neue Design Systems oder auch ein scharfes Issue. Jeder echte Beitrag zählt, und die Wand unten ist die einfachste Art, das laut zu sagen.
+Danke an alle, die Design Jury vorangebracht haben: durch Code, Docs, Feedback, neue Skills, neue Design Systems oder auch ein scharfes Issue. Jeder echte Beitrag zählt, und die Wand unten ist die einfachste Art, das laut zu sagen.
 
-<a href="https://github.com/nexu-io/open-design/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&cache_bust=2026-05-23" alt="Open Design contributors" />
+<a href="https://github.com/nexu-io/design-jury/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=nexu-io/design-jury&cache_bust=2026-05-23" alt="Design Jury contributors" />
 </a>
 
-Wenn Sie Ihren ersten PR gemergt haben: willkommen. Das Label [`good-first-issue`/`help-wanted`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22%2C%22help+wanted%22) ist der Einstiegspunkt.
+Wenn Sie Ihren ersten PR gemergt haben: willkommen. Das Label [`good-first-issue`/`help-wanted`](https://github.com/nexu-io/design-jury/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22%2C%22help+wanted%22) ist der Einstiegspunkt.
 
 ## Repository-Aktivität
 
 <picture>
-  <img alt="Open Design — repository metrics" src="docs/assets/github-metrics.svg" />
+  <img alt="Design Jury — repository metrics" src="docs/assets/github-metrics.svg" />
 </picture>
 
 Das SVG oben wird täglich von [`.github/workflows/metrics.yml`](.github/workflows/metrics.yml) mit [`lowlighter/metrics`](https://github.com/lowlighter/metrics) regeneriert. Lösen Sie auf dem **Actions** Tab manuell eine Aktualisierung aus, wenn Sie sie früher brauchen; für reichere Plugins (traffic, follow-up time) fügen Sie ein `METRICS_TOKEN` Repository Secret mit einem fine-grained PAT hinzu.
 
 ## Star-Historie
 
-<a href="https://star-history.com/#nexu-io/open-design&Date">
+<a href="https://star-history.com/#nexu-io/design-jury&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&theme=dark&cache_bust=2026-05-23" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-05-23" />
-    <img alt="Open Design star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-05-23" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/design-jury&type=Date&theme=dark&cache_bust=2026-05-23" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/design-jury&type=Date&cache_bust=2026-05-23" />
+    <img alt="Design Jury star history" src="https://api.star-history.com/svg?repos=nexu-io/design-jury&type=Date&cache_bust=2026-05-23" />
   </picture>
 </a>
 

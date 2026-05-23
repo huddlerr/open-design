@@ -47,13 +47,13 @@ Follow the root `AGENTS.md` first. This file only records module-level boundarie
 ## Common app commands
 
 ```bash
-pnpm --filter @open-design/web typecheck
-pnpm --filter @open-design/web test
-pnpm --filter @open-design/daemon typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/daemon build
-pnpm --filter @open-design/desktop typecheck
-pnpm --filter @open-design/desktop build
-pnpm --filter @open-design/packaged typecheck
-pnpm --filter @open-design/packaged build
+pnpm --filter @design-jury/web typecheck
+pnpm --filter @design-jury/web test
+pnpm --filter @design-jury/daemon typecheck
+pnpm --filter @design-jury/daemon test
+pnpm --filter @design-jury/daemon build
+pnpm --filter @design-jury/desktop typecheck
+pnpm --filter @design-jury/desktop build
+pnpm --filter @design-jury/packaged typecheck
+pnpm --filter @design-jury/packaged build
 ```

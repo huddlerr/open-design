@@ -72,8 +72,8 @@ export async function createFakeAgentRuntimes(
     ? input
     : (input.runtimeIds ?? ['codex', ...FAKE_AGENT_RUNTIME_IDS]);
   const root = Array.isArray(input)
-    ? path.join(tmpdir(), `open-design-fake-agents-${process.pid}`)
-    : (input.root ?? path.join(tmpdir(), `open-design-fake-agents-${process.pid}`));
+    ? path.join(tmpdir(), `design-jury-fake-agents-${process.pid}`)
+    : (input.root ?? path.join(tmpdir(), `design-jury-fake-agents-${process.pid}`));
   await mkdir(root, { recursive: true });
 
   const runtimes = {} as Record<FakeAgentId, FakeAgentRuntime>;

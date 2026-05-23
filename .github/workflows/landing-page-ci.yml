@@ -11,7 +11,7 @@ on:
       # Landing page sources
       - apps/landing-page/**
       # Design template source of truth for the homepage.
-      - design-templates/open-design-landing/**
+      - design-templates/design-jury-landing/**
       # Content sources globbed by Astro content collections — without
       # these the deploy can be silently skipped when only Markdown
       # content is touched.
@@ -32,7 +32,7 @@ on:
       - .github/workflows/blog-indexing-on-deploy.yml
       - .github/workflows/blog-indexing-monitor.yml
       - apps/landing-page/**
-      - design-templates/open-design-landing/**
+      - design-templates/design-jury-landing/**
       - skills/**
       - design-systems/**
       - craft/**
@@ -80,10 +80,10 @@ jobs:
         uses: ./.github/actions/setup-playwright
         with:
           package-json-path: apps/landing-page/package.json
-          install-command: pnpm --filter @open-design/landing-page exec playwright install --with-deps chromium
+          install-command: pnpm --filter @design-jury/landing-page exec playwright install --with-deps chromium
 
       - name: Typecheck landing page
-        run: pnpm --filter @open-design/landing-page typecheck
+        run: pnpm --filter @design-jury/landing-page typecheck
 
       # Generate the per-skill / per-template thumbnail PNGs *before*
       # the build so they ship in `out/previews/` automatically. The
@@ -92,12 +92,12 @@ jobs:
       # launch failure or a 100%-failure run exits non-zero so the
       # build stops instead of silently shipping zero thumbnails.
       - name: Generate skill + template previews
-        run: pnpm --filter @open-design/landing-page previews
+        run: pnpm --filter @design-jury/landing-page previews
 
       - name: Build landing page
         env:
           PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
-        run: pnpm --filter @open-design/landing-page build:static
+        run: pnpm --filter @design-jury/landing-page build:static
 
       - name: Lint changed blog SEO
         run: |
@@ -105,7 +105,7 @@ jobs:
           if [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
             BASE="HEAD^"
           fi
-          pnpm --filter @open-design/landing-page exec tsx scripts/blog-indexing/lint-blog-seo.ts \
+          pnpm --filter @design-jury/landing-page exec tsx scripts/blog-indexing/lint-blog-seo.ts \
             --base "$BASE" \
             --head HEAD \
             --rendered-out apps/landing-page/out
@@ -116,7 +116,7 @@ jobs:
           if [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
             BASE="HEAD^"
           fi
-          pnpm --filter @open-design/landing-page exec tsx scripts/blog-indexing/check-blog-url-changes.ts \
+          pnpm --filter @design-jury/landing-page exec tsx scripts/blog-indexing/check-blog-url-changes.ts \
             --base "$BASE" \
             --head HEAD
 
@@ -143,7 +143,7 @@ jobs:
           node <<'NODE'
           const { readFileSync } = require('node:fs');
           const html = readFileSync('apps/landing-page/out/index.html', 'utf8');
-          const resizedUrls = html.match(/https:\/\/static\.open-design\.ai\/cdn-cgi\/image\//g) ?? [];
+          const resizedUrls = html.match(/https:\/\/static\.design-jury\.ai\/cdn-cgi\/image\//g) ?? [];
           if (resizedUrls.length < 16) {
             console.error(`Expected at least 16 Cloudflare resized image URLs, found ${resizedUrls.length}`);
             process.exit(1);

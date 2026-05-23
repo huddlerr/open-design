@@ -3,8 +3,8 @@ import type { DesignSystemGenerateSnapshot } from './DesignSystemFlow';
 import type {
   ConnectorDetail,
   ConnectorStatusResponse,
-} from '@open-design/contracts';
-import type { OpenDesignHostProjectImportSuccess } from '@open-design/host';
+} from '@design-jury/contracts';
+import type { OpenDesignHostProjectImportSuccess } from '@design-jury/host';
 import {
   DEFAULT_AUDIO_MODEL,
   DEFAULT_IMAGE_MODEL,
@@ -129,7 +129,7 @@ interface Props {
   onCompleteOnboarding: () => void;
 }
 
-const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'open-design:connector-connected';
+const CONNECTOR_CALLBACK_MESSAGE_TYPE = 'design-jury:connector-connected';
 
 export function isTrustedConnectorCallbackOrigin(origin: string, currentOrigin?: string): boolean {
   const expectedOrigin = currentOrigin ?? (typeof window === 'undefined' ? '' : window.location.origin);

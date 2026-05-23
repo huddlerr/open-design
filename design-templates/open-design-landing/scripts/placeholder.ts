@@ -1,6 +1,6 @@
 #!/usr/bin/env -S npx -y tsx
 /**
- * open-design-landing — SVG framework placeholder generator.
+ * design-jury-landing — SVG framework placeholder generator.
  *
  * When `imagery.strategy === 'placeholder'`, this script writes one
  * paper-textured SVG file per slot in `assets/image-manifest.json`.

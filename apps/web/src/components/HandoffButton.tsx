@@ -9,13 +9,13 @@ import type {
   HostEditor,
   HostEditorId,
   HostEditorsResponse,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { fetchHostEditors, openProjectInEditor } from '../providers/registry';
 import { useT } from '../i18n';
 import { Icon } from './Icon';
 import { EditorIcon } from './EditorIcon';
 
-const PREFERRED_EDITOR_KEY = 'open-design:preferred-editor';
+const PREFERRED_EDITOR_KEY = 'design-jury:preferred-editor';
 
 interface Props {
   projectId: string;

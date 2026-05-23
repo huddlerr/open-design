@@ -1,4 +1,4 @@
-# 贡献指南 · Contributing to Open Design
+# 贡献指南 · Contributing to Design Jury
 
 谢谢你愿意参与。OD 是有意做小的 —— 大部分价值在 **文件** 里（skill、design system、提示词片段），而不是框架代码。这意味着收益最高的贡献往往就是一个文件夹、一份 Markdown，或者一个 PR 大小的 adapter。
 
@@ -18,7 +18,7 @@
 | 加功能、修 bug、从 [`open-codesign`][ocod] 移植一个 UX 模式 | 代码 | `apps/web/src/`、`apps/daemon/` | 普通 PR |
 | 改文档、补法语 / 德语 / 中文翻译、修错别字 | 文档 | `README.md`、`README.fr.md`、`README.de.md`、`README.zh-CN.md`、`docs/`、`QUICKSTART.zh-CN.md` | 一个 PR |
 
-不确定自己想做的属于哪一桶？[先开 issue / discussion](https://github.com/nexu-io/open-design/issues/new)，我们告诉你该改哪个面。
+不确定自己想做的属于哪一桶？[先开 issue / discussion](https://github.com/nexu-io/design-jury/issues/new)，我们告诉你该改哪个面。
 
 ---
 
@@ -27,13 +27,13 @@
 完整的一页式 setup 在 [`QUICKSTART.zh-CN.md`](QUICKSTART.zh-CN.md)。给贡献者的 TL;DR：
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury
 corepack enable           # 使用 packageManager 固定的 pnpm
 pnpm install
 pnpm tools-dev run web    # daemon + web 前台闭环
 pnpm typecheck            # tsc -b --noEmit
-pnpm --filter @open-design/web build  # 需要时构建 web package
+pnpm --filter @design-jury/web build  # 需要时构建 web package
 ```
 
 要求 Node `~24` 和 pnpm `10.33.x`。`nvm` / `fnm` 是可选路径；如果你习惯用它们，先执行 `nvm install 24 && nvm use 24` 或 `fnm install 24 && fnm use 24`。macOS、Linux、WSL2 是主要路径。Windows 原生应该能跑但不是主要目标 —— 跑不起来请开 issue。
@@ -259,7 +259,7 @@ node --experimental-strip-types scripts/sync-litellm-models.ts
 
 ## 提问
 
-- 架构问题、设计问题、「这是 bug 还是误用」 → 请用 [GitHub Discussions](https://github.com/nexu-io/open-design/discussions)（首选 —— 下一个人能搜到）。
+- 架构问题、设计问题、「这是 bug 还是误用」 → 请用 [GitHub Discussions](https://github.com/nexu-io/design-jury/discussions)（首选 —— 下一个人能搜到）。
 - 「我想写一个干 X 的 skill 怎么写」 → 开一个 discussion。我们会回答，且如果是缺失的模式，答案会被收进 [`docs/skills-protocol.md`](docs/skills-protocol.md)。
 
 ---
@@ -289,7 +289,7 @@ node --experimental-strip-types scripts/sync-litellm-models.ts
 
 tl;dr：好好提 PR、认真 review、在 [Discussions][discussions] / [Discord][discord] 多冒泡，剩下的自然会发生。
 
-[discussions]: https://github.com/nexu-io/open-design/discussions
+[discussions]: https://github.com/nexu-io/design-jury/discussions
 [discord]: https://discord.gg/qhbcCH8Am4
 
 ---

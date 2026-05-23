@@ -95,7 +95,7 @@ async function runElectronBuilderRaw(config: ToolPackConfig, paths: WinPaths, pr
     ? await writeWebStandaloneHookConfig(config, paths)
     : null;
   const builderConfig = {
-    appId: "io.open-design.desktop",
+    appId: "io.design-jury.desktop",
     afterPack: webStandaloneHookConfigPath == null ? undefined : winResources.webStandaloneAfterPackHook,
     asar: ELECTRON_BUILDER_ASAR,
     buildDependenciesFromSource: ELECTRON_BUILDER_BUILD_DEPENDENCIES_FROM_SOURCE,
@@ -106,13 +106,13 @@ async function runElectronBuilderRaw(config: ToolPackConfig, paths: WinPaths, pr
     executableName: PRODUCT_NAME,
     extraMetadata: {
       main: "./main.cjs",
-      name: "open-design-packaged-app",
+      name: "design-jury-packaged-app",
       productName: PRODUCT_NAME,
       version: packageVersion,
     },
     extraResources: [
-      { from: paths.resourceRoot, to: "open-design" },
-      { from: paths.packagedConfigPath, to: "open-design-config.json" },
+      { from: paths.resourceRoot, to: "design-jury" },
+      { from: paths.packagedConfigPath, to: "design-jury-config.json" },
     ],
     files: [...ELECTRON_BUILDER_FILE_PATTERNS],
     forceCodeSigning: false,
@@ -137,7 +137,7 @@ async function runElectronBuilderRaw(config: ToolPackConfig, paths: WinPaths, pr
       warningsAsErrors: false,
     },
     productName: PRODUCT_NAME,
-    publish: [{ provider: "generic", url: "https://updates.invalid/open-design" }],
+    publish: [{ provider: "generic", url: "https://updates.invalid/design-jury" }],
     win: {
       artifactName: `${PRODUCT_NAME}-${namespaceToken}.\${ext}`,
       icon: paths.winIconPath,
@@ -232,7 +232,7 @@ export async function materializeCachedUnpackedForInstaller(
   await removeTree(paths.unpackedRoot);
   await mkdir(dirname(paths.unpackedRoot), { recursive: true });
   await cp(cachedUnpackedRoot, paths.unpackedRoot, { recursive: true });
-  await cp(paths.packagedConfigPath, join(paths.unpackedRoot, "resources", "open-design-config.json"));
+  await cp(paths.packagedConfigPath, join(paths.unpackedRoot, "resources", "design-jury-config.json"));
   if (packagedVersion != null) await rewriteUnpackedAppPackageVersion(paths.unpackedRoot, packagedVersion);
   return {
     appBuilderOutputRoot: paths.appBuilderOutputRoot,

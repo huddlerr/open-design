@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-waitlist-page",
   "title": "Waitlist Page",
@@ -7,10 +7,10 @@
   "description": "Minimal pre-launch landing with email capture, brand logo, and optional decorative layer.\nReads DESIGN.md for colors, typography, and layout rules.\nBest for: product launches, beta signups, early access programs, indie projects.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/waitlist-page",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/waitlist-page",
   "tags": [
     "example",
     "first-party",

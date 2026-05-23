@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-social-carousel",
   "title": "Social Carousel",
@@ -7,10 +7,10 @@
   "description": "A three-card social-media carousel laid out as 1080×1080 squares —\nthree cinematic, on-brand panels with display headlines that connect\nacross the series (\"onwards.\" → \"to the next one.\" → \"looking ahead.\").\nEach card has a brand mark, a number / total, a caption, and a \"loop\"\naffordance. Use when the brief asks for a \"carousel post\", \"social\ncarousel\", \"Instagram carousel\", \"LinkedIn series\", \"X thread cards\",\nor \"三连发\".",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/social-carousel",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/social-carousel",
   "tags": [
     "example",
     "first-party",

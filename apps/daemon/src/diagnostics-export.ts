@@ -9,17 +9,17 @@ import {
   DIAGNOSTICS_FILENAME_PREFIX,
   diagnosticsFileName,
   type LogSource,
-} from '@open-design/diagnostics';
+} from '@design-jury/diagnostics';
 import {
   APP_KEYS,
   OPEN_DESIGN_SIDECAR_CONTRACT,
   type SidecarStamp,
-} from '@open-design/sidecar-proto';
+} from '@design-jury/sidecar-proto';
 import {
   resolveLogFilePath,
   resolveNamespaceRoot,
   type SidecarRuntimeContext,
-} from '@open-design/sidecar';
+} from '@design-jury/sidecar';
 
 import { readCurrentAppVersionInfo } from './app-version.js';
 
@@ -94,7 +94,7 @@ export function createDiagnosticsExportHandler(options: DiagnosticsHandlerOption
       const result = await buildDiagnosticsZip({
         context: {
           app: {
-            name: 'open-design',
+            name: 'design-jury',
             version: versionInfo?.version,
             channel: versionInfo?.channel,
             packaged: versionInfo?.packaged,
@@ -113,11 +113,11 @@ export function createDiagnosticsExportHandler(options: DiagnosticsHandlerOption
         sources,
         redaction: { username },
         crashReports: {
-          // Restrict to Open Design's own process names. A generic "Electron"
+          // Restrict to Design Jury's own process names. A generic "Electron"
           // substring would sweep up crash reports from any other Electron
           // app on the host (VS Code, Slack, …) and leak unrelated user data
           // into the support bundle.
-          matchSubstrings: ['Open Design', 'open-design'],
+          matchSubstrings: ['Design Jury', 'design-jury'],
           withinDays: 7,
           maxReports: 10,
           homeDir: home,

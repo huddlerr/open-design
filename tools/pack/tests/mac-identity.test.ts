@@ -45,11 +45,11 @@ function makeConfig(root: string, namespace: string): ToolPackConfig {
 describe("resolveMacInstallIdentity", () => {
   it("keeps stable builds on the canonical mac identity", () => {
     expect(resolveMacInstallIdentity(makeConfig("/work", "release-stable"))).toMatchObject({
-      appId: "io.open-design.desktop",
-      installerTitle: "Open Design",
-      productName: "Open Design",
-      publicAppBundleName: "Open Design.app",
-      systemAppBundleName: "Open Design.app",
+      appId: "io.design-jury.desktop",
+      installerTitle: "Design Jury",
+      productName: "Design Jury",
+      publicAppBundleName: "Design Jury.app",
+      systemAppBundleName: "Design Jury.app",
     });
   });
 
@@ -57,28 +57,28 @@ describe("resolveMacInstallIdentity", () => {
     const config = makeConfig("/work", "release-beta");
 
     expect(resolveMacInstallIdentity(config)).toEqual({
-      appId: "io.open-design.desktop.beta",
-      executableName: "Open Design Beta",
-      installerTitle: "Open Design Beta",
-      productName: "Open Design Beta",
-      publicAppBundleName: "Open Design Beta.app",
-      systemAppBundleName: "Open Design Beta.app",
+      appId: "io.design-jury.desktop.beta",
+      executableName: "Design Jury Beta",
+      installerTitle: "Design Jury Beta",
+      productName: "Design Jury Beta",
+      publicAppBundleName: "Design Jury Beta.app",
+      systemAppBundleName: "Design Jury Beta.app",
     });
-    expect(resolveMacPaths(config).appPath).toMatch(/Open Design Beta\.app$/);
+    expect(resolveMacPaths(config).appPath).toMatch(/Design Jury Beta\.app$/);
   });
 
   it("uses first-class preview app identity for preview release namespaces", () => {
     const config = makeConfig("/work", "release-preview");
 
     expect(resolveMacInstallIdentity(config)).toEqual({
-      appId: "io.open-design.desktop.preview",
-      executableName: "Open Design Preview",
-      installerTitle: "Open Design Preview",
-      productName: "Open Design Preview",
-      publicAppBundleName: "Open Design Preview.app",
-      systemAppBundleName: "Open Design Preview.app",
+      appId: "io.design-jury.desktop.preview",
+      executableName: "Design Jury Preview",
+      installerTitle: "Design Jury Preview",
+      productName: "Design Jury Preview",
+      publicAppBundleName: "Design Jury Preview.app",
+      systemAppBundleName: "Design Jury Preview.app",
     });
-    expect(resolveMacPaths(config).appPath).toMatch(/Open Design Preview\.app$/);
+    expect(resolveMacPaths(config).appPath).toMatch(/Design Jury Preview\.app$/);
   });
 
   it("uses first-class nightly app identity for nightly release versions and namespaces", () => {
@@ -89,17 +89,17 @@ describe("resolveMacInstallIdentity", () => {
     const nightlyNamespaceConfig = makeConfig("/work", "release-nightly");
 
     expect(resolveMacInstallIdentity(nightlyVersionConfig)).toEqual({
-      appId: "io.open-design.desktop.nightly",
-      executableName: "Open Design Nightly",
-      installerTitle: "Open Design Nightly",
-      productName: "Open Design Nightly",
-      publicAppBundleName: "Open Design Nightly.app",
-      systemAppBundleName: "Open Design Nightly.app",
+      appId: "io.design-jury.desktop.nightly",
+      executableName: "Design Jury Nightly",
+      installerTitle: "Design Jury Nightly",
+      productName: "Design Jury Nightly",
+      publicAppBundleName: "Design Jury Nightly.app",
+      systemAppBundleName: "Design Jury Nightly.app",
     });
-    expect(resolveMacPaths(nightlyVersionConfig).appPath).toMatch(/Open Design Nightly\.app$/);
+    expect(resolveMacPaths(nightlyVersionConfig).appPath).toMatch(/Design Jury Nightly\.app$/);
     expect(resolveMacInstallIdentity(nightlyNamespaceConfig)).toMatchObject({
-      productName: "Open Design Nightly",
-      publicAppBundleName: "Open Design Nightly.app",
+      productName: "Design Jury Nightly",
+      publicAppBundleName: "Design Jury Nightly.app",
     });
   });
 });

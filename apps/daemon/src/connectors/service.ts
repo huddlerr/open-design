@@ -239,7 +239,7 @@ function cloneStatus(status: ConnectorConnectionStatus): ConnectorConnectionStat
 }
 
 function isAutoConnectedConnector(definition: ConnectorCatalogDefinition): boolean {
-  const authentication = definition.authentication ?? (definition.provider === 'open-design' ? 'local' : 'oauth');
+  const authentication = definition.authentication ?? (definition.provider === 'design-jury' ? 'local' : 'oauth');
   return (authentication === 'local' || authentication === 'none') && definition.tools.every((tool) => tool.requiredScopes.length === 0);
 }
 

@@ -11,20 +11,20 @@ async function buildWorkspaceArtifacts(config: ToolPackConfig): Promise<void> {
   const webNextEnvPath = join(config.workspaceRoot, "apps", "web", "next-env.d.ts");
   const previousWebNextEnv = await readFile(webNextEnvPath, "utf8").catch(() => null);
 
-  await runPnpm(config, ["--filter", "@open-design/contracts", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/registry-protocol", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/sidecar-proto", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/sidecar", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/platform", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/agui-adapter", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/plugin-runtime", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/diagnostics", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/daemon", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/contracts", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/registry-protocol", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/sidecar-proto", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/sidecar", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/platform", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/agui-adapter", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/plugin-runtime", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/diagnostics", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/daemon", "build"]);
   try {
-    await runPnpm(config, ["--filter", "@open-design/web", "build"], {
+    await runPnpm(config, ["--filter", "@design-jury/web", "build"], {
       OD_WEB_OUTPUT_MODE: config.webOutputMode,
     });
-    await runPnpm(config, ["--filter", "@open-design/web", "build:sidecar"]);
+    await runPnpm(config, ["--filter", "@design-jury/web", "build:sidecar"]);
     // Inject chunk IDs + upload browser sourcemaps to PostHog, then strip
     // .map files. Runs before any packaging step copies the web output into
     // the Electron resources so .map never ends up inside the .app bundle.
@@ -36,8 +36,8 @@ async function buildWorkspaceArtifacts(config: ToolPackConfig): Promise<void> {
       await writeFile(webNextEnvPath, previousWebNextEnv, "utf8");
     }
   }
-  await runPnpm(config, ["--filter", "@open-design/desktop", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/packaged", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/desktop", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/packaged", "build"]);
 }
 
 export async function ensureMacWorkspaceBuild(config: ToolPackConfig, cache: ToolPackCache): Promise<void> {

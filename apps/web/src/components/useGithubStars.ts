@@ -6,11 +6,11 @@
 // the renderer.
 
 import { useEffect, useState } from 'react';
-import type { OpenDesignGithubRepoResponse } from '@open-design/contracts';
+import type { OpenDesignGithubRepoResponse } from '@design-jury/contracts';
 
-const API = '/api/github/open-design';
-const REPO = 'https://github.com/nexu-io/open-design';
-const LS_KEY = 'open-design:gh-stars';
+const API = '/api/github/design-jury';
+const REPO = 'https://github.com/nexu-io/design-jury';
+const LS_KEY = 'design-jury:gh-stars';
 export const GITHUB_STARS_FALLBACK_LABEL = '40K+';
 
 // One-hour soft cache — long enough to dodge GitHub's 60/hr

@@ -22,11 +22,11 @@
  * no vitest setup yet — same reasoning as the existing
  * `desktop-project-root-gate.test.ts` next to this file.
  *
- * @see https://github.com/nexu-io/open-design/pull/974
+ * @see https://github.com/nexu-io/design-jury/pull/974
  */
 import { describe, expect, it, vi } from "vitest";
 
-import { pickAndImportFolder } from "@open-design/desktop/main";
+import { pickAndImportFolder } from "@design-jury/desktop/main";
 
 // Test secret bytes — the helper's mint is injected, so the secret
 // value is symbolic; we only assert call-shape and the secret reaching

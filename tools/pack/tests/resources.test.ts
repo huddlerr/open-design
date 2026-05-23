@@ -7,7 +7,7 @@ import { copyBundledResourceTrees } from "../src/resources.js";
 
 describe("copyBundledResourceTrees", () => {
   it("includes daemon resource trees", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-"));
     const workspaceRoot = join(root, "workspace");
     const resourceRoot = join(root, "resources");
 
@@ -36,7 +36,7 @@ describe("copyBundledResourceTrees", () => {
         "plugins",
         "registry",
         "community",
-        "open-design-marketplace.json",
+        "design-jury-marketplace.json",
       );
       await mkdir(join(workspaceRoot, "skills", "sample"), { recursive: true });
       // The skills/design-templates split (see specs/current/
@@ -68,7 +68,7 @@ describe("copyBundledResourceTrees", () => {
       await writeFile(designTemplatePath, "# Orbit General\n", "utf8");
       await writeFile(communityPetPath, "{\"name\":\"sample\"}\n", "utf8");
       await writeFile(
-        join(workspaceRoot, "plugins", "_official", "sample", "open-design.json"),
+        join(workspaceRoot, "plugins", "_official", "sample", "design-jury.json"),
         "{\"id\":\"sample\"}\n",
         "utf8",
       );
@@ -96,7 +96,7 @@ describe("copyBundledResourceTrees", () => {
       ).resolves.toBe("{\"name\":\"sample\"}\n");
       await expect(
         readFile(
-          join(resourceRoot, "plugins", "_official", "sample", "open-design.json"),
+          join(resourceRoot, "plugins", "_official", "sample", "design-jury.json"),
           "utf8",
         ),
       ).resolves.toBe("{\"id\":\"sample\"}\n");
@@ -107,7 +107,7 @@ describe("copyBundledResourceTrees", () => {
             "plugins",
             "registry",
             "community",
-            "open-design-marketplace.json",
+            "design-jury-marketplace.json",
           ),
           "utf8",
         ),

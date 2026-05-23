@@ -18,7 +18,7 @@ vi.mock('../../src/i18n', () => ({
   }),
   useT: () => (key: string) => {
     const labels: Record<string, string> = {
-      'app.brand': 'Open Design',
+      'app.brand': 'Design Jury',
       'common.close': 'Close',
       'common.untitled': 'Untitled',
       'entry.navDesignSystems': 'Design systems',
@@ -108,7 +108,7 @@ describe('WorkspaceTabsBar navigation semantics', () => {
 
   it('preserves restored Home tabs instead of collapsing them by route', async () => {
     window.localStorage.setItem(
-      'open-design:workspace-tabs:v1',
+      'design-jury:workspace-tabs:v1',
       JSON.stringify({
         activeTabId: 'entry:home:old-two',
         tabs: [

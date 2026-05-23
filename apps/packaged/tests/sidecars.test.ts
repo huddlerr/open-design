@@ -13,7 +13,7 @@
  *
  * @see apps/packaged/src/sidecars.ts
  * @see apps/daemon/src/legacy-data-migrator.ts
- * @see https://github.com/nexu-io/open-design/issues/710
+ * @see https://github.com/nexu-io/design-jury/issues/710
  */
 import { EventEmitter } from 'node:events';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -237,10 +237,10 @@ describe('buildPackagedDaemonSpawnEnv', () => {
       daemonCliEntry: null,
       legacyDataDir: null,
       requireDesktopAuth: true,
-      telemetryRelayUrl: 'https://telemetry.open-design.ai/api/langfuse',
+      telemetryRelayUrl: 'https://telemetry.design-jury.ai/api/langfuse',
     });
     expect(env.OPEN_DESIGN_TELEMETRY_RELAY_URL).toBe(
-      'https://telemetry.open-design.ai/api/langfuse',
+      'https://telemetry.design-jury.ai/api/langfuse',
     );
   });
 

@@ -8,18 +8,18 @@ import {
   APP_KEYS,
   OPEN_DESIGN_SIDECAR_CONTRACT,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 import {
   resolveLogFilePath,
   resolveNamespaceRoot,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
+} from "@design-jury/sidecar";
 import {
   DIAGNOSTICS_FILENAME_PREFIX,
   buildDiagnosticsZip,
   diagnosticsFileName,
   type LogSource,
-} from "@open-design/diagnostics";
+} from "@design-jury/diagnostics";
 
 export const DESKTOP_DIAGNOSTICS_IPC_CHANNEL = "diagnostics:export-to-file";
 
@@ -90,7 +90,7 @@ export async function exportDiagnosticsToFile(
   const defaultPath = join(downloadsDir, filename);
 
   const dialogOptions = {
-    title: "Export Open Design diagnostics",
+    title: "Export Design Jury diagnostics",
     defaultPath,
     filters: [{ name: "Zip archive", extensions: ["zip"] }],
   };
@@ -105,7 +105,7 @@ export async function exportDiagnosticsToFile(
   try {
     const result = await buildDiagnosticsZip({
       context: {
-        app: { name: "open-design", version: app.getVersion(), packaged: app.isPackaged },
+        app: { name: "design-jury", version: app.getVersion(), packaged: app.isPackaged },
         source: "desktop-ipc",
         namespace: runtime.namespace,
         extra: {
@@ -119,11 +119,11 @@ export async function exportDiagnosticsToFile(
       sources: buildSidecarLogSources(runtime),
       redaction: { username: safeUsername() },
       crashReports: {
-        // Restrict to Open Design's own process names. A generic "Electron"
+        // Restrict to Design Jury's own process names. A generic "Electron"
         // substring would sweep up crash reports from any other Electron app
         // on the host (VS Code, Slack, …) and leak unrelated user data into
         // the support bundle.
-        matchSubstrings: ["Open Design", "open-design"],
+        matchSubstrings: ["Design Jury", "design-jury"],
         withinDays: 7,
         maxReports: 10,
         homeDir: homedir(),

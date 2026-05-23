@@ -10,8 +10,8 @@
  *   {
  *     "head": "<sha>",
  *     "base": "<sha>",
- *     "addedUrls": ["https://open-design.ai/blog/foo/"],
- *     "modifiedUrls": ["https://open-design.ai/blog/bar/"]
+ *     "addedUrls": ["https://design-jury.ai/blog/foo/"],
+ *     "modifiedUrls": ["https://design-jury.ai/blog/bar/"]
  *   }
  *
  * Underscore-prefixed files (e.g. `_topics.md`) are excluded — they

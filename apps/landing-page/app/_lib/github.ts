@@ -3,7 +3,7 @@ export interface GithubRepoMeta {
   versionLabel: string;
 }
 
-const REPO_API = 'https://api.github.com/repos/nexu-io/open-design';
+const REPO_API = 'https://api.github.com/repos/nexu-io/design-jury';
 const FALLBACK_META: GithubRepoMeta = {
   starsLabel: '40K+',
   versionLabel: 'v0.3.0',
@@ -29,7 +29,7 @@ function formatVersion(release: unknown): string | null {
 
   const fromTag = (tag: unknown) => {
     if (typeof tag !== 'string') return null;
-    const cleaned = tag.replace(/^open-design[-_]?v?/i, '').trim();
+    const cleaned = tag.replace(/^design-jury[-_]?v?/i, '').trim();
     return cleaned ? `v${cleaned.replace(/^v/, '')}` : null;
   };
 

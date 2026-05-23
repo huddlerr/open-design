@@ -39,25 +39,25 @@ export async function prepareResourceTree(
   const node = {
     id: "win.resource-tree",
     key,
-    outputs: ["open-design"],
+    outputs: ["design-jury"],
     invalidate: async () => null,
     build: async ({ entryRoot }: { entryRoot: string }): Promise<ResourceTreeCacheMetadata> => {
-      const resourceRoot = join(entryRoot, "open-design");
+      const resourceRoot = join(entryRoot, "design-jury");
       await mkdir(resourceRoot, { recursive: true });
       await copyBundledResourceTrees({
         workspaceRoot: config.workspaceRoot,
         resourceRoot,
       });
-      return { resourceName: "open-design" };
+      return { resourceName: "design-jury" };
     },
   };
   const manifest = await cache.acquire({
-    materialize: options.materialize ? [{ from: "open-design", to: paths.resourceRoot }] : [],
+    materialize: options.materialize ? [{ from: "design-jury", to: paths.resourceRoot }] : [],
     node,
   });
   return {
     key,
-    resourceRoot: options.materialize ? paths.resourceRoot : join(manifest.entryPath, "open-design"),
+    resourceRoot: options.materialize ? paths.resourceRoot : join(manifest.entryPath, "design-jury"),
   };
 }
 

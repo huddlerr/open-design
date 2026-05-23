@@ -1,6 +1,6 @@
 # tools/pr
 
-Follow the root `AGENTS.md` and `tools/AGENTS.md` first. This tool owns the maintainer PR-duty command surface for nexu-io/open-design.
+Follow the root `AGENTS.md` and `tools/AGENTS.md` first. This tool owns the maintainer PR-duty command surface for nexu-io/design-jury.
 
 ## Owns
 
@@ -194,8 +194,8 @@ Frozen-in-time exemplars covering three PR shapes live in `tools/pr/templates/ex
 ## Common commands
 
 ```bash
-pnpm --filter @open-design/tools-pr typecheck
-pnpm --filter @open-design/tools-pr build
+pnpm --filter @design-jury/tools-pr typecheck
+pnpm --filter @design-jury/tools-pr build
 pnpm tools-pr list
 pnpm tools-pr list --bucket=merge-ready,approved-blocked
 pnpm tools-pr list --lane=skill,contract

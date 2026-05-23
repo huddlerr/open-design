@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-digital-eguide",
   "title": "Digital Eguide",
@@ -7,10 +7,10 @@
   "description": "A two-spread digital e-guide preview — page 1 is a cover (display title,\nauthor, \"What's inside\" stats, table of contents teaser); page 2 is a\nspread (lesson body with pull-quote and a step list). Lifestyle / creator\nbrand tone. Use when the brief asks for an \"e-guide\", \"digital guide\",\n\"lookbook\", \"lead magnet\", \"creator guide\", \"playbook\", \"PDF guide\",\nor \"电子指南\".",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/digital-eguide",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/digital-eguide",
   "tags": [
     "example",
     "first-party",

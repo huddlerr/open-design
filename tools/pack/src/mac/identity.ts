@@ -1,4 +1,4 @@
-import { SIDECAR_DEFAULTS } from "@open-design/sidecar-proto";
+import { SIDECAR_DEFAULTS } from "@design-jury/sidecar-proto";
 
 import type { ToolPackConfig } from "../config.js";
 import { PRODUCT_NAME } from "./constants.js";
@@ -46,17 +46,17 @@ function productNameForChannel(channel: ReleaseChannelIdentity): string {
 }
 
 function appIdForChannel(channel: ReleaseChannelIdentity): string {
-  if (channel === "beta") return "io.open-design.desktop.beta";
-  if (channel === "nightly") return "io.open-design.desktop.nightly";
-  if (channel === "preview") return "io.open-design.desktop.preview";
-  return "io.open-design.desktop";
+  if (channel === "beta") return "io.design-jury.desktop.beta";
+  if (channel === "nightly") return "io.design-jury.desktop.nightly";
+  if (channel === "preview") return "io.design-jury.desktop.preview";
+  return "io.design-jury.desktop";
 }
 
 export function resolveMacInstallIdentity(config: Pick<ToolPackConfig, "namespace" | "appVersion">): MacInstallIdentity {
   const namespaceToken = sanitizeNamespace(config.namespace);
   const channel = channelFromVersion(config.appVersion) ?? channelFromNamespace(config.namespace);
   const channelIdentity = channel == null
-    ? { appId: "io.open-design.desktop", productName: PRODUCT_NAME }
+    ? { appId: "io.design-jury.desktop", productName: PRODUCT_NAME }
     : { appId: appIdForChannel(channel), productName: productNameForChannel(channel) };
   const publicAppBundleName = `${channelIdentity.productName}.app`;
   const systemAppBundleName = channel != null

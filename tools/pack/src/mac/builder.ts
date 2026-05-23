@@ -109,13 +109,13 @@ export async function runElectronBuilder(
     executableName: identity.executableName,
     extraMetadata: {
       main: "./main.cjs",
-      name: "open-design-packaged-app",
+      name: "design-jury-packaged-app",
       productName: identity.productName,
       version: packageVersion,
     },
     extraResources: [
-      { from: paths.resourceRoot, to: "open-design" },
-      { from: paths.packagedConfigPath, to: "open-design-config.json" },
+      { from: paths.resourceRoot, to: "design-jury" },
+      { from: paths.packagedConfigPath, to: "design-jury-config.json" },
     ],
     files: [...ELECTRON_BUILDER_FILE_PATTERNS],
     mac: {
@@ -137,7 +137,7 @@ export async function runElectronBuilder(
     publish: [
       {
         provider: "generic",
-        url: "https://updates.invalid/open-design",
+        url: "https://updates.invalid/design-jury",
       },
     ],
   };

@@ -7,8 +7,8 @@
  *   - platform token exists (DEVTO_API_KEY / HASHNODE_TOKEN)
  *
  * Usage:
- *   tsx crosspost.ts --url https://open-design.ai/blog/foo/ --platform devto
- *   tsx crosspost.ts --url https://open-design.ai/blog/foo/ --platform devto --publish
+ *   tsx crosspost.ts --url https://design-jury.ai/blog/foo/ --platform devto
+ *   tsx crosspost.ts --url https://design-jury.ai/blog/foo/ --platform devto --publish
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';

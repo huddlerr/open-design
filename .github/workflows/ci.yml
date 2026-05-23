@@ -178,20 +178,20 @@ jobs:
       #   - `apps/daemon/dist/*.d.ts` for packaged/runtime consumers of the daemon
       #     package export
       #   - `apps/desktop/dist/main/index.d.ts` for `apps/packaged` imports of
-      #     `@open-design/desktop/main`
+      #     `@design-jury/desktop/main`
       #   - `apps/web/dist/sidecar/index.d.ts` for `apps/packaged` imports of
-      #     `@open-design/web/sidecar`
+      #     `@design-jury/web/sidecar`
       # If postinstall grows a targeted app type-generation phase covering these
       # three exports without broad app builds, this CI prebuild can be removed.
       - name: Prebuild workspace type declarations
         run: |
-          pnpm --filter @open-design/daemon build
-          pnpm --filter @open-design/desktop build
-          pnpm --filter @open-design/web build:sidecar
+          pnpm --filter @design-jury/daemon build
+          pnpm --filter @design-jury/desktop build
+          pnpm --filter @design-jury/web build:sidecar
 
       - name: Typecheck workspaces
         run: |
-          pnpm -r --filter '!open-design' --filter '!@open-design/landing-page' --workspace-concurrency=4 --if-present run typecheck
+          pnpm -r --filter '!design-jury' --filter '!@design-jury/landing-page' --workspace-concurrency=4 --if-present run typecheck
           pnpm exec tsc -p scripts/tsconfig.json --noEmit
 
       - name: Check repository layout policies
@@ -216,16 +216,16 @@ jobs:
 
       - name: Workspace unit tests
         run: |
-          pnpm --filter @open-design/contracts test
-          pnpm --filter @open-design/host test
-          pnpm --filter @open-design/platform test
-          pnpm --filter @open-design/sidecar test
-          pnpm --filter @open-design/sidecar-proto test
+          pnpm --filter @design-jury/contracts test
+          pnpm --filter @design-jury/host test
+          pnpm --filter @design-jury/platform test
+          pnpm --filter @design-jury/sidecar test
+          pnpm --filter @design-jury/sidecar-proto test
           if [ "${{ needs.change_scopes.outputs.tools_dev_tests_required }}" = "true" ]; then
-            pnpm --filter @open-design/tools-dev test
+            pnpm --filter @design-jury/tools-dev test
           fi
           if [ "${{ needs.change_scopes.outputs.tools_pack_tests_required }}" = "true" ]; then
-            pnpm --filter @open-design/tools-pack test
+            pnpm --filter @design-jury/tools-pack test
           fi
 
   daemon_workspace_tests:
@@ -243,10 +243,10 @@ jobs:
         uses: ./.github/actions/setup-workspace
 
       - name: Prebuild daemon entrypoint declarations
-        run: pnpm --filter @open-design/daemon build
+        run: pnpm --filter @design-jury/daemon build
 
       - name: Daemon workspace tests
-        run: pnpm --filter @open-design/daemon test
+        run: pnpm --filter @design-jury/daemon test
 
   web_workspace_tests:
     name: Web workspace tests
@@ -263,10 +263,10 @@ jobs:
         uses: ./.github/actions/setup-workspace
 
       - name: Prebuild web sidecar declarations
-        run: pnpm --filter @open-design/web build:sidecar
+        run: pnpm --filter @design-jury/web build:sidecar
 
       - name: Web workspace tests
-        run: pnpm --filter @open-design/web test
+        run: pnpm --filter @design-jury/web test
 
   browser_tests:
     name: Browser tests
@@ -291,12 +291,12 @@ jobs:
 
       - name: Prebuild workspace type declarations
         run: |
-          pnpm --filter @open-design/daemon build
-          pnpm --filter @open-design/desktop build
-          pnpm --filter @open-design/web build:sidecar
+          pnpm --filter @design-jury/daemon build
+          pnpm --filter @design-jury/desktop build
+          pnpm --filter @design-jury/web build:sidecar
 
       - name: E2E vitest
-        run: pnpm --filter @open-design/e2e test
+        run: pnpm --filter @design-jury/e2e test
 
       - name: Playwright critical
         run: |
@@ -319,9 +319,9 @@ jobs:
 
       - name: Prebuild workspace type declarations
         run: |
-          pnpm --filter @open-design/daemon build
-          pnpm --filter @open-design/desktop build
-          pnpm --filter @open-design/web build:sidecar
+          pnpm --filter @design-jury/daemon build
+          pnpm --filter @design-jury/desktop build
+          pnpm --filter @design-jury/web build:sidecar
 
       # Keep workspace builds serialized so generated dist output and local
       # runtime artifacts are produced in a deterministic order. Parallel
@@ -329,7 +329,7 @@ jobs:
       # current workspace is small enough that safer logs and fewer shared-FS
       # races outweigh the lost parallelism; revisit if the package count grows.
       - name: Build workspaces
-        run: pnpm -r --filter '!@open-design/landing-page' --workspace-concurrency=1 --if-present run build
+        run: pnpm -r --filter '!@design-jury/landing-page' --workspace-concurrency=1 --if-present run build
 
   validate:
     name: Validate workspace

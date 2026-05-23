@@ -8,7 +8,7 @@
 //
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import type { DesignSystemSummary } from '@open-design/contracts';
+import type { DesignSystemSummary } from '@design-jury/contracts';
 import { useI18n } from '../i18n';
 import {
   localizeDesignSystemCategory,

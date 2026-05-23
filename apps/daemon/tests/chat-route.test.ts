@@ -85,7 +85,7 @@ describe('/api/chat', () => {
       'sample-plugin',
     );
     await fsp.cp(baseFixtureDir, fixtureDir, { recursive: true });
-    const manifestPath = resolve(fixtureDir, 'open-design.json');
+    const manifestPath = resolve(fixtureDir, 'design-jury.json');
     const manifest = JSON.parse(await fsp.readFile(manifestPath, 'utf8')) as {
       name: string;
       title: string;
@@ -400,7 +400,7 @@ process.stdin.on('data', (chunk) => {
 });
 process.stdin.on('end', () => {
   const checks = [
-    prompt.includes('## Composed skill — open-design-landing-deck') ? 'has-deck-skill-header' : 'missing-deck-skill-header',
+    prompt.includes('## Composed skill — design-jury-landing-deck') ? 'has-deck-skill-header' : 'missing-deck-skill-header',
     prompt.includes('# Slide deck — fixed framework (this is non-negotiable for deck mode)') ? 'has-deck-framework' : 'missing-deck-framework',
   ];
   console.log(JSON.stringify({ type: 'step_start' }));
@@ -416,7 +416,7 @@ process.stdin.on('end', () => {
           body: JSON.stringify({
             agentId: 'opencode',
             message: 'build an editorial brand deck',
-            skillIds: ['open-design-landing-deck'],
+            skillIds: ['design-jury-landing-deck'],
           }),
         });
         const body = await response.text();
@@ -442,7 +442,7 @@ process.stdin.on('data', (chunk) => {
 process.stdin.on('end', () => {
   const checks = [
     prompt.includes('# imagegen') ? 'has-base-image-skill-body' : 'missing-base-image-skill-body',
-    prompt.includes('## Composed skill — open-design-landing-deck') ? 'has-composed-deck-skill-header' : 'missing-composed-deck-skill-header',
+    prompt.includes('## Composed skill — design-jury-landing-deck') ? 'has-composed-deck-skill-header' : 'missing-composed-deck-skill-header',
     prompt.includes('## Media generation contract (load-bearing — overrides softer wording above)') ? 'has-image-contract' : 'missing-image-contract',
     prompt.includes('# Slide deck — fixed framework (this is non-negotiable for deck mode)') ? 'unexpected-deck-framework' : 'kept-deck-framework-out',
   ];
@@ -460,7 +460,7 @@ process.stdin.on('end', () => {
             agentId: 'opencode',
             message: 'generate an image while also referencing a deck template',
             skillId: 'imagegen',
-            skillIds: ['open-design-landing-deck'],
+            skillIds: ['design-jury-landing-deck'],
           }),
         });
         const body = await response.text();
@@ -757,10 +757,10 @@ process.stdin.on('data', (chunk) => {
   prompt += chunk;
 });
 process.stdin.on('end', () => {
-  const hasDuplicateComposedAlias = prompt.includes('## Composed skill — open-design-landing');
+  const hasDuplicateComposedAlias = prompt.includes('## Composed skill — design-jury-landing');
   const checks = [
     hasDuplicateComposedAlias ? 'duplicate-alias-composed-skill' : 'deduped-alias-composed-skill',
-    prompt.includes('# open-design-landing') ? 'has-base-alias-skill-body' : 'missing-base-alias-skill-body',
+    prompt.includes('# design-jury-landing') ? 'has-base-alias-skill-body' : 'missing-base-alias-skill-body',
   ];
   console.log(JSON.stringify({ type: 'step_start' }));
   console.log(JSON.stringify({ type: 'text', part: { text: checks.join('\\n') } }));
@@ -774,9 +774,9 @@ process.stdin.on('end', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             agentId: 'opencode',
-            message: 'build the Open Design landing page',
+            message: 'build the Design Jury landing page',
             skillId: 'editorial-collage',
-            skillIds: ['open-design-landing'],
+            skillIds: ['design-jury-landing'],
           }),
         });
         const body = await response.text();

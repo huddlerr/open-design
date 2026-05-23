@@ -2,7 +2,7 @@
 //
 // This module is intentionally dependency-free (no `langfuse` SDK). It builds
 // Langfuse ingestion batches for completed runs and sends them either to the
-// official Open Design telemetry relay or, for local smoke tests, directly to
+// official Design Jury telemetry relay or, for local smoke tests, directly to
 // Langfuse. Without OPEN_DESIGN_TELEMETRY_RELAY_URL or LANGFUSE_PUBLIC_KEY /
 // LANGFUSE_SECRET_KEY in the env, every entry point becomes a no-op so that
 // dev runs and forks of this open-source repo do not accidentally report.
@@ -107,7 +107,7 @@ export interface RuntimeInfo {
   osRelease?: string;
   /** CPU architecture (`os.arch()`, e.g. 'arm64' | 'x64'). */
   arch?: string;
-  /** Open Design app version reported by the daemon. */
+  /** Design Jury app version reported by the daemon. */
   appVersion?: string;
   /** Build channel (development / nightly / beta / stable). */
   appChannel?: string;
@@ -255,7 +255,7 @@ function truncate(value: string | undefined, maxBytes: number): string | undefin
 }
 
 function buildTagList(ctx: ReportContext): string[] {
-  const tags = ['open-design', `project:${ctx.projectId}`];
+  const tags = ['design-jury', `project:${ctx.projectId}`];
   if (ctx.agentId) tags.push(`agent:${ctx.agentId}`);
   if (ctx.turn?.model) tags.push(`model:${ctx.turn.model}`);
   if (ctx.turn?.skillId) tags.push(`skill:${ctx.turn.skillId}`);
@@ -356,7 +356,7 @@ export function buildTracePayload(ctx: ReportContext): unknown[] {
       timestamp: nowIso,
       body: {
         id: traceId,
-        name: 'open-design-turn',
+        name: 'design-jury-turn',
         sessionId,
         userId: ctx.installationId ?? undefined,
         tags: buildTagList(ctx),

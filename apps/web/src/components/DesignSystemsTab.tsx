@@ -9,7 +9,7 @@ import {
 import type {
   TrackingDesignSystemStatusAction,
   TrackingDesignSystemStatusValue,
-} from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
 import { useI18n } from '../i18n';
 import {
   localizeDesignSystemCategory,
@@ -391,7 +391,7 @@ export function DesignSystemsTab({
           <button type="button" className="ds-create-row" onClick={onCreate}>
             <span>
               <strong>Create new design system</strong>
-              <small>Teach Open Design your brand, product, code, assets, and design references.</small>
+              <small>Teach Design Jury your brand, product, code, assets, and design references.</small>
             </span>
             <span className="ds-create-row__action">Create</span>
           </button>

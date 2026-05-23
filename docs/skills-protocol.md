@@ -154,12 +154,12 @@ Conflicts by `name` resolve to the higher-priority version. All locations are wa
 `cc-switch` maintains a central skill dir at `~/.cc-switch/skills/` and symlinks it into each agent's expected location (`~/.claude/skills/`, `~/.codex/skills/`, etc.). OD can opt into the same model:
 
 ```
-~/.open-design/skills/
+~/.design-jury/skills/
     magazine-web-ppt/      (canonical location)
 ~/.claude/skills/
-    magazine-web-ppt → ~/.open-design/skills/magazine-web-ppt
+    magazine-web-ppt → ~/.design-jury/skills/magazine-web-ppt
 ~/.codex/skills/
-    magazine-web-ppt → ~/.open-design/skills/magazine-web-ppt
+    magazine-web-ppt → ~/.design-jury/skills/magazine-web-ppt
 ```
 
 One install → every agent sees the skill. This is optional; users who only use one agent don't need it.
@@ -261,7 +261,7 @@ The split keeps DESIGN.md authors free of universal-craft duplication and keeps 
 
 ```sh
 od skill add https://github.com/op7418/guizang-ppt-skill
-# → clones into ~/.open-design/skills/magazine-web-ppt
+# → clones into ~/.design-jury/skills/magazine-web-ppt
 # → symlinks into ~/.claude/skills/ (and any other active agent dirs)
 # → re-indexes registry
 

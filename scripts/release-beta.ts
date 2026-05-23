@@ -8,7 +8,7 @@ import { promisify } from "node:util";
 const execFile = promisify(execFileCallback);
 
 const stableVersionPattern = /^(\d+)\.(\d+)\.(\d+)$/;
-const stableTagPattern = /^open-design-v(\d+\.\d+\.\d+)$/;
+const stableTagPattern = /^design-jury-v(\d+\.\d+\.\d+)$/;
 const betaVersionPattern = /^(\d+\.\d+\.\d+)-beta\.(\d+)$/;
 
 type ParsedStableVersion = {
@@ -236,7 +236,7 @@ function setOutput(name: string, value: string): void {
 
 const packagedVersion = await readPackagedVersion();
 const packagedParsed = parseStableVersion(packagedVersion) ?? fail(`invalid packaged version: ${packagedVersion}`);
-const tags = await fetchGitTags("open-design-v*");
+const tags = await fetchGitTags("design-jury-v*");
 
 let latestStable: ParsedStableVersion | null = null;
 for (const tag of tags) {
@@ -298,7 +298,7 @@ if (latestBeta != null) {
 const betaVersion = `${packagedVersion}-beta.${betaNumber}`;
 const branch = process.env.GITHUB_REF_NAME ?? "";
 const commit = process.env.GITHUB_SHA ?? "";
-const releaseName = `Open Design Beta ${betaVersion}`;
+const releaseName = `Design Jury Beta ${betaVersion}`;
 
 console.log(`[release-beta] channel: beta`);
 console.log(`[release-beta] base version: ${packagedVersion}`);

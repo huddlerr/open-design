@@ -98,10 +98,10 @@ describe("resolveSeededAppConfigPaths", () => {
   });
 
   it("expands $HOME-style OD_DATA_DIR values", () => {
-    process.env.OD_DATA_DIR = "$HOME/.open-design";
+    process.env.OD_DATA_DIR = "$HOME/.design-jury";
     const config = makeConfig("/work");
     expect(resolveSeededAppConfigPaths(config)).toEqual({
-      sourcePath: join(os.homedir(), ".open-design", "app-config.json"),
+      sourcePath: join(os.homedir(), ".design-jury", "app-config.json"),
       targetPath: join("/work", ".tmp", "tools-pack", "runtime", "mac", "namespaces", "local-test", "data", "app-config.json"),
     });
   });
@@ -109,7 +109,7 @@ describe("resolveSeededAppConfigPaths", () => {
 
 describe("seedPackagedAppConfig", () => {
   it("copies the current app-config into the packaged runtime namespace", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
       const sourceDir = join(root, ".od");
@@ -131,7 +131,7 @@ describe("seedPackagedAppConfig", () => {
   });
 
   it("skips seeding for portable builds", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const config = makeConfig(root, { portable: true });
       const sourceDir = join(root, ".od");
@@ -151,7 +151,7 @@ describe("seedPackagedAppConfig", () => {
 
 describe("copyResourceTree", () => {
   it("does not embed the build machine Node launcher into mac resources", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
       const paths = resolveMacPaths(config);
@@ -182,7 +182,7 @@ describe("copyResourceTree", () => {
 
 describe("renderMacPackagedConfig", () => {
   it("omits nodeCommandRelative so packaged mac sidecars use Electron as Node", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const config = makeConfig(root);
 
@@ -202,7 +202,7 @@ describe("renderMacPackagedConfig", () => {
 
 describe("createMacElectronRebuildOptions", () => {
   it("targets the packaged Electron ABI for required native modules", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const config = makeConfig(root, { electronVersion: "41.3.0" });
       const appRoot = join(root, "assembled", "app");
@@ -226,7 +226,7 @@ describe("createMacElectronRebuildOptions", () => {
 
 describe("validateMacNativeRebuildOutput", () => {
   it("reports a missing rebuilt native module as missing output", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       await expect(validateMacNativeRebuildOutput(root)).resolves.toBe(
         `native module output is missing: ${join(root, "node_modules", "better-sqlite3", "build", "Release", "better_sqlite3.node")}`,
@@ -237,7 +237,7 @@ describe("validateMacNativeRebuildOutput", () => {
   });
 
   it("preserves non-ENOENT filesystem diagnostics from stat failures", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const buildPath = join(root, "node_modules", "better-sqlite3", "build");
       const nativePath = join(buildPath, "Release", "better_sqlite3.node");
@@ -255,11 +255,11 @@ describe("validateMacNativeRebuildOutput", () => {
 
 describe("writeLaunchPackagedConfig", () => {
   it("injects the tools-pack runtime namespace root without mutating the packaged app config", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-mac-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-mac-"));
     try {
       const config = makeConfig(root, { namespace: "release-beta", portable: true });
-      const appPath = join(root, "Open Design.app");
-      const embeddedConfigPath = join(appPath, "Contents", "Resources", "open-design-config.json");
+      const appPath = join(root, "Design Jury.app");
+      const embeddedConfigPath = join(appPath, "Contents", "Resources", "design-jury-config.json");
       await mkdir(dirname(embeddedConfigPath), { recursive: true });
       await writeFile(
         embeddedConfigPath,
@@ -267,7 +267,7 @@ describe("writeLaunchPackagedConfig", () => {
           {
             appVersion: "0.5.1-beta.2",
             namespace: "packaged-default",
-            nodeCommandRelative: "open-design/bin/node",
+            nodeCommandRelative: "design-jury/bin/node",
             webOutputMode: "standalone",
           },
           null,
@@ -280,12 +280,12 @@ describe("writeLaunchPackagedConfig", () => {
       const launchConfig = JSON.parse(await readFile(launchConfigPath, "utf8")) as Record<string, unknown>;
       const embeddedConfig = JSON.parse(await readFile(embeddedConfigPath, "utf8")) as Record<string, unknown>;
 
-      expect(launchConfigPath).toBe(join(config.roots.runtime.namespaceRoot, "runtime", "open-design-config.json"));
+      expect(launchConfigPath).toBe(join(config.roots.runtime.namespaceRoot, "runtime", "design-jury-config.json"));
       expect(launchConfig).toMatchObject({
         appVersion: "0.5.1-beta.2",
         namespace: "release-beta",
         namespaceBaseRoot: config.roots.runtime.namespaceBaseRoot,
-        nodeCommandRelative: "open-design/bin/node",
+        nodeCommandRelative: "design-jury/bin/node",
         webOutputMode: "standalone",
       });
       expect(embeddedConfig).not.toHaveProperty("namespaceBaseRoot");

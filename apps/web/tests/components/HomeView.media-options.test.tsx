@@ -18,7 +18,7 @@ const PROMPT_TEMPLATES: PromptTemplateSummary[] = [
     category: 'product',
     model: 'gpt-image-2',
     aspect: '16:9',
-    source: { repo: 'open-design/image-prompts', license: 'MIT' },
+    source: { repo: 'design-jury/image-prompts', license: 'MIT' },
   },
   {
     id: 'video-reveal',
@@ -28,7 +28,7 @@ const PROMPT_TEMPLATES: PromptTemplateSummary[] = [
     category: 'product',
     model: 'doubao-seedance-2-0-260128',
     aspect: '16:9',
-    source: { repo: 'open-design/video-prompts', license: 'MIT' },
+    source: { repo: 'design-jury/video-prompts', license: 'MIT' },
   },
   {
     id: 'hyperframes-caption',
@@ -369,7 +369,7 @@ describe('HomeView media composer options', () => {
     const input = screen.getByTestId('home-hero-input') as HTMLTextAreaElement;
     fireEvent.change(input, {
       target: {
-        value: "Create premium product-studio audio from Welcome to Open Design. using minimax-tts for 10 seconds: polished, restrained, clear, and brand-ready.",
+        value: "Create premium product-studio audio from Welcome to Design Jury. using minimax-tts for 10 seconds: polished, restrained, clear, and brand-ready.",
       },
     });
 
@@ -378,8 +378,8 @@ describe('HomeView media composer options', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({
         pluginInputs: expect.objectContaining({
-          subject: 'Welcome to Open Design.',
-          text: 'Welcome to Open Design.',
+          subject: 'Welcome to Design Jury.',
+          text: 'Welcome to Design Jury.',
         }),
       }));
     });

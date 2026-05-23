@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-motion-frames",
   "title": "Motion Frames",
@@ -7,10 +7,10 @@
   "description": "A single-frame motion-design composition with looping CSS animations —\nrotating type ring, animated globe, ticking timer, parallax labels.\nRenders as a hero video poster you can hand straight to HyperFrames or\nany keyframe-based exporter. Use when the brief asks for \"motion design\",\n\"animated hero\", \"loop\", \"video poster\", \"title card\", or pairs Open\nClaude Design with HyperFrames for a kinetic export.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/motion-frames",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/motion-frames",
   "tags": [
     "example",
     "first-party",

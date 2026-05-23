@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-x-research",
   "title": "X Research",
@@ -7,10 +7,10 @@
   "description": "X/Twitter public sentiment research for recent market, company, product, or\ncommunity discourse. Use when the brief asks what people are saying on X,\nTwitter sentiment, CT sentiment, public opinion, expert posts, or social\nreaction around a stock, sector, company, product, or market event.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/x-research",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/x-research",
   "tags": [
     "example",
     "first-party",

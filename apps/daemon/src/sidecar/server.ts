@@ -8,14 +8,14 @@ import {
   type DesktopExportPdfInput,
   type DesktopExportPdfResult,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 import {
   createJsonIpcServer,
   requestJsonIpc,
   resolveAppIpcPath,
   type JsonIpcServerHandle,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
+} from "@design-jury/sidecar";
 
 import { startDaemonRuntime, type StartedDaemonRuntime } from "../daemon-startup.js";
 import { isDesktopAuthGateActive, setDesktopAuthSecret } from "../desktop-auth.js";

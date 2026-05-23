@@ -26,7 +26,7 @@ type ShareClickRecord = {
   region?: string;
 };
 
-const REPO_URL = "https://github.com/nexu-io/open-design";
+const REPO_URL = "https://github.com/nexu-io/design-jury";
 
 function normalizeEventId(value: string): string {
   return value.replace(/[^a-zA-Z0-9._:-]/g, "").slice(0, 120);
@@ -58,7 +58,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const request = context.request;
   const userAgent = request.headers.get("user-agent") || "";
   const ip = request.headers.get("cf-connecting-ip") || "";
-  const salt = context.env.SHARE_CLICK_SALT || "open-design-share";
+  const salt = context.env.SHARE_CLICK_SALT || "design-jury-share";
   const clickedAt = new Date().toISOString();
   const userAgentHash = await sha256Hex(`${salt}:${ip}:${userAgent}`);
   const cf = request.cf || {};

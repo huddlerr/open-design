@@ -1,10 +1,10 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { createTabToTracking } from '@open-design/contracts/analytics';
+import { createTabToTracking } from '@design-jury/contracts/analytics';
 import {
   isOpenDesignHostAvailable,
   pickAndImportHostProject,
   type OpenDesignHostProjectImportSuccess,
-} from '@open-design/host';
+} from '@design-jury/host';
 import { useAnalytics } from '../analytics/provider';
 import {
   trackDesignSystemApplyResult,
@@ -12,12 +12,12 @@ import {
   trackNewProjectModalSurfaceView,
   trackNewProjectModalTabClick,
 } from '../analytics/events';
-import type { ConnectorDetail } from '@open-design/contracts';
+import type { ConnectorDetail } from '@design-jury/contracts';
 import type {
   TrackingDesignSystemApplyTargetKind,
   TrackingDesignSystemOrigin,
   TrackingDesignSystemStatusValue,
-} from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
 
 import { useT } from '../i18n';
 import type { Dict } from '../i18n/types';

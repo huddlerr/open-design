@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'design-jury:config';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript((key) => {

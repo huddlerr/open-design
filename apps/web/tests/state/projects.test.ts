@@ -144,7 +144,7 @@ describe('installGeneratedPluginFolder', () => {
     const fetchMock = vi.fn<typeof fetch>(async () => new Response(
       JSON.stringify({
         ok: false,
-        warnings: ['Missing open-design.json'],
+        warnings: ['Missing design-jury.json'],
         message: 'Plugin validation failed.',
         log: ['Validating generated-plugin'],
       }),
@@ -156,7 +156,7 @@ describe('installGeneratedPluginFolder', () => {
 
     expect(outcome).toMatchObject({
       ok: false,
-      warnings: ['Missing open-design.json'],
+      warnings: ['Missing design-jury.json'],
       message: 'Plugin validation failed.',
       log: ['Validating generated-plugin'],
     });
@@ -195,7 +195,7 @@ describe('generated plugin share actions', () => {
     );
     expect(fetchMock).toHaveBeenNthCalledWith(
       2,
-      '/api/projects/project-1/plugins/contribute-open-design',
+      '/api/projects/project-1/plugins/contribute-design-jury',
       expect.objectContaining({
         method: 'POST',
         body: JSON.stringify({ path: 'generated-plugin' }),
@@ -269,7 +269,7 @@ describe('createPluginShareProject', () => {
 
     const outcome = await createPluginShareProject(
       'sample-plugin',
-      'contribute-open-design',
+      'contribute-design-jury',
     );
 
     expect(outcome).toEqual({

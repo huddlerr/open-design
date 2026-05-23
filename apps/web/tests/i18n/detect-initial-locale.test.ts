@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockOpenDesignHost } from '@design-jury/host/testing';
 import { detectInitialLocale } from '../../src/i18n';
 
-const LS_KEY = 'open-design:locale';
-const LS_SOURCE_KEY = 'open-design:locale-source';
+const LS_KEY = 'design-jury:locale';
+const LS_SOURCE_KEY = 'design-jury:locale-source';
 
 function setStoredLocale(locale: string, source: 'manual' | 'untagged' = 'manual'): void {
   window.localStorage.setItem(LS_KEY, locale);

@@ -369,7 +369,7 @@ winDescribe('packaged windows runtime smoke', () => {
       expect(basename(install.startMenuShortcutPath)).toBe(`${installIdentity.displayName}.lnk`);
       expect(install.registryEntries.length).toBeGreaterThan(0);
       expect(JSON.stringify(install.registryEntries)).toContain(installIdentity.displayName);
-      expect(JSON.stringify(install.registryEntries)).toContain(`Open Design-${installIdentity.namespaceToken}`);
+      expect(JSON.stringify(install.registryEntries)).toContain(`Design Jury-${installIdentity.namespaceToken}`);
       expect(install.installPayload.fileCount).toBeGreaterThan(0);
       expect(install.installPayload.totalBytes).toBeGreaterThan(0);
       expect(install.installPayload.topLevel.length).toBeGreaterThan(0);
@@ -788,7 +788,7 @@ async function runRealUpdateInstallerAcceptance(options: {
   applyManualPackagedUpdateEnv(
     process.env,
     updateScenario,
-    `https://releases.open-design.ai/${updateScenario.channel}/latest/metadata.json`,
+    `https://releases.design-jury.ai/${updateScenario.channel}/latest/metadata.json`,
   );
   await options.startDesktop('start real public update installer');
   await waitForHealthyDesktop();
@@ -816,7 +816,7 @@ async function runRealUpdateInstallerAcceptance(options: {
   expect(matchingEntries.length).toBe(1);
   const entry = matchingEntries[0];
   if (entry == null) throw new Error(`expected one registry entry for ${installIdentity.displayName}`);
-  expect(entry.keyPath).toContain(`Open Design-${installIdentity.namespaceToken}`);
+  expect(entry.keyPath).toContain(`Design Jury-${installIdentity.namespaceToken}`);
   expect(entry.displayVersion).toBe(downloaded.update?.availableVersion);
   await options.startDesktop('start after real public update install');
   await waitForHealthyDesktop();
@@ -1014,10 +1014,10 @@ async function ensureManagedDownloadBase(updateRoot: string): Promise<string> {
   await mkdir(join(downloadsRoot, '.partial'), { recursive: true });
   await mkdir(join(downloadsRoot, '.state'), { recursive: true });
   await writeFile(
-    join(downloadsRoot, '.open-design-download-root.json'),
+    join(downloadsRoot, '.design-jury-download-root.json'),
     `${JSON.stringify({
       createdAt: new Date().toISOString(),
-      kind: 'open-design-managed-download-root',
+      kind: 'design-jury-managed-download-root',
       schemaVersion: 1,
     }, null, 2)}\n`,
     'utf8',
@@ -1051,7 +1051,7 @@ function managedDownloadTargetKey(version: string): string {
 
 function updaterOutputFileName(version: string): string {
   return [
-    'open-design',
+    'design-jury',
     sanitizeUpdaterPathSegment(version),
     'win',
     'x64',
@@ -1177,7 +1177,7 @@ async function startViolentUpdaterFixtureProcess(
   const channel = scenario.channel;
   const version = scenario.fixtureVersion;
   const host = '127.0.0.1';
-  const artifactName = `open-design-${version}-win-x64-setup.exe`;
+  const artifactName = `design-jury-${version}-win-x64-setup.exe`;
   const artifact = createDeterministicArtifact(options.artifactBytes);
   const realSha256 = createHash('sha256').update(artifact).digest('hex');
   const publishedSha256 =
@@ -1651,7 +1651,7 @@ async function resolveExpectedDataRoot(installDir: string): Promise<string> {
 
 async function resolveExpectedNamespaceRoot(installDir: string): Promise<string> {
   const installedConfig = JSON.parse(
-    await readFile(join(installDir, 'resources', 'open-design-config.json'), 'utf8'),
+    await readFile(join(installDir, 'resources', 'design-jury-config.json'), 'utf8'),
   ) as InstalledPackagedConfig;
   const configuredNamespaceBaseRoot =
     typeof installedConfig.namespaceBaseRoot === 'string' && installedConfig.namespaceBaseRoot.length > 0
@@ -1668,7 +1668,7 @@ async function readInstalledAppName(installDir: string): Promise<string> {
   ) as InstalledAppPackage;
   if (typeof appPackage.productName === 'string' && appPackage.productName.length > 0) return appPackage.productName;
   if (typeof appPackage.name === 'string' && appPackage.name.length > 0) return appPackage.name;
-  return 'Open Design';
+  return 'Design Jury';
 }
 
 function defaultWindowsAppDataRoot(appName: string): string {

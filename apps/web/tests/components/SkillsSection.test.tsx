@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { SkillsSection } from '../../src/components/SkillsSection';
 import type { AppConfig } from '../../src/types';
-import type { SkillSummary } from '@open-design/contracts';
+import type { SkillSummary } from '@design-jury/contracts';
 
 const originalFetch = globalThis.fetch;
 

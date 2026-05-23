@@ -89,7 +89,7 @@ export async function packWin(config: ToolPackConfig): Promise<WinPackResult> {
     installerPath: (await pathExists(paths.setupPath)) ? paths.setupPath : null,
     latestYmlPath: (await pathExists(paths.latestYmlPath)) ? paths.latestYmlPath : null,
     outputRoot: config.roots.output.namespaceRoot,
-    resourceRoot: builtApp == null ? paths.resourceRoot : join(builtApp.unpackedRoot, "resources", "open-design"),
+    resourceRoot: builtApp == null ? paths.resourceRoot : join(builtApp.unpackedRoot, "resources", "design-jury"),
     runtimeNamespaceRoot: config.roots.runtime.namespaceRoot,
     cacheReport: cache.report(),
     sizeReport,

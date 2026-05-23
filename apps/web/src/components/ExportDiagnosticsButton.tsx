@@ -9,18 +9,18 @@ type DesktopExportResult =
   | { ok: false; cancelled: true }
   | { ok: false; cancelled: false; message: string };
 
-interface OpenDesignDesktopApi {
+interface DesignJuryDesktopApi {
   exportDiagnostics(): Promise<DesktopExportResult>;
 }
 
 declare global {
   interface Window {
-    openDesignDesktop?: OpenDesignDesktopApi;
+    designJuryDesktop?: DesignJuryDesktopApi;
   }
 }
 
 const DIAGNOSTICS_EXPORT_PATH = '/api/diagnostics/export';
-const DIAGNOSTICS_FILENAME_PREFIX = 'open-design-diagnostics';
+const DIAGNOSTICS_FILENAME_PREFIX = 'design-jury-diagnostics';
 const STATUS_CLEAR_MS = 6000;
 
 type Status =
@@ -99,8 +99,8 @@ export function ExportDiagnosticsRow() {
     if (status.kind === 'busy') return;
     setStatus({ kind: 'busy' });
     try {
-      if (window.openDesignDesktop != null) {
-        const result = await window.openDesignDesktop.exportDiagnostics();
+      if (window.designJuryDesktop != null) {
+        const result = await window.designJuryDesktop.exportDiagnostics();
         if (result.ok) {
           setStatus({ kind: 'success', message: t('diagnostics.exportSuccess').replace('{path}', result.path) });
           scheduleClear();

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-game-screenshot-three-kingdoms-zhaoyun-cradle-escape",
   "title": "Game Screenshot - Three Kingdoms ARPG: Zhao Yun's Cradle Escape at Changbanpo",
@@ -7,10 +7,10 @@
   "description": "An in-game action-RPG screenshot of the legendary Three Kingdoms scene where Zhao Yun cradles the infant Liu Chan in one arm and fights his way through enemy lines with a spear in the other at Changbanpo. Rendered in the cinematic photoreal style of Black Myth: Wukong combined with Elden Ring, Unreal Engine 5 with full Nanite, Lumen ray-tracing, and volumetric god-rays. The emotional core — one arm protecting the swaddled baby, one arm fighting for life — is reinforced by a full HUD overlay including a dedicated ESCORT protection bar for the baby, a combo counter, and mid-air damage-number popups on flung enemies. Tuned for gpt-image-2 at 16:9.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "image-template",
     "first-party",
@@ -34,7 +34,7 @@
     "surface": "image",
     "preview": {
       "type": "image",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/image/game-screenshot-three-kingdoms-zhaoyun-cradle-escape.jpg"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/image/game-screenshot-three-kingdoms-zhaoyun-cradle-escape.jpg"
     },
     "useCase": {
       "query": {

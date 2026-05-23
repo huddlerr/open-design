@@ -168,7 +168,7 @@
   "refresh": "30s",
   "schemaVersion": 39,
   "style": "dark",
-  "tags": ["critique-theater", "open-design"],
+  "tags": ["critique-theater", "design-jury"],
   "templating": {
     "list": [
       {
@@ -190,7 +190,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Critique Theater",
-  "uid": "open-design-critique-theater",
+  "uid": "design-jury-critique-theater",
   "version": 1,
   "weekStart": ""
 }

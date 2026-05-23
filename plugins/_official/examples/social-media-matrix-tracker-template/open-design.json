@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-social-media-matrix-tracker-template",
   "title": "Social Media Matrix Tracker Template",
@@ -7,10 +7,10 @@
   "description": "社媒矩阵数据追踪面板模板（Social Media Matrix Tracker）。\nUse when users ask for a cinematic, data-dense social media analytics dashboard\nwith multi-platform metrics, interactive charts, hover insights, range compare,\nand dark/light theme switching in a single HTML artifact.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/social-media-matrix-tracker-template",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/social-media-matrix-tracker-template",
   "tags": [
     "example",
     "first-party",

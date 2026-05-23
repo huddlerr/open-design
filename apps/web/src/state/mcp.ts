@@ -11,7 +11,7 @@ import type {
   McpServersResponse,
   McpTemplate,
   StartMcpOAuthResponse,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 
 export type {
   McpOAuthStatusResponse,

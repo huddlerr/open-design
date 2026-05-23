@@ -6,7 +6,7 @@ import {
   DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID,
   type InstalledPluginRecord,
   type SkillSummary,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { HomeView } from '../../src/components/HomeView';
 
 const SKILL: SkillSummary = {

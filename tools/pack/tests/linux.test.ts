@@ -5,17 +5,17 @@ import { dirname, join } from "node:path";
 import { posix } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+import { requestJsonIpc, resolveAppIpcPath } from "@design-jury/sidecar";
 import {
   APP_KEYS,
   OPEN_DESIGN_SIDECAR_CONTRACT,
   SIDECAR_MODES,
   SIDECAR_SOURCES,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@open-design/sidecar", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@open-design/sidecar")>();
+vi.mock("@design-jury/sidecar", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@design-jury/sidecar")>();
   return {
     ...actual,
     requestJsonIpc: vi.fn(async () => {
@@ -124,11 +124,11 @@ describe("buildDockerArgs", () => {
     const args = buildDockerArgs(
       {
         ...makeConfig(),
-        telemetryRelayUrl: "https://telemetry.open-design.ai/api/langfuse",
+        telemetryRelayUrl: "https://telemetry.design-jury.ai/api/langfuse",
       },
       { uid: 1000, gid: 1000 },
     );
-    expect(args).toContain("OPEN_DESIGN_TELEMETRY_RELAY_URL=https://telemetry.open-design.ai/api/langfuse");
+    expect(args).toContain("OPEN_DESIGN_TELEMETRY_RELAY_URL=https://telemetry.design-jury.ai/api/langfuse");
   });
 
   it("runs the built tools-pack CLI through node inside the container without generated package-bin shims", () => {
@@ -503,7 +503,7 @@ describe("resolveProductionInstallCommand", () => {
 describe("renderDesktopTemplate", () => {
   const template = `[Desktop Entry]
 Type=Application
-Name=Open Design (@@NAMESPACE@@)
+Name=Design Jury (@@NAMESPACE@@)
 Exec=env OD_PACKAGED_NAMESPACE=@@NAMESPACE@@ @@EXEC_PATH@@ --appimage-extract-and-run %U
 Icon=@@ICON_PATH@@
 MimeType=x-scheme-handler/od;
@@ -513,20 +513,20 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "default",
       execPath: "/home/u/.local/bin/Open-Design.default.AppImage",
-      iconName: "open-design-default",
+      iconName: "design-jury-default",
     });
-    expect(out).toContain("Name=Open Design (default)");
+    expect(out).toContain("Name=Design Jury (default)");
     expect(out).toContain(
       "Exec=env OD_PACKAGED_NAMESPACE=default /home/u/.local/bin/Open-Design.default.AppImage --appimage-extract-and-run %U",
     );
-    expect(out).toContain("Icon=open-design-default");
+    expect(out).toContain("Icon=design-jury-default");
   });
 
   it("uses OD_PACKAGED_NAMESPACE (not OD_NAMESPACE) so apps/packaged actually picks up the namespace override", () => {
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "design-jury-ns",
     });
     expect(out).toMatch(/^Exec=env OD_PACKAGED_NAMESPACE=ns /m);
     expect(out).not.toMatch(/OD_NAMESPACE=/);
@@ -536,7 +536,7 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "design-jury-ns",
     });
     expect(out).toMatch(/^Exec=.*--appimage-extract-and-run .*%U$/m);
   });
@@ -545,7 +545,7 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "design-jury-ns",
     });
     expect(out).not.toMatch(/@@[A-Z_]+@@/);
   });
@@ -554,7 +554,7 @@ MimeType=x-scheme-handler/od;
     const out = renderDesktopTemplate(template, {
       namespace: "ns",
       execPath: "/x",
-      iconName: "open-design-ns",
+      iconName: "design-jury-ns",
     });
     expect(out).toContain("MimeType=x-scheme-handler/od;");
   });
@@ -591,11 +591,11 @@ describe("shouldRejectLinuxHeadlessInspectOptions", () => {
 
   it("rejects headless eval and screenshot requests", () => {
     expect(shouldRejectLinuxHeadlessInspectOptions({ expr: "document.title" })).toBe(true);
-    expect(shouldRejectLinuxHeadlessInspectOptions({ path: "/tmp/open-design-linux.png" })).toBe(true);
+    expect(shouldRejectLinuxHeadlessInspectOptions({ path: "/tmp/design-jury-linux.png" })).toBe(true);
     expect(
       shouldRejectLinuxHeadlessInspectOptions({
         expr: "document.title",
-        path: "/tmp/open-design-linux.png",
+        path: "/tmp/design-jury-linux.png",
       }),
     ).toBe(true);
   });
@@ -620,17 +620,17 @@ describe("inspectPackedLinuxApp", () => {
     requestJsonIpcMock.mockReset();
     requestJsonIpcMock
       .mockResolvedValueOnce({ state: "running", url: "od://app/" })
-      .mockResolvedValueOnce({ ok: true, value: "Open Design" })
-      .mockResolvedValueOnce({ path: "/tmp/open-design-linux.png" });
+      .mockResolvedValueOnce({ ok: true, value: "Design Jury" })
+      .mockResolvedValueOnce({ path: "/tmp/design-jury-linux.png" });
 
     const result = await inspectPackedLinuxApp(makeConfig(), {
       expr: "document.title",
-      path: "/tmp/open-design-linux.png",
+      path: "/tmp/design-jury-linux.png",
     });
 
     expect(result).toEqual({
-      eval: { ok: true, value: "Open Design" },
-      screenshot: { path: "/tmp/open-design-linux.png" },
+      eval: { ok: true, value: "Design Jury" },
+      screenshot: { path: "/tmp/design-jury-linux.png" },
       status: { state: "running", url: "od://app/" },
     });
     expect(requestJsonIpcMock).toHaveBeenCalledTimes(3);
@@ -684,7 +684,7 @@ describe("matchesAppImageProcess", () => {
     const ok = matchesAppImageProcess(
       {
         pid: 1234,
-        executable: "/tmp/appimage_extracted_fe548e54/Open Design",
+        executable: "/tmp/appimage_extracted_fe548e54/Design Jury",
         env: { APPIMAGE: installPath },
       },
       installPath,
@@ -696,7 +696,7 @@ describe("matchesAppImageProcess", () => {
     const ok = matchesAppImageProcess(
       {
         pid: 1234,
-        executable: "/tmp/appimage_extracted_fe548e54/Open Design",
+        executable: "/tmp/appimage_extracted_fe548e54/Design Jury",
         env: { APPIMAGE: "/elsewhere/Other.AppImage" },
       },
       installPath,

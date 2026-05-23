@@ -4,7 +4,7 @@ import {
   type ApplyResult,
   type InstalledPluginRecord,
   type PluginSourceKind,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { useAnalytics } from '../analytics/provider';
 import {
   trackPageView,
@@ -72,22 +72,22 @@ const PLUGIN_SHARE_DETAILS: Record<PluginShareAction, {
     eyebrow: 'GitHub repository',
     fallbackTitle: 'Publish Plugin to GitHub',
     fallbackDescription:
-      'Creates a public GitHub repository for this local Open Design plugin.',
+      'Creates a public GitHub repository for this local Design Jury plugin.',
     confirmLabel: 'Start publishing',
     steps: [
-      'Create a new Open Design project for the publish workflow.',
+      'Create a new Design Jury project for the publish workflow.',
       'Copy this plugin into that project as isolated source context.',
       'Run the official publish action plugin against the local daemon.',
     ],
   },
-  'contribute-open-design': {
-    eyebrow: 'Open Design pull request',
-    fallbackTitle: 'Contribute Plugin to Open Design',
+  'contribute-design-jury': {
+    eyebrow: 'Design Jury pull request',
+    fallbackTitle: 'Contribute Plugin to Design Jury',
     fallbackDescription:
-      'Opens a pull request that adds this plugin to the Open Design community catalog.',
+      'Opens a pull request that adds this plugin to the Design Jury community catalog.',
     confirmLabel: 'Start contribution',
     steps: [
-      'Create a new Open Design project for the contribution workflow.',
+      'Create a new Design Jury project for the contribution workflow.',
       'Copy this plugin into that project as isolated source context.',
       'Run the official contribution action plugin against the local daemon.',
     ],
@@ -158,8 +158,8 @@ export function PluginsView({
 
   useEffect(() => {
     void refresh();
-    window.addEventListener('open-design:plugins-changed', refresh);
-    return () => window.removeEventListener('open-design:plugins-changed', refresh);
+    window.addEventListener('design-jury:plugins-changed', refresh);
+    return () => window.removeEventListener('design-jury:plugins-changed', refresh);
   }, []);
 
   const userPlugins = useMemo(
@@ -731,7 +731,7 @@ function pluginShareSlug(name: string): string {
     name
       .toLowerCase()
       .replace(/[^a-z0-9._-]+/g, '-')
-      .replace(/(^[-._]+|[-._]+$)/g, '') || 'open-design-plugin'
+      .replace(/(^[-._]+|[-._]+$)/g, '') || 'design-jury-plugin'
   );
 }
 
@@ -1365,7 +1365,7 @@ function SourcesPanel({
               onSourceUrlInput?.();
             }}
             onChange={(event) => setUrl(event.target.value)}
-            placeholder="https://example.com/open-design-marketplace.json"
+            placeholder="https://example.com/design-jury-marketplace.json"
             disabled={pendingAction === 'add'}
           />
           <select
@@ -1564,7 +1564,7 @@ function PluginImportModal({
           {kind === 'zip' ? (
             <FileImportPanel
               title="Upload zip"
-              body="Choose a .zip archive containing open-design.json, SKILL.md, or .claude-plugin/plugin.json."
+              body="Choose a .zip archive containing design-jury.json, SKILL.md, or .claude-plugin/plugin.json."
               accept=".zip,application/zip"
               working={working}
               fileLabel={zipFile?.name ?? 'No zip selected'}

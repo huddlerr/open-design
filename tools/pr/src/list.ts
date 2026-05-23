@@ -158,8 +158,8 @@ function formatHumanReport(prs: Pr[], total: number): string {
   const lines: string[] = [];
   const countLine =
     prs.length === total
-      ? `open-design PR triage — ${total} open PRs`
-      : `open-design PR triage — showing ${prs.length} of ${total} open PRs`;
+      ? `design-jury PR triage — ${total} open PRs`
+      : `design-jury PR triage — showing ${prs.length} of ${total} open PRs`;
   lines.push(countLine);
   lines.push("");
 

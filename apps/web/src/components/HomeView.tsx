@@ -16,9 +16,9 @@ import type {
   InstalledPluginRecord,
   ProjectKind,
   AudioVoiceOption,
-} from '@open-design/contracts';
-import { DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID } from '@open-design/contracts';
-import { projectKindToTracking } from '@open-design/contracts/analytics';
+} from '@design-jury/contracts';
+import { DEFAULT_UNSELECTED_SCENARIO_PLUGIN_ID } from '@design-jury/contracts';
+import { projectKindToTracking } from '@design-jury/contracts/analytics';
 import { useAnalytics } from '../analytics/provider';
 import {
   trackHomeChatComposerClick,
@@ -145,9 +145,9 @@ interface PendingPluginUseHandoff {
 }
 
 const AUTHORING_DEFAULT_SCENARIO_INPUTS = {
-  artifactKind: 'Open Design plugin',
-  audience: 'Open Design plugin authors',
-  topic: 'packaging a reusable workflow as an Open Design plugin',
+  artifactKind: 'Design Jury plugin',
+  audience: 'Design Jury plugin authors',
+  topic: 'packaging a reusable workflow as an Design Jury plugin',
 };
 
 type HomeDesignSystemOption = {
@@ -280,10 +280,10 @@ export function HomeView({
       });
     };
     load();
-    window.addEventListener('open-design:plugins-changed', load);
+    window.addEventListener('design-jury:plugins-changed', load);
     return () => {
       cancelled = true;
-      window.removeEventListener('open-design:plugins-changed', load);
+      window.removeEventListener('design-jury:plugins-changed', load);
     };
   }, []);
 

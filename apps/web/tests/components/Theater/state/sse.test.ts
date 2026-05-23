@@ -13,8 +13,8 @@ import {
   critiqueEventsUrl,
   sseToPanelEvent,
 } from '../../../../src/components/Theater/state/sse';
-import { CRITIQUE_SSE_EVENT_NAMES } from '@open-design/contracts/critique';
-import type { CritiqueSseEventName } from '@open-design/contracts/critique';
+import { CRITIQUE_SSE_EVENT_NAMES } from '@design-jury/contracts/critique';
+import type { CritiqueSseEventName } from '@design-jury/contracts/critique';
 
 type Listener = (evt: Event) => void;
 

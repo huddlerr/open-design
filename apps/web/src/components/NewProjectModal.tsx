@@ -9,7 +9,7 @@
 // clicks the backdrop / Esc.
 
 import { useEffect, useRef, useState } from 'react';
-import type { ConnectorDetail } from '@open-design/contracts';
+import type { ConnectorDetail } from '@design-jury/contracts';
 import type {
   DesignSystemSummary,
   MediaProviderCredentials,

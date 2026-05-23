@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockOpenDesignHost } from '@design-jury/host/testing';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -20,7 +20,7 @@ describe('WorkingDirPill', () => {
     render(
       <WorkingDirPill
         projectId="project-1"
-        resolvedDir="/Users/example/open-design/project-1"
+        resolvedDir="/Users/example/design-jury/project-1"
       />,
     );
 
@@ -46,7 +46,7 @@ describe('WorkingDirPill', () => {
     render(
       <WorkingDirPill
         projectId="project-1"
-        resolvedDir="/Users/example/open-design/project-1"
+        resolvedDir="/Users/example/design-jury/project-1"
       />,
     );
 

@@ -4,7 +4,7 @@ import { dirname, join, relative } from "node:path";
 import { promisify } from "node:util";
 
 import { rebuild } from "@electron/rebuild";
-import { createCommandInvocation, createPackageManagerInvocation } from "@open-design/platform";
+import { createCommandInvocation, createPackageManagerInvocation } from "@design-jury/platform";
 
 import { hashJson, hashPath, ToolPackCache } from "../cache.js";
 import type { ToolPackConfig } from "../config.js";
@@ -71,7 +71,7 @@ async function runNpmInstall(appRoot: string): Promise<void> {
 }
 
 async function runEsbuild(config: ToolPackConfig, args: string[]): Promise<void> {
-  await runPnpm(config, ["--filter", "@open-design/packaged", "exec", "esbuild", ...args]);
+  await runPnpm(config, ["--filter", "@design-jury/packaged", "exec", "esbuild", ...args]);
 }
 
 async function runElectronRebuild(config: ToolPackConfig, appRoot: string): Promise<void> {
@@ -117,18 +117,18 @@ async function buildWorkspaceArtifacts(config: ToolPackConfig): Promise<void> {
   const webNextEnvPath = join(config.workspaceRoot, "apps", "web", "next-env.d.ts");
   const previousWebNextEnv = await readFile(webNextEnvPath, "utf8").catch(() => null);
 
-  await runPnpm(config, ["--filter", "@open-design/contracts", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/registry-protocol", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/sidecar-proto", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/sidecar", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/platform", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/agui-adapter", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/plugin-runtime", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/diagnostics", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/daemon", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/contracts", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/registry-protocol", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/sidecar-proto", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/sidecar", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/platform", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/agui-adapter", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/plugin-runtime", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/diagnostics", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/daemon", "build"]);
   try {
-    await runPnpm(config, ["--filter", "@open-design/web", "build"], { OD_WEB_OUTPUT_MODE: config.webOutputMode });
-    await runPnpm(config, ["--filter", "@open-design/web", "build:sidecar"]);
+    await runPnpm(config, ["--filter", "@design-jury/web", "build"], { OD_WEB_OUTPUT_MODE: config.webOutputMode });
+    await runPnpm(config, ["--filter", "@design-jury/web", "build:sidecar"]);
     // Inject chunk IDs + upload browser sourcemaps to PostHog, then strip
     // .map files before any packaging step copies the web output into the
     // Electron resources. See `tools/pack/src/web-sourcemaps.ts`.
@@ -137,8 +137,8 @@ async function buildWorkspaceArtifacts(config: ToolPackConfig): Promise<void> {
     if (previousWebNextEnv == null) await rm(webNextEnvPath, { force: true });
     else await writeFile(webNextEnvPath, previousWebNextEnv, "utf8");
   }
-  await runPnpm(config, ["--filter", "@open-design/desktop", "build"]);
-  await runPnpm(config, ["--filter", "@open-design/packaged", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/desktop", "build"]);
+  await runPnpm(config, ["--filter", "@design-jury/packaged", "build"]);
 }
 
 export async function ensureWinWorkspaceBuild(config: ToolPackConfig, cache: ToolPackCache): Promise<void> {
@@ -252,9 +252,9 @@ async function writeAssembledAppEntrypoints(
     `${JSON.stringify(
       {
         dependencies: options.dependencies ?? createAssembledAppDependencies(config, paths, packedTarballs),
-        description: "Open Design packaged runtime",
+        description: "Design Jury packaged runtime",
         main: "./main.cjs",
-        name: "open-design-packaged-app",
+        name: "design-jury-packaged-app",
         private: true,
         productName: PRODUCT_NAME,
         version: packageVersion,

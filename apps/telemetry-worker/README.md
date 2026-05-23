@@ -1,6 +1,6 @@
-# Open Design Telemetry Relay
+# Design Jury Telemetry Relay
 
-Cloudflare Worker relay for opt-in Open Design telemetry. The shipped desktop
+Cloudflare Worker relay for opt-in Design Jury telemetry. The shipped desktop
 client sends redacted Langfuse ingestion batches here after the user enables
 metrics. This Worker holds the Langfuse write credentials and forwards valid
 batches to Langfuse.
@@ -17,7 +17,7 @@ release config should use only `OPEN_DESIGN_TELEMETRY_RELAY_URL`.
 
 ## Abuse controls
 
-The Worker requires the Open Design telemetry marker header, validates the
+The Worker requires the Design Jury telemetry marker header, validates the
 Langfuse ingestion batch shape and size before forwarding, and uses Cloudflare
 Rate Limiting bindings for two independent keys:
 
@@ -39,14 +39,14 @@ pnpm --dir apps/telemetry-worker dlx wrangler secret put LANGFUSE_SECRET_KEY
 ## Deploy
 
 ```bash
-pnpm --filter @open-design/telemetry-worker deploy
+pnpm --filter @design-jury/telemetry-worker deploy
 ```
 
 After deploy, set the repository variable `OPEN_DESIGN_TELEMETRY_RELAY_URL` to
 the Worker route, for example:
 
 ```text
-https://telemetry.open-design.ai/api/langfuse
+https://telemetry.design-jury.ai/api/langfuse
 ```
 
 Opening `/api/langfuse` or `/health` in a browser returns relay health JSON.

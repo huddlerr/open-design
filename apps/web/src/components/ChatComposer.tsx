@@ -34,7 +34,7 @@ import type {
   PluginSourceKind,
   ResearchOptions,
   RunContextSelection,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { buildVisualAnnotationAttachment } from '../comments';
 import { Icon } from "./Icon";
 import { PluginDetailsModal } from "./PluginDetailsModal";

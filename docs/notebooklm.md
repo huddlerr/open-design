@@ -1,6 +1,6 @@
-# NotebookLM: export issues/PRs from Open Design
+# NotebookLM: export issues/PRs from Design Jury
 
-Open Design gets a lot of feedback via GitHub Issues + PRs. If you want NotebookLM to help with:
+Design Jury gets a lot of feedback via GitHub Issues + PRs. If you want NotebookLM to help with:
 
 - support answers (with citations)
 - clustering + taxonomy of user scenarios
@@ -19,7 +19,7 @@ From the repo root:
 
 ```bash
 pnpm exec tsx scripts/notebooklm-export-github.ts \
-  --repo nexu-io/open-design \
+  --repo nexu-io/design-jury \
   --issues open \
   --prs open \
   --limit 50
@@ -35,8 +35,8 @@ You can override the output path:
 
 ```bash
 pnpm exec tsx scripts/notebooklm-export-github.ts \
-  --repo nexu-io/open-design \
-  --out notebooklm/open-design-snapshot.md
+  --repo nexu-io/design-jury \
+  --out notebooklm/design-jury-snapshot.md
 ```
 
 ### Flags

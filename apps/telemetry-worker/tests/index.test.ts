@@ -9,7 +9,7 @@ const env: Env = {
 };
 
 function makeRequest(body: unknown): Request {
-  return new Request('https://telemetry.open-design.ai/api/langfuse', {
+  return new Request('https://telemetry.design-jury.ai/api/langfuse', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -28,26 +28,26 @@ function makeRateLimiter(success: boolean) {
 describe('telemetry worker', () => {
   it('returns a health response for browser checks', async () => {
     const response = await worker.fetch(
-      new Request('https://telemetry.open-design.ai/api/langfuse'),
+      new Request('https://telemetry.design-jury.ai/api/langfuse'),
       env,
     );
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({
       ok: true,
-      service: 'open-design-telemetry-relay',
+      service: 'design-jury-telemetry-relay',
       configured: true,
       upstream: 'https://us.cloud.langfuse.com/api/public/ingestion',
     });
   });
 
   it('reports unconfigured health without exposing secrets', async () => {
-    const response = await worker.fetch(new Request('https://telemetry.open-design.ai/health'), {});
+    const response = await worker.fetch(new Request('https://telemetry.design-jury.ai/health'), {});
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({
       ok: true,
-      service: 'open-design-telemetry-relay',
+      service: 'design-jury-telemetry-relay',
       configured: false,
       upstream: 'https://us.cloud.langfuse.com/api/public/ingestion',
     });
@@ -68,7 +68,7 @@ describe('telemetry worker', () => {
             id: 'evt-1',
             type: 'trace-create',
             timestamp: '2026-05-11T00:00:00.000Z',
-            body: { id: 'trace-1', name: 'open-design-turn' },
+            body: { id: 'trace-1', name: 'design-jury-turn' },
           },
         ],
       }),
@@ -87,9 +87,9 @@ describe('telemetry worker', () => {
     fetchSpy.mockRestore();
   });
 
-  it('rejects requests without the Open Design client marker', async () => {
+  it('rejects requests without the Design Jury client marker', async () => {
     const response = await worker.fetch(
-      new Request('https://telemetry.open-design.ai/api/langfuse', {
+      new Request('https://telemetry.design-jury.ai/api/langfuse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ batch: [] }),
@@ -112,7 +112,7 @@ describe('telemetry worker', () => {
             timestamp: '2026-05-11T00:00:00.000Z',
             body: {
               id: 'trace-1',
-              name: 'open-design-turn',
+              name: 'design-jury-turn',
               userId: 'installation-1',
             },
           },

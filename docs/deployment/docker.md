@@ -10,15 +10,15 @@ This is the easiest self-hosting path for beginners.
 ## Step 1: Open the Deploy Folder
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design/deploy
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury/deploy
 ```
 
 What this does:
 - Downloads the project
 - Moves into the folder that contains `docker-compose.yml`
 
-## Step 2: Start Open Design
+## Step 2: Start Design Jury
 
 ```bash
 docker-compose up -d
@@ -35,7 +35,7 @@ docker-compose ps
 ```
 
 Success looks like:
-- `open-design` container is listed
+- `design-jury` container is listed
 - `STATUS` shows `Up` and eventually `healthy`
 - Port mapping includes `127.0.0.1:7456->7456/tcp`
 
@@ -53,15 +53,15 @@ Success looks like:
 
 ![curl HTTP 200 output (sanitized)](../screenshots/deployment/docker/05-curl-http-200-proof.png)
 
-## Step 5: Open Open Design in Your Browser
+## Step 5: Open Design Jury in Your Browser
 
 Open:
 - `http://localhost:7456/`
 
-You should see the Open Design interface.
+You should see the Design Jury interface.
 
-![Open Design home (desktop)](../screenshots/deployment/docker/01-open-design-home.png)
-![Open Design home (mobile)](../screenshots/deployment/docker/03-open-design-mobile.png)
+![Design Jury home (desktop)](../screenshots/deployment/docker/01-design-jury-home.png)
+![Design Jury home (mobile)](../screenshots/deployment/docker/03-design-jury-mobile.png)
 
 ## Common Issues
 

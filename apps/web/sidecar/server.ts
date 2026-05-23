@@ -20,12 +20,12 @@ import {
   normalizeWebSidecarMessage,
   type SidecarStamp,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 import {
   createJsonIpcServer,
   type JsonIpcServerHandle,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
+} from "@design-jury/sidecar";
 
 const HOST = process.env.OD_HOST || "127.0.0.1";
 if (process.env.OD_HOST != null && !/^[a-zA-Z0-9._\-:[\]@]+$/.test(process.env.OD_HOST)) {
@@ -74,7 +74,7 @@ function resolveWebRoot(): string {
   for (let depth = 0; depth < 8; depth += 1) {
     try {
       const packageJson = JSON.parse(readFileSync(join(current, "package.json"), "utf8")) as { name?: unknown };
-      if (packageJson.name === "@open-design/web") return current;
+      if (packageJson.name === "@design-jury/web") return current;
     } catch {
       // Keep walking until the package root is found. This must work from both
       // sidecar/*.ts under tsx and dist/sidecar/*.js in packaged installs.
@@ -85,7 +85,7 @@ function resolveWebRoot(): string {
     current = parent;
   }
 
-  throw new Error("failed to resolve @open-design/web package root");
+  throw new Error("failed to resolve @design-jury/web package root");
 }
 
 function parsePort(value: string | undefined): number {
@@ -554,14 +554,14 @@ async function startStandaloneBackend(webRoot: string | null): Promise<Standalon
   if (entryPath == null) {
     throw new Error(
       webRoot == null
-        ? `missing Next.js standalone server under ${WEB_STANDALONE_ROOT_ENV}; configure ${WEB_STANDALONE_ROOT_ENV} or install @open-design/web`
+        ? `missing Next.js standalone server under ${WEB_STANDALONE_ROOT_ENV}; configure ${WEB_STANDALONE_ROOT_ENV} or install @design-jury/web`
         : `missing Next.js standalone server under ${resolveWebDistDir(webRoot)}; rebuild with ${WEB_OUTPUT_MODE_ENV}=standalone`,
     );
   }
 
   const port = await reserveTcpPort(STANDALONE_BACKEND_HOST);
   const origin = resolveStandaloneBackendOrigin(port);
-  console.log(`[open-design web] starting standalone Next.js server from ${entryPath}`);
+  console.log(`[design-jury web] starting standalone Next.js server from ${entryPath}`);
   const child = spawn(process.execPath, createStandaloneServerArgs(entryPath), {
     cwd: dirname(entryPath),
     env: createStandaloneBackendEnv({ port }),
@@ -577,7 +577,7 @@ async function startStandaloneBackend(webRoot: string | null): Promise<Standalon
   child.once("exit", (code, signal) => {
     standaloneRunning = false;
     standaloneExitReason = `code=${code ?? "null"} signal=${signal ?? "null"}`;
-    console.error(`[open-design web] standalone Next.js server exited ${standaloneExitReason}`);
+    console.error(`[design-jury web] standalone Next.js server exited ${standaloneExitReason}`);
   });
 
   try {

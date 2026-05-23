@@ -2519,7 +2519,7 @@ async function renderHyperFramesViaCli(ctx: MediaContext, projectDir: string, on
     );
   }
 
-  const tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'open-design-hf-'));
+  const tmpRoot = await mkdtemp(path.join(os.tmpdir(), 'design-jury-hf-'));
   const tmpOutput = path.join(tmpRoot, 'render.mp4');
   try {
     // Pin --workers 1 to keep memory bounded (each worker is a Chrome

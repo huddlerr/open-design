@@ -1,5 +1,5 @@
 {
-  "name": "@open-design/sidecar-proto",
+  "name": "@design-jury/sidecar-proto",
   "version": "0.8.0",
   "private": true,
   "type": "module",

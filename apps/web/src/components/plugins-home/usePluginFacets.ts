@@ -12,7 +12,7 @@
 // accidentally hidden behind a still-selected category pill.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@design-jury/contracts';
 import {
   applyFacetSelection,
   buildFacetCatalog,

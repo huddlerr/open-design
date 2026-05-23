@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "od-code-migration",
   "title": "Code migration (default scenario)",
@@ -7,10 +7,10 @@
   "description": "Default reference pipeline for the code-migration taskKind, with patch-edit ↔ build-test devloop and diff-review handoff.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/scenarios/od-code-migration",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/scenarios/od-code-migration",
   "tags": [
     "scenario",
     "first-party",

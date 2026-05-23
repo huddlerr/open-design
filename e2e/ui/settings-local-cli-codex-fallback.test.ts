@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
-const STORAGE_KEY = 'open-design:config';
-const LOCALE_KEY = 'open-design:locale';
+const STORAGE_KEY = 'design-jury:config';
+const LOCALE_KEY = 'design-jury:locale';
 const OPEN_SETTINGS_LABEL = /Open settings|打开设置|開啟設定/i;
 const SETTINGS_MENU_LABEL = /^Settings$|^设置$|^設定$/i;
 const LOCAL_CLI_LABEL = /Local CLI|本机 CLI|本地 CLI/i;
@@ -70,13 +70,13 @@ async function readSavedConfig(page: Page) {
 }
 
 async function waitForLoadingToClear(page: Page) {
-  await expect(page.getByText('Loading Open Design…')).toHaveCount(0, { timeout: 15_000 });
+  await expect(page.getByText('Loading Design Jury…')).toHaveCount(0, { timeout: 15_000 });
 }
 
 async function gotoEntryHome(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await waitForLoadingToClear(page);
-  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Open Design' });
+  const privacyDialog = page.getByRole('dialog').filter({ hasText: 'Help us improve Design Jury' });
   if (await privacyDialog.isVisible()) {
     await privacyDialog.getByRole('button', { name: /not now/i }).click();
   }

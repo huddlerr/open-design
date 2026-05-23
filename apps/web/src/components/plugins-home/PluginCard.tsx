@@ -13,7 +13,7 @@
 // needs to commit.
 
 import { useMemo, useState } from 'react';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@design-jury/contracts';
 import { useI18n } from '../../i18n';
 import type { PluginShareAction } from '../../state/projects';
 import { Icon } from '../Icon';
@@ -227,18 +227,18 @@ export function PluginCard({
               <button
                 type="button"
                 className="plugins-home__action plugins-home__action--secondary plugins-home__action--compact"
-                onClick={() => onShareAction(record, 'contribute-open-design')}
+                onClick={() => onShareAction(record, 'contribute-design-jury')}
                 disabled={pendingAny || shareBusy}
-                aria-busy={sharePendingAction === 'contribute-open-design' ? 'true' : undefined}
-                aria-label={`Contribute ${title} to Open Design`}
-                title="Contribute plugin to Open Design with a pull request"
-                data-testid={`plugins-home-contribute-open-design-${record.id}`}
+                aria-busy={sharePendingAction === 'contribute-design-jury' ? 'true' : undefined}
+                aria-label={`Contribute ${title} to Design Jury`}
+                title="Contribute plugin to Design Jury with a pull request"
+                data-testid={`plugins-home-contribute-design-jury-${record.id}`}
               >
                 <Icon
-                  name={sharePendingAction === 'contribute-open-design' ? 'spinner' : 'share'}
+                  name={sharePendingAction === 'contribute-design-jury' ? 'spinner' : 'share'}
                   size={12}
                 />
-                <span>{sharePendingAction === 'contribute-open-design' ? 'Starting…' : 'Contribute'}</span>
+                <span>{sharePendingAction === 'contribute-design-jury' ? 'Starting…' : 'Contribute'}</span>
               </button>
             </div>
           ) : null}

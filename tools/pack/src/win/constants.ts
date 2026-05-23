@@ -1,7 +1,7 @@
-export const PRODUCT_NAME = "Open Design";
+export const PRODUCT_NAME = "Design Jury";
 export const DESKTOP_LOG_ECHO_ENV = "OD_DESKTOP_LOG_ECHO";
 export const WEB_STANDALONE_HOOK_CONFIG_ENV = "OD_TOOLS_PACK_WEB_STANDALONE_HOOK_CONFIG";
-export const WEB_STANDALONE_RESOURCE_NAME = "open-design-web-standalone";
+export const WEB_STANDALONE_RESOURCE_NAME = "design-jury-web-standalone";
 export const ELECTRON_BUILDER_ASAR = false;
 export const ELECTRON_BUILDER_BUILD_DEPENDENCIES_FROM_SOURCE = false;
 export const ELECTRON_BUILDER_NODE_GYP_REBUILD = false;
@@ -30,16 +30,16 @@ export const NSIS_INSTALLER_LANGUAGE_BY_WEB_LOCALE = {
   "zh-TW": "zh_TW",
 } as const;
 export const INTERNAL_PACKAGES = [
-  { directory: "packages/contracts", name: "@open-design/contracts" },
-  { directory: "packages/registry-protocol", name: "@open-design/registry-protocol" },
-  { directory: "packages/sidecar-proto", name: "@open-design/sidecar-proto" },
-  { directory: "packages/sidecar", name: "@open-design/sidecar" },
-  { directory: "packages/platform", name: "@open-design/platform" },
-  { directory: "packages/agui-adapter", name: "@open-design/agui-adapter" },
-  { directory: "packages/plugin-runtime", name: "@open-design/plugin-runtime" },
-  { directory: "packages/diagnostics", name: "@open-design/diagnostics" },
-  { directory: "apps/daemon", name: "@open-design/daemon" },
-  { directory: "apps/web", name: "@open-design/web" },
-  { directory: "apps/desktop", name: "@open-design/desktop" },
-  { directory: "apps/packaged", name: "@open-design/packaged" },
+  { directory: "packages/contracts", name: "@design-jury/contracts" },
+  { directory: "packages/registry-protocol", name: "@design-jury/registry-protocol" },
+  { directory: "packages/sidecar-proto", name: "@design-jury/sidecar-proto" },
+  { directory: "packages/sidecar", name: "@design-jury/sidecar" },
+  { directory: "packages/platform", name: "@design-jury/platform" },
+  { directory: "packages/agui-adapter", name: "@design-jury/agui-adapter" },
+  { directory: "packages/plugin-runtime", name: "@design-jury/plugin-runtime" },
+  { directory: "packages/diagnostics", name: "@design-jury/diagnostics" },
+  { directory: "apps/daemon", name: "@design-jury/daemon" },
+  { directory: "apps/web", name: "@design-jury/web" },
+  { directory: "apps/desktop", name: "@design-jury/desktop" },
+  { directory: "apps/packaged", name: "@design-jury/packaged" },
 ] as const;

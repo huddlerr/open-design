@@ -115,7 +115,7 @@ function buildCard(summary: DigestSummary): Record<string, unknown> {
       template: 'blue',
       title: {
         tag: 'plain_text',
-        content: `Open Design blog SEO digest · ${summary.reportDate}`,
+        content: `Design Jury blog SEO digest · ${summary.reportDate}`,
       },
     },
     elements: [

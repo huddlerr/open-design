@@ -6,7 +6,7 @@ import type {
   TrackingUpdateApplyReason,
   TrackingUpdateApplyResult,
   UpdateApplyObservedProps,
-} from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
 
 import type { AnalyticsContext, AnalyticsService } from './analytics.js';
 import { readPosthogConfig } from './analytics.js';
@@ -292,7 +292,7 @@ export async function observePendingInstallerApplyAttempts(
           insertId,
         });
       } catch (error) {
-        options.logger?.warn?.('[open-design updater] failed to submit update apply observation', error);
+        options.logger?.warn?.('[design-jury updater] failed to submit update apply observation', error);
         next.delivery = { eventName: 'update_apply_observed', status: 'failed', updatedAt: observedAt };
       }
     }

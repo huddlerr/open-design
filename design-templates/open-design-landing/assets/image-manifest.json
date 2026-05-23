@@ -1,6 +1,6 @@
 {
-  "$schema": "https://open-design.dev/schemas/image-manifest.v1.json",
-  "skill": "open-design-landing",
+  "$schema": "https://design-jury.dev/schemas/image-manifest.v1.json",
+  "skill": "design-jury-landing",
   "design_system": "atelier-zero",
   "default_quality": "high",
   "slots": [

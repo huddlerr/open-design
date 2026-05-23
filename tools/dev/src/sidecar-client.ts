@@ -5,8 +5,8 @@ import {
   type DaemonStatusSnapshot,
   type DesktopStatusSnapshot,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
-import { requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+} from "@design-jury/sidecar-proto";
+import { requestJsonIpc, resolveAppIpcPath } from "@design-jury/sidecar";
 
 export type AppRuntimeLookup = {
   base: string;

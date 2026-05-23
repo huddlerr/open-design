@@ -70,9 +70,9 @@ beforeEach(async () => {
     '<section class="slide hero dark"><p>fallback body via assets</p></section>',
   );
   await writeFile(
-    path.join(folder, 'open-design.json'),
+    path.join(folder, 'design-jury.json'),
     JSON.stringify({
-      $schema: 'https://open-design.ai/schemas/plugin.v1.json',
+      $schema: 'https://design-jury.ai/schemas/plugin.v1.json',
       name: PLUGIN_ID,
       title: 'Preview fallback fixture',
       version: '1.0.0',
@@ -127,6 +127,6 @@ describe('GET /api/plugins/:id/preview — fallback chain', () => {
     const body = await resp.text();
     expect(body).toContain('<main id="deck">');
     expect(body).toContain('fallback body via assets');
-    expect(body).toContain('Preview fallback fixture | Open Design Example');
+    expect(body).toContain('Preview fallback fixture | Design Jury Example');
   });
 });

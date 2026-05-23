@@ -4,7 +4,7 @@ Follow the root `AGENTS.md` and `tools/AGENTS.md` first. This tool owns the repo
 
 ## Owns
 
-- Local packaging orchestration for packaged Open Design artifacts.
+- Local packaging orchestration for packaged Design Jury artifacts.
 - mac build/install/start/stop/logs/uninstall/cleanup smoke commands.
 - Windows NSIS build/install/start/stop/logs/uninstall/cleanup/list/reset smoke commands.
 - Windows registry observation/cleanup must go through `reg.exe` and stay scoped to entries matching the namespace install/uninstaller paths.
@@ -12,7 +12,7 @@ Follow the root `AGENTS.md` and `tools/AGENTS.md` first. This tool owns the repo
 - Linux AppImage build/install/start/stop/logs/uninstall/cleanup smoke commands.
 - Linux headless (no-Electron) install/start/stop via `--headless` flag on `install`, `start`, and `stop`.
 - Linux containerized builds via `electronuserland/builder` Docker image for distro-agnostic glibc compat.
-- Consuming sidecar/process/path primitives from `@open-design/sidecar-proto`, `@open-design/sidecar`, and `@open-design/platform`.
+- Consuming sidecar/process/path primitives from `@design-jury/sidecar-proto`, `@design-jury/sidecar`, and `@design-jury/platform`.
 
 ## Does not own
 
@@ -25,7 +25,7 @@ Follow the root `AGENTS.md` and `tools/AGENTS.md` first. This tool owns the repo
 
 - Do not hand-build `--od-stamp-*` args; use `createProcessStampArgs` with `OPEN_DESIGN_SIDECAR_CONTRACT`.
 - Do not use port numbers in data/log/runtime/cache path decisions. Namespace decides paths; ports are only transient transports.
-- Public release artifacts must use channel-specific app identity: stable uses `Open Design`, beta uses `Open Design Beta`, and preview uses `Open Design Preview`. Local tools-pack installs may still use namespace-scoped install paths only as a developer multi-instance validation convention.
+- Public release artifacts must use channel-specific app identity: stable uses `Design Jury`, beta uses `Design Jury Beta`, and preview uses `Design Jury Preview`. Local tools-pack installs may still use namespace-scoped install paths only as a developer multi-instance validation convention.
 - Do not let namespace-named `.app` installs change data/log/runtime/cache path conventions.
 - Use `--portable` for public/release artifacts so packaged config does not bake local tools-pack runtime roots from the build machine.
 - Pack resource files used by electron-builder belong under `tools/pack/resources/`; do not point pack logic at Downloads, web public assets, docs assets, or other app-owned resource paths.
@@ -48,7 +48,7 @@ Read this section before changing packaged auto-update behavior. The updater cro
 
 ### Release metadata shape
 
-The runtime updater reads `https://releases.open-design.ai/<channel>/latest/metadata.json` unless `OD_UPDATE_METADATA_URL` overrides it. For package-launcher updates:
+The runtime updater reads `https://releases.design-jury.ai/<channel>/latest/metadata.json` unless `OD_UPDATE_METADATA_URL` overrides it. For package-launcher updates:
 
 - mac selects `platforms.mac.artifacts.dmg`.
 - Windows selects `platforms.win.artifacts.installer`.
@@ -59,9 +59,9 @@ The runtime updater reads `https://releases.open-design.ai/<channel>/latest/meta
 
 Channel identity must be stable across install, update install, shortcuts, registry entries, and app data:
 
-- Stable: `Open Design`, namespace `default` or stable release namespace.
-- Beta Windows: `Open Design Beta`, namespace `release-beta-win`, uninstall key `Open Design-release-beta-win`.
-- Preview Windows: `Open Design Preview`, namespace `release-preview-win`, uninstall key `Open Design-release-preview-win`.
+- Stable: `Design Jury`, namespace `default` or stable release namespace.
+- Beta Windows: `Design Jury Beta`, namespace `release-beta-win`, uninstall key `Design Jury-release-beta-win`.
+- Preview Windows: `Design Jury Preview`, namespace `release-preview-win`, uninstall key `Design Jury-release-preview-win`.
 - Beta-like ad hoc namespaces such as `beta-local-flow` are test namespaces, not the beta channel. They must not be used for user-flow beta validation because they create a different registry key while sharing a confusing display name/path.
 
 If a local beta package is meant to be updated by the real beta feed, build it with `--namespace release-beta-win` and an older beta `--app-version`. Otherwise the installed beta.5 package and the downloaded beta.6 package can appear as separate registry entries even though they target the same display name.
@@ -93,7 +93,7 @@ Use this when validating release-channel behavior before handing a Windows beta 
 1. Confirm the latest beta metadata first:
 
 ```bash
-curl.exe --ssl-no-revoke -fsSL https://releases.open-design.ai/beta/latest/metadata.json
+curl.exe --ssl-no-revoke -fsSL https://releases.design-jury.ai/beta/latest/metadata.json
 ```
 
 2. Build a non-portable Windows beta package with the real beta namespace and a version lower than latest:
@@ -105,27 +105,27 @@ pnpm tools-pack win build --dir C:\odtp-beta-release-fixed --namespace release-b
 3. Give the tester the generated installer:
 
 ```text
-C:\odtp-beta-release-fixed\out\win\namespaces\release-beta-win\builder\Open Design-release-beta-win-setup.exe
+C:\odtp-beta-release-fixed\out\win\namespaces\release-beta-win\builder\Design Jury-release-beta-win-setup.exe
 ```
 
 4. Expected user flow:
 
 - User installs `0.8.0-beta.5` through the NSIS UI.
-- User launches `Open Design Beta`.
+- User launches `Design Jury Beta`.
 - App auto-checks the real beta feed, downloads the latest `platforms.win.artifacts.installer`, verifies sha256, and shows the web updater popup.
 - The native File menu must not expose update actions.
 - The updater popup uses i18n strings and download progress must not flash to 100% before real bytes arrive.
-- Clicking `Open installer` opens the real downloaded beta installer. Installing it should overwrite the same `Open Design-release-beta-win` registry key, not create a second beta key.
+- Clicking `Open installer` opens the real downloaded beta installer. Installing it should overwrite the same `Design Jury-release-beta-win` registry key, not create a second beta key.
 
 5. Registry sanity check after beta.6 install:
 
 ```powershell
 Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
-  Where-Object { $_.DisplayName -like 'Open Design*' } |
+  Where-Object { $_.DisplayName -like 'Design Jury*' } |
   Select-Object PSChildName,DisplayName,DisplayVersion,InstallLocation
 ```
 
-For a clean beta channel result, expect one beta entry with `PSChildName` `Open Design-release-beta-win` and the latest `DisplayVersion`.
+For a clean beta channel result, expect one beta entry with `PSChildName` `Design Jury-release-beta-win` and the latest `DisplayVersion`.
 Windows Settings > Apps may cache uninstall metadata within the current view. If Settings still shows the previous beta version after the registry query is correct, switch away from the Apps view and back, or reopen Settings, before treating it as an installer failure. The registry query above is the source of truth for this harness.
 
 6. Avoid leaving validation residue. Stop running app processes first, then use tools-pack uninstall/cleanup for tool-managed namespaces. Only delete explicit temp roots after verifying the resolved path is exactly the intended directory.
@@ -141,14 +141,14 @@ pnpm tools-pack win cleanup --dir C:\odtp-beta-release-fixed --namespace release
 Run the narrow tests that match the surface you touched, then the repo checks:
 
 ```bash
-pnpm --filter @open-design/desktop test -- tests/main/updater.test.ts tests/main/updater-host-boundary.test.ts tests/main/preload-host-boundary.test.ts
-pnpm --filter @open-design/web test -- tests/components/UpdaterPopup.test.tsx tests/lib/updater.test.ts
-pnpm --filter @open-design/tools-serve test
-pnpm --filter @open-design/tools-pack test -- tests/win-identity.test.ts tests/win-app.test.ts tests/win-builder.test.ts
-pnpm --filter @open-design/desktop typecheck
-pnpm --filter @open-design/web typecheck
-pnpm --filter @open-design/tools-pack typecheck
-pnpm --filter @open-design/tools-serve typecheck
+pnpm --filter @design-jury/desktop test -- tests/main/updater.test.ts tests/main/updater-host-boundary.test.ts tests/main/preload-host-boundary.test.ts
+pnpm --filter @design-jury/web test -- tests/components/UpdaterPopup.test.tsx tests/lib/updater.test.ts
+pnpm --filter @design-jury/tools-serve test
+pnpm --filter @design-jury/tools-pack test -- tests/win-identity.test.ts tests/win-app.test.ts tests/win-builder.test.ts
+pnpm --filter @design-jury/desktop typecheck
+pnpm --filter @design-jury/web typecheck
+pnpm --filter @design-jury/tools-pack typecheck
+pnpm --filter @design-jury/tools-serve typecheck
 git diff --check
 pnpm guard
 pnpm typecheck

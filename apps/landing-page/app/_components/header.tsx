@@ -19,7 +19,7 @@ import {
   type LandingLocaleCode,
 } from '../i18n';
 
-const REPO = 'https://github.com/nexu-io/open-design';
+const REPO = 'https://github.com/nexu-io/design-jury';
 const REPO_RELEASES = `${REPO}/releases`;
 
 const ext = {
@@ -86,7 +86,7 @@ export function Header({
           <span className='brand-mark'>
             <img src='/logo.webp' alt='' width={44} height={44} />
           </span>
-          <span className='brand-name'>Open Design</span>
+          <span className='brand-name'>Design Jury</span>
         </a>
         {/*
           Mobile / tablet hamburger. Hidden by CSS at ≥1100px (the desktop
@@ -109,7 +109,7 @@ export function Header({
           <ul className='nav-links'>
             <li className='has-dropdown'>
               {/*
-                Product menu — top-level group exposing the Open Design family.
+                Product menu — top-level group exposing the Design Jury family.
                 CSS-only dropdown via :hover / :focus-within (no JS), so this
                 still renders correctly under static export with no React
                 runtime on the client. The trigger is a focusable <a> rather

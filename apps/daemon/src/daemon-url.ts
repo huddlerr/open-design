@@ -2,8 +2,8 @@ import {
   SIDECAR_ENV,
   SIDECAR_MESSAGES,
   type DaemonStatusSnapshot,
-} from "@open-design/sidecar-proto";
-import { requestJsonIpc } from "@open-design/sidecar";
+} from "@design-jury/sidecar-proto";
+import { requestJsonIpc } from "@design-jury/sidecar";
 
 export const DEFAULT_DAEMON_URL = "http://127.0.0.1:7456";
 

@@ -1,4 +1,4 @@
-# Open Design Plugin & Marketplace — Implementation Plan (living)
+# Design Jury Plugin & Marketplace — Implementation Plan (living)
 
 Source spec: [`docs/plugins-spec.md`](../plugins-spec.md) (zh-CN: [`docs/plugins-spec.zh-CN.md`](../plugins-spec.zh-CN.md)).
 
@@ -17,7 +17,7 @@ Update protocol — read first
 
 These are the five rules that decide every downstream design decision. They sit above phases and are checked by reviewers on every plugin-related PR.
 
-- [x] **I1. `SKILL.md` is the floor; `open-design.json` is a sidecar; never bidirectionally couple.** `packages/plugin-runtime/adapters/agent-skill.ts` synthesizes a schema-valid `PluginManifest` from `SKILL.md` `od:` frontmatter (verified via `packages/plugin-runtime/tests/adapter-agent-skill.test.ts`). The bundled e2e fixture under `apps/daemon/tests/fixtures/plugin-fixtures/sample-plugin/` ships both halves and `apps/daemon/tests/plugins-e2e-fixture.test.ts` exercises the merger.
+- [x] **I1. `SKILL.md` is the floor; `design-jury.json` is a sidecar; never bidirectionally couple.** `packages/plugin-runtime/adapters/agent-skill.ts` synthesizes a schema-valid `PluginManifest` from `SKILL.md` `od:` frontmatter (verified via `packages/plugin-runtime/tests/adapter-agent-skill.test.ts`). The bundled e2e fixture under `apps/daemon/tests/fixtures/plugin-fixtures/sample-plugin/` ships both halves and `apps/daemon/tests/plugins-e2e-fixture.test.ts` exercises the merger.
 - [x] **I2. Apply is a pure function; side effects only after `POST /api/projects` / `POST /api/runs`.** `apps/daemon/src/plugins/apply.ts` is FS- and DB-free; the snapshot writer (`snapshots.ts`) and installer are the only modules that mutate persistent state. `apps/daemon/tests/plugins-apply.test.ts` asserts deterministic snapshots from the same inputs and refuses to touch the registry / FS.
 - [x] **I3. `AppliedPluginSnapshot` is the only contract between "plugin" and "run".** `composeSystemPrompt()` now accepts a `pluginBlock` derived from the snapshot via `pluginPromptBlock(snapshot)` (`apps/daemon/src/plugins/apply.ts`); the run reads context through the snapshot. Plugin runs in web API-fallback mode are rejected at the HTTP layer (Phase 2A wires the 409); the snapshot table is the only writable surface for the contract.
 - [ ] **I4. CLI is the canonical agent-facing API; UI mirrors CLI, not the other way round.** Phase 1: `od plugin install/list/info/uninstall/apply/doctor` and the matching `/api/plugins/*` HTTP routes ship in the same PR. Remaining `od project/run/files/conversation/marketplace` subcommands roll in over Phase 1 / 2C / 3 PRs.
@@ -41,7 +41,7 @@ packages/contracts/src/plugins/      ← pure types + Zod schemas, no runtime de
 packages/plugin-runtime/             ← pure TS; reusable in web / daemon / CI
   ├── parsers/{manifest,marketplace,frontmatter}.ts
   ├── adapters/{agent-skill,claude-plugin}.ts
-  ├── merge.ts                       ← sidecar + adapter merge; open-design.json wins
+  ├── merge.ts                       ← sidecar + adapter merge; design-jury.json wins
   ├── resolve.ts                     ← ContextItem ref resolution (pure; no FS reads)
   ├── validate.ts                    ← JSON Schema validation
   └── digest.ts                      ← manifestSourceDigest (frozen algorithm; CI fixtures)
@@ -78,7 +78,7 @@ This section tracks **what exists in the repo today**. Update in the same PR tha
 
 These notes capture the product/implementation answers that otherwise get lost between the spec and the code:
 
-- **No plugin selected does not mean a naked agent.** `composeSystemPrompt()` still always layers the Open Design base designer/discovery prompt, project metadata, active design system/craft, and daemon-owned safety/tooling guidance. Plugin context is additive: a selected plugin contributes snapshot-derived `## Active plugin`, `## Plugin inputs`, and active-stage atom blocks. Home free-form runs route through the bundled hidden `od-default` scenario, which shapes task type and then returns to the normal design pipeline.
+- **No plugin selected does not mean a naked agent.** `composeSystemPrompt()` still always layers the Design Jury base designer/discovery prompt, project metadata, active design system/craft, and daemon-owned safety/tooling guidance. Plugin context is additive: a selected plugin contributes snapshot-derived `## Active plugin`, `## Plugin inputs`, and active-stage atom blocks. Home free-form runs route through the bundled hidden `od-default` scenario, which shapes task type and then returns to the normal design pipeline.
 - **The pipeline is plugin-assembled, not a fixed wizard.** The reference shorthand is `discovery -> plan -> generate -> critique`, but the runnable shape comes from `od.pipeline.stages[].atoms[]` on the applied plugin or bundled scenario fallback. `apps/daemon/src/plugins/pipeline-runner.ts` emits stage/GenUI events and `packages/contracts/src/prompts/atom-block.ts` renders the active stage body. Some atoms are still prompt fragments / permissive workers; observable atoms such as `diff-review`, `build-test`, and `handoff` now emit durable files or signals.
 - **GenUI is controlled rendering.** Agents/plugins emit structured surface requests (`form`, `choice`, `confirmation`, `oauth-prompt`) and OD renders them with product-owned React/CLI components. Inline `<question-form>` chat UI follows the same principle: parse structured data, render through `QuestionForm`, and keep styling in OD. Plugin-bundled custom components are a separate sandboxed path behind `genui:custom-component`.
 - **AG-UI is interoperability, not the product UI runtime.** `packages/agui-adapter` and `GET /api/runs/:runId/agui` are shipped so CopilotKit / AG-UI clients can consume an OD run. The internal web/desktop UI remains OD-native; adding CopilotKit itself is only justified for an explicit external embed/demo/client.
@@ -147,13 +147,13 @@ These notes capture the product/implementation answers that otherwise get lost b
 | `apps/daemon/src/storage/db-inspect.ts` | shipped | Phase 5 — `inspectSqliteDatabase` helper backing `od daemon db status` |
 | `apps/daemon/src/plugins/events.ts` | shipped | Phase 4 — in-memory plugin event ring buffer + SSE feed backing `od plugin events tail` |
 | `packages/plugin-runtime/src/pipeline-fallback.ts` | shipped | spec §23.3.3 — resolveAppliedPipeline falls back to a bundled scenario when od.pipeline is absent |
-| `plugins/_official/atoms/<atom>/{SKILL.md,open-design.json}` | shipped | Phase 4 / 6 / 7 / 8 — 13 first-party atom plugins (4 implemented + 9 reserved fragments) |
-| `plugins/_official/scenarios/<id>/{SKILL.md,open-design.json}` | shipped | Phase 4 (§23.3.3) — bundled scenario/router/export plugins, including the four taskKind defaults plus `od-default` Home free-form routing |
+| `plugins/_official/atoms/<atom>/{SKILL.md,design-jury.json}` | shipped | Phase 4 / 6 / 7 / 8 — 13 first-party atom plugins (4 implemented + 9 reserved fragments) |
+| `plugins/_official/scenarios/<id>/{SKILL.md,design-jury.json}` | shipped | Phase 4 (§23.3.3) — bundled scenario/router/export plugins, including the four taskKind defaults plus `od-default` Home free-form routing |
 | `packages/agui-adapter/` | shipped | Phase 4 — pure-TS AG-UI canonical event encoder |
 | `packages/contracts/src/prompts/atom-block.ts` | shipped | Phase 4 — `renderActiveStageBlock(stageId, bodies)` pure renderer |
 | `tools/pack/docker-compose.yml` | shipped | Phase 5 — hosted-mode reference manifest |
-| `tools/pack/helm/open-design/templates/**` | shipped | Phase 5 — Deployment / Service / Secret / ConfigMap / PVCs / Ingress / NOTES |
-| `tools/pack/helm/open-design/values-{aws,gcp,azure,aliyun,tencent,huawei,self}.yaml` | shipped | Phase 5 — per-cloud overrides (volume + ingress diffs) |
+| `tools/pack/helm/design-jury/templates/**` | shipped | Phase 5 — Deployment / Service / Secret / ConfigMap / PVCs / Ingress / NOTES |
+| `tools/pack/helm/design-jury/values-{aws,gcp,azure,aliyun,tencent,huawei,self}.yaml` | shipped | Phase 5 — per-cloud overrides (volume + ingress diffs) |
 | `deploy/Dockerfile` plugins/_official COPY | shipped | Phase 5 — bundled atoms travel with the image |
 | `.github/workflows/docker-image.yml` | shipped | Phase 5 — multi-arch ghcr.io push (:edge / :version) |
 | `apps/daemon/src/storage/project-storage.ts` | shipped | Phase 5 — ProjectStorage interface + Local impl + S3 stub |
@@ -208,7 +208,7 @@ These notes capture the product/implementation answers that otherwise get lost b
 | `POST /api/applied-plugins/prune` | shipped | Phase 5 (early) — operator escape hatch |
 | `GET /api/daemon/status` | shipped | Phase 1.5 |
 | `POST /api/daemon/shutdown` | shipped | Phase 1.5 — loopback-only |
-| `GET /api/runs/:runId/agui` | shipped | Phase 4 — pipes events through `@open-design/agui-adapter` |
+| `GET /api/runs/:runId/agui` | shipped | Phase 4 — pipes events through `@design-jury/agui-adapter` |
 
 ### 3.5 CLI subcommands
 
@@ -317,21 +317,21 @@ The spec §16 ordering is reader-facing; this is the build order. Each phase has
 
 Deliverables
 
-- [x] `docs/schemas/open-design.plugin.v1.json` — JSON Schema v1.
-- [x] `docs/schemas/open-design.marketplace.v1.json` — JSON Schema v1.
+- [x] `docs/schemas/design-jury.plugin.v1.json` — JSON Schema v1.
+- [x] `docs/schemas/design-jury.marketplace.v1.json` — JSON Schema v1.
 - [x] `packages/contracts/src/plugins/{manifest,context,apply,marketplace,installed,events}.ts` (types + Zod schemas; no logic).
 - [x] Re-export from `packages/contracts/src/index.ts`.
 - [x] `packages/plugin-runtime/src/digest.ts` with frozen sha256 algorithm + fixture cases (`packages/plugin-runtime/tests/digest.test.ts`).
 
 Validation
 
-- [x] `pnpm --filter @open-design/plugin-runtime test`
+- [x] `pnpm --filter @design-jury/plugin-runtime test`
 - [x] `pnpm guard && pnpm typecheck`
 - [x] CI digest stability: re-running `digest()` on the fixtures matches the pinned hex.
 
 Exit criterion
 
-- Importing `import type { ApplyResult, AppliedPluginSnapshot } from '@open-design/contracts'` works from daemon and web. ✓ verified.
+- Importing `import type { ApplyResult, AppliedPluginSnapshot } from '@design-jury/contracts'` works from daemon and web. ✓ verified.
 
 ### Phase 1 — Loader + installer + apply + snapshot + headless CLI loop (5–7 d)
 
@@ -357,7 +357,7 @@ Deliverables (week 2: surface layer)
 
 Validation
 
-- [x] `pnpm --filter @open-design/plugin-runtime test` covers: digest stability, `parseManifest` + `parseMarketplace`, SKILL frontmatter adapter, sidecar+adapter merge precedence, `validateSafe` cross-field rules.
+- [x] `pnpm --filter @design-jury/plugin-runtime test` covers: digest stability, `parseManifest` + `parseMarketplace`, SKILL frontmatter adapter, sidecar+adapter merge precedence, `validateSafe` cross-field rules.
 - [x] `apps/daemon/tests/plugins-{apply,snapshots,installer,e2e-fixture}.test.ts` cover apply purity, snapshot writer, installer guards, and the closed-loop install→apply→snapshot→doctor walk.
 - [x] **e2e-1 closed loop** — `apps/daemon/tests/plugins-e2e-fixture.test.ts` runs the §12.5 walk against the bundled `apps/daemon/tests/fixtures/plugin-fixtures/sample-plugin/` fixture without spinning the HTTP server.
 - [ ] **e2e-2 pure apply across runs** — Phase 1 follow-up: drive `applyPlugin` through `POST /api/plugins/:id/apply` against a running daemon and assert two consecutive applies share the same `manifestSourceDigest`.
@@ -493,7 +493,7 @@ Deliverables
 - [x] `od plugin publish --to anthropics-skills|awesome-agent-skills|clawhub|skills-sh` (PR template launcher) — `apps/daemon/src/plugins/publish.ts`.
 - [x] CLI parity remainder: `od skills/design-systems/craft/atoms list/show`, `od status`, `od version`, `od marketplace search`, `od doctor`, `od config get/set/list/unset`.
 - [x] Optional `plugins/_official/atoms/<atom>/SKILL.md` extraction (spec §23.3.2 patch 2) — entry slice ships four atom SKILL.md fragments + the bundled boot walker; the system.ts → SKILL.md prompt-composer rewiring stays open.
-- [x] `@open-design/agui-adapter` package; `GET /api/runs/:runId/agui` SSE endpoint emits AG-UI canonical events.
+- [x] `@design-jury/agui-adapter` package; `GET /api/runs/:runId/agui` SSE endpoint emits AG-UI canonical events.
 - [x] Plugin manifest upgrade: `od.genui.surfaces[].component` (capability gate `genui:custom-component`) — schema accepts the field; doctor flags missing-capability + path-traversal; web sandbox loader stays scheduled.
 
 Validation
@@ -571,10 +571,10 @@ Plus repo-wide gates
 
 - [x] `pnpm guard` clean.
 - [x] `pnpm typecheck` clean.
-- [x] `pnpm --filter @open-design/contracts test` clean.
-- [x] `pnpm --filter @open-design/plugin-runtime test` clean.
-- [x] `pnpm --filter @open-design/daemon test` — all 56 `plugins-*.test.ts` (391 tests) green. Three unrelated pre-existing failures remain (`finalize-design.test.ts` resolveCurrentArtifact path normalization, `chat-route.test.ts` stalled-json-stream timeout, `connection-test.test.ts` hard-cancel timeout). They were inherited from PR #832 and the chat/connection timeout test refactors and do not block the plugin loop; tracked separately.
-- [x] `pnpm --filter @open-design/web test` clean.
+- [x] `pnpm --filter @design-jury/contracts test` clean.
+- [x] `pnpm --filter @design-jury/plugin-runtime test` clean.
+- [x] `pnpm --filter @design-jury/daemon test` — all 56 `plugins-*.test.ts` (391 tests) green. Three unrelated pre-existing failures remain (`finalize-design.test.ts` resolveCurrentArtifact path normalization, `chat-route.test.ts` stalled-json-stream timeout, `connection-test.test.ts` hard-cancel timeout). They were inherited from PR #832 and the chat/connection timeout test refactors and do not block the plugin loop; tracked separately.
+- [x] `pnpm --filter @design-jury/web test` clean.
 
 ---
 

@@ -2,7 +2,7 @@
 
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { OpenDesignGithubRepoResponse } from '@open-design/contracts';
+import type { OpenDesignGithubRepoResponse } from '@design-jury/contracts';
 
 const originalFetch = globalThis.fetch;
 
@@ -25,7 +25,7 @@ describe('GithubStarBadge', () => {
     expect(screen.getByText('40K+')).toBeTruthy();
     await waitFor(() =>
       expect(globalThis.fetch).toHaveBeenCalledWith(
-        '/api/github/open-design',
+        '/api/github/design-jury',
         expect.objectContaining({ signal: expect.any(AbortSignal) }),
       ),
     );
@@ -35,7 +35,7 @@ describe('GithubStarBadge', () => {
     globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        repo: 'nexu-io/open-design',
+        repo: 'nexu-io/design-jury',
         stargazers_count: 42137,
         fetchedAt: Date.parse('2026-05-22T00:00:00.000Z'),
         stale: false,

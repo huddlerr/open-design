@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: open-design-release-preview
+  group: design-jury-release-preview
   cancel-in-progress: false
 
 env:
@@ -98,8 +98,8 @@ jobs:
 
       - name: Build daemon and desktop (typecheck dependencies)
         run: |
-          pnpm --filter @open-design/daemon build
-          pnpm --filter @open-design/desktop build
+          pnpm --filter @design-jury/daemon build
+          pnpm --filter @design-jury/desktop build
 
       - name: Typecheck workspaces
         run: pnpm -r --workspace-concurrency=4 --if-present run typecheck
@@ -157,7 +157,7 @@ jobs:
           APPLE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_SIGNING_CERTIFICATE_PASSWORD }}
         run: |
           set -euo pipefail
-          cert_path="$RUNNER_TEMP/open-design-signing.p12"
+          cert_path="$RUNNER_TEMP/design-jury-signing.p12"
           if ! printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 --decode > "$cert_path" 2>/dev/null; then
             printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 -D > "$cert_path"
           fi
@@ -205,7 +205,7 @@ jobs:
           output="$RUNNER_TEMP/mac-framework-diagnostics.txt"
           source_resolve_log="$RUNNER_TEMP/mac-framework-source-resolve.err"
           source_framework="$(node -e 'const path = require("node:path"); const { createRequire } = require("node:module"); const requireFromDesktop = createRequire(path.join(process.cwd(), "apps/desktop/package.json")); const electron = requireFromDesktop.resolve("electron"); process.stdout.write(path.join(path.dirname(electron), "dist", "Electron.app", "Contents", "Frameworks", "Electron Framework.framework"));' 2>"$source_resolve_log" || true)"
-          built_framework="$RUNNER_TEMP/tools-pack/out/mac/namespaces/release-preview/builder/mac-arm64/Open Design Preview.app/Contents/Frameworks/Electron Framework.framework"
+          built_framework="$RUNNER_TEMP/tools-pack/out/mac/namespaces/release-preview/builder/mac-arm64/Design Jury Preview.app/Contents/Frameworks/Electron Framework.framework"
 
           dump_framework() {
             local label="$1"
@@ -265,7 +265,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-mac-build-diagnostics
+          name: design-jury-preview-mac-build-diagnostics
           path: |
             ${{ runner.temp }}/mac-tools-pack-build.log
             ${{ runner.temp }}/mac-tools-pack-build.json
@@ -291,7 +291,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-mac-e2e-report
+          name: design-jury-preview-mac-e2e-report
           path: ${{ runner.temp }}/release-report/mac
           if-no-files-found: warn
 
@@ -299,7 +299,7 @@ jobs:
         env:
           CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}
           RELEASE_CHANNEL: preview
-          RELEASE_NOTES: Open Design Preview ${{ needs.metadata.outputs.release_version }}
+          RELEASE_NOTES: Design Jury Preview ${{ needs.metadata.outputs.release_version }}
           RELEASE_VERSION: ${{ needs.metadata.outputs.release_version }}
           TOOLS_PACK_NAMESPACE: release-preview
         run: bash .github/scripts/release/assets/mac.sh
@@ -307,7 +307,7 @@ jobs:
       - name: Upload mac preview bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-mac-release-assets
+          name: design-jury-preview-mac-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -342,7 +342,7 @@ jobs:
           APPLE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_SIGNING_CERTIFICATE_PASSWORD }}
         run: |
           set -euo pipefail
-          cert_path="$RUNNER_TEMP/open-design-signing.p12"
+          cert_path="$RUNNER_TEMP/design-jury-signing.p12"
           if ! printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 --decode > "$cert_path" 2>/dev/null; then
             printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 -D > "$cert_path"
           fi
@@ -378,7 +378,7 @@ jobs:
       - name: Upload mac intel preview bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-mac-intel-release-assets
+          name: design-jury-preview-mac-intel-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -518,7 +518,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-win-e2e-report
+          name: design-jury-preview-win-e2e-report
           path: ${{ runner.temp }}/release-report/win
           if-no-files-found: warn
 
@@ -556,7 +556,7 @@ jobs:
         env:
           CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}
           RELEASE_CHANNEL: preview
-          RELEASE_NOTES: Open Design Preview ${{ needs.metadata.outputs.release_version }}
+          RELEASE_NOTES: Design Jury Preview ${{ needs.metadata.outputs.release_version }}
           RELEASE_VERSION: ${{ needs.metadata.outputs.release_version }}
           TOOLS_PACK_NAMESPACE: release-preview-win
         run: ./.github/scripts/release/assets/win.ps1
@@ -564,7 +564,7 @@ jobs:
       - name: Upload windows preview bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-win-release-assets
+          name: design-jury-preview-win-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -615,7 +615,7 @@ jobs:
       - name: Upload linux preview bundle
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-preview-linux-release-assets
+          name: design-jury-preview-linux-release-assets
           path: ${{ runner.temp }}/release-assets
           retention-days: 1
 
@@ -677,38 +677,38 @@ jobs:
       - name: Download mac preview bundle
         uses: actions/download-artifact@v8
         with:
-          name: open-design-preview-mac-release-assets
+          name: design-jury-preview-mac-release-assets
           path: ${{ runner.temp }}/release-assets/mac
 
       - name: Download mac intel preview bundle
         uses: actions/download-artifact@v8
         with:
-          name: open-design-preview-mac-intel-release-assets
+          name: design-jury-preview-mac-intel-release-assets
           path: ${{ runner.temp }}/release-assets/mac-intel
 
       - name: Download windows preview bundle
         uses: actions/download-artifact@v8
         with:
-          name: open-design-preview-win-release-assets
+          name: design-jury-preview-win-release-assets
           path: ${{ runner.temp }}/release-assets/win
 
       - name: Download linux preview bundle
         if: ${{ needs.build_linux.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-preview-linux-release-assets
+          name: design-jury-preview-linux-release-assets
           path: ${{ runner.temp }}/release-assets/linux
 
       - name: Download mac e2e spec report
         uses: actions/download-artifact@v8
         with:
-          name: open-design-preview-mac-e2e-report
+          name: design-jury-preview-mac-e2e-report
           path: ${{ runner.temp }}/release-report/mac
 
       - name: Download windows e2e spec report
         uses: actions/download-artifact@v8
         with:
-          name: open-design-preview-win-e2e-report
+          name: design-jury-preview-win-e2e-report
           path: ${{ runner.temp }}/release-report/win
 
       - name: Publish preview assets and metadata to R2

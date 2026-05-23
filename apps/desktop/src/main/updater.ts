@@ -23,7 +23,7 @@ import {
   downloadCopyAndClear,
   type ManagedDownloadChecksum,
   type ManagedDownloadProgress,
-} from "@open-design/download";
+} from "@design-jury/download";
 import {
   DESKTOP_UPDATE_CHANNELS,
   DESKTOP_UPDATE_MODES,
@@ -39,7 +39,7 @@ import {
   type DesktopUpdateStatusSnapshot,
   type DesktopUpdateState,
   type SidecarSource,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 
 import {
   markInstallerObservationOpenFailed,
@@ -67,8 +67,8 @@ export const DESKTOP_UPDATE_ENV = Object.freeze({
   PLATFORM: "OD_UPDATE_PLATFORM",
 } as const);
 
-const DEFAULT_RELEASE_ORIGIN = "https://releases.open-design.ai";
-const OWNERSHIP_SENTINEL = ".open-design-updater-root.json";
+const DEFAULT_RELEASE_ORIGIN = "https://releases.design-jury.ai";
+const OWNERSHIP_SENTINEL = ".design-jury-updater-root.json";
 const STORE_METADATA_FILE = "metadata.json";
 const RELEASES_DIR = "releases";
 const STAGING_DIR = "staging";
@@ -402,7 +402,7 @@ function extensionForArtifact(name: string | undefined, type: string): string {
 function artifactFileName(candidate: UpdateCandidate): string {
   const ext = extensionForArtifact(candidate.artifact.name, candidate.artifact.type ?? "artifact");
   return [
-    "open-design",
+    "design-jury",
     sanitizePathSegment(candidate.version),
     sanitizePathSegment(candidate.platformKey),
     sanitizePathSegment(candidate.arch),
@@ -472,7 +472,7 @@ function storeShapeError(root: string, message: string, details?: unknown): Desk
 }
 
 function logStoreError(logger: DesktopUpdaterLogger, error: DesktopUpdateErrorSnapshot): void {
-  logger.error("[open-design updater] invalid update store", error);
+  logger.error("[design-jury updater] invalid update store", error);
 }
 
 function isAllowedRootEntry(name: string): boolean {
@@ -584,13 +584,13 @@ async function ensureOwnedUpdateRoot(
           ok: false,
           error: createError(
             "update-root-not-owned",
-            `update root is not empty and has no Open Design updater ownership marker: ${realRoot}`,
+            `update root is not empty and has no Design Jury updater ownership marker: ${realRoot}`,
           ),
         };
       }
       await writeJson(sentinelPath, {
         createdAt: new Date().toISOString(),
-        owner: "open-design-updater",
+        owner: "design-jury-updater",
         source: config.source,
         version: UPDATE_ROOT_VERSION,
       });
@@ -1197,12 +1197,12 @@ async function cleanupBackDirectory(root: string, logger: DesktopUpdaterLogger):
   const entry = await lstat(backDir).catch(() => null);
   if (entry == null) return;
   if (!entry.isDirectory() || entry.isSymbolicLink()) {
-    logger.warn("[open-design updater] skipped invalid update backup directory", backDir);
+    logger.warn("[design-jury updater] skipped invalid update backup directory", backDir);
     return;
   }
   const realBackDir = await realpath(backDir).catch(() => null);
   if (realBackDir == null || !containsPath(root, realBackDir)) {
-    logger.warn("[open-design updater] skipped escaped update backup directory", backDir);
+    logger.warn("[design-jury updater] skipped escaped update backup directory", backDir);
     return;
   }
   const entries = await readdir(backDir);
@@ -1217,14 +1217,14 @@ async function cleanupBackDirectory(root: string, logger: DesktopUpdaterLogger):
       if (real == null || !containsPath(root, real)) return;
     }
     await rm(resolved, { force: true, recursive: true }).catch((error: unknown) => {
-      logger.warn("[open-design updater] failed to clean update backup entry", error);
+      logger.warn("[design-jury updater] failed to clean update backup entry", error);
     });
   }));
 }
 
 function scheduleBackCleanup(root: string, logger: DesktopUpdaterLogger): void {
   void cleanupBackDirectory(root, logger).catch((error: unknown) => {
-    logger.warn("[open-design updater] failed to clean update backup directory", error);
+    logger.warn("[design-jury updater] failed to clean update backup directory", error);
   });
 }
 
@@ -1267,10 +1267,10 @@ async function clearInterruptedIncomingDownload(
   const stagingDir = resolve(stagingRoot, incoming.cycleId);
   if (containsPath(stagingRoot, stagingDir)) {
     await rm(stagingDir, { force: true, recursive: true }).catch((error: unknown) => {
-      logger.warn("[open-design updater] failed to clean interrupted update staging directory", error);
+      logger.warn("[design-jury updater] failed to clean interrupted update staging directory", error);
     });
   } else {
-    logger.warn("[open-design updater] skipped escaped interrupted update staging directory", {
+    logger.warn("[design-jury updater] skipped escaped interrupted update staging directory", {
       cycleId: incoming.cycleId,
       stagingDir,
     });
@@ -1280,7 +1280,7 @@ async function clearInterruptedIncomingDownload(
     incoming: undefined,
   };
   await writeStoreMetadata(root, next);
-  logger.warn("[open-design updater] cleared interrupted update download", {
+  logger.warn("[design-jury updater] cleared interrupted update download", {
     cycleId: incoming.cycleId,
     version: incoming.version,
   });
@@ -1785,7 +1785,7 @@ export function createDesktopUpdater(
         toVersion: activeRelease.ref.version,
       });
     } catch (observationError) {
-      logger.warn("[open-design updater] failed to write installer observation", observationError);
+      logger.warn("[design-jury updater] failed to write installer observation", observationError);
       return null;
     }
   }
@@ -1798,7 +1798,7 @@ export function createDesktopUpdater(
     try {
       await markInstallerObservationOpenFailed(observation, failedAt);
     } catch (observationError) {
-      logger.warn("[open-design updater] failed to update installer observation", observationError);
+      logger.warn("[design-jury updater] failed to update installer observation", observationError);
     }
   }
 
@@ -1994,7 +1994,7 @@ export function createDesktopUpdaterScheduler(
         return;
       }
     } catch (error) {
-      logger.warn("[open-design updater] scheduled update check failed", error);
+      logger.warn("[design-jury updater] scheduled update check failed", error);
     } finally {
       tickRunning = false;
     }

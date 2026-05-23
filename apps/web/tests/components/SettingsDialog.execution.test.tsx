@@ -1745,9 +1745,9 @@ describe('SettingsDialog connectors interactions', () => {
 
 describe('SettingsDialog MCP server interactions', () => {
   const installInfo = {
-    command: '/Applications/Open Design.app/Contents/Resources/open-design/bin/node',
+    command: '/Applications/Design Jury.app/Contents/Resources/design-jury/bin/node',
     args: [
-      '/Applications/Open Design.app/Contents/Resources/app/node_modules/@open-design/daemon/dist/cli.js',
+      '/Applications/Design Jury.app/Contents/Resources/app/node_modules/@design-jury/daemon/dist/cli.js',
       'mcp',
       '--daemon-url',
       'http://127.0.0.1:51706',
@@ -1802,10 +1802,10 @@ describe('SettingsDialog MCP server interactions', () => {
     });
     expect(screen.getByText(/Run this in your terminal/i)).toBeTruthy();
     await waitFor(() => {
-      expect(screen.getByText(/claude mcp add-json --scope user open-design/i)).toBeTruthy();
+      expect(screen.getByText(/claude mcp add-json --scope user design-jury/i)).toBeTruthy();
     });
     expect(screen.getByText(/Restart your client to pick up the new server/i)).toBeTruthy();
-    expect(screen.getByText(/Open Design must be running for MCP tool calls to succeed/i)).toBeTruthy();
+    expect(screen.getByText(/Design Jury must be running for MCP tool calls to succeed/i)).toBeTruthy();
   });
 
   it('switches client instructions and snippet content when a different MCP client is selected', async () => {
@@ -1815,7 +1815,7 @@ describe('SettingsDialog MCP server interactions', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/claude mcp add-json --scope user open-design/i)).toBeTruthy();
+      expect(screen.getByText(/claude mcp add-json --scope user design-jury/i)).toBeTruthy();
     });
 
     fireEvent.click(screen.getByRole('button', { name: /Claude Code/i }));
@@ -1824,7 +1824,7 @@ describe('SettingsDialog MCP server interactions', () => {
     await waitFor(() => {
       expect(screen.getByText(/Append this table to ~\/\.codex\/config\.toml/i)).toBeTruthy();
     });
-    expect(screen.getByText(/\[mcp_servers\.open-design\]/i)).toBeTruthy();
+    expect(screen.getByText(/\[mcp_servers\.design-jury\]/i)).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: /Codex/i }));
     fireEvent.click(screen.getByRole('option', { name: /Cursor/i }));
@@ -1843,14 +1843,14 @@ describe('SettingsDialog MCP server interactions', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/claude mcp add-json --scope user open-design/i)).toBeTruthy();
+      expect(screen.getByText(/claude mcp add-json --scope user design-jury/i)).toBeTruthy();
     });
 
     fireEvent.click(screen.getByRole('button', { name: 'Copy MCP configuration snippet' }));
 
     await waitFor(() => {
       expect(writeTextMock).toHaveBeenCalledWith(
-        expect.stringContaining("claude mcp add-json --scope user open-design"),
+        expect.stringContaining("claude mcp add-json --scope user design-jury"),
       );
     });
     expect(screen.getByText('Copied')).toBeTruthy();
@@ -1875,7 +1875,7 @@ describe('SettingsDialog MCP server interactions', () => {
 describe('SettingsDialog language interactions', () => {
   afterEach(() => {
     cleanup();
-    window.localStorage.removeItem('open-design:locale');
+    window.localStorage.removeItem('design-jury:locale');
     document.documentElement.removeAttribute('lang');
     document.documentElement.removeAttribute('dir');
   });
@@ -1895,7 +1895,7 @@ describe('SettingsDialog language interactions', () => {
     fireEvent.click(screen.getByRole('radio', { name: /简体中文/i }));
 
     expect(screen.getByRole('radio', { name: /简体中文/i }).getAttribute('aria-checked')).toBe('true');
-    expect(window.localStorage.getItem('open-design:locale')).toBe('zh-CN');
+    expect(window.localStorage.getItem('design-jury:locale')).toBe('zh-CN');
     expect(document.documentElement.getAttribute('lang')).toBe('zh-CN');
     expect(document.documentElement.getAttribute('dir')).toBe('ltr');
   });
@@ -1905,7 +1905,7 @@ describe('SettingsDialog language interactions', () => {
 
     fireEvent.click(screen.getByRole('radio', { name: /فارسی/i }));
 
-    expect(window.localStorage.getItem('open-design:locale')).toBe('fa');
+    expect(window.localStorage.getItem('design-jury:locale')).toBe('fa');
     expect(document.documentElement.getAttribute('lang')).toBe('fa');
     expect(document.documentElement.getAttribute('dir')).toBe('rtl');
   });
@@ -1915,13 +1915,13 @@ describe('SettingsDialog language interactions', () => {
 
     fireEvent.click(screen.getByRole('radio', { name: /Deutsch/i }));
 
-    expect(window.localStorage.getItem('open-design:locale')).toBe('de');
+    expect(window.localStorage.getItem('design-jury:locale')).toBe('de');
     expect(document.documentElement.getAttribute('lang')).toBe('de');
 
     fireEvent.click(screen.getByTitle(/close|schließen/i));
     expect(onPersist).not.toHaveBeenCalled();
     expect(onClose).toHaveBeenCalledTimes(1);
-    expect(window.localStorage.getItem('open-design:locale')).toBe('de');
+    expect(window.localStorage.getItem('design-jury:locale')).toBe('de');
     expect(document.documentElement.getAttribute('lang')).toBe('de');
     expect(document.documentElement.getAttribute('dir')).toBe('ltr');
   });
@@ -2661,7 +2661,7 @@ describe('SettingsDialog about interactions', () => {
     const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
     fetchLatestGithubReleaseInfoMock.mockResolvedValue({
       tagName: 'v0.4.1',
-      htmlUrl: 'https://github.com/nexu-io/open-design/releases/tag/v0.4.1',
+      htmlUrl: 'https://github.com/nexu-io/design-jury/releases/tag/v0.4.1',
       stale: true,
     });
 
@@ -2683,7 +2683,7 @@ describe('SettingsDialog about interactions', () => {
 
     await waitFor(() => {
       expect(openSpy).toHaveBeenCalledWith(
-        'https://github.com/nexu-io/open-design/releases',
+        'https://github.com/nexu-io/design-jury/releases',
         '_blank',
         'noopener,noreferrer',
       );

@@ -24,7 +24,7 @@ import {
   type TrackingFeedbackReasonCode,
   type TrackingFeedbackRatingWithNone,
   type TrackingProjectKind,
-} from "@open-design/contracts/analytics";
+} from "@design-jury/contracts/analytics";
 import {
   splitOnQuestionForms,
   type QuestionForm,
@@ -1199,7 +1199,7 @@ function PluginActionPanel({
                   <span>
                     {actionBusy && busyKey === `contribute:${folder.path}`
                       ? "Sending..."
-                      : "Open Design PR"}
+                      : "Design Jury PR"}
                   </span>
                 </button>
                 {onRequestOpenFile ? (
@@ -1295,7 +1295,7 @@ function pathMatchesFolderFileBasename(
 }
 
 function hasPluginFinalActionHint(content: string): boolean {
-  return /\b(Add to My plugins|Open Design PR|Publish repo|plugin publish|ready to publish|ready to add)\b/i.test(
+  return /\b(Add to My plugins|Design Jury PR|Publish repo|plugin publish|ready to publish|ready to add)\b/i.test(
     content,
   );
 }

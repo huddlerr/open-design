@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-html-ppt-zhangzara-editorial-tri-tone",
   "title": "Html Ppt Zhangzara Editorial Tri Tone",
@@ -7,10 +7,10 @@
   "description": "Editorial Tri-Tone — Three-color editorial system: dusty pink, mustard cream, and deep burgundy, set in Bricolage + Instrument Serif. Anything that should feel like a fashion-magazine spread: editorial pitches, fashion brand decks, lifestyle media, art direction reviews.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/html-ppt-zhangzara-editorial-tri-tone",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/html-ppt-zhangzara-editorial-tri-tone",
   "tags": [
     "example",
     "first-party",

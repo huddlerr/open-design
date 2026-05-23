@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-game-screenshot-three-kingdoms-lyubu-yuanmen-archery",
   "title": "Game Screenshot - Three Kingdoms ARPG: Lü Bu's Yuanmen Archery",
@@ -7,10 +7,10 @@
   "description": "An in-game action-RPG screenshot of the famous Three Kingdoms scene where Lü Bu shoots down a distant halberd at the camp gate to stop a battle. Rendered in the cinematic photoreal style of Black Myth: Wukong, Unreal Engine 5 Nanite/Lumen, third-person over-the-shoulder gameplay camera. Full in-game HUD overlay (HP + qi bars, minimap, skill hotbar, lock-on target marker with distance readout to the far halberd) makes it read as a real next-gen ARPG capture rather than a cutscene. Tuned for gpt-image-2 at 16:9.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "image-template",
     "first-party",
@@ -32,7 +32,7 @@
     "surface": "image",
     "preview": {
       "type": "image",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/image/game-screenshot-three-kingdoms-lyubu-yuanmen-archery.jpg"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/image/game-screenshot-three-kingdoms-lyubu-yuanmen-archery.jpg"
     },
     "useCase": {
       "query": {

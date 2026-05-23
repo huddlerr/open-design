@@ -242,8 +242,8 @@ Rationale:
 
 | File | Purpose |
 |---|---|
-| `~/.open-design/config.toml` | daemon-global: default agent preference, keys (optional, BYOK), telemetry opt-in (default off) |
-| `~/.open-design/agents.json` | cached agent detection results |
+| `~/.design-jury/config.toml` | daemon-global: default agent preference, keys (optional, BYOK), telemetry opt-in (default off) |
+| `~/.design-jury/agents.json` | cached agent detection results |
 | `./.od/config.json` | project-local: active design system, preferred skills, preferred mode |
 | `./skills/<skill>/SKILL.md` | skill manifest (standard Claude Code format) |
 | `./DESIGN.md` | active design system ([awesome-claude-design][acd] format) |
@@ -293,7 +293,7 @@ Safety:
   stays focused on design content.
 
 Request / response types: `ImportFolderRequest`, `ImportFolderResponse`
-in `@open-design/contracts`.
+in `@design-jury/contracts`.
 
 #### Desktop folder-import auth (PR #974)
 
@@ -408,7 +408,7 @@ When a reverse proxy sits in front of the daemon, `/api/*` includes SSE streams 
 services:
   daemon:
     image: openclaudedesign/daemon
-    volumes: [ "~/.open-design:/root/.open-design", "./:/workspace" ]
+    volumes: [ "~/.design-jury:/root/.design-jury", "./:/workspace" ]
     ports: ["7456:7456"]
   web:
     image: openclaudedesign/web

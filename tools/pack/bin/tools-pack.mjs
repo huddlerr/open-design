@@ -10,7 +10,7 @@ const srcDir = resolve(entryDir, "../src");
 
 if (!existsSync(distEntry)) {
   throw new Error(
-    `tools-pack dist entry not found at ${distEntry}. Run "pnpm --filter @open-design/tools-pack build" first.`,
+    `tools-pack dist entry not found at ${distEntry}. Run "pnpm --filter @design-jury/tools-pack build" first.`,
   );
 }
 
@@ -48,7 +48,7 @@ function isStale() {
 if (isStale() && process.env.NODE_ENV !== "production") {
   console.warn(
     "[tools-pack] WARNING: dist is stale relative to source. " +
-    'Run "pnpm --filter @open-design/tools-pack build" to rebuild.'
+    'Run "pnpm --filter @design-jury/tools-pack build" to rebuild.'
   );
 }
 

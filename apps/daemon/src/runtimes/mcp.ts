@@ -13,7 +13,7 @@ export function buildLiveArtifactsMcpServersForAgent(
   if (!enabled || def?.mcpDiscovery !== 'mature-acp') return [];
   return [
     {
-      name: 'open-design-live-artifacts',
+      name: 'design-jury-live-artifacts',
       command,
       args: [...argsPrefix, 'mcp', 'live-artifacts'],
       env: [{ name: 'ELECTRON_RUN_AS_NODE', value: '1' }],

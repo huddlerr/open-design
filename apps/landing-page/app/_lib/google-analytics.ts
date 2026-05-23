@@ -23,10 +23,10 @@ export function googleAnalyticsHeadHtml(measurementId: string | undefined): stri
     var lowerLabel = label.toLowerCase();
     var cta = null;
 
-    if (lowerHref.includes('github.com/nexu-io/open-design/releases')) cta = 'download_desktop';
-    else if (lowerHref === 'https://github.com/nexu-io/open-design' || lowerLabel.includes('star')) cta = 'star_github';
+    if (lowerHref.includes('github.com/nexu-io/design-jury/releases')) cta = 'download_desktop';
+    else if (lowerHref === 'https://github.com/nexu-io/design-jury' || lowerLabel.includes('star')) cta = 'star_github';
     else if (lowerHref.includes('discord.gg/')) cta = 'join_discord';
-    else if (lowerHref.includes('github.com/nexu-io/open-design/issues')) cta = 'open_issue';
+    else if (lowerHref.includes('github.com/nexu-io/design-jury/issues')) cta = 'open_issue';
     else if (link.pathname && link.pathname.startsWith('/blog/')) cta = 'blog_cta';
     else if (link.pathname && link.pathname.startsWith('/tutorials/')) cta = 'tutorial_cta';
 

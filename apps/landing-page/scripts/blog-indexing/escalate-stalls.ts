@@ -134,7 +134,7 @@ function main() {
         '',
         'Resolution path:',
         '',
-        '1. Open each URL in [Search Console URL Inspection](https://search.google.com/search-console/inspect?resource_id=sc-domain%3Aopen-design.ai)',
+        '1. Open each URL in [Search Console URL Inspection](https://search.google.com/search-console/inspect?resource_id=sc-domain%3Adesign-jury.ai)',
         '2. Confirm the rendered HTML matches what we ship (live test).',
         '3. If the page looks fine, improve the underlying SEO/content signals: title/query fit, internal links, canonical clarity, and content depth.',
         '4. Redeploy the fix, then let the scheduled monitor re-inspect the URL.',

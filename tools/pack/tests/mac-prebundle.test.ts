@@ -28,13 +28,13 @@ describe("mac standalone prebundle policy", () => {
   it("keeps server-mode package topology unchanged", () => {
     expect(
       shouldInstallInternalPackageForMacPrebundle({
-        packageName: "@open-design/web",
+        packageName: "@design-jury/web",
         webOutputMode: "server",
       }),
     ).toBe(true);
     expect(
       shouldInstallInternalPackageForMacPrebundle({
-        packageName: "@open-design/packaged",
+        packageName: "@design-jury/packaged",
         webOutputMode: "server",
       }),
     ).toBe(true);
@@ -42,13 +42,13 @@ describe("mac standalone prebundle policy", () => {
 
   it("excludes internal packages replaced by mac standalone prebundles", () => {
     for (const packageName of [
-      "@open-design/daemon",
-      "@open-design/desktop",
-      "@open-design/packaged",
-      "@open-design/platform",
-      "@open-design/sidecar",
-      "@open-design/sidecar-proto",
-      "@open-design/web",
+      "@design-jury/daemon",
+      "@design-jury/desktop",
+      "@design-jury/packaged",
+      "@design-jury/platform",
+      "@design-jury/sidecar",
+      "@design-jury/sidecar-proto",
+      "@design-jury/web",
     ]) {
       expect(
         shouldInstallInternalPackageForMacPrebundle({
@@ -59,7 +59,7 @@ describe("mac standalone prebundle policy", () => {
     }
     expect(
       shouldInstallInternalPackageForMacPrebundle({
-        packageName: "@open-design/contracts",
+        packageName: "@design-jury/contracts",
         webOutputMode: "standalone",
       }),
     ).toBe(true);
@@ -102,7 +102,7 @@ describe("findForbiddenMacPrebundleInputs", () => {
 
 describe("assertMacPrebundleMetafile", () => {
   it("accepts a safe web sidecar metafile", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-mac-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-mac-prebundle-"));
     const metafilePath = join(root, "safe.json");
 
     try {
@@ -121,13 +121,13 @@ describe("assertMacPrebundleMetafile", () => {
   });
 
   it("rejects a packaged main metafile that pulled in web runtime closure", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-mac-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-mac-prebundle-"));
     const metafilePath = join(root, "unsafe.json");
 
     try {
       await writeFile(
         metafilePath,
-        JSON.stringify({ inputs: { "/repo/node_modules/@open-design/web/dist/sidecar/index.js": {} } }),
+        JSON.stringify({ inputs: { "/repo/node_modules/@design-jury/web/dist/sidecar/index.js": {} } }),
         "utf8",
       );
 
@@ -140,7 +140,7 @@ describe("assertMacPrebundleMetafile", () => {
   });
 
   it("rejects a daemon metafile that bundled wasm-backed runtime dependencies", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-mac-prebundle-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-mac-prebundle-"));
     const metafilePath = join(root, "unsafe-daemon.json");
 
     try {
@@ -162,11 +162,11 @@ describe("assertMacPrebundleMetafile", () => {
 describe("renderMacPackagedMainEntry", () => {
   it("renders the prebundled runtime entry shim", () => {
     expect(renderMacPackagedMainEntry(true)).toContain("./prebundled/packaged-main.mjs");
-    expect(renderMacPackagedMainEntry(true)).not.toContain("@open-design/packaged");
+    expect(renderMacPackagedMainEntry(true)).not.toContain("@design-jury/packaged");
   });
 
   it("renders the package entry shim for non-prebundled mode", () => {
-    expect(renderMacPackagedMainEntry(false)).toContain("@open-design/packaged");
+    expect(renderMacPackagedMainEntry(false)).toContain("@design-jury/packaged");
     expect(renderMacPackagedMainEntry(false)).not.toContain("./prebundled/packaged-main.mjs");
   });
 });

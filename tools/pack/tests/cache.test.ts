@@ -17,7 +17,7 @@ async function pathExists(path: string): Promise<boolean> {
 
 describe("ToolPackCache", () => {
   it("builds once, materializes copies, and reports cache hits", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-cache-"));
     const cacheRoot = join(root, "cache");
     const firstOut = join(root, "first", "payload");
     const secondOut = join(root, "second", "payload");
@@ -51,7 +51,7 @@ describe("ToolPackCache", () => {
   });
 
   it("rebuilds stale entries when declared outputs are missing", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-stale-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-cache-stale-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;
@@ -91,7 +91,7 @@ describe("ToolPackCache", () => {
   });
 
   it("reads existing hits without building", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-tools-pack-cache-read-hit-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-tools-pack-cache-read-hit-"));
     const cacheRoot = join(root, "cache");
     const out = join(root, "out", "payload");
     let builds = 0;

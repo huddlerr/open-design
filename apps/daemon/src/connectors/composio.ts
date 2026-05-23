@@ -11,7 +11,7 @@ import { ConnectorServiceError, type ConnectorCredentialMaterial } from './servi
 
 const DEFAULT_COMPOSIO_BASE_URL = 'https://backend.composio.dev';
 const DEFAULT_COMPOSIO_TIMEOUT_MS = 30_000;
-const DEFAULT_COMPOSIO_USER_ID = 'open-design-local-user';
+const DEFAULT_COMPOSIO_USER_ID = 'design-jury-local-user';
 const OAUTH_STATE_TTL_MS = 10 * 60 * 1000;
 const DISCOVERY_CACHE_TTL_MS = 60_000;
 const CUSTOM_AUTH_REQUIRED_MESSAGE = 'Composio does not have managed credentials for this toolkit.';
@@ -1373,17 +1373,17 @@ function isGenericComposioDescription(description: string): boolean {
 
 function fallbackComposioDescription(name: string, category: string | undefined): string {
   const normalizedCategory = category?.trim().toLowerCase();
-  if (normalizedCategory?.includes('project')) return `Coordinate ${name} projects, tasks, and workflow data inside Open Design.`;
-  if (normalizedCategory?.includes('communication')) return `Bring ${name} conversations, channels, and collaboration context into Open Design.`;
-  if (normalizedCategory?.includes('documentation')) return `Search and reuse ${name} knowledge, pages, and documentation in Open Design.`;
-  if (normalizedCategory?.includes('storage')) return `Find and reference ${name} files, folders, and document metadata from Open Design.`;
-  if (normalizedCategory?.includes('developer')) return `Inspect ${name} developer resources, activity, and operational context from Open Design.`;
-  if (normalizedCategory?.includes('crm') || normalizedCategory?.includes('sales')) return `Use ${name} customer, deal, and account context in Open Design artifacts.`;
-  if (normalizedCategory?.includes('marketing')) return `Analyze ${name} campaigns, audiences, and marketing activity from Open Design.`;
-  if (normalizedCategory?.includes('finance') || normalizedCategory?.includes('commerce')) return `Work with ${name} business, billing, and transaction data in Open Design.`;
-  if (normalizedCategory?.includes('observability')) return `Surface ${name} incidents, metrics, and operational signals in Open Design.`;
-  if (normalizedCategory?.includes('data')) return `Query ${name} datasets and platform metadata for data-backed Open Design artifacts.`;
-  return `Use ${name} tools and data directly from Open Design.`;
+  if (normalizedCategory?.includes('project')) return `Coordinate ${name} projects, tasks, and workflow data inside Design Jury.`;
+  if (normalizedCategory?.includes('communication')) return `Bring ${name} conversations, channels, and collaboration context into Design Jury.`;
+  if (normalizedCategory?.includes('documentation')) return `Search and reuse ${name} knowledge, pages, and documentation in Design Jury.`;
+  if (normalizedCategory?.includes('storage')) return `Find and reference ${name} files, folders, and document metadata from Design Jury.`;
+  if (normalizedCategory?.includes('developer')) return `Inspect ${name} developer resources, activity, and operational context from Design Jury.`;
+  if (normalizedCategory?.includes('crm') || normalizedCategory?.includes('sales')) return `Use ${name} customer, deal, and account context in Design Jury artifacts.`;
+  if (normalizedCategory?.includes('marketing')) return `Analyze ${name} campaigns, audiences, and marketing activity from Design Jury.`;
+  if (normalizedCategory?.includes('finance') || normalizedCategory?.includes('commerce')) return `Work with ${name} business, billing, and transaction data in Design Jury.`;
+  if (normalizedCategory?.includes('observability')) return `Surface ${name} incidents, metrics, and operational signals in Design Jury.`;
+  if (normalizedCategory?.includes('data')) return `Query ${name} datasets and platform metadata for data-backed Design Jury artifacts.`;
+  return `Use ${name} tools and data directly from Design Jury.`;
 }
 
 function getComposioAuthConfigId(response: ComposioAuthConfigResponse): string | undefined {

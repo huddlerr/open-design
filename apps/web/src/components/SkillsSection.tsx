@@ -7,7 +7,7 @@ import {
 } from '../i18n/content';
 import { Icon } from './Icon';
 import type { AppConfig } from '../types';
-import type { SkillSummary } from '@open-design/contracts';
+import type { SkillSummary } from '@design-jury/contracts';
 import {
   deleteSkill,
   fetchSkill,

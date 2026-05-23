@@ -13,7 +13,7 @@
  *   {
  *     "today": "2026-05-15",
  *     "windows": { "1": [...], "3": [...], "7": [...], "14": [...] },
- *     "urls": ["https://open-design.ai/blog/foo/", ...]   // dedupe of all 4 buckets
+ *     "urls": ["https://design-jury.ai/blog/foo/", ...]   // dedupe of all 4 buckets
  *   }
  *
  * If no URLs match, exits 0 with `urls: []` so the calling workflow

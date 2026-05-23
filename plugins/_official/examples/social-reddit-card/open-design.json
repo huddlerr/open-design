@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-social-reddit-card",
   "title": "Reddit Post Card",
@@ -7,10 +7,10 @@
   "description": "Realistic Reddit post card with vote rail and comment count, suited to video overlays or story sharing.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/social-reddit-card",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/social-reddit-card",
   "tags": [
     "example",
     "first-party",

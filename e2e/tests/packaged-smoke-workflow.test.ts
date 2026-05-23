@@ -39,11 +39,11 @@ describe("packaged smoke workflow", () => {
     expect(workflow).toContain("manifest.json");
     expect(workflow).toContain("tools-pack.json");
     expect(workflow).toContain("Upload linux e2e spec report");
-    expect(workflow).toContain("open-design-beta-linux-e2e-report");
+    expect(workflow).toContain("design-jury-beta-linux-e2e-report");
     expect(workflow).toContain("Publish beta linux assets to R2");
     expect(workflow).toContain("RELEASE_PLATFORM: linux");
     expect(workflow).toContain("Upload linux publish manifest");
-    expect(workflow).toContain("open-design-beta-linux-publish-manifest");
+    expect(workflow).toContain("design-jury-beta-linux-publish-manifest");
     expect(workflow).not.toContain("Download linux e2e spec report");
     expectReleaseLinuxBuildPreservesEvidence(workflow, "Build beta linux artifacts");
     expectReleaseLinuxSmokePreservesEvidenceBeforeApt(workflow, "Smoke beta linux AppImage runtime");
@@ -62,7 +62,7 @@ describe("packaged smoke workflow", () => {
     expect(workflow).toContain("manifest.json");
     expect(workflow).toContain("tools-pack.json");
     expect(workflow).toContain("Upload linux e2e spec report");
-    expect(workflow).toContain("open-design-release-linux-e2e-report");
+    expect(workflow).toContain("design-jury-release-linux-e2e-report");
     expect(workflow).toContain("Download linux e2e spec report");
     expectReleaseLinuxBuildPreservesEvidence(workflow, "Build release linux artifacts");
     expectReleaseLinuxSmokePreservesEvidenceBeforeApt(workflow, "Smoke release linux AppImage runtime");

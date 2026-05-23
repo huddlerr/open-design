@@ -6,8 +6,8 @@ import type { Dict } from '../i18n/types';
 import { copyToClipboard } from '../lib/copy-to-clipboard';
 import { projectRawUrl } from '../providers/registry';
 import type { TodoItem } from '../runtime/todos';
-import type { AppliedPluginSnapshot } from '@open-design/contracts';
-import type { TrackingProjectKind } from '@open-design/contracts/analytics';
+import type { AppliedPluginSnapshot } from '@design-jury/contracts';
+import type { TrackingProjectKind } from '@design-jury/contracts/analytics';
 import {
   DESIGN_SYSTEM_WORKSPACE_DISPLAY_DESCRIPTION,
   DESIGN_SYSTEM_WORKSPACE_DISPLAY_TITLE,

@@ -28,7 +28,7 @@ import { uk } from './locales/uk';
 import { tr } from './locales/tr';
 import { th } from './locales/th';
 import { it } from './locales/it';
-import { getOpenDesignHost } from '@open-design/host';
+import { getOpenDesignHost } from '@design-jury/host';
 import { LOCALES, type Dict, type Locale } from './types';
 
 export { LOCALES, LOCALE_LABEL } from './types';
@@ -58,13 +58,13 @@ const DICTS: Record<Locale, Dict> = {
   'it': it,
 };
 
-const LS_KEY = 'open-design:locale';
+const LS_KEY = 'design-jury:locale';
 // Marker that says "the value in LS_KEY came from a deliberate user
 // action through setLocale, not from some auto-detection path". Only
 // values tagged this way win over the desktop host's injected OS
 // locale, so a stale auto-detected pick can't pin the app forever once
 // the user changes their system language.
-const LS_SOURCE_KEY = 'open-design:locale-source';
+const LS_SOURCE_KEY = 'design-jury:locale-source';
 const MANUAL_LOCALE_SOURCE = 'manual';
 
 export function resolveSystemLocale(languages: readonly string[]): Locale | null {

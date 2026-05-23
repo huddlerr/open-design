@@ -12,8 +12,8 @@ import {
   type DesktopExportPdfInput,
   type DesktopExportPdfResult,
   type DesktopUpdateStatusSnapshot,
-} from "@open-design/sidecar-proto";
-import type { OpenDesignHostActionResult, OpenDesignHostUpdaterActionOptions } from "@open-design/host";
+} from "@design-jury/sidecar-proto";
+import type { OpenDesignHostActionResult, OpenDesignHostUpdaterActionOptions } from "@design-jury/host";
 
 import { createElectronPdfTarget, exportPdfFromHtml, savePrintReadyDocumentAsPdf } from "./pdf-export.js";
 import type { PrintReadyPdfOptions } from "./pdf-export.js";
@@ -646,7 +646,7 @@ function createPendingHtml(): string {
   return `data:text/html;charset=utf-8,${encodeURIComponent(`<!doctype html>
 <html>
   <head>
-    <title>Open Design</title>
+    <title>Design Jury</title>
     <style>
       body {
         align-items: center;
@@ -678,7 +678,7 @@ function createPendingHtml(): string {
   <body>
     <main>
       ${logoDataUrl ? `<img src="${logoDataUrl}" alt="" />` : ""}
-      <h1>Open Design</h1>
+      <h1>Design Jury</h1>
       <p>Waiting for the web runtime URL…</p>
     </main>
   </body>
@@ -1216,7 +1216,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
     minHeight: 600,
     minWidth: 900,
     show: true,
-    title: "Open Design",
+    title: "Design Jury",
     ...MAC_WINDOW_CHROME,
     webPreferences: {
       additionalArguments: osLocaleAdditionalArguments(options.osLocale),
@@ -1252,7 +1252,7 @@ export async function createDesktopRuntime(options: DesktopRuntimeOptions): Prom
   const unsubscribeUpdater = options.updater?.subscribe(() => sendUpdaterStatus()) ?? (() => undefined);
   const requireMainWindowSender = (event: Electron.IpcMainInvokeEvent): void => {
     if (event.sender !== window.webContents) {
-      throw new Error("updater IPC is only available to the main Open Design window");
+      throw new Error("updater IPC is only available to the main Design Jury window");
     }
   };
   ipcMain.handle("od:update:status", async (event) => {

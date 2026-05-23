@@ -1,11 +1,11 @@
 {
-  "$schema": "https://open-design.ai/schemas/marketplace.v1.json",
+  "$schema": "https://design-jury.ai/schemas/marketplace.v1.json",
   "specVersion": "1.0.0",
-  "name": "open-design-spec-examples",
+  "name": "design-jury-spec-examples",
   "version": "0.1.0",
   "owner": {
-    "name": "Open Design Spec Examples",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "Design Jury Spec Examples",
+    "url": "https://github.com/nexu-io/design-jury"
   },
   "metadata": {
     "description": "Example plugin spec catalog for authoring and PR workflows.",

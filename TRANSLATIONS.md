@@ -1,6 +1,6 @@
 # Translation Guide
 
-> **Quick start for contributors:** This guide helps you add a new language translation to Open Design in ~2 hours instead of ~8 hours. Follow the checklist, avoid common mistakes, and ship your PR with confidence.
+> **Quick start for contributors:** This guide helps you add a new language translation to Design Jury in ~2 hours instead of ~8 hours. Follow the checklist, avoid common mistakes, and ship your PR with confidence.
 
 For general contribution flow, see [CONTRIBUTING.md](CONTRIBUTING.md). The "Localization maintenance" section there documents the boundary between translated surfaces and agent-facing source material. This file covers **how** to add and maintain a locale across the surfaces contributors touch most often: UI chrome, root READMEs, core docs, and display metadata.
 
@@ -29,13 +29,13 @@ cp README.md README.it.md
 
 **What to translate:**
 - ✅ All text, headings, descriptions
-- ✅ Alt text: `alt="Open Design banner"`
+- ✅ Alt text: `alt="Design Jury banner"`
 - ✅ Link text: `[Quickstart](QUICKSTART.md)` → `[Guida rapida](QUICKSTART.it.md)` (if that file exists; otherwise keep `QUICKSTART.md` target)
 
 **What NOT to translate:**
 - ❌ Code snippets, commands, file paths
 - ❌ URLs, GitHub usernames, repo names
-- ❌ Brand names: "Open Design", "Claude Code"
+- ❌ Brand names: "Design Jury", "Claude Code"
 - ❌ Technical terms: CLI, API, BYOK, daemon
 
 ### Step 3: Update ALL Language Switchers (Critical!)
@@ -76,7 +76,7 @@ export const it: Dict = {
 
 Then register it in `apps/web/src/i18n/index.tsx` and `apps/web/src/i18n/types.ts` (see [detailed steps below](#adding-a-new-locale)).
 
-**Don't forget to update test fixtures:** Add your locale code to `EXPECTED_LOCALES` in `apps/web/tests/i18n/locales.test.ts` and add a `LOCALE_LABEL` assertion (e.g., `expect(LOCALE_LABEL.it).toBe('Italiano');`). Run `pnpm --filter @open-design/web test` to verify.
+**Don't forget to update test fixtures:** Add your locale code to `EXPECTED_LOCALES` in `apps/web/tests/i18n/locales.test.ts` and add a `LOCALE_LABEL` assertion (e.g., `expect(LOCALE_LABEL.it).toBe('Italiano');`). Run `pnpm --filter @design-jury/web test` to verify.
 
 ### Step 5: Test and Submit
 
@@ -104,7 +104,7 @@ pnpm i18n:check
 
 ## 📋 Supported Languages
 
-Open Design currently supports **18 languages** across different surfaces:
+Design Jury currently supports **18 languages** across different surfaces:
 
 | Language             | Code    | README | UI Dict | Core Docs | Status |
 | -------------------- | ------- | ------ | ------- | --------- | ------ |
@@ -255,14 +255,14 @@ The `LOCALES` array in [`apps/web/src/i18n/types.ts`](apps/web/src/i18n/types.ts
    ```bash
    pnpm typecheck  # Confirms locale union and DICTS map agree
    pnpm i18n:check  # Enforces UI locale registration and README switcher consistency
-   pnpm --filter @open-design/web test  # Covers locale/content drift tests
+   pnpm --filter @design-jury/web test  # Covers locale/content drift tests
    ```
 
 ### Translation Best Practices
 
 **What to translate:**
 - ✅ All prose text, headings, descriptions
-- ✅ Alt text in images: `alt="Open Design banner"` → `alt="Banner di Open Design"`
+- ✅ Alt text in images: `alt="Design Jury banner"` → `alt="Banner di Design Jury"`
 - ✅ Badge labels where appropriate: `discord-join` → `discord-unisciti`
 - ✅ Code comments in examples (if instructional)
 - ✅ Link text: `[Quickstart](QUICKSTART.md)` → `[Guida rapida](QUICKSTART.it.md)` (if that file exists; otherwise keep `QUICKSTART.md` target)
@@ -271,14 +271,14 @@ The `LOCALES` array in [`apps/web/src/i18n/types.ts`](apps/web/src/i18n/types.ts
 - ❌ Code snippets (commands, file paths, variable names)
 - ❌ URLs and domain names
 - ❌ GitHub usernames and repository names
-- ❌ Brand names: "Open Design", "Claude Code", "Anthropic", "Vercel"
+- ❌ Brand names: "Design Jury", "Claude Code", "Anthropic", "Vercel"
 - ❌ Technical terms with no standard translation: CLI, API, SDK, BYOK, daemon, sidecar, monorepo, artifact, iframe
 - ❌ Command output (keep terminal output in English as it appears in actual software)
 
 **Terminology guidelines:**
 - Use the English term with a brief explanation in parentheses on first use if no standard translation exists:
   ```
-  Open Design è un'alternativa open-source (codice aperto) a Claude Design.
+  Design Jury è un'alternativa open-source (codice aperto) a Claude Design.
   ```
 - For regional variants (zh-CN vs zh-TW, pt-BR vs pt-PT), choose the most widely understood variant for your target audience
 - See [Regional terminology](#regional-terminology) section for specific glossaries
@@ -315,7 +315,7 @@ Some badges in the README can be localized by changing the badge URL:
 Translations follow the conventions of the target region's tech writing community. Maintainers trust contributors to make idiomatic choices and will not gate-keep on style.
 
 **Technical terms to keep in English:**
-- Open Design, Claude Code, Claude Design
+- Design Jury, Claude Code, Claude Design
 - Skills, Design Systems
 - BYOK (Bring Your Own Key)
 - CLI, API, SDK
@@ -333,7 +333,7 @@ Translations follow the conventions of the target region's tech writing communit
 
 ### zh-CN ↔ zh-TW Glossary
 
-When converting between Simplified and Traditional Chinese, prefer Taiwan-specific phrasing in zh-TW rather than character-only conversion. This list grew out of [PR #194](https://github.com/nexu-io/open-design/pull/194) and is meant as a starting point, not a rulebook.
+When converting between Simplified and Traditional Chinese, prefer Taiwan-specific phrasing in zh-TW rather than character-only conversion. This list grew out of [PR #194](https://github.com/nexu-io/design-jury/pull/194) and is meant as a starting point, not a rulebook.
 
 **Tooling:** [OpenCC](https://github.com/BYVoid/OpenCC) with `s2twp.json` handles most core terms automatically. The idiomatic table below is where human review pays off.
 
@@ -418,7 +418,7 @@ If a contributor wants neutral or Latin American Spanish, propose a separate loc
 
 **Example:**
 ```markdown
-Open Design هو البديل مفتوح المصدر لـ Claude Design
+Design Jury هو البديل مفتوح المصدر لـ Claude Design
 ```
 
 ### Other Languages
@@ -483,7 +483,7 @@ pnpm typecheck
 pnpm i18n:check
 
 # Web package tests (if you added UI dictionary)
-pnpm --filter @open-design/web test
+pnpm --filter @design-jury/web test
 ```
 
 All checks must pass before submitting your PR.
@@ -507,7 +507,7 @@ feat(i18n): add [Language] translation
 
 ```markdown
 ## Summary
-Adds [Language] translation for Open Design documentation.
+Adds [Language] translation for Design Jury documentation.
 
 ## Translation Scope
 - [x] README.[lang].md
@@ -688,7 +688,7 @@ Web server running at http://localhost:17573
 **A:** Use the English term with a brief explanation in parentheses on first use:
 
 ```markdown
-Open Design è un'alternativa open-source (codice aperto) a Claude Design.
+Design Jury è un'alternativa open-source (codice aperto) a Claude Design.
 ```
 
 After the first use, you can use just the English term.
@@ -701,7 +701,7 @@ After the first use, you can use just the English term.
 
 ```markdown
 <!-- README: Arabic text flows RTL automatically -->
-Open Design هو البديل مفتوح المصدر لـ Claude Design
+Design Jury هو البديل مفتوح المصدر لـ Claude Design
 
 <!-- Code blocks stay LTR -->
 ```bash
@@ -767,8 +767,8 @@ If yes to all, it's good enough!
 
 ## 🆘 Getting Help
 
-- **Questions?** Open a [GitHub Discussion](https://github.com/nexu-io/open-design/discussions)
-- **Found an issue?** Open a [GitHub Issue](https://github.com/nexu-io/open-design/issues)
+- **Questions?** Open a [GitHub Discussion](https://github.com/nexu-io/design-jury/discussions)
+- **Found an issue?** Open a [GitHub Issue](https://github.com/nexu-io/design-jury/issues)
 - **Want to chat?** Join our [Discord](https://discord.gg/qhbcCH8Am4)
 - **Need a review?** Tag `@nexu-io/maintainers` in your PR
 
@@ -782,7 +782,7 @@ Genuinely undecided — flagged so contributors know they're live design discuss
 - **README freshness signal.** A small badge or front-matter timestamp on each `README.<code>.md` could help readers gauge how current a translation is.
 - **Native-speaker review window.** Whether `~7 days` is too short for smaller language communities — adjust if real data shows otherwise.
 
-If you have an opinion on any of the above, open an issue or comment on [#195](https://github.com/nexu-io/open-design/issues/195).
+If you have an opinion on any of the above, open an issue or comment on [#195](https://github.com/nexu-io/design-jury/issues/195).
 
 ---
 
@@ -791,7 +791,7 @@ If you have an opinion on any of the above, open an issue or comment on [#195](h
 These items are **decided to defer** — the team has agreed not to act on them now, with rough triggers for revisiting:
 
 - **Translation memory tooling** (Crowdin / Weblate / Lingui). Re-evaluate once the project hits ~12-15 active locales **or** when contributors start visibly duplicating effort across PRs.
-- **README template-driven generation** (e.g. [NRG](https://github.com/nanolaba/readme-generator), custom `.src.md` build scripts, All Contributors-style tooling). Re-evaluate once the project hits ≥15 locales **or** README structural edits become more frequent than monthly. Discussion in [#195](https://github.com/nexu-io/open-design/issues/195): template-driven generation solves the "update line 27 in 10 README variants" brittleness, but forces a shared structure that today's locale variants intentionally diverge from (e.g. `README.zh-TW.md`'s "上手體驗" section, the pt-BR / pt-PT precedent for content-level — not just translation-level — differences). Worth revisiting once locale voice is more settled or the manual-update cost grows.
+- **README template-driven generation** (e.g. [NRG](https://github.com/nanolaba/readme-generator), custom `.src.md` build scripts, All Contributors-style tooling). Re-evaluate once the project hits ≥15 locales **or** README structural edits become more frequent than monthly. Discussion in [#195](https://github.com/nexu-io/design-jury/issues/195): template-driven generation solves the "update line 27 in 10 README variants" brittleness, but forces a shared structure that today's locale variants intentionally diverge from (e.g. `README.zh-TW.md`'s "上手體驗" section, the pt-BR / pt-PT precedent for content-level — not just translation-level — differences). Worth revisiting once locale voice is more settled or the manual-update cost grows.
 
 ---
 
@@ -799,11 +799,11 @@ These items are **decided to defer** — the team has agreed not to act on them 
 
 Thank you to all our translation contributors! 🌍
 
-Every translation makes Open Design accessible to more developers worldwide.
+Every translation makes Design Jury accessible to more developers worldwide.
 
 **Current contributors:**
-- See [Contributors](https://github.com/nexu-io/open-design/graphs/contributors) for the full list
+- See [Contributors](https://github.com/nexu-io/design-jury/graphs/contributors) for the full list
 
 ---
 
-**Ready to contribute?** Pick a language, follow the [Quick Start](#-quick-start-adding-your-language-in-5-steps), and submit your PR. We can't wait to see Open Design in your language! 🚀
+**Ready to contribute?** Pick a language, follow the [Quick Start](#-quick-start-adding-your-language-in-5-steps), and submit your PR. We can't wait to see Design Jury in your language! 🚀

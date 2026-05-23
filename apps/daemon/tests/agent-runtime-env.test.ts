@@ -11,13 +11,13 @@ describe('agent runtime tool environment', () => {
       { PATH: '/bin', OD_TOOL_TOKEN: 'stale-token' },
       'http://127.0.0.1:7456',
       { token: 'fresh-token' },
-      '/opt/open-design/bin/node',
+      '/opt/design-jury/bin/node',
     );
 
     expect(env).toMatchObject({
-      PATH: `/opt/open-design/bin${path.delimiter}/bin`,
+      PATH: `/opt/design-jury/bin${path.delimiter}/bin`,
       OD_DAEMON_URL: 'http://127.0.0.1:7456',
-      OD_NODE_BIN: '/opt/open-design/bin/node',
+      OD_NODE_BIN: '/opt/design-jury/bin/node',
       OD_TOOL_TOKEN: 'fresh-token',
     });
   });
@@ -67,11 +67,11 @@ describe('agent runtime tool environment', () => {
       { PATH: '/bin', OD_TOOL_TOKEN: 'stale-token' },
       'http://127.0.0.1:7456',
       null,
-      '/opt/open-design/bin/node',
+      '/opt/design-jury/bin/node',
     );
 
     expect(env.OD_DAEMON_URL).toBe('http://127.0.0.1:7456');
-    expect(env.OD_NODE_BIN).toBe('/opt/open-design/bin/node');
+    expect(env.OD_NODE_BIN).toBe('/opt/design-jury/bin/node');
     expect(env.OD_TOOL_TOKEN).toBeUndefined();
   });
 
@@ -80,7 +80,7 @@ describe('agent runtime tool environment', () => {
       { PATH: '/bin' },
       'http://127.0.0.1:7456',
       null,
-      '/opt/open-design/bin/node',
+      '/opt/design-jury/bin/node',
     );
 
     expect(env.OD_DATA_DIR).toBe(process.env.OD_DATA_DIR);

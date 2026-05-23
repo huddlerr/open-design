@@ -1,6 +1,6 @@
-# open-design-landing-deck
+# design-jury-landing-deck
 
-Sister skill to [`open-design-landing`](../open-design-landing/).
+Sister skill to [`design-jury-landing`](../design-jury-landing/).
 Produces a single-file slide deck in the **Atelier Zero** design
 language — warm-paper background, italic-serif emphasis, coral
 terminating dots, surreal collage plates — paginated as a horizontal
@@ -20,7 +20,7 @@ npx tsx scripts/compose.ts inputs.example.json example.html
 open example.html
 ```
 
-The deck assumes 16 collage assets at `../open-design-landing/assets/`
+The deck assumes 16 collage assets at `../design-jury-landing/assets/`
 (the sister skill ships them). Use ←/→ · Space · PageUp/PageDown ·
 Home/End to navigate, ESC for the overview grid.
 
@@ -41,11 +41,11 @@ Home/End to navigate, ESC for the overview grid.
 ## Files
 
 ```text
-skills/open-design-landing-deck/
+skills/design-jury-landing-deck/
 ├── SKILL.md                 # ← agent contract (read this first)
 ├── README.md                # ← you are here
 ├── schema.ts                # typed slide variants + brand block (re-exports from sister)
-├── inputs.example.json      # Open Design 11-slide pitch deck
+├── inputs.example.json      # Design Jury 11-slide pitch deck
 ├── example.html             # canonical rendering
 └── scripts/
     └── compose.ts           # inputs.json + sister styles.css → index.html
@@ -81,18 +81,18 @@ skills/open-design-landing-deck/
 
 The deck inherits the sister skill's 16-slot image library. Set
 `inputs.imagery.assets_path` to wherever those PNGs live; the example
-uses `'../open-design-landing/assets/'`.
+uses `'../design-jury-landing/assets/'`.
 
 To regenerate or stub:
 
 ```bash
 # Generate via gpt-image-2 (fal.ai)
-FAL_KEY=fal-... npx tsx ../open-design-landing/scripts/imagegen.ts \
-  ../open-design-landing/inputs.example.json \
-  --out=../open-design-landing/assets/
+FAL_KEY=fal-... npx tsx ../design-jury-landing/scripts/imagegen.ts \
+  ../design-jury-landing/inputs.example.json \
+  --out=../design-jury-landing/assets/
 
 # Or paper-textured SVG placeholders
-npx tsx ../open-design-landing/scripts/placeholder.ts ../open-design-landing/assets/
+npx tsx ../design-jury-landing/scripts/placeholder.ts ../design-jury-landing/assets/
 ```
 
 ## Migrating from `editorial-collage-deck`
@@ -102,8 +102,8 @@ are mechanical:
 
 | Old | New |
 | --- | --- |
-| skill folder `editorial-collage-deck/` | `open-design-landing-deck/` |
-| shared assets `../editorial-collage/assets/` | `../open-design-landing/assets/` |
+| skill folder `editorial-collage-deck/` | `design-jury-landing-deck/` |
+| shared assets `../editorial-collage/assets/` | `../design-jury-landing/assets/` |
 | TS type `EditorialCollageDeckInputs` | `OpenDesignLandingDeckInputs` |
 
 The `EditorialCollageDeckInputs` alias re-exported from
@@ -113,6 +113,6 @@ Update imports before then.
 
 ## See also
 
-- [`open-design-landing`](../open-design-landing/) — landing page sister skill.
+- [`design-jury-landing`](../design-jury-landing/) — landing page sister skill.
 - [`guizang-ppt`](../guizang-ppt/) — the magazine-deck navigation pattern this skill borrows.
 - [`design-systems/atelier-zero/DESIGN.md`](../../design-systems/atelier-zero/DESIGN.md) — design tokens.

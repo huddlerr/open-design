@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-design-brief",
   "title": "Design Brief",
@@ -7,10 +7,10 @@
   "description": "Parse a structured design brief written in I-Lang protocol format into a\nconcrete design spec. Eliminates ambiguity from vague requests like\n\"make it professional\" by requiring explicit dimensions: palette, typography,\nlayout, mood, density, and constraints.\nTrigger keywords: \"design brief\", \"create a design brief\", \"ilang brief\", \"structured brief\".",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/design-brief",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/design-brief",
   "tags": [
     "example",
     "first-party",

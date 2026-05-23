@@ -1,13 +1,13 @@
 # Blog indexing automation
 
-The Open Design landing page automates the parts of search-engine
+The Design Jury landing page automates the parts of search-engine
 indexing that Google officially supports for normal blog content. It
 does NOT pretend to "submit" or "request indexing" for blog posts via
 unsupported APIs or browser automation.
 
 This file is the operating manual. The skill that defines the rules
 lives at `~/.codex/skills/blog-indexing-automation/SKILL.md`; this
-doc is its concrete implementation in `nexu-io/open-design`.
+doc is its concrete implementation in `nexu-io/design-jury`.
 
 ## What is automated
 
@@ -17,10 +17,10 @@ doc is its concrete implementation in `nexu-io/open-design`.
 | `landing-page-deploy` finishes successfully on `main` | `blog-indexing-on-deploy.yml` | New blog URLs are detected, verified ready, submitted to IndexNow, the sitemap-index is re-submitted to GSC, baseline URL Inspection is captured, and baseline Search Analytics is queried. |
 | Daily `cron: 0 2 * * *` | `blog-indexing-monitor.yml` | Every blog post in the T+1 / T+3 / T+7 / T+14 window is re-inspected; GSC Search Analytics is refreshed; stall and low-traffic issues are opened/refreshed when needed. |
 | Daily `cron: 0 2 * * *` (10:00 Asia/Shanghai) | `blog-3day-report.yml` | T-3 cohort + 30-day rolling cohort traffic digest written to `docs/blog-traffic-digest.md` via the `automation/blog-traffic-digest` PR, with an optional Feishu group push. Read-only against GSC. |
-| Manual `workflow_dispatch` | `blog-indexing-monitor.yml` | Maintainers can dry-run or explicitly publish a token-gated dev.to/Hashnode cross-post with canonical URL pointing back to Open Design. |
+| Manual `workflow_dispatch` | `blog-indexing-monitor.yml` | Maintainers can dry-run or explicitly publish a token-gated dev.to/Hashnode cross-post with canonical URL pointing back to Design Jury. |
 
 The monitor and 3-day digest workflows commit their durable outputs
-back via the `open-design-bot` GitHub App. The monitor opens or
+back via the `design-jury-bot` GitHub App. The monitor opens or
 refreshes the `automation/blog-indexing-status` PR; the traffic digest
 opens or refreshes the `automation/blog-traffic-digest` PR. The
 human-readable indexing view is `docs/blog-indexing-status.md`; the
@@ -125,14 +125,14 @@ Console UI bug where newly-created service account emails sometimes
 fail with `email not found`.
 
 1. Go to <https://console.cloud.google.com/projectcreate> and create a
-   project named `open-design-blog-indexing` (or reuse an existing
+   project named `design-jury-blog-indexing` (or reuse an existing
    project the team owns).
 2. Enable the **Search Console API** under
    <https://console.cloud.google.com/apis/library/searchconsole.googleapis.com>.
 3. Create an OAuth client under
    <https://console.cloud.google.com/apis/credentials>:
    - Application type: **Desktop app**
-   - Name: `open-design-gsc-local`
+   - Name: `design-jury-gsc-local`
 4. In the OAuth consent screen, keep the app in Testing and add every
    Google account that may grant access under **Audience → Test users**.
 5. Run the local helper:
@@ -140,13 +140,13 @@ fail with `email not found`.
    ```bash
    GSC_OAUTH_CLIENT_ID='<client-id>' \
    GSC_OAUTH_CLIENT_SECRET='<client-secret>' \
-   pnpm --filter @open-design/landing-page exec tsx \
+   pnpm --filter @design-jury/landing-page exec tsx \
      scripts/blog-indexing/authorize-gsc-oauth.ts \
-     --out /tmp/open-design-gsc-refresh-token.txt
+     --out /tmp/design-jury-gsc-refresh-token.txt
    ```
 
 6. Open the printed Google URL and authorize with an account that is an
-   Owner of the `open-design.ai` Search Console property.
+   Owner of the `design-jury.ai` Search Console property.
 
 Fallback path: service account. Create `gsc-indexing-bot`, download a
 JSON key, then try adding the `client_email` as an Owner in Search
@@ -154,7 +154,7 @@ Console. If Search Console shows `email not found`, use OAuth instead.
 
 ### 2. Add auth secrets to GitHub
 
-1. Open <https://github.com/nexu-io/open-design/settings/secrets/actions>.
+1. Open <https://github.com/nexu-io/design-jury/settings/secrets/actions>.
 2. Preferred OAuth secrets:
    - `GSC_OAUTH_CLIENT_ID`
    - `GSC_OAUTH_CLIENT_SECRET`
@@ -164,7 +164,7 @@ Console. If Search Console shows `email not found`, use OAuth instead.
 4. Confirm the existing `BOT_APP_ID` and `BOT_APP_PRIVATE_KEY` secrets
    already exist — they are reused from the `refresh-contributors-wall`
    automation. The bot needs `contents:write`, `pull-requests:write`,
-   and `issues:write` for `nexu-io/open-design` (already configured).
+   and `issues:write` for `nexu-io/design-jury` (already configured).
 
 If these secrets are not present yet, the workflows do not fail the
 main deploy path. They record the missing configuration in the job
@@ -197,7 +197,7 @@ recent commit that added a blog post:
 
 ```bash
 gh workflow run blog-indexing-on-deploy.yml \
-  -R nexu-io/open-design \
+  -R nexu-io/design-jury \
   -f head_sha=<sha>
 ```
 

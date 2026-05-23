@@ -1,7 +1,7 @@
 # SEO Daily Report
 
 `seo-daily-report` posts a daily Google Search Console summary for
-`sc-domain:open-design.ai` to a Feishu group bot.
+`sc-domain:design-jury.ai` to a Feishu group bot.
 
 ## Workflow
 
@@ -38,7 +38,7 @@ these auth modes must be configured:
 
 | Secret | Required | Notes |
 | --- | --- | --- |
-| `GSC_SERVICE_ACCOUNT_KEY` | Yes, unless OAuth is configured | Full service-account JSON key. The service-account email must have access to the `open-design.ai` Search Console property. |
+| `GSC_SERVICE_ACCOUNT_KEY` | Yes, unless OAuth is configured | Full service-account JSON key. The service-account email must have access to the `design-jury.ai` Search Console property. |
 | `GSC_OAUTH_CLIENT_ID` | Yes, for OAuth mode | Existing OAuth mode used by blog indexing workflows. |
 | `GSC_OAUTH_CLIENT_SECRET` | Yes, for OAuth mode | Existing OAuth mode used by blog indexing workflows. |
 | `GSC_OAUTH_REFRESH_TOKEN` | Yes, for OAuth mode | Existing OAuth mode used by blog indexing workflows. |
@@ -72,7 +72,7 @@ These environment variables tune the optimization section:
 | `OPP_LOW_CTR` | `0.01` | CTR below this value is treated as low CTR. |
 | `OPP_MOBILE_DESKTOP_CTR_GAP` | `0.30` | Relative CTR gap between mobile and desktop before surfacing a device issue. |
 
-The current defaults are intentionally low because `open-design.ai` is still
+The current defaults are intentionally low because `design-jury.ai` is still
 building GSC history. Tighten them as traffic grows.
 
 ## Manual test
@@ -88,7 +88,7 @@ From GitHub Actions:
 From a local checkout with secrets exported:
 
 ```bash
-pnpm --filter @open-design/landing-page exec tsx scripts/seo-daily-report.ts --dry-run
+pnpm --filter @design-jury/landing-page exec tsx scripts/seo-daily-report.ts --dry-run
 ```
 
 Remove `--dry-run` to post to Feishu.

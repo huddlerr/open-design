@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-replit-deck",
   "title": "Replit Deck",
@@ -7,10 +7,10 @@
   "description": "Single-file horizontal-swipe HTML deck in the style of Replit Slides's\nlanding-page template gallery. Eight distinct themes (helix, holm, vance,\nbevel, world-dark, world-mint, atlas, bluehouse) — each a complete visual\nsystem (palette + type + accent) captured from replit.com/slides. Pick one\ntheme, do not mix. For pitch decks, board reports, brand memos, campaign\nreveals — when the user explicitly wants \"Replit Slides style\".",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/replit-deck",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/replit-deck",
   "tags": [
     "example",
     "first-party",

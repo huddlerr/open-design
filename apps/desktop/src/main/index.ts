@@ -18,7 +18,7 @@ import {
   type RegisterDesktopAuthResult,
   type SidecarStamp,
   type WebStatusSnapshot,
-} from "@open-design/sidecar-proto";
+} from "@design-jury/sidecar-proto";
 import { dirname, join } from "node:path";
 
 import {
@@ -30,8 +30,8 @@ import {
   resolveNamespaceRoot,
   type JsonIpcServerHandle,
   type SidecarRuntimeContext,
-} from "@open-design/sidecar";
-import { readProcessStamp } from "@open-design/platform";
+} from "@design-jury/sidecar";
+import { readProcessStamp } from "@design-jury/platform";
 
 import { createDesktopRuntime, type DesktopRuntime } from "./runtime.js";
 import { attachDesktopProcessErrorFilter } from "./uncaught-exception.js";
@@ -237,9 +237,9 @@ function installDesktopMenu(
         label: "Help",
         submenu: [
           {
-            label: "Open Design",
+            label: "Design Jury",
             click() {
-              void shell.openExternal("https://github.com/nexu-io/open-design");
+              void shell.openExternal("https://github.com/nexu-io/design-jury");
             },
           },
           { type: "separator" },
@@ -347,7 +347,7 @@ export async function runDesktopMain(
   const registered = await registerDesktopAuthWithDaemon(runtime, desktopAuthSecret);
   if (!registered) {
     console.warn(
-      "[open-design desktop] initial import-token handshake with daemon did not complete; " +
+      "[design-jury desktop] initial import-token handshake with daemon did not complete; " +
         "first folder-import attempt will lazily retry registration before failing",
     );
   }

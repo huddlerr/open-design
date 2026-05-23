@@ -1,5 +1,5 @@
 {
-  "name": "open-design",
+  "name": "design-jury",
   "version": "0.8.0",
   "private": true,
   "packageManager": "pnpm@10.33.2",
@@ -7,7 +7,7 @@
   "description": "Local-first design product: detects your installed code-agent CLI, runs design skills + design systems, streams artifacts into a sandboxed preview.",
   "license": "Apache-2.0",
   "bin": {
-    "od": "./apps/daemon/dist/cli.js"
+    "jury": "./apps/daemon/dist/cli.js"
   },
   "scripts": {
     "postinstall": "node ./scripts/postinstall.mjs",
@@ -26,10 +26,10 @@
     "typecheck": "pnpm -r --workspace-concurrency=4 --if-present run typecheck && tsc -p scripts/tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@open-design/tools-dev": "workspace:*",
-    "@open-design/tools-pack": "workspace:*",
-    "@open-design/tools-pr": "workspace:*",
-    "@open-design/tools-serve": "workspace:*",
+    "@design-jury/tools-dev": "workspace:*",
+    "@design-jury/tools-pack": "workspace:*",
+    "@design-jury/tools-pr": "workspace:*",
+    "@design-jury/tools-serve": "workspace:*",
     "@types/node": "20.19.39",
     "tsx": "4.22.3",
     "typescript": "5.9.3"

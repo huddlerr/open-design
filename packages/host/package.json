@@ -1,9 +1,9 @@
 {
-  "name": "@open-design/host",
+  "name": "@design-jury/host",
   "version": "0.8.0",
   "private": true,
   "type": "module",
-  "description": "Open Design renderer host bridge protocol.",
+  "description": "Design Jury renderer host bridge protocol.",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [

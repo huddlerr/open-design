@@ -12,8 +12,8 @@ import path from "node:path";
 import { parseFrontmatter } from "./frontmatter.js";
 import type { SkillCritiquePolicy } from "./critique/rollout.js";
 import { skillCwdAliasSegment, SKILLS_CWD_ALIAS } from "./cwd-aliases.js";
-import { PANELIST_ROLES } from "@open-design/contracts/critique";
-import type { PanelistRole } from "@open-design/contracts/critique";
+import { PANELIST_ROLES } from "@design-jury/contracts/critique";
+import type { PanelistRole } from "@design-jury/contracts/critique";
 
 // Persisted skill ids on existing projects can outlive a folder rename.
 // listSkills() derives the id from the SKILL.md frontmatter `name`, so once
@@ -24,8 +24,8 @@ import type { PanelistRole } from "@open-design/contracts/critique";
 // here for at least one stable release after a rename so on-disk projects
 // keep composing with the intended skill prompt.
 export const SKILL_ID_ALIASES = Object.freeze({
-  "editorial-collage": "open-design-landing",
-  "editorial-collage-deck": "open-design-landing-deck",
+  "editorial-collage": "design-jury-landing",
+  "editorial-collage-deck": "design-jury-landing-deck",
 });
 
 type SkillMode = "image" | "video" | "audio" | "deck" | "design-system" | "template" | "prototype";

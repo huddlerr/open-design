@@ -23,7 +23,7 @@ import {
   streamViaDaemon,
 } from '../providers/daemon';
 import { fetchElevenLabsVoiceOptions } from '../providers/elevenlabs-voices';
-import { normalizeCustomReason } from '@open-design/contracts/analytics';
+import { normalizeCustomReason } from '@design-jury/contracts/analytics';
 import {
   deletePreviewComment,
   fetchPreviewComments,
@@ -45,13 +45,13 @@ import {
   type AudioVoiceOption,
   type MemorySystemPromptResponse,
   type ResearchOptions,
-} from '@open-design/contracts';
-import { projectKindToTracking } from '@open-design/contracts/analytics';
+} from '@design-jury/contracts';
+import { projectKindToTracking } from '@design-jury/contracts/analytics';
 import type {
   TrackingDesignSystemApplyTargetKind,
   TrackingDesignSystemOrigin,
   TrackingDesignSystemStatusValue,
-} from '@open-design/contracts/analytics';
+} from '@design-jury/contracts/analytics';
 import { useAnalytics } from '../analytics/provider';
 import {
   trackDesignSystemApplyResult,
@@ -103,7 +103,7 @@ import {
   type SaveMessageOptions,
   waitGeneratedPluginShareTask,
 } from '../state/projects';
-import type { AppliedPluginSnapshot } from '@open-design/contracts';
+import type { AppliedPluginSnapshot } from '@design-jury/contracts';
 import type {
   AgentEvent,
   AgentInfo,
@@ -218,7 +218,7 @@ interface Props {
 }
 
 let liveArtifactEventSequence = 0;
-const CHAT_PANEL_WIDTH_STORAGE_KEY = 'open-design.project.chatPanelWidth';
+const CHAT_PANEL_WIDTH_STORAGE_KEY = 'design-jury.project.chatPanelWidth';
 const DEFAULT_CHAT_PANEL_WIDTH = 460;
 const MIN_CHAT_PANEL_WIDTH = 345;
 const MAX_CHAT_PANEL_WIDTH = 720;
@@ -1160,6 +1160,50 @@ export function ProjectView({
     [project.id, project.designSystemId, project.skillId, requestOpenFile],
   );
 
+  const patchProducedWithParsedArtifact = useCallback(
+    (producedList: ProjectFile[], parsed: Artifact | null): ProjectFile[] => {
+      if (!parsed) return producedList;
+      const baseName = artifactBaseNameFor(parsed);
+      const ext = artifactExtensionFor(parsed);
+      const fileName = `${baseName}${ext}`;
+      const title = parsed.title || parsed.identifier || fileName;
+      const metadata = {
+        identifier: parsed.identifier,
+        artifactType: parsed.artifactType,
+        inferred: false,
+      };
+      const manifest =
+        ext === '.html'
+          ? createHtmlArtifactManifest({
+              entry: fileName,
+              title,
+              sourceSkillId: project.skillId ?? undefined,
+              designSystemId: project.designSystemId,
+              metadata,
+            })
+          : inferLegacyManifest({
+              entry: fileName,
+              title,
+              metadata: {
+                ...metadata,
+                sourceSkillId: project.skillId ?? undefined,
+                designSystemId: project.designSystemId,
+              },
+            });
+      return producedList.map((f) => {
+        if (f.name === fileName || f.name === `${baseName}-2${ext}` || f.name === `${baseName}-3${ext}`) {
+          return {
+            ...f,
+            artifactKind: manifest.kind,
+            artifactManifest: manifest,
+          };
+        }
+        return f;
+      });
+    },
+    [project.skillId, project.designSystemId],
+  );
+
   // Set of project file names that the chat surface uses to decide whether
   // a tool card's path is openable as a tab. Recomputed on every file-list
   // change; tool cards just read from the set.
@@ -1994,7 +2038,10 @@ export function ProjectView({
                   }
                 }
                 const diff = nextFiles.filter((f) => !beforeFileNames.has(f.name));
-                const produced = mergeRecoveredArtifact(diff, recoveredExistingArtifact);
+                const produced = patchProducedWithParsedArtifact(
+                  mergeRecoveredArtifact(diff, recoveredExistingArtifact),
+                  parsedArtifact,
+                );
                 if (produced.length > 0) {
                   updateMessageById(
                     message.id,
@@ -2493,7 +2540,10 @@ export function ProjectView({
               await persistArtifact(parsedArtifact, nextFiles);
               nextFiles = await refreshProjectFiles();
             }
-            const produced = nextFiles.filter((f) => !beforeFileNames.has(f.name));
+            const produced = patchProducedWithParsedArtifact(
+              nextFiles.filter((f) => !beforeFileNames.has(f.name)),
+              parsedArtifact,
+            );
             setMessages((curr) => {
               const updated = curr.map((m) =>
                 m.id === assistantId
@@ -2849,7 +2899,7 @@ export function ProjectView({
         return { message: outcome.message };
       }
       const conversationId = activeConversationId;
-      const shareAction = action === 'publish' ? 'publish-github' : 'contribute-open-design';
+      const shareAction = action === 'publish' ? 'publish-github' : 'contribute-design-jury';
       setActivePluginActionPaths((prev) => new Set(prev).add(relativePath));
       let taskStart;
       try {
@@ -3897,9 +3947,9 @@ export function ProjectView({
 
   // Wire the Critique Theater drop-in mount into the project workspace.
   // The hook reads the M1 Settings toggle out of the existing
-  // `open-design:config` localStorage blob and stays in sync with the
+  // `design-jury:config` localStorage blob and stays in sync with the
   // platform `storage` event (cross-tab) plus the same-tab
-  // `open-design:critique-theater-toggle` CustomEvent. The mount itself
+  // `design-jury:critique-theater-toggle` CustomEvent. The mount itself
   // returns `null` until the daemon emits a `critique.run_started` for
   // the active project, so the visual surface is unchanged for users
   // who have not opted in. The daemon-side gate
@@ -4311,13 +4361,13 @@ function latestDesignSystemActivityEvents(messages: ChatMessage[]): AgentEvent[]
 }
 
 function pluginWorkflowTitle(action: PluginFolderAgentAction): string {
-  return action === 'publish' ? 'Publish repo' : 'Open Design PR';
+  return action === 'publish' ? 'Publish repo' : 'Design Jury PR';
 }
 
 function pluginWorkflowCliCommand(action: PluginFolderAgentAction, relativePath: string): string {
   return action === 'publish'
     ? `od plugin publish-repo ${relativePath}`
-    : `od plugin open-design-pr ${relativePath}`;
+    : `od plugin design-jury-pr ${relativePath}`;
 }
 
 function pluginWorkflowPlannedSteps(action: PluginFolderAgentAction): string[] {
@@ -4330,7 +4380,7 @@ function pluginWorkflowPlannedSteps(action: PluginFolderAgentAction): string[] {
     ];
   }
   return [
-    'Ensure the Open Design fork exists',
+    'Ensure the Design Jury fork exists',
     'Clone the fork and prepare a branch',
     'Copy the plugin into plugins/community',
     'Push the branch and open the PR form',

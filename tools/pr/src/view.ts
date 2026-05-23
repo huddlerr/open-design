@@ -48,52 +48,52 @@ function deriveValidation(paths: string[]): ValidationCommand[] {
   const touchedAny = (prefixes: string[]): boolean => prefixes.some(touched);
 
   if (touched("apps/web/")) {
-    add("pnpm --filter @open-design/web typecheck", "apps/web changed");
-    add("pnpm --filter @open-design/web test", "apps/web changed");
-    add("pnpm --filter @open-design/web build", "apps/web changed");
+    add("pnpm --filter @design-jury/web typecheck", "apps/web changed");
+    add("pnpm --filter @design-jury/web test", "apps/web changed");
+    add("pnpm --filter @design-jury/web build", "apps/web changed");
   }
   if (touched("apps/daemon/")) {
-    add("pnpm --filter @open-design/daemon typecheck", "apps/daemon changed");
-    add("pnpm --filter @open-design/daemon test", "apps/daemon changed");
-    add("pnpm --filter @open-design/daemon build", "apps/daemon changed");
+    add("pnpm --filter @design-jury/daemon typecheck", "apps/daemon changed");
+    add("pnpm --filter @design-jury/daemon test", "apps/daemon changed");
+    add("pnpm --filter @design-jury/daemon build", "apps/daemon changed");
   }
   if (touched("apps/desktop/")) {
-    add("pnpm --filter @open-design/desktop typecheck", "apps/desktop changed");
-    add("pnpm --filter @open-design/desktop build", "apps/desktop changed");
+    add("pnpm --filter @design-jury/desktop typecheck", "apps/desktop changed");
+    add("pnpm --filter @design-jury/desktop build", "apps/desktop changed");
   }
   if (touched("apps/packaged/")) {
-    add("pnpm --filter @open-design/packaged typecheck", "apps/packaged changed");
-    add("pnpm --filter @open-design/packaged build", "apps/packaged changed");
+    add("pnpm --filter @design-jury/packaged typecheck", "apps/packaged changed");
+    add("pnpm --filter @design-jury/packaged build", "apps/packaged changed");
   }
   if (touched("packages/contracts/")) {
-    add("pnpm --filter @open-design/contracts typecheck", "packages/contracts changed");
+    add("pnpm --filter @design-jury/contracts typecheck", "packages/contracts changed");
   }
   if (touched("packages/sidecar-proto/")) {
-    add("pnpm --filter @open-design/sidecar-proto typecheck", "sidecar-proto changed");
-    add("pnpm --filter @open-design/sidecar-proto test", "sidecar-proto changed");
+    add("pnpm --filter @design-jury/sidecar-proto typecheck", "sidecar-proto changed");
+    add("pnpm --filter @design-jury/sidecar-proto test", "sidecar-proto changed");
   }
   if (touched("packages/sidecar/")) {
-    add("pnpm --filter @open-design/sidecar typecheck", "packages/sidecar changed");
-    add("pnpm --filter @open-design/sidecar test", "packages/sidecar changed");
+    add("pnpm --filter @design-jury/sidecar typecheck", "packages/sidecar changed");
+    add("pnpm --filter @design-jury/sidecar test", "packages/sidecar changed");
   }
   if (touched("packages/platform/")) {
-    add("pnpm --filter @open-design/platform typecheck", "packages/platform changed");
-    add("pnpm --filter @open-design/platform test", "packages/platform changed");
+    add("pnpm --filter @design-jury/platform typecheck", "packages/platform changed");
+    add("pnpm --filter @design-jury/platform test", "packages/platform changed");
   }
   if (touched("tools/dev/")) {
-    add("pnpm --filter @open-design/tools-dev typecheck", "tools/dev changed");
-    add("pnpm --filter @open-design/tools-dev build", "tools/dev changed");
+    add("pnpm --filter @design-jury/tools-dev typecheck", "tools/dev changed");
+    add("pnpm --filter @design-jury/tools-dev build", "tools/dev changed");
   }
   if (touched("tools/pack/")) {
-    add("pnpm --filter @open-design/tools-pack typecheck", "tools/pack changed");
-    add("pnpm --filter @open-design/tools-pack build", "tools/pack changed");
+    add("pnpm --filter @design-jury/tools-pack typecheck", "tools/pack changed");
+    add("pnpm --filter @design-jury/tools-pack build", "tools/pack changed");
   }
   if (touched("tools/pr/")) {
-    add("pnpm --filter @open-design/tools-pr typecheck", "tools/pr changed");
-    add("pnpm --filter @open-design/tools-pr build", "tools/pr changed");
+    add("pnpm --filter @design-jury/tools-pr typecheck", "tools/pr changed");
+    add("pnpm --filter @design-jury/tools-pr build", "tools/pr changed");
   }
   if (touchedAny(["e2e/specs/", "e2e/tests/", "e2e/lib/"])) {
-    add("pnpm --filter @open-design/e2e typecheck", "e2e/ changed");
+    add("pnpm --filter @design-jury/e2e typecheck", "e2e/ changed");
     add("(cd e2e && pnpm test specs)", "e2e specs are the PR smoke gate");
   }
   if (touched("e2e/ui/")) {

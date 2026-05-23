@@ -1,4 +1,4 @@
-# Contribuer à Open Design
+# Contribuer à Design Jury
 
 Merci d'envisager de contribuer. OD reste volontairement petit : l'essentiel
 de la valeur vit dans des **fichiers** (Skills, Design Systems, morceaux de
@@ -24,7 +24,7 @@ une PR doit atteindre avant d’être mergée.
 | Améliorer la doc, porter une section en Français / Deutsch / 中文, corriger une faute | documentation | `README.md`, `README.fr.md`, `README.de.md`, `README.zh-CN.md`, `docs/`, `QUICKSTART.md` | une PR |
 
 Si vous ne savez pas dans quelle catégorie tombe votre idée, [ouvrez d'abord
-une discussion ou une issue](https://github.com/nexu-io/open-design/issues/new)
+une discussion ou une issue](https://github.com/nexu-io/design-jury/issues/new)
 et nous vous orienterons vers la bonne surface.
 
 ---
@@ -35,13 +35,13 @@ Le setup complet en une page se trouve dans [`QUICKSTART.fr.md`](QUICKSTART.fr.m
 TL;DR pour contribuer :
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury
 corepack enable           # sélectionne la version de pnpm définie par packageManager
 pnpm install
 pnpm tools-dev run web    # boucle daemon + web au premier plan
 pnpm typecheck            # tsc -b --noEmit
-pnpm --filter @open-design/web build  # build du paquet web si nécessaire
+pnpm --filter @design-jury/web build  # build du paquet web si nécessaire
 ```
 
 Node `~24` et pnpm `10.33.x` sont requis. `nvm` / `fnm` sont optionnels ;
@@ -311,7 +311,7 @@ les agents exécutent. Ces prompts source sont des entrées de workflow ; garder
 une langue source commune évite de multiplier la QA de prompts sur toutes les
 locales. Lorsqu'un Skill, un Design System ou un prompt template est ajouté ou
 renommé, mettez à jour les métadonnées display de la locale concernée et lancez
-`pnpm --filter @open-design/web test` ; `content.test.ts` échoue si la coverage
+`pnpm --filter @design-jury/web test` ; `content.test.ts` échoue si la coverage
 couverture des métadonnées d'affichage d'une locale déclarée dérive. Les erreurs daemon, noms de fichiers
 d'export et textes d'artifact générés par agent restent des limites connues,
 sauf si une PR les inclut explicitement.
@@ -391,7 +391,7 @@ afin de voir si la violation vient du modèle ou du prompt.
 ## Poser des questions
 
 - Question d'architecture, question de design, "bug ou mauvaise utilisation ?" →
-  [GitHub Discussions](https://github.com/nexu-io/open-design/discussions)
+  [GitHub Discussions](https://github.com/nexu-io/design-jury/discussions)
   (préféré, car searchable pour la personne suivante).
 - "Comment écrire un Skill qui fait X ?" → ouvrez une discussion. Nous y
   répondrons et transformerons la réponse en ajout dans
@@ -448,7 +448,7 @@ Le tl;dr : livrez de bonnes PR, faites des reviews réfléchies, traînez
 dans les [Discussions][discussions] / sur [Discord][discord], et le reste
 se fait tout seul.
 
-[discussions]: https://github.com/nexu-io/open-design/discussions
+[discussions]: https://github.com/nexu-io/design-jury/discussions
 [discord]: https://discord.gg/qhbcCH8Am4
 
 ---

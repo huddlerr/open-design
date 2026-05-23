@@ -9,15 +9,15 @@ import type {
   OpenDesignHostUpdaterActionOptions,
   OpenDesignHostUpdaterStatusListener,
   OpenDesignHostUpdaterStatusSnapshot,
-} from '@open-design/host';
+} from '@design-jury/host';
 
-const OPEN_DESIGN_HOST_GLOBAL: typeof import('@open-design/host').OPEN_DESIGN_HOST_GLOBAL = '__od__';
-const OPEN_DESIGN_HOST_VERSION: typeof import('@open-design/host').OPEN_DESIGN_HOST_VERSION = 1;
+const OPEN_DESIGN_HOST_GLOBAL: typeof import('@design-jury/host').OPEN_DESIGN_HOST_GLOBAL = '__od__';
+const OPEN_DESIGN_HOST_VERSION: typeof import('@design-jury/host').OPEN_DESIGN_HOST_VERSION = 1;
 const UPDATER_STATUS_EVENT = 'od:update:status-changed';
 
 // Mirror of the argv prefix used by main's `applyOsLocaleSwitch` and
 // runtime's `additionalArguments`. Duplicated literal on purpose: the
-// preload bundle must not pull in `@open-design/desktop/main` (it
+// preload bundle must not pull in `@design-jury/desktop/main` (it
 // transitively requires non-electron node modules that the sandboxed
 // preload can't load).
 const OS_LOCALE_ARG_PREFIX = '--od-os-locale=';
@@ -249,7 +249,7 @@ const hostBridge = {
 
 contextBridge.exposeInMainWorld(OPEN_DESIGN_HOST_GLOBAL, hostBridge);
 
-contextBridge.exposeInMainWorld('openDesignDesktop', {
+contextBridge.exposeInMainWorld('designJuryDesktop', {
   exportDiagnostics: (): Promise<DesktopDiagnosticsExportResult> =>
     ipcRenderer.invoke(DESKTOP_DIAGNOSTICS_IPC_CHANNEL) as Promise<DesktopDiagnosticsExportResult>,
 });

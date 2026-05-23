@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-design.ai/schemas/plugin.v1.json",
-  "title": "Open Design plugin manifest (v1)",
-  "description": "Schema for `open-design.json` sidecar files. Companion of `SKILL.md`; never duplicates skill body content. See docs/plugins-spec.md §5.",
+  "$id": "https://design-jury.ai/schemas/plugin.v1.json",
+  "title": "Design Jury plugin manifest (v1)",
+  "description": "Schema for `design-jury.json` sidecar files. Companion of `SKILL.md`; never duplicates skill body content. See docs/plugins-spec.md §5.",
   "type": "object",
   "required": ["specVersion", "name", "version"],
   "additionalProperties": true,

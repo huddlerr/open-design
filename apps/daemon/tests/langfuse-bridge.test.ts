@@ -250,7 +250,7 @@ describe('langfuse-bridge.reportRunCompletedFromDaemon', () => {
     // useful telemetry but varies between dev / CI environments — assert
     // its presence by prefix rather than pinning a value.
     expect(trace.tags).toEqual(
-      expect.arrayContaining(['open-design', 'project:proj-1', 'agent:claude']),
+      expect.arrayContaining(['design-jury', 'project:proj-1', 'agent:claude']),
     );
     expect((trace.tags as string[]).some((t) => t.startsWith('os:'))).toBe(true);
     expect(trace.metadata.eventsSummary.toolCalls).toBe(2);

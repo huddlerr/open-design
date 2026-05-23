@@ -1,6 +1,6 @@
-# Self-hosting An Open Design Registry
+# Self-hosting An Design Jury Registry
 
-An Open Design registry is a source of `open-design-marketplace.json` plus the
+An Design Jury registry is a source of `design-jury-marketplace.json` plus the
 review process that produces it. In v1 this can be a static GitHub repository,
 GitHub Enterprise, S3/R2, or any HTTPS host.
 
@@ -8,17 +8,17 @@ GitHub Enterprise, S3/R2, or any HTTPS host.
 
 ```text
 plugins/registry/
-  official/open-design-marketplace.json
-  community/open-design-marketplace.json
+  official/design-jury-marketplace.json
+  community/design-jury-marketplace.json
 plugins/community/<vendor>/<plugin-name>/
   SKILL.md
-  open-design.json
+  design-jury.json
 ```
 
 The machine-readable URL is the raw JSON file:
 
 ```bash
-od marketplace add https://example.com/open-design-marketplace.json --trust restricted
+od marketplace add https://example.com/design-jury-marketplace.json --trust restricted
 od marketplace refresh <id>
 od marketplace search "deck" --json
 ```
@@ -30,7 +30,7 @@ rejects HTML.
 
 ```bash
 od marketplace login https://github.example.com/org/plugin-registry
-od marketplace add https://raw.github.example.com/org/plugin-registry/main/open-design-marketplace.json --trust trusted
+od marketplace add https://raw.github.example.com/org/plugin-registry/main/design-jury-marketplace.json --trust trusted
 ```
 
 Authentication is delegated to `gh auth login --hostname <host>`. Tokens stay

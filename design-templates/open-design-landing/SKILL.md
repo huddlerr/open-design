@@ -1,9 +1,9 @@
 ---
-name: open-design-landing
+name: design-jury-landing
 description: >
   Produce a world-class single-page editorial landing site in the
   Atelier Zero visual language (Monocle / Apartamento / Études editorial
-  collage) — the same aesthetic Open Design uses for its own marketing
+  collage) — the same aesthetic Design Jury uses for its own marketing
   surface. The agent fills a typed `inputs.json` from a brand brief,
   optionally generates 16 collage assets via gpt-image-2, then runs a
   pure-function composer that emits a self-contained HTML file; a
@@ -112,17 +112,17 @@ example_prompt: |
   presets / 1 daily ritual. Use the placeholder image strategy.
 ---
 
-# open-design-landing
+# design-jury-landing
 
 Build a single-page editorial landing site (or a slide deck — see the
-sibling [`open-design-landing-deck`](../open-design-landing-deck/) skill)
+sibling [`design-jury-landing-deck`](../design-jury-landing-deck/) skill)
 in the **Atelier Zero** design system: warm-paper background, Inter
 Tight + Playfair Display, italic serif emphasis spans, dotted hairline
 rules, coral terminating dots, scroll-reveal motion, and 16 surreal
 collage plates.
 
-This is the canonical Open Design marketing-page recipe — the example
-output is the very page you see at [open-design](https://github.com/nexu-io/open-design).
+This is the canonical Design Jury marketing-page recipe — the example
+output is the very page you see at [design-jury](https://github.com/nexu-io/design-jury).
 
 The skill is fully **parameterized**. The agent fills one typed
 `inputs.json` from the user's brief; the composer turns that JSON +
@@ -184,7 +184,7 @@ The eight question groups, in order:
 | 8     | `cta` + `footer.{columns[4],mega}`                      | All         | Mega kicker is a `MixedText` like the headlines |
 
 Open [`inputs.example.json`](./inputs.example.json) for a complete
-worked example (Open Design itself).
+worked example (Design Jury itself).
 
 ### 2. Decide the image strategy
 
@@ -251,7 +251,7 @@ For deployable production output, **fork the `apps/landing-page/`**
 package: copy it into your workspace, align `app/page.tsx` with content
 from your `inputs.json`, and copy your `<out>/assets/*.png` into the
 paths expected by `app/image-assets.ts` / R2 URLs. Build with
-`pnpm --filter @open-design/landing-page build` for a static `out/`
+`pnpm --filter @design-jury/landing-page build` for a static `out/`
 export ready for any CDN.
 
 > A future iteration may bundle a composer that emits the full
@@ -280,19 +280,19 @@ Before marking done, the agent **must** verify:
 ## Files in this skill
 
 ```text
-skills/open-design-landing/
+skills/design-jury-landing/
 ├── SKILL.md                 # this contract
 ├── README.md                # quick-start
 ├── schema.ts                # typed inputs (single source of truth)
 ├── styles.css               # Atelier Zero stylesheet (single source of truth)
-├── inputs.example.json      # Open Design as the worked example
+├── inputs.example.json      # Design Jury as the worked example
 ├── example.html             # canonical rendering (regenerated from inputs.example.json)
 ├── scripts/
 │   ├── compose.ts           # inputs.json + styles.css → index.html
 │   ├── imagegen.ts          # gpt-image-2 wrapper (fal.ai)
 │   └── placeholder.ts       # SVG paper-textured frames
 └── assets/
-    ├── *.png                # 16 collage plates (Open Design instance)
+    ├── *.png                # 16 collage plates (Design Jury instance)
     ├── image-manifest.json  # slot → file/dimensions/prompt mapping
     └── imagegen-prompts.md  # human-readable prompt pack
 ```
@@ -317,4 +317,4 @@ skills/open-design-landing/
 
 - [`design-systems/atelier-zero/DESIGN.md`](../../design-systems/atelier-zero/DESIGN.md) — token spec.
 - [`apps/landing-page/`](../../apps/landing-page/) — deployable Astro static counterpart.
-- [`skills/open-design-landing-deck/`](../open-design-landing-deck/) — sibling slides skill that reuses this design system.
+- [`skills/design-jury-landing-deck/`](../design-jury-landing-deck/) — sibling slides skill that reuses this design system.

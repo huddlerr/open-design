@@ -8,7 +8,7 @@ import type {
   AutomationTemplateStageKind,
   AutomationTokenCompressionMode,
   AutomationTriggerKind,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 
 export const BUILT_IN_AUTOMATION_TEMPLATES: AutomationTemplate[] = [
   {

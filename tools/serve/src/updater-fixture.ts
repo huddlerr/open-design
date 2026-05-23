@@ -196,14 +196,14 @@ export async function startUpdaterFixtureServer(options: UpdaterFixtureOptions =
   const platformKey = platform === "win" ? "win" : "mac";
   const artifactKey = platform === "win" ? "installer" : "dmg";
   const artifactName = platform === "win"
-    ? `open-design-${version}-win-x64-setup.exe`
-    : `open-design-${version}-mac-arm64.dmg`;
+    ? `design-jury-${version}-win-x64-setup.exe`
+    : `design-jury-${version}-mac-arm64.dmg`;
   const contentType = platform === "win"
     ? "application/vnd.microsoft.portable-executable"
     : "application/x-apple-diskimage";
   const artifactBody = Buffer.isBuffer(options.artifactBody)
     ? options.artifactBody
-    : Buffer.from(options.artifactBody ?? `Open Design updater fixture ${version}\n`, "utf8");
+    : Buffer.from(options.artifactBody ?? `Design Jury updater fixture ${version}\n`, "utf8");
   const sha256 = createHash("sha256").update(artifactBody).digest("hex");
 
   let info: UpdaterFixtureInfo | null = null;

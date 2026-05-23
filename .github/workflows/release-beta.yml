@@ -29,7 +29,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: open-design-release-beta
+  group: design-jury-release-beta
   cancel-in-progress: false
 
 env:
@@ -52,7 +52,7 @@ env:
 jobs:
   metadata:
     name: Prepare beta metadata
-    if: github.repository == 'nexu-io/open-design'
+    if: github.repository == 'nexu-io/design-jury'
     runs-on: ubuntu-latest
     env:
       OPEN_DESIGN_BETA_METADATA_URL: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}/beta/latest/metadata.json
@@ -147,7 +147,7 @@ jobs:
           APPLE_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_SIGNING_CERTIFICATE_PASSWORD }}
         run: |
           set -euo pipefail
-          cert_path="$RUNNER_TEMP/open-design-signing.p12"
+          cert_path="$RUNNER_TEMP/design-jury-signing.p12"
           if ! printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 --decode > "$cert_path" 2>/dev/null; then
             printf '%s' "$APPLE_SIGNING_CERTIFICATE_BASE64" | base64 -D > "$cert_path"
           fi
@@ -195,7 +195,7 @@ jobs:
           output="$RUNNER_TEMP/mac-framework-diagnostics.txt"
           source_resolve_log="$RUNNER_TEMP/mac-framework-source-resolve.err"
           source_framework="$(node -e 'const path = require("node:path"); const { createRequire } = require("node:module"); const requireFromDesktop = createRequire(path.join(process.cwd(), "apps/desktop/package.json")); const electron = requireFromDesktop.resolve("electron"); process.stdout.write(path.join(path.dirname(electron), "dist", "Electron.app", "Contents", "Frameworks", "Electron Framework.framework"));' 2>"$source_resolve_log" || true)"
-          built_framework="$RUNNER_TEMP/tools-pack/out/mac/namespaces/release-beta/builder/mac-arm64/Open Design Beta.app/Contents/Frameworks/Electron Framework.framework"
+          built_framework="$RUNNER_TEMP/tools-pack/out/mac/namespaces/release-beta/builder/mac-arm64/Design Jury Beta.app/Contents/Frameworks/Electron Framework.framework"
 
           dump_framework() {
             local label="$1"
@@ -255,7 +255,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-mac-build-diagnostics
+          name: design-jury-beta-mac-build-diagnostics
           path: |
             ${{ runner.temp }}/mac-tools-pack-build.log
             ${{ runner.temp }}/mac-tools-pack-build.json
@@ -281,7 +281,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-mac-e2e-report
+          name: design-jury-beta-mac-e2e-report
           path: ${{ runner.temp }}/release-report/mac
           if-no-files-found: warn
 
@@ -292,7 +292,7 @@ jobs:
           CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}
           MAC_ARTIFACT_MODE: dmg-only
           RELEASE_CHANNEL: beta
-          RELEASE_NOTES: Open Design beta ${{ needs.metadata.outputs.beta_version }}${{ needs.metadata.outputs.asset_version_suffix }}
+          RELEASE_NOTES: Design Jury beta ${{ needs.metadata.outputs.beta_version }}${{ needs.metadata.outputs.asset_version_suffix }}
           RELEASE_VERSION: ${{ needs.metadata.outputs.beta_version }}
           TOOLS_PACK_NAMESPACE: release-beta
         run: bash .github/scripts/release/assets/mac.sh
@@ -317,7 +317,7 @@ jobs:
       - name: Upload mac publish manifest
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-mac-publish-manifest
+          name: design-jury-beta-mac-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests/mac.json
 
   build_mac_intel:
@@ -385,7 +385,7 @@ jobs:
       - name: Upload mac intel publish manifest
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-mac-intel-publish-manifest
+          name: design-jury-beta-mac-intel-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests/macIntel.json
 
   build_win:
@@ -522,7 +522,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-win-e2e-report
+          name: design-jury-beta-win-e2e-report
           path: ${{ runner.temp }}/release-report/win
           if-no-files-found: warn
 
@@ -532,7 +532,7 @@ jobs:
           ASSET_VERSION_SUFFIX: ${{ needs.metadata.outputs.asset_version_suffix }}
           CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN: ${{ vars.CLOUDFLARE_R2_RELEASES_PUBLIC_ORIGIN }}
           RELEASE_CHANNEL: beta
-          RELEASE_NOTES: Open Design beta ${{ needs.metadata.outputs.beta_version }}.unsigned
+          RELEASE_NOTES: Design Jury beta ${{ needs.metadata.outputs.beta_version }}.unsigned
           RELEASE_VERSION: ${{ needs.metadata.outputs.beta_version }}
           TOOLS_PACK_NAMESPACE: release-beta-win
           WINDOWS_ASSET_SUFFIX: .unsigned
@@ -557,7 +557,7 @@ jobs:
       - name: Upload windows publish manifest
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-win-publish-manifest
+          name: design-jury-beta-win-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests/win.json
 
   build_linux:
@@ -622,7 +622,7 @@ jobs:
         env:
           OD_PACKAGED_E2E_LINUX_APPIMAGE: "1"
           OD_PACKAGED_E2E_NAMESPACE: release-beta-linux
-          OD_PACKAGED_E2E_SCREENSHOT_PATH: ${{ runner.temp }}/release-report/linux/screenshots/open-design-linux-smoke.png
+          OD_PACKAGED_E2E_SCREENSHOT_PATH: ${{ runner.temp }}/release-report/linux/screenshots/design-jury-linux-smoke.png
           OD_PACKAGED_E2E_TOOLS_PACK_DIR: ${{ runner.temp }}/tools-pack
         run: |
           set -euo pipefail
@@ -633,7 +633,7 @@ jobs:
             "platform": "linux",
             "spec": "specs/linux.spec.ts",
             "namespace": "release-beta-linux",
-            "screenshot": "screenshots/open-design-linux-smoke.png",
+            "screenshot": "screenshots/design-jury-linux-smoke.png",
             "githubRunId": "$GITHUB_RUN_ID",
             "githubRunAttempt": "$GITHUB_RUN_ATTEMPT",
             "commit": "$GITHUB_SHA"
@@ -647,7 +647,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-linux-e2e-report
+          name: design-jury-beta-linux-e2e-report
           path: ${{ runner.temp }}/release-report/linux
           if-no-files-found: warn
 
@@ -677,7 +677,7 @@ jobs:
       - name: Upload linux publish manifest
         uses: actions/upload-artifact@v7
         with:
-          name: open-design-beta-linux-publish-manifest
+          name: design-jury-beta-linux-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests/linux.json
 
   publish:
@@ -729,28 +729,28 @@ jobs:
         if: ${{ inputs.enable_mac && needs.build_mac.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-beta-mac-publish-manifest
+          name: design-jury-beta-mac-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests
 
       - name: Download mac intel publish manifest
         if: ${{ inputs.enable_mac_intel && needs.build_mac_intel.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-beta-mac-intel-publish-manifest
+          name: design-jury-beta-mac-intel-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests
 
       - name: Download windows publish manifest
         if: ${{ inputs.enable_win && needs.build_win.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-beta-win-publish-manifest
+          name: design-jury-beta-win-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests
 
       - name: Download linux publish manifest
         if: ${{ inputs.enable_linux && needs.build_linux.result == 'success' }}
         uses: actions/download-artifact@v8
         with:
-          name: open-design-beta-linux-publish-manifest
+          name: design-jury-beta-linux-publish-manifest
           path: ${{ runner.temp }}/release-platform-manifests
 
       - name: Setup Node.js

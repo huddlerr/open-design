@@ -3,8 +3,8 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { OpenDesignHostUpdaterStatusListener, OpenDesignHostUpdaterStatusSnapshot } from '@open-design/host';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import type { OpenDesignHostUpdaterStatusListener, OpenDesignHostUpdaterStatusSnapshot } from '@design-jury/host';
+import { installMockOpenDesignHost } from '@design-jury/host/testing';
 
 import { UpdaterPopup } from '../../src/components/UpdaterPopup';
 import { I18nProvider } from '../../src/i18n';
@@ -32,7 +32,7 @@ function downloadedStatus(overrides: Partial<OpenDesignHostUpdaterStatusSnapshot
   return {
     ...idleStatus(),
     availableVersion: '1.2.3-beta.4',
-    downloadPath: '/tmp/open-design-updater/Open Design Beta.dmg',
+    downloadPath: '/tmp/design-jury-updater/Design Jury Beta.dmg',
     state: 'downloaded',
     ...overrides,
   };
@@ -106,7 +106,7 @@ describe('UpdaterPopup', () => {
     fireEvent.click(button);
 
     expect(await screen.findByRole('dialog', { name: 'Update ready' })).toBeTruthy();
-    expect(screen.getByText('Open Design 1.2.3-beta.4 is ready. Open Design will close and open the installer.')).toBeTruthy();
+    expect(screen.getByText('Design Jury 1.2.3-beta.4 is ready. Design Jury will close and open the installer.')).toBeTruthy();
     expect(screen.getByTestId('updater-install-button').textContent).toBe('Install update');
   });
 
@@ -129,7 +129,7 @@ describe('UpdaterPopup', () => {
 
     expect(await screen.findByRole('dialog', { name: '更新已就绪' })).toBeTruthy();
     expect(screen.getByTestId('updater-install-button').textContent).toBe('安装更新');
-    expect(screen.getByText('Open Design 1.2.3-beta.4 已就绪。Open Design 会关闭并打开安装器。')).toBeTruthy();
+    expect(screen.getByText('Design Jury 1.2.3-beta.4 已就绪。Design Jury 会关闭并打开安装器。')).toBeTruthy();
   });
 
   it('dismisses the confirmation prompt before installation starts', async () => {
@@ -185,7 +185,7 @@ describe('UpdaterPopup', () => {
         installResult: {
           dryRun: true,
           openedAt: '2026-05-19T00:00:00.000Z',
-          path: '/tmp/open-design-updater/Open Design Beta.dmg',
+          path: '/tmp/design-jury-updater/Design Jury Beta.dmg',
         },
       });
       resolveInstall(status);
@@ -205,7 +205,7 @@ describe('UpdaterPopup', () => {
       installResult: {
         dryRun: true,
         openedAt: '2026-05-19T00:00:00.000Z',
-        path: '/tmp/open-design-updater/Open Design Beta.dmg',
+        path: '/tmp/design-jury-updater/Design Jury Beta.dmg',
       },
     }));
     const quit = vi.fn(async () => ({ ok: true as const }));

@@ -9,7 +9,7 @@ import type {
   PluginSourceKind,
   SkillSummary,
   TrustTier,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { HomeHero } from '../../src/components/HomeHero';
 
 function makePlugin(

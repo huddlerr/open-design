@@ -11,7 +11,7 @@ import type {
   Conversation,
   ProjectFile,
   ProjectFilesResponse,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import { parseProvenance } from '../lib/parse-provenance';
 
 const DESIGN_MD = 'DESIGN.md';

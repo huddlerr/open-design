@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 describe("desktop preload host boundary", () => {
-  it("exposes the canonical Open Design host global and diagnostics bridge", () => {
+  it("exposes the canonical Design Jury host global and diagnostics bridge", () => {
     const here = dirname(fileURLToPath(import.meta.url));
     const source = readFileSync(join(here, "../../src/main/preload.cts"), "utf8");
     const exposedGlobals = Array.from(source.matchAll(/contextBridge\.exposeInMainWorld\(([^,\n]+)/g))
@@ -28,7 +28,7 @@ describe("desktop preload host boundary", () => {
     expect(source).toContain("invokeUpdater('install'");
     expect(source).toContain("od:update:quit");
     expect(source).toContain("od:update:status-changed");
-    expect(source).not.toContain("@open-design/contracts");
+    expect(source).not.toContain("@design-jury/contracts");
     expect(source).not.toContain("exposeInMainWorld('electronAPI'");
     expect(source).not.toContain('exposeInMainWorld("__odDesktop"');
     expect(source).not.toContain("exposeInMainWorld('__odDesktop'");

@@ -1,4 +1,4 @@
-# open-design-landing
+# design-jury-landing
 
 Reusable skill that produces a world-class editorial landing page in
 the **Atelier Zero** design language — the warm-paper, italic-serif,
@@ -73,19 +73,19 @@ Every section has scroll-reveal motion (IntersectionObserver, respects
 ## Files
 
 ```text
-skills/open-design-landing/
+skills/design-jury-landing/
 ├── SKILL.md                 # ← agent contract (read this first)
 ├── README.md                # ← you are here
 ├── schema.ts                # typed inputs (single source of truth)
 ├── styles.css               # Atelier Zero stylesheet (single source of truth)
-├── inputs.example.json      # Open Design as the worked example
+├── inputs.example.json      # Design Jury as the worked example
 ├── example.html             # canonical rendering, regenerable from inputs.example.json
 ├── scripts/
 │   ├── compose.ts           # inputs.json + styles.css → index.html
 │   ├── imagegen.ts          # gpt-image-2 wrapper (fal.ai backend)
 │   └── placeholder.ts       # SVG paper-textured frames
 └── assets/
-    ├── *.png                # 16 collage plates (Open Design instance)
+    ├── *.png                # 16 collage plates (Design Jury instance)
     ├── image-manifest.json  # slot → file / dimensions / prompt mapping
     └── imagegen-prompts.md  # human-readable prompt pack
 ```
@@ -106,14 +106,14 @@ output.
 
 This skill replaces the older `editorial-collage` folder:
 
-- **Path:** `skills/editorial-collage/` → `skills/open-design-landing/`.
+- **Path:** `skills/editorial-collage/` → `skills/design-jury-landing/`.
 - **Shared assets:** downstream paths such as `../editorial-collage/assets/`
   (for example from the slide-deck skill) should use
-  [`../open-design-landing/assets/`](./assets/) — see
-  [`open-design-landing-deck`](../open-design-landing-deck/README.md).
+  [`../design-jury-landing/assets/`](./assets/) — see
+  [`design-jury-landing-deck`](../design-jury-landing-deck/README.md).
 
 ## See also
 
 - [`design-systems/atelier-zero/DESIGN.md`](../../design-systems/atelier-zero/DESIGN.md) — colors, type, motion tokens.
 - [`apps/landing-page/`](../../apps/landing-page/) — Astro static site that mirrors this skill’s markup at deploy time.
-- [`skills/open-design-landing-deck/`](../open-design-landing-deck/) — sibling skill that produces a slide deck in the same visual language.
+- [`skills/design-jury-landing-deck/`](../design-jury-landing-deck/) — sibling skill that produces a slide deck in the same visual language.

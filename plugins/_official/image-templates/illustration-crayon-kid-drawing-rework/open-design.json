@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-illustration-crayon-kid-drawing-rework",
   "title": "Illustration - Crayon Kid-Drawing Rework",
@@ -7,10 +7,10 @@
   "description": "A style-transfer prompt that reworks any reference image (product shot, screenshot, portrait, UI mockup) into a hand-drawn crayon illustration that feels like it was made by a 10-year-old. Replaces the original palette with bright playful crayon colors on clean white paper, and sprinkles childlike whimsy — castles, candy, stars, clouds, rainbows — to amplify the innocent storybook vibe. Works as an image-to-image edit in GPT-image-2 (requires uploading a reference image alongside the prompt); well-suited to website screenshots, brand key art, product photos, and portraits.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "image-template",
     "first-party",
@@ -32,7 +32,7 @@
     "surface": "image",
     "preview": {
       "type": "image",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/image/illustration-crayon-kid-drawing-rework.jpg"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/image/illustration-crayon-kid-drawing-rework.jpg"
     },
     "useCase": {
       "query": {

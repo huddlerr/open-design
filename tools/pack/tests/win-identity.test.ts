@@ -7,49 +7,49 @@ import { resolveWinInstallIdentity } from "../src/win/identity.js";
 describe("resolveWinInstallIdentity", () => {
   it("keeps the default namespace on the canonical Windows display name", () => {
     expect(resolveWinInstallIdentity({ namespace: "default" })).toMatchObject({
-      displayName: "Open Design",
-      shortcutName: "Open Design.lnk",
-      uninstallerName: "Uninstall Open Design.exe",
+      displayName: "Design Jury",
+      shortcutName: "Design Jury.lnk",
+      uninstallerName: "Uninstall Design Jury.exe",
     });
   });
 
   it("uses the canonical Windows display name for stable release namespaces", () => {
     expect(resolveWinInstallIdentity({ namespace: "release-stable-win" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design.exe",
-      displayName: "Open Design",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-stable-win",
-      shortcutName: "Open Design.lnk",
-      uninstallerName: "Uninstall Open Design.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Design Jury.exe",
+      displayName: "Design Jury",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Design Jury-release-stable-win",
+      shortcutName: "Design Jury.lnk",
+      uninstallerName: "Uninstall Design Jury.exe",
     });
   });
 
   it("uses first-class beta display identity for beta release namespaces", () => {
     expect(resolveWinInstallIdentity({ namespace: "release-beta-win" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design Beta.exe",
-      displayName: "Open Design Beta",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-beta-win",
-      shortcutName: "Open Design Beta.lnk",
-      uninstallerName: "Uninstall Open Design Beta.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Design Jury Beta.exe",
+      displayName: "Design Jury Beta",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Design Jury-release-beta-win",
+      shortcutName: "Design Jury Beta.lnk",
+      uninstallerName: "Uninstall Design Jury Beta.exe",
     });
   });
 
   it("keeps non-release beta-like namespaces isolated from the real beta channel identity", () => {
     expect(resolveWinInstallIdentity({ namespace: "beta-local-flow" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design beta-local-flow.exe",
-      displayName: "Open Design beta-local-flow",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-beta-local-flow",
-      shortcutName: "Open Design beta-local-flow.lnk",
-      uninstallerName: "Uninstall Open Design beta-local-flow.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Design Jury beta-local-flow.exe",
+      displayName: "Design Jury beta-local-flow",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Design Jury-beta-local-flow",
+      shortcutName: "Design Jury beta-local-flow.lnk",
+      uninstallerName: "Uninstall Design Jury beta-local-flow.exe",
     });
   });
 
   it("uses first-class preview display identity for preview release namespaces", () => {
     expect(resolveWinInstallIdentity({ namespace: "release-preview-win" })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design Preview.exe",
-      displayName: "Open Design Preview",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-preview-win",
-      shortcutName: "Open Design Preview.lnk",
-      uninstallerName: "Uninstall Open Design Preview.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Design Jury Preview.exe",
+      displayName: "Design Jury Preview",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Design Jury-release-preview-win",
+      shortcutName: "Design Jury Preview.lnk",
+      uninstallerName: "Uninstall Design Jury Preview.exe",
     });
   });
 
@@ -58,15 +58,15 @@ describe("resolveWinInstallIdentity", () => {
       appVersion: "0.8.0.nightly.2",
       namespace: "release-stable-win",
     })).toMatchObject({
-      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Open Design Nightly.exe",
-      displayName: "Open Design Nightly",
-      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Open Design-release-stable-win",
-      shortcutName: "Open Design Nightly.lnk",
-      uninstallerName: "Uninstall Open Design Nightly.exe",
+      appPathsKey: "Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Design Jury Nightly.exe",
+      displayName: "Design Jury Nightly",
+      registryKey: "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Design Jury-release-stable-win",
+      shortcutName: "Design Jury Nightly.lnk",
+      uninstallerName: "Uninstall Design Jury Nightly.exe",
     });
     expect(resolveWinInstallIdentity({ namespace: "release-nightly-win" })).toMatchObject({
-      displayName: "Open Design Nightly",
-      shortcutName: "Open Design Nightly.lnk",
+      displayName: "Design Jury Nightly",
+      shortcutName: "Design Jury Nightly.lnk",
     });
   });
 

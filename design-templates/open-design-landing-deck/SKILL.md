@@ -1,14 +1,14 @@
 ---
-name: open-design-landing-deck
+name: design-jury-landing-deck
 description: >
   Produce a single-file slide deck in the Atelier Zero visual language
   (warm-paper background, italic-serif emphasis spans, coral terminating
-  dots, surreal collage plates) — Open Design's brand deck recipe.
+  dots, surreal collage plates) — Design Jury's brand deck recipe.
   The deck uses **horizontal magazine-style swipe pagination** (←/→,
   wheel, swipe), a per-slide chrome strip with brand mark and slide
   counter, an ESC overview grid, a coral progress bar, and inherits
   the canonical stylesheet + 16-slot image library from the sister
-  `open-design-landing` skill.
+  `design-jury-landing` skill.
 triggers:
   - slide deck
   - 演示文稿
@@ -39,7 +39,7 @@ inputs:
     schema_path: ./schema.ts#BrandBlock
   - id: deck_title
     label: Kicker shown in the per-slide top chrome
-    description: e.g. `'Open Design · Vol. 01 / Issue Nº 26'`.
+    description: e.g. `'Design Jury · Vol. 01 / Issue Nº 26'`.
   - id: slides
     label: Ordered list of typed slides
     description: >
@@ -48,7 +48,7 @@ inputs:
     schema_path: ./schema.ts#Slide
   - id: imagery
     label: Image library (defaults to sister skill's assets)
-    schema_path: ../open-design-landing/schema.ts#ImageryConfig
+    schema_path: ../design-jury-landing/schema.ts#ImageryConfig
 parameters:
   slides_recommended_count:
     type: number
@@ -65,12 +65,12 @@ example_prompt: |
   studio. Cover with hero plate, two section dividers, two product
   content slides with bullets, a stats slide showing 12 soundscapes / 4
   presets / 1 daily ritual, a customer quote, a closing CTA, and an end
-  card. Reuse the open-design-landing image library.
+  card. Reuse the design-jury-landing image library.
 ---
 
-# open-design-landing-deck
+# design-jury-landing-deck
 
-Sister skill to [`open-design-landing`](../open-design-landing/). Same
+Sister skill to [`design-jury-landing`](../design-jury-landing/). Same
 Atelier Zero visual system (warm paper, Inter Tight + Playfair Display,
 italic-serif emphasis, coral dots), but paginated as a **horizontal
 magazine-style swipe deck** instead of a long scrolling page.
@@ -81,7 +81,7 @@ swipe, ESC for the overview grid — so it feels like a print magazine
 flipping page by page rather than a web slide deck scrolling.
 
 ```text
-inputs.json + ../open-design-landing/styles.css
+inputs.json + ../design-jury-landing/styles.css
         │
         └──────────► scripts/compose.ts
                             │
@@ -142,7 +142,7 @@ A typical 11-slide pitch:
 Start from [`inputs.example.json`](./inputs.example.json) (the Open
 Design pitch deck). The brand block, image strategy, and assets path
 mirror the sister skill — if you already filled out an
-`open-design-landing` brief, copy `brand` and `imagery` over verbatim.
+`design-jury-landing` brief, copy `brand` and `imagery` over verbatim.
 
 For each slide, pick a `kind` and fill the typed fields from
 [`schema.ts`](./schema.ts). `MixedText` (sans-serif baseline +
@@ -152,19 +152,19 @@ encoding used by the sister skill — see its `inputs.example.json`.
 ### 2. (Optional) generate or stub imagery
 
 This skill does **not** ship its own image generator or placeholder
-script — it shares the 16-slot library from `open-design-landing`. To
+script — it shares the 16-slot library from `design-jury-landing`. To
 regenerate or stub:
 
 ```bash
 # generate via gpt-image-2 (fal.ai)
-FAL_KEY=... npx tsx ../open-design-landing/scripts/imagegen.ts ../open-design-landing/inputs.example.json --out=../open-design-landing/assets/
+FAL_KEY=... npx tsx ../design-jury-landing/scripts/imagegen.ts ../design-jury-landing/inputs.example.json --out=../design-jury-landing/assets/
 
 # or paper-textured SVG placeholders
-npx tsx ../open-design-landing/scripts/placeholder.ts ../open-design-landing/assets/
+npx tsx ../design-jury-landing/scripts/placeholder.ts ../design-jury-landing/assets/
 ```
 
 Set your deck's `inputs.imagery.assets_path` to wherever those PNGs
-live (default in the example: `../open-design-landing/assets/`).
+live (default in the example: `../design-jury-landing/assets/`).
 
 ### 3. Compose the deck
 
@@ -173,7 +173,7 @@ npx tsx scripts/compose.ts inputs.json out/index.html
 ```
 
 The composer reads `inputs.json`, loads the canonical Atelier Zero
-stylesheet from `../open-design-landing/styles.css`, layers
+stylesheet from `../design-jury-landing/styles.css`, layers
 deck-specific rules on top (horizontal flex track, slide layouts,
 HUD, dot nav, ESC overview, keyboard / wheel / touch handlers), and
 writes one self-contained HTML file.
@@ -198,7 +198,7 @@ writes one self-contained HTML file.
 ## Boundaries
 
 - **Reuse the sister skill's stylesheet.** The composer reads
-  `../open-design-landing/styles.css` at compile time. Do not
+  `../design-jury-landing/styles.css` at compile time. Do not
   maintain a duplicate copy here; if Atelier Zero tokens evolve, edit
   them once in the sister skill.
 - **Reuse the sister skill's image library.** No need to re-prompt or
@@ -215,7 +215,7 @@ writes one self-contained HTML file.
 
 ## See also
 
-- [`open-design-landing`](../open-design-landing/) — landing page sister skill.
+- [`design-jury-landing`](../design-jury-landing/) — landing page sister skill.
 - [`guizang-ppt`](../guizang-ppt/) — the magazine-deck navigation
   pattern this skill borrows.
 - [`design-systems/atelier-zero/DESIGN.md`](../../design-systems/atelier-zero/DESIGN.md) — token spec.

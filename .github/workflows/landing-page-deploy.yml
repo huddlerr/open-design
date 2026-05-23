@@ -11,7 +11,7 @@ on:
       # Landing page sources
       - apps/landing-page/**
       # Design template source of truth for the homepage.
-      - design-templates/open-design-landing/**
+      - design-templates/design-jury-landing/**
       # Content sources — Astro content collections glob these at build
       # time. Adding/removing a SKILL.md, DESIGN.md, craft principle, or
       # live-artifact template MUST trigger a redeploy or the published
@@ -37,7 +37,7 @@ concurrency:
 jobs:
   deploy:
     name: Deploy landing page
-    if: github.repository == 'nexu-io/open-design'
+    if: github.repository == 'nexu-io/design-jury'
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -81,10 +81,10 @@ jobs:
           key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
 
       - name: Install Playwright Chromium
-        run: pnpm --filter @open-design/landing-page exec playwright install --with-deps chromium
+        run: pnpm --filter @design-jury/landing-page exec playwright install --with-deps chromium
 
       - name: Typecheck landing page
-        run: pnpm --filter @open-design/landing-page typecheck
+        run: pnpm --filter @design-jury/landing-page typecheck
 
       # Generate previews before build so they end up in `out/previews/`.
       # Soft vs. hard failure is enforced inside the script itself:
@@ -93,12 +93,12 @@ jobs:
       # exits non-zero so we don't silently ship a deploy with zero
       # thumbnails to production.
       - name: Generate skill + template previews
-        run: pnpm --filter @open-design/landing-page previews
+        run: pnpm --filter @design-jury/landing-page previews
 
       - name: Build landing page
         env:
           PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
-        run: pnpm --filter @open-design/landing-page build:static
+        run: pnpm --filter @design-jury/landing-page build:static
 
       - name: Verify zero external JavaScript
         run: |
@@ -123,7 +123,7 @@ jobs:
           node <<'NODE'
           const { readFileSync } = require('node:fs');
           const html = readFileSync('apps/landing-page/out/index.html', 'utf8');
-          const resizedUrls = html.match(/https:\/\/static\.open-design\.ai\/cdn-cgi\/image\//g) ?? [];
+          const resizedUrls = html.match(/https:\/\/static\.design-jury\.ai\/cdn-cgi\/image\//g) ?? [];
           if (resizedUrls.length < 16) {
             console.error(`Expected at least 16 Cloudflare resized image URLs, found ${resizedUrls.length}`);
             process.exit(1);
@@ -143,5 +143,5 @@ jobs:
           packageManager: npm
           command: >
             pages deploy out
-            --project-name=open-design-landing
+            --project-name=design-jury-landing
             --branch=${{ github.ref_name }}

@@ -17,17 +17,17 @@ permissions:
 jobs:
   metrics:
     name: Generate repository metrics SVG
-    if: github.repository == 'nexu-io/open-design'
+    if: github.repository == 'nexu-io/design-jury'
     runs-on: ubuntu-latest
     steps:
-      - name: Generate Open Design bot token
-        id: open-design-bot-token
+      - name: Generate Design Jury bot token
+        id: design-jury-bot-token
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           owner: nexu-io
-          repositories: open-design
+          repositories: design-jury
           permission-administration: read
           permission-contents: write
           permission-issues: read
@@ -40,10 +40,10 @@ jobs:
           # Requires manual review to merge. If metrics unchanged, no PR is created.
           filename: docs/assets/github-metrics.svg
 
-          # Auth: use the Open Design GitHub App so generated commits and pull
-          # requests come from open-design-bot[bot] and trigger normal PR CI.
-          token: ${{ steps.open-design-bot-token.outputs.token }}
-          committer_token: ${{ steps.open-design-bot-token.outputs.token }}
+          # Auth: use the Design Jury GitHub App so generated commits and pull
+          # requests come from design-jury-bot[bot] and trigger normal PR CI.
+          token: ${{ steps.design-jury-bot-token.outputs.token }}
+          committer_token: ${{ steps.design-jury-bot-token.outputs.token }}
           committer_message: Update ${filename}
           output_action: pull-request
           output_condition: data-changed
@@ -54,7 +54,7 @@ jobs:
           template: repository
           base: ''
           user: nexu-io
-          repo: open-design
+          repo: design-jury
 
           # Plugins. Anything that requires a personal token will silently no-op
           # without METRICS_TOKEN — the rest still produce a useful SVG.

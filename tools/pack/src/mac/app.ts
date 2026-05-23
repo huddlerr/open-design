@@ -298,9 +298,9 @@ export async function writeAssembledApp(
     `${JSON.stringify(
       {
         dependencies,
-        description: "Open Design packaged runtime",
+        description: "Design Jury packaged runtime",
         main: "./main.cjs",
-        name: "open-design-packaged-app",
+        name: "design-jury-packaged-app",
         private: true,
         productName: identity.productName,
         version: packageVersion,

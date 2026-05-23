@@ -1,33 +1,33 @@
-# Open Design — the open-source Claude Design alternative
+# Design Jury — the open-source Claude Design alternative
 
-> **Open Design is the open-source, local-first alternative to [Claude Design][cd].** Web-deployable, BYOK at every layer — **16 coding-agent CLIs** auto-detected on your `PATH` (Claude Code, Codex, Devin for Terminal, Cursor Agent, Gemini CLI, OpenCode, Qwen, Qoder CLI, GitHub Copilot CLI, Hermes, Kimi, Pi, Kiro, Kilo, Mistral Vibe, DeepSeek TUI) become the design engine, driven by **31 composable Skills** and **72 brand-grade Design Systems**. No CLI? An OpenAI-compatible BYOK proxy is the same loop minus the spawn.
+> **Design Jury is the open-source, local-first alternative to [Claude Design][cd].** Web-deployable, BYOK at every layer — **16 coding-agent CLIs** auto-detected on your `PATH` (Claude Code, Codex, Devin for Terminal, Cursor Agent, Gemini CLI, OpenCode, Qwen, Qoder CLI, GitHub Copilot CLI, Hermes, Kimi, Pi, Kiro, Kilo, Mistral Vibe, DeepSeek TUI) become the design engine, driven by **31 composable Skills** and **72 brand-grade Design Systems**. No CLI? An OpenAI-compatible BYOK proxy is the same loop minus the spawn.
 
 > [!IMPORTANT]
 > ### 🔥 `0.8.0-preview` is here. Design's old world ends here.
 >
 > The open-source alternative to Claude Design / Figma — 40k stars in two weeks got us this far. **We need you to push the rest of the way.**
 >
-> **Iterating fast on `main`** — 0.8.0 is the next phase of Open Design. Ship a PR, drop a wild idea, file a bug — what you bring is what this movement becomes.
+> **Iterating fast on `main`** — 0.8.0 is the next phase of Design Jury. Ship a PR, drop a wild idea, file a bug — what you bring is what this movement becomes.
 >
-> → [**Read the announcement, grab the installer, join the movement**](https://github.com/nexu-io/open-design/discussions/1727) · runs side-by-side with your current 0.7.
+> → [**Read the announcement, grab the installer, join the movement**](https://github.com/nexu-io/design-jury/discussions/1727) · runs side-by-side with your current 0.7.
 
 <p align="center">
-  <img src="docs/assets/banner.png" alt="Open Design — editorial cover: design with the agent on your laptop" width="100%" />
+  <img src="docs/assets/banner.png" alt="Design Jury — editorial cover: design with the agent on your laptop" width="100%" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=ffd700&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=2ecc71&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/issues"><img alt="Issues" src="https://img.shields.io/github/issues/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=ff6b6b&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/pulls"><img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=9b59b6&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=3498db&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/commits/main"><img alt="Commit activity" src="https://img.shields.io/github/commit-activity/m/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=e67e22&logo=git&logoColor=white" /></a>
-  <a href="https://github.com/nexu-io/open-design/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/nexu-io/open-design?style=for-the-badge&labelColor=0d1117&color=8e44ad&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=ffd700&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/network/members"><img alt="Forks" src="https://img.shields.io/github/forks/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=2ecc71&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/issues"><img alt="Issues" src="https://img.shields.io/github/issues/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=ff6b6b&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/pulls"><img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=9b59b6&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=3498db&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/commits/main"><img alt="Commit activity" src="https://img.shields.io/github/commit-activity/m/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=e67e22&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/nexu-io/design-jury/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/nexu-io/design-jury?style=for-the-badge&labelColor=0d1117&color=8e44ad&logo=git&logoColor=white" /></a>
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/"><img alt="Download" src="https://img.shields.io/badge/download-open--design.ai-ff6b35?style=flat-square" /></a>
-  <a href="https://github.com/nexu-io/open-design/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/nexu-io/open-design?style=flat-square&color=blueviolet&label=release&include_prereleases&display_name=tag" /></a>
+  <a href="https://design-jury.ai/"><img alt="Download" src="https://img.shields.io/badge/download-open--design.ai-ff6b35?style=flat-square" /></a>
+  <a href="https://github.com/nexu-io/design-jury/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/nexu-io/design-jury?style=flat-square&color=blueviolet&label=release&include_prereleases&display_name=tag" /></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square" /></a>
   <a href="#supported-coding-agents"><img alt="Agents" src="https://img.shields.io/badge/agents-16%20CLIs%20%2B%20BYOK%20proxy-black?style=flat-square" /></a>
   <a href="#design-systems"><img alt="Design systems" src="https://img.shields.io/badge/design%20systems-149-orange?style=flat-square" /></a>
@@ -45,7 +45,7 @@
 
 Anthropic's [Claude Design][cd] (released 2026-04-17, Opus 4.7) showed what happens when an LLM stops writing prose and starts shipping design artifacts. It went viral — and stayed closed-source, paid-only, cloud-only, locked to Anthropic's model and Anthropic's skills. There is no checkout, no self-host, no Vercel deploy, no swap-in-your-own-agent.
 
-**Open Design (OD) is the open-source alternative.** Same loop, same artifact-first mental model, none of the lock-in. We don't ship an agent — the strongest coding agents already live on your laptop. We wire them into a skill-driven design workflow that runs locally with `pnpm tools-dev`, can deploy the web layer to Vercel, and stays BYOK at every layer.
+**Design Jury (OD) is the open-source alternative.** Same loop, same artifact-first mental model, none of the lock-in. We don't ship an agent — the strongest coding agents already live on your laptop. We wire them into a skill-driven design workflow that runs locally with `pnpm tools-dev`, can deploy the web layer to Vercel, and stays BYOK at every layer.
 
 Type `make me a magazine-style pitch deck for our seed round`. The interactive question form pops up before the model improvises a single pixel. The agent picks one of five curated visual directions. A live `TodoWrite` plan streams into the UI. The daemon builds a real on-disk project folder with a seed template, layout library, and self-check checklist. The agent reads them — pre-flight enforced — runs a five-dimensional critique against its own output, and emits a single `<artifact>` that renders in a sandboxed iframe seconds later.
 
@@ -74,7 +74,7 @@ OD stands on four open-source shoulders:
 | **Persistence** | SQLite at `.od/app.sqlite`: projects · conversations · messages · tabs · saved templates. Reopen tomorrow, todo card and open files are exactly where you left them. |
 | **Lifecycle** | One entry point: `pnpm tools-dev` (start / stop / run / status / logs / inspect / check) — boots daemon + web (+ desktop) under typed sidecar stamps |
 | **Desktop** | Optional Electron shell with sandboxed renderer + sidecar IPC (STATUS / EVAL / SCREENSHOT / CONSOLE / CLICK / SHUTDOWN) — drives `tools-dev inspect desktop screenshot` for E2E |
-| **Deployable to** | Local (`pnpm tools-dev`) · Vercel web layer · packaged Electron desktop app for macOS (Apple Silicon, plus Intel x64 ZIP builds verified on Monterey) and Windows (x64) — download from [open-design.ai](https://open-design.ai/) or the [latest release](https://github.com/nexu-io/open-design/releases) |
+| **Deployable to** | Local (`pnpm tools-dev`) · Vercel web layer · packaged Electron desktop app for macOS (Apple Silicon, plus Intel x64 ZIP builds verified on Monterey) and Windows (x64) — download from [design-jury.ai](https://design-jury.ai/) or the [latest release](https://github.com/nexu-io/design-jury/releases) |
 | **License** | Apache-2.0 |
 
 Linux AppImage packaging is available through the optional release lane and is covered by the Linux packaged smoke workflow, but public stable downloads remain gated until the release maintainers enable the Linux stable lane.
@@ -287,7 +287,7 @@ Every layer is composable. Every layer is a file you can edit. Read [`apps/daemo
    │  /api/upload          /api/projects/:id/files…
    │  /artifacts (static)  /frames (static)
    │
-   │  optional: sidecar IPC at /tmp/open-design/ipc/<ns>/<app>.sock
+   │  optional: sidecar IPC at /tmp/design-jury/ipc/<ns>/<app>.sock
    │  (STATUS · EVAL · SCREENSHOT · CONSOLE · CLICK · SHUTDOWN)
    └─────────┬────────────────────────┘
              │ spawn(cli, [...], { cwd: .od/projects/<id> })
@@ -315,15 +315,15 @@ Every layer is composable. Every layer is a file you can edit. Read [`apps/daemo
 
 ### Download the desktop app (no build required)
 
-The fastest way to try Open Design is the prebuilt desktop app — no Node, no pnpm, no clone:
+The fastest way to try Design Jury is the prebuilt desktop app — no Node, no pnpm, no clone:
 
-- **[open-design.ai](https://open-design.ai/)** — official download page
-- **[GitHub releases](https://github.com/nexu-io/open-design/releases)**
+- **[design-jury.ai](https://design-jury.ai/)** — official download page
+- **[GitHub releases](https://github.com/nexu-io/design-jury/releases)**
 
 
 ### Run with Docker
 
-Run Open Design without installing Node.js or pnpm locally.
+Run Design Jury without installing Node.js or pnpm locally.
 
 #### Requirements
 
@@ -336,11 +336,11 @@ Verify Docker:
 docker compose version
 ```
 
-#### Start Open Design
+#### Start Design Jury
 
 ```bash id="m9w43w"
-git clone https://github.com/nexu-io/open-design.git
-cd open-design/deploy
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury/deploy
 docker compose up -d
 ```
 
@@ -374,8 +374,8 @@ For advanced Docker configuration and environment variables, see [`QUICKSTART.md
 ### Run from source
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury
 corepack enable
 corepack pnpm --version   # should print 10.33.2
 pnpm install
@@ -420,7 +420,7 @@ The daemon owns one hidden folder at the repo root. Everything in it is gitignor
 If you ran the repo first and only later installed the packaged Desktop app, the two writers point at different roots:
 
 - Repo dev-server (`pnpm tools-dev start web`) writes to `<repo-root>/.od/`.
-- Installed Desktop app writes under `<appData>/Open Design/namespaces/<channel>/data/`, where `<appData>` is Electron's per-OS app-data base (everything before the `Open Design` segment that `app.getPath("userData")` already includes). The channel suffix is **platform-specific** — the release workflows append `-win`/`-linux`:
+- Installed Desktop app writes under `<appData>/Design Jury/namespaces/<channel>/data/`, where `<appData>` is Electron's per-OS app-data base (everything before the `Design Jury` segment that `app.getPath("userData")` already includes). The channel suffix is **platform-specific** — the release workflows append `-win`/`-linux`:
 
   | Platform | `<appData>` (Electron `appData` base) | Stable channel | Beta channel |
   |---|---|---|---|
@@ -429,9 +429,9 @@ If you ran the repo first and only later installed the packaged Desktop app, the
   | Linux | `$XDG_CONFIG_HOME` (default `~/.config`) | `release-stable-linux` | `release-beta-linux` |
 
   Example resolved paths:
-  - macOS beta: `~/Library/Application Support/Open Design/namespaces/release-beta/data/`
-  - Windows beta: `%APPDATA%\Open Design\namespaces\release-beta-win\data\`
-  - Linux beta: `~/.config/Open Design/namespaces/release-beta-linux/data/`
+  - macOS beta: `~/Library/Application Support/Design Jury/namespaces/release-beta/data/`
+  - Windows beta: `%APPDATA%\Design Jury\namespaces\release-beta-win\data\`
+  - Linux beta: `~/.config/Design Jury/namespaces/release-beta-linux/data/`
 
   If unsure, inspect the packaged daemon log right after the app boots; it logs the resolved `daemonDataRoot`.
 
@@ -439,7 +439,7 @@ If you ran the repo first and only later installed the packaged Desktop app, the
 
 ##### Option A: one-shot auto-migration via `OD_LEGACY_DATA_DIR`
 
-Use this when the Desktop app's `data/` is still empty, which is the typical state right after the upgrade that surfaced [#710](https://github.com/nexu-io/open-design/issues/710). Quit the Desktop app first (so its daemon is not holding `app.sqlite`), then re-launch with `OD_LEGACY_DATA_DIR` pointed at your old repo `.od/`. The daemon stages your payload into a sibling tmp directory and only promotes it into `data/` on success; on any failure the staging directory is removed so the next boot retries cleanly.
+Use this when the Desktop app's `data/` is still empty, which is the typical state right after the upgrade that surfaced [#710](https://github.com/nexu-io/design-jury/issues/710). Quit the Desktop app first (so its daemon is not holding `app.sqlite`), then re-launch with `OD_LEGACY_DATA_DIR` pointed at your old repo `.od/`. The daemon stages your payload into a sibling tmp directory and only promotes it into `data/` on success; on any failure the staging directory is removed so the next boot retries cleanly.
 
 The daemon refuses, with a visible startup error, when:
 
@@ -454,14 +454,14 @@ Quit the Desktop app first, then re-launch with this env set. The launcher must 
 
 ```bash
 OD_LEGACY_DATA_DIR="/path/to/old/repo/.od" \
-  "/Applications/Open Design.app/Contents/MacOS/Open Design"
+  "/Applications/Design Jury.app/Contents/MacOS/Design Jury"
 ```
 
 If you prefer the Dock launcher, set the variable in `launchctl` first, open the app, then unset it:
 
 ```bash
 launchctl setenv OD_LEGACY_DATA_DIR "/path/to/old/repo/.od"
-open "/Applications/Open Design.app"
+open "/Applications/Design Jury.app"
 # After the migration log line appears:
 launchctl unsetenv OD_LEGACY_DATA_DIR
 ```
@@ -469,7 +469,7 @@ launchctl unsetenv OD_LEGACY_DATA_DIR
 **Linux** (run the binary directly so the env var actually reaches it):
 
 ```bash
-OD_LEGACY_DATA_DIR="/path/to/old/repo/.od" /path/to/open-design
+OD_LEGACY_DATA_DIR="/path/to/old/repo/.od" /path/to/design-jury
 # (e.g. the AppImage you launched, or the unpacked binary under /opt)
 ```
 
@@ -477,7 +477,7 @@ OD_LEGACY_DATA_DIR="/path/to/old/repo/.od" /path/to/open-design
 
 ```powershell
 $env:OD_LEGACY_DATA_DIR="C:\path\to\old\repo\.od"
-& "$env:LOCALAPPDATA\Programs\Open Design\Open Design.exe"
+& "$env:LOCALAPPDATA\Programs\Design Jury\Design Jury.exe"
 ```
 
 The daemon log records `[od-migrate] migration complete: copied N entries (...)`. After the first launch you can clear the env variable; the marker prevents re-migration even on subsequent runs.
@@ -494,8 +494,8 @@ set -euo pipefail
 #    - Quit the Desktop app (Cmd+Q on macOS, File → Exit on Linux).
 #    - Stop the repo dev-server: `pnpm tools-dev stop` from the repo root.
 # 2. Set REPO and APP_DATA to your actual paths; the example below is macOS + beta.
-REPO="/path/to/open-design"
-APP_DATA="$HOME/Library/Application Support/Open Design/namespaces/release-beta/data"
+REPO="/path/to/design-jury"
+APP_DATA="$HOME/Library/Application Support/Design Jury/namespaces/release-beta/data"
 
 # 3. Preflight: see what (if anything) the Desktop app already has.
 ls "$APP_DATA/projects" 2>/dev/null && echo "Desktop already has projects, confirm this is a replace, not a merge."
@@ -522,8 +522,8 @@ $ErrorActionPreference = 'Stop'
 #    - Quit the Desktop app (File > Exit).
 #    - Stop the repo dev-server: `pnpm tools-dev stop` from the repo root.
 # 2. Set $Repo and $AppData to your actual paths; the example below is stable channel.
-$Repo    = 'C:\path\to\open-design'
-$AppData = Join-Path $env:APPDATA 'Open Design\namespaces\release-stable-win\data'
+$Repo    = 'C:\path\to\design-jury'
+$AppData = Join-Path $env:APPDATA 'Design Jury\namespaces\release-stable-win\data'
 
 # 3. Preflight: see what (if anything) the Desktop app already has.
 if (Test-Path (Join-Path $AppData 'projects')) {
@@ -552,7 +552,7 @@ If anything looks wrong after relaunch, restore the original Desktop data by del
 > **⚠️ Advanced: sharing one data dir between repo dev-server and Desktop app.** Pointing both at the same dir via `OD_DATA_DIR` is possible but **only safe one-at-a-time**. The daemon opens `app.sqlite` in WAL mode and writes uncoordinated files under `projects/` and `artifacts/`; running both writers concurrently can corrupt SQLite or clobber artifacts. Always stop the Desktop app before starting the dev-server, and stop the dev-server before opening the Desktop app:
 >
 > ```bash
-> OD_DATA_DIR="$HOME/Library/Application Support/Open Design/namespaces/release-beta/data" \
+> OD_DATA_DIR="$HOME/Library/Application Support/Design Jury/namespaces/release-beta/data" \
 >   pnpm tools-dev start web
 > ```
 
@@ -560,7 +560,7 @@ Full file map, scripts, and troubleshooting → [`QUICKSTART.md`](QUICKSTART.md)
 
 ## Running the Project
 
-Open Design can run as a web app in your browser or as an Electron desktop application. Both modes share the same local daemon + web architecture.
+Design Jury can run as a web app in your browser or as an Electron desktop application. Both modes share the same local daemon + web architecture.
 
 ### Web / Localhost (Default)
 
@@ -597,7 +597,7 @@ pnpm tools-dev
 pnpm tools-dev inspect desktop status
 
 # Take a screenshot of the desktop app
-pnpm tools-dev inspect desktop screenshot --path /tmp/open-design.png
+pnpm tools-dev inspect desktop screenshot --path /tmp/design-jury.png
 ```
 
 The desktop app discovers the web URL automatically via sidecar IPC — no port guessing required.
@@ -620,37 +620,37 @@ A flake is published at the repo root. Home Manager is the recommended path for 
 
 ```nix
 # Home Manager
-inputs.open-design.url = "github:nexu-io/open-design";
-# then: imports = [ inputs.open-design.homeManagerModules.default ];
+inputs.design-jury.url = "github:nexu-io/design-jury";
+# then: imports = [ inputs.design-jury.homeManagerModules.default ];
 ```
 
 ```bash
-nix run github:nexu-io/open-design       # boot the daemon (`od`) without installing
+nix run github:nexu-io/design-jury       # boot the daemon (`od`) without installing
 ```
 
 For developers, a Nix dev shell is available and can be used with `direnv` too:
 
 ```bash
-nix develop   # dev shell with required dependencies to work on Open Design
+nix develop   # dev shell with required dependencies to work on Design Jury
 ```
 
 
-## Use Open Design from your coding agent
+## Use Design Jury from your coding agent
 
-Open Design ships a stdio MCP server. Wire it into Claude Code, Codex, Cursor, VS Code, Antigravity, Zed, Windsurf, or any MCP-compatible client and the agent in another repo can read files from your local Open Design projects directly. Replaces the export-then-attach loop. When the agent calls `search_files`, `get_file`, or `get_artifact` without a project argument, the MCP defaults to whatever project (and file) you have open in Open Design right now, so prompts like *"build this in my app"* or *"match these styles"* just work.
+Design Jury ships a stdio MCP server. Wire it into Claude Code, Codex, Cursor, VS Code, Antigravity, Zed, Windsurf, or any MCP-compatible client and the agent in another repo can read files from your local Design Jury projects directly. Replaces the export-then-attach loop. When the agent calls `search_files`, `get_file`, or `get_artifact` without a project argument, the MCP defaults to whatever project (and file) you have open in Design Jury right now, so prompts like *"build this in my app"* or *"match these styles"* just work.
 
 **Why MCP?** Exporting and re-attaching a zip every design iteration breaks flow. The MCP server exposes your design source directly -- tokens CSS, JSX components, entry HTML -- as a structured API the agent can query by name. The agent always sees the live file, not a stale copy from the last export.
 
-Open **Settings → MCP server** in the Open Design app for a per-client install flow. The panel bakes the absolute path to your `node` binary and the daemon's built `cli.js` into every snippet, so it works on a fresh source clone where `od` is not on your PATH. Cursor gets a one-click deeplink; the rest get a copy-paste JSON snippet in the schema their config file expects (Claude Code includes a `claude mcp add-json` one-liner so you do not have to hand-edit `~/.claude.json`). Restart or reload your client after install for the server to show up.
+Open **Settings → MCP server** in the Design Jury app for a per-client install flow. The panel bakes the absolute path to your `node` binary and the daemon's built `cli.js` into every snippet, so it works on a fresh source clone where `od` is not on your PATH. Cursor gets a one-click deeplink; the rest get a copy-paste JSON snippet in the schema their config file expects (Claude Code includes a `claude mcp add-json` one-liner so you do not have to hand-edit `~/.claude.json`). Restart or reload your client after install for the server to show up.
 
-The daemon must be running locally for MCP tool calls to succeed. If the agent was started before Open Design, restart the agent after Open Design is up so it can reach the live daemon. Tool calls made while the daemon is offline return a clear `"daemon not reachable"` error rather than a crash.
+The daemon must be running locally for MCP tool calls to succeed. If the agent was started before Design Jury, restart the agent after Design Jury is up so it can reach the live daemon. Tool calls made while the daemon is offline return a clear `"daemon not reachable"` error rather than a crash.
 
-**Security model.** The MCP server is read-only; it exposes file reads, file metadata, and search -- nothing that writes to disk or calls an external service. It runs as a child process of the coding agent over stdio, so any MCP client you register inherits read access to your local Open Design projects. Treat it like installing a VS Code extension: only register clients you trust. The daemon binds to `127.0.0.1` by default; LAN-wide exposure requires an explicit `OD_BIND_HOST` opt-in. If you also front the SPA with a non-loopback static server, set `OD_ALLOWED_ORIGINS=<origin1>,<origin2>,...` (comma-separated `scheme://host[:port]` entries) so the daemon's same-origin gate accepts API writes from those origins on both the `Origin` and `Host` checks; without it the browser will see 403s on every PUT/POST (Caddy v2 reverse_proxy preserves the original Host header upstream by default, so loopback alone is not enough). Connector-credential and live-artifact preview routes stay loopback-only regardless.
+**Security model.** The MCP server is read-only; it exposes file reads, file metadata, and search -- nothing that writes to disk or calls an external service. It runs as a child process of the coding agent over stdio, so any MCP client you register inherits read access to your local Design Jury projects. Treat it like installing a VS Code extension: only register clients you trust. The daemon binds to `127.0.0.1` by default; LAN-wide exposure requires an explicit `OD_BIND_HOST` opt-in. If you also front the SPA with a non-loopback static server, set `OD_ALLOWED_ORIGINS=<origin1>,<origin2>,...` (comma-separated `scheme://host[:port]` entries) so the daemon's same-origin gate accepts API writes from those origins on both the `Origin` and `Host` checks; without it the browser will see 403s on every PUT/POST (Caddy v2 reverse_proxy preserves the original Host header upstream by default, so loopback alone is not enough). Connector-credential and live-artifact preview routes stay loopback-only regardless.
 
 ## Repository structure
 
 ```
-open-design/
+design-jury/
 ├── README.md                      ← this file
 ├── README.de.md                   ← Deutsch
 ├── README.ru.md                   ← Русский
@@ -689,7 +689,7 @@ open-design/
 │
 ├── packages/
 │   ├── contracts/                 ← shared web/daemon app contracts
-│   ├── sidecar-proto/             ← Open Design sidecar protocol contract
+│   ├── sidecar-proto/             ← Design Jury sidecar protocol contract
 │   ├── sidecar/                   ← generic sidecar runtime primitives
 │   └── platform/                  ← generic process/platform primitives
 │
@@ -838,7 +838,7 @@ Click any thumbnail to play the actual rendered MP4. Full set → [`prompt-templ
 
 ### HyperFrames — HTML→MP4 motion graphics (11 ready-to-replicate templates)
 
-[**`heygen-com/hyperframes`**](https://github.com/heygen-com/hyperframes) is HeyGen's open-source agent-native video framework — you (or the agent) write HTML + CSS + GSAP, HyperFrames renders it to a deterministic MP4 via headless Chrome + FFmpeg. Open Design ships HyperFrames as a first-class video model (`hyperframes-html`) wired into the daemon dispatch, plus the `skills/hyperframes/` skill that teaches the agent the timeline contract, scene-transition rules, audio-reactive patterns, captions/TTS, and the catalog blocks (`npx hyperframes add <slug>`).
+[**`heygen-com/hyperframes`**](https://github.com/heygen-com/hyperframes) is HeyGen's open-source agent-native video framework — you (or the agent) write HTML + CSS + GSAP, HyperFrames renders it to a deterministic MP4 via headless Chrome + FFmpeg. Design Jury ships HyperFrames as a first-class video model (`hyperframes-html`) wired into the daemon dispatch, plus the `skills/hyperframes/` skill that teaches the agent the timeline contract, scene-transition rules, audio-reactive patterns, captions/TTS, and the catalog blocks (`npx hyperframes add <slug>`).
 
 Eleven hyperframes prompts ship under [`prompt-templates/video/hyperframes-*.json`](prompt-templates/video/), each one a concrete brief that produces a specific archetype:
 
@@ -876,7 +876,7 @@ The chat / artifact loop gets the spotlight, but a handful of less-visible capab
 - **User-saved templates.** Once you like a render, `POST /api/templates` snapshots the HTML + metadata into the SQLite `templates` table. The next project picks it from a "your templates" row in the picker — same surface as the shipped 31, but yours.
 - **Tab persistence.** Every project remembers its open files and active tab in the `tabs` table. Reopen the project tomorrow and the workspace looks exactly the way you left it.
 - **Artifact lint API.** `POST /api/artifacts/lint` runs structural checks on a generated artifact (broken `<artifact>` framing, missing required side files, stale palette tokens) and returns findings the agent can read back into its next turn. The five-dim self-critique uses this to ground its score in real evidence, not vibes.
-- **Sidecar protocol + desktop automation.** Daemon, web, and desktop processes carry typed five-field stamps (`app · mode · namespace · ipc · source`) and expose a JSON-RPC IPC channel at `/tmp/open-design/ipc/<namespace>/<app>.sock`. `tools-dev inspect desktop status \| eval \| screenshot` drives that channel, so headless E2E works against a real Electron shell without bespoke harnesses ([`packages/sidecar-proto/`](packages/sidecar-proto/), [`apps/desktop/src/main/`](apps/desktop/src/main/)).
+- **Sidecar protocol + desktop automation.** Daemon, web, and desktop processes carry typed five-field stamps (`app · mode · namespace · ipc · source`) and expose a JSON-RPC IPC channel at `/tmp/design-jury/ipc/<namespace>/<app>.sock`. `tools-dev inspect desktop status \| eval \| screenshot` drives that channel, so headless E2E works against a real Electron shell without bespoke harnesses ([`packages/sidecar-proto/`](packages/sidecar-proto/), [`apps/desktop/src/main/`](apps/desktop/src/main/)).
 - **Windows-friendly spawning.** Every adapter that would otherwise blow `CreateProcess`'s ~32 KB argv limit on long composed prompts (Codex, Gemini, OpenCode, Cursor Agent, Qwen, Qoder CLI, Pi) feeds the prompt over stdin instead. Claude Code and Copilot keep `-p`; the daemon falls back to a temp prompt-file when even that overflows.
 - **Per-namespace runtime data.** `OD_DATA_DIR` and `--namespace` give you fully isolated `.od/`-style trees, so Playwright, beta channels, and your real projects never share a SQLite file.
 
@@ -893,7 +893,7 @@ The whole machinery below is the [`huashu-design`](https://github.com/alchaincyf
 
 ## Comparison
 
-| Axis | [Claude Design][cd] (Anthropic) | [Open CoDesign][ocod] | **Open Design** |
+| Axis | [Claude Design][cd] (Anthropic) | [Open CoDesign][ocod] | **Design Jury** |
 |---|---|---|---|
 | License | Closed | MIT | **Apache-2.0** |
 | Form factor | Web (claude.ai) | Desktop (Electron) | **Web app + local daemon** |
@@ -983,7 +983,7 @@ Long-form provenance write-up — what we take from each, what we deliberately d
 - [ ] Vercel + tunnel deployment recipe (Topology B)
 - [ ] One-command `npx od init` to scaffold a project with `DESIGN.md`
 - [ ] Skill marketplace (`od skills install <github-repo>`) and `od skill add | list | remove | test` CLI surface (drafted in [`docs/skills-protocol.md`](docs/skills-protocol.md), implementation pending)
-- [x] Packaged Electron build out of `apps/packaged/` — macOS (Apple Silicon, with Intel x64 ZIP builds verified on Monterey) and Windows (x64) downloads on [open-design.ai](https://open-design.ai/) and the [GitHub releases page](https://github.com/nexu-io/open-design/releases)
+- [x] Packaged Electron build out of `apps/packaged/` — macOS (Apple Silicon, with Intel x64 ZIP builds verified on Monterey) and Windows (x64) downloads on [design-jury.ai](https://design-jury.ai/) and the [GitHub releases page](https://github.com/nexu-io/design-jury/releases)
 
 Phased delivery → [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -998,10 +998,10 @@ Follow **[@nexudotio](https://x.com/nexudotio)** on X for release notes, new ski
 ## Star us
 
 <p align="center">
-  <a href="https://github.com/nexu-io/open-design"><img src="docs/assets/star-us.png" alt="Star Open Design on GitHub — github.com/nexu-io/open-design" width="100%" /></a>
+  <a href="https://github.com/nexu-io/design-jury"><img src="docs/assets/star-us.png" alt="Star Design Jury on GitHub — github.com/nexu-io/design-jury" width="100%" /></a>
 </p>
 
-If this saved you thirty minutes — give it a ★. Stars don't pay rent, but they tell the next designer, agent, and contributor that this experiment is worth their attention. One click, three seconds, real signal: [github.com/nexu-io/open-design](https://github.com/nexu-io/open-design).
+If this saved you thirty minutes — give it a ★. Stars don't pay rent, but they tell the next designer, agent, and contributor that this experiment is worth their attention. One click, three seconds, real signal: [github.com/nexu-io/design-jury](https://github.com/nexu-io/design-jury).
 
 ## Contributing
 
@@ -1015,29 +1015,29 @@ Full walkthrough, bar-for-merging, code style, and what we don't accept → [`CO
 
 ## Contributors
 
-Thanks to everyone who has helped move Open Design forward — through code, docs, feedback, new skills, new design systems, or even a sharp issue. Every real contribution counts, and the wall below is the easiest way to say so out loud.
+Thanks to everyone who has helped move Design Jury forward — through code, docs, feedback, new skills, new design systems, or even a sharp issue. Every real contribution counts, and the wall below is the easiest way to say so out loud.
 
-<a href="https://github.com/nexu-io/open-design/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=nexu-io/open-design&cache_bust=2026-05-23" alt="Open Design contributors" />
+<a href="https://github.com/nexu-io/design-jury/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=nexu-io/design-jury&cache_bust=2026-05-23" alt="Design Jury contributors" />
 </a>
 
-If you've shipped your first PR — welcome. The [`good-first-issue`/`help-wanted`](https://github.com/nexu-io/open-design/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22%2C%22help+wanted%22) label is the entry point.
+If you've shipped your first PR — welcome. The [`good-first-issue`/`help-wanted`](https://github.com/nexu-io/design-jury/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22%2C%22help+wanted%22) label is the entry point.
 
 ## Repository activity
 
 <picture>
-  <img alt="Open Design — repository metrics" src="docs/assets/github-metrics.svg" />
+  <img alt="Design Jury — repository metrics" src="docs/assets/github-metrics.svg" />
 </picture>
 
 The SVG above is regenerated daily by [`.github/workflows/metrics.yml`](.github/workflows/metrics.yml) using [`lowlighter/metrics`](https://github.com/lowlighter/metrics). Trigger a manual refresh from the **Actions** tab if you want it sooner; for richer plugins (traffic, follow-up time), add a `METRICS_TOKEN` repository secret with a fine-grained PAT.
 
 ## Star History
 
-<a href="https://star-history.com/#nexu-io/open-design&Date">
+<a href="https://star-history.com/#nexu-io/design-jury&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&theme=dark&cache_bust=2026-05-23" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-05-23" />
-    <img alt="Open Design star history" src="https://api.star-history.com/svg?repos=nexu-io/open-design&type=Date&cache_bust=2026-05-23" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nexu-io/design-jury&type=Date&theme=dark&cache_bust=2026-05-23" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=nexu-io/design-jury&type=Date&cache_bust=2026-05-23" />
+    <img alt="Design Jury star history" src="https://api.star-history.com/svg?repos=nexu-io/design-jury&type=Date&cache_bust=2026-05-23" />
   </picture>
 </a>
 

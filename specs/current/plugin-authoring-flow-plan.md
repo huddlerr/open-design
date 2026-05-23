@@ -4,15 +4,15 @@
 
 ## Purpose
 
-Make "create my own plugin" a first-class product flow instead of a disconnected future tab. A user should be able to start from the Plugins area, land on the Home prompt with an authoring query already prepared, run an agent task that produces an Open Design plugin folder, inspect that folder as project output, and add it to `My plugins` with one click.
+Make "create my own plugin" a first-class product flow instead of a disconnected future tab. A user should be able to start from the Plugins area, land on the Home prompt with an authoring query already prepared, run an agent task that produces an Design Jury plugin folder, inspect that folder as project output, and add it to `My plugins` with one click.
 
 This plan is intentionally focused on the authoring loop. Marketplace publishing, enterprise private catalogs, and team review policies stay out of scope.
 
 ## Requirements
 
 - R1. Plugins tab exposes a create entry that starts a guided plugin authoring task instead of only offering import options.
-- R2. The create entry navigates to Home, focuses `HomeHero`'s textarea, and pre-fills a prompt grounded in the Open Design plugin spec.
-- R3. The task should create a real plugin folder containing at minimum `SKILL.md` and `open-design.json`, with optional examples/assets when the user asks for them.
+- R2. The create entry navigates to Home, focuses `HomeHero`'s textarea, and pre-fills a prompt grounded in the Design Jury plugin spec.
+- R3. The task should create a real plugin folder containing at minimum `SKILL.md` and `design-jury.json`, with optional examples/assets when the user asks for them.
 - R4. Project output must support selecting or viewing the generated plugin folder as a folder, not only as flat single files.
 - R5. A generated plugin folder can be installed into the user plugin registry and then appears in `My plugins` and Home `@` search.
 - R6. Home's intent rail can later add a "Create plugin" chip that reuses the same authoring route and prompt contract.
@@ -21,7 +21,7 @@ This plan is intentionally focused on the authoring loop. Marketplace publishing
 
 - No marketplace publishing in this pass. Installing to `My plugins` is enough.
 - No enterprise/team catalog permissions in this pass.
-- No new plugin spec dialect. The generated folder must validate against the existing Open Design plugin shape in `docs/plugins-spec.md` and `docs/schemas/open-design.plugin.v1.json`.
+- No new plugin spec dialect. The generated folder must validate against the existing Design Jury plugin shape in `docs/plugins-spec.md` and `docs/schemas/design-jury.plugin.v1.json`.
 - No requirement to build a full visual plugin IDE. The first version is an agent-guided task plus a one-click install action.
 
 ### Deferred to follow-up work
@@ -117,15 +117,15 @@ sequenceDiagram
   **Goal:** Give the agent a purpose-built plugin authoring context that asks for the right files and validation behavior.
 
   **Files:**
-  - Create: `plugins/_official/scenarios/od-plugin-authoring/open-design.json`
+  - Create: `plugins/_official/scenarios/od-plugin-authoring/design-jury.json`
   - Create: `plugins/_official/scenarios/od-plugin-authoring/SKILL.md`
   - Modify: `apps/web/src/components/home-hero/chips.ts` only when the Home rail chip lands
   - Test: `apps/daemon/tests/plugins-bundled-scenarios-roster.test.ts`
   - Test: `apps/daemon/tests/plugins-local-skill.test.ts`
 
   **Approach:**
-  - The scenario should instruct the agent to output a folder such as `generated-plugin/` with `SKILL.md`, `open-design.json`, and optional `examples/` or `assets/`.
-  - The prompt should cite the Open Design plugin spec and require validation-ready output, not a prose-only explanation.
+  - The scenario should instruct the agent to output a folder such as `generated-plugin/` with `SKILL.md`, `design-jury.json`, and optional `examples/` or `assets/`.
+  - The prompt should cite the Design Jury plugin spec and require validation-ready output, not a prose-only explanation.
   - If the scenario includes GenUI, it should present checklist/progress and final "Add to My plugins" affordance, but the install action itself should call a daemon API rather than relying on copy/paste.
 
   **Test scenarios:**
@@ -146,12 +146,12 @@ sequenceDiagram
   - Test: daemon project file listing tests near the existing project/file tests
 
   **Approach:**
-  - Preserve relative paths so `generated-plugin/open-design.json` and `generated-plugin/SKILL.md` remain visibly grouped.
+  - Preserve relative paths so `generated-plugin/design-jury.json` and `generated-plugin/SKILL.md` remain visibly grouped.
   - A minimal v1 can show a folder row in `DesignFilesPanel` and expand to its files; it does not need a full IDE tree.
   - The folder row should expose the install action only when it contains a plugin marker file.
 
   **Test scenarios:**
-  - Happy path: a project with `generated-plugin/open-design.json` and `generated-plugin/SKILL.md` renders a folder group.
+  - Happy path: a project with `generated-plugin/design-jury.json` and `generated-plugin/SKILL.md` renders a folder group.
   - Edge case: nested files remain selectable without losing their relative path.
   - Error path: malformed or partial plugin folders do not show a misleading install success action.
 
@@ -204,11 +204,11 @@ sequenceDiagram
 The authoring prompt should be stable enough for tests and user trust. A first version can be:
 
 ```text
-Create an Open Design plugin for: <user goal>.
+Create an Design Jury plugin for: <user goal>.
 
 Follow docs/plugins-spec.md and produce a folder named generated-plugin with:
 - SKILL.md describing the agent behavior and workflow
-- open-design.json with valid metadata, mode, task kind, inputs, and any pipeline/context references
+- design-jury.json with valid metadata, mode, task kind, inputs, and any pipeline/context references
 - optional examples/ and assets/ when useful
 
 When finished, summarize the files created and whether the folder is ready to add to My plugins.

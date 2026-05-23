@@ -1,12 +1,12 @@
-# Open Design Plugin & Marketplace Spec (v1)
+# Design Jury Plugin & Marketplace Spec (v1)
 
-> **In one sentence:** Open Design plugins turn portable `SKILL.md` capabilities into marketplace-ready, one-click design workflows while preserving compatibility with existing agent skill catalogs, headless CLI use, and self-hosted deployment.
+> **In one sentence:** Design Jury plugins turn portable `SKILL.md` capabilities into marketplace-ready, one-click design workflows while preserving compatibility with existing agent skill catalogs, headless CLI use, and self-hosted deployment.
 
 **Parent:** [`spec.md`](spec.md) · **Siblings:** [`skills-protocol.md`](skills-protocol.md) · [`architecture.md`](architecture.md) · [`agent-adapters.md`](agent-adapters.md) · [`modes.md`](modes.md)
 
-A **Plugin** is the unit of distribution for Open Design. Where a [Skill](skills-protocol.md) describes a single capability that an agent can run, a Plugin is the shippable bundle around it: one or more skills, an optional design system reference, optional craft rules, optional Claude-plugin assets, a preview, a use-case query, an asset folder, and a small machine-readable sidecar that powers OD's marketplace surface. A plugin is always anchored to a portable `SKILL.md` so it is publishable to every existing skill catalog without modification.
+A **Plugin** is the unit of distribution for Design Jury. Where a [Skill](skills-protocol.md) describes a single capability that an agent can run, a Plugin is the shippable bundle around it: one or more skills, an optional design system reference, optional craft rules, optional Claude-plugin assets, a preview, a use-case query, an asset folder, and a small machine-readable sidecar that powers OD's marketplace surface. A plugin is always anchored to a portable `SKILL.md` so it is publishable to every existing skill catalog without modification.
 
-> **Compatibility promise (extends [`skills-protocol.md`](skills-protocol.md)):** Any plugin folder that ships a `SKILL.md` works as a plain agent skill in Claude Code, Cursor, Codex, Gemini CLI, OpenClaw, Hermes, etc. Adding `open-design.json` is purely additive — it unlocks OD's marketplace card, preview, one-click "use" flow, and typed context-chip strip, but it never changes how the underlying skill runs. **One repo, two consumption modes.**
+> **Compatibility promise (extends [`skills-protocol.md`](skills-protocol.md)):** Any plugin folder that ships a `SKILL.md` works as a plain agent skill in Claude Code, Cursor, Codex, Gemini CLI, OpenClaw, Hermes, etc. Adding `design-jury.json` is purely additive — it unlocks OD's marketplace card, preview, one-click "use" flow, and typed context-chip strip, but it never changes how the underlying skill runs. **One repo, two consumption modes.**
 
 ## Executive map for readers
 
@@ -14,7 +14,7 @@ This is an **agent-era plugin system**, not a Figma-era UI extension system. A p
 
 The shortest mental model:
 
-1. **Plugin author ships portable capability.** `SKILL.md` remains the executable agent contract; `open-design.json` adds OD marketplace metadata, input fields, defaults, previews, and context wiring.
+1. **Plugin author ships portable capability.** `SKILL.md` remains the executable agent contract; `design-jury.json` adds OD marketplace metadata, input fields, defaults, previews, and context wiring.
 2. **User or agent picks a workflow.** The selection can happen from the marketplace, inline in the home input, inside an existing project chat, from CLI, or from CI.
 3. **OD applies the plugin without making the plugin a UI process.** Apply returns a hydrated brief, typed context chips, assets, and capability requirements. It does not start a hidden plugin runtime.
 4. **Agent drives generation.** The daemon creates or updates a project, starts a run, streams events over SSE / CLI ND-JSON, and records artifacts.
@@ -22,7 +22,7 @@ The shortest mental model:
 
 ### Figma-era vs agent-era boundary
 
-| Question | Figma-era plugin assumption | Open Design v1 answer |
+| Question | Figma-era plugin assumption | Design Jury v1 answer |
 | --- | --- | --- |
 | Who consumes the plugin? | The host UI runtime. | A code agent through OD's project/run pipeline. |
 | Does the plugin need a live UI lifecycle? | Usually yes: mount panel, listen to messages, mutate document. | No. The plugin is static files plus manifest; the agent run is the active process. |
@@ -37,7 +37,7 @@ sequenceDiagram
   participant U as User or Agent
   participant S as OD Surface<br/>(Web, Desktop, CLI, CI)
   participant D as OD Daemon
-  participant P as Plugin Manifest<br/>(SKILL.md + open-design.json)
+  participant P as Plugin Manifest<br/>(SKILL.md + design-jury.json)
   participant A as Code Agent
   participant R as Project Runtime<br/>(files + artifacts)
 
@@ -80,7 +80,7 @@ Concretely, this spec promotes the existing "first-party atoms" from a flat capa
 
 In one sentence: **a plugin describes "what this long-running task's pipeline looks like and which GenUI surfaces it needs to collaborate with the user", the daemon supplies atoms and the surface bus, the agent runs a devloop on the pipeline, and artifacts carry provenance (§11.5) recording every plugin that touched the task.**
 
-**Current implementation clarification:** `discovery -> plan -> generate -> critique` is a reference pipeline shape, not a fixed hard-coded wizard. A plugin snapshot can carry `od.pipeline.stages[].atoms[]`; the daemon resolves that snapshot, injects the active plugin block plus active stage atom blocks into the system prompt, emits stage events, and lets the agent work through the pipeline. When the user has not explicitly selected a plugin, OD still does **not** launch a generic naked agent: the base Open Design designer prompt and discovery rules are always present. Product entry points bind sensible defaults on top of that base: Home free-form input routes through the bundled, hidden `od-default` scenario, while typed New Project flows choose the default bundled scenario for the project kind. `od-default` is a router and task-shaper; it should guide the run into the normal design pipeline, not be treated as a standalone "make it beautiful" aesthetic engine.
+**Current implementation clarification:** `discovery -> plan -> generate -> critique` is a reference pipeline shape, not a fixed hard-coded wizard. A plugin snapshot can carry `od.pipeline.stages[].atoms[]`; the daemon resolves that snapshot, injects the active plugin block plus active stage atom blocks into the system prompt, emits stage events, and lets the agent work through the pipeline. When the user has not explicitly selected a plugin, OD still does **not** launch a generic naked agent: the base Design Jury designer prompt and discovery rules are always present. Product entry points bind sensible defaults on top of that base: Home free-form input routes through the bundled, hidden `od-default` scenario, while typed New Project flows choose the default bundled scenario for the project kind. `od-default` is a router and task-shaper; it should guide the run into the normal design pipeline, not be treated as a standalone "make it beautiful" aesthetic engine.
 
 ### Four product scenarios
 
@@ -102,21 +102,21 @@ All four scenarios share the same `ApplyResult`, the same run pipeline, and the 
 2. [Goals and non-goals](#2-goals-and-non-goals)
 3. [Compatibility matrix](#3-compatibility-matrix--what-makes-a-folder-a-valid-plugin-for-whom)
 4. [Plugin folder shape](#4-plugin-folder-shape)
-5. [`open-design.json` schema](#5-open-designjson--schema-v1)
-6. [`open-design-marketplace.json` schema](#6-open-design-marketplacejson--federated-catalog)
+5. [`design-jury.json` schema](#5-design-juryjson--schema-v1)
+6. [`design-jury-marketplace.json` schema](#6-design-jury-marketplacejson--federated-catalog)
 7. [Discovery and install](#7-discovery-and-install)
 8. [The Apply pipeline](#8-the-apply-pipeline)
 9. [Trust and capabilities](#9-trust-and-capabilities)
-10. [First-party atoms](#10-first-party-atoms--open-designs-atomic-capabilities)
+10. [First-party atoms](#10-first-party-atoms--design-jurys-atomic-capabilities)
 11. [Architecture — what changes in the existing repo](#11-architecture--what-changes-in-the-existing-repo)
 12. [CLI surface](#12-cli-surface)
-13. [Public web surface](#13-public-web-surface-open-designaimarketplace)
+13. [Public web surface](#13-public-web-surface-design-juryaimarketplace)
 14. [Publishing and catalog distribution](#14-publishing-and-catalog-distribution)
 15. [Deployment and portability — Docker, any cloud](#15-deployment-and-portability--docker-any-cloud)
 16. [Phased implementation plan](#16-phased-implementation-plan)
 17. [Examples](#17-examples)
 18. [Risks and open questions](#18-risks-and-open-questions)
-19. [Why this is a meaningful step for Open Design](#19-why-this-is-a-meaningful-step-for-open-design)
+19. [Why this is a meaningful step for Design Jury](#19-why-this-is-a-meaningful-step-for-design-jury)
 20. [Post-v1 extensibility — artifact taxonomy, evaluators, and production handoff](#20-post-v1-extensibility--artifact-taxonomy-evaluators-and-production-handoff)
 21. [Scenario coverage matrix and delivery roadmap](#21-scenario-coverage-matrix-and-delivery-roadmap)
 22. [Authoring extension points: building uncovered scenarios on top of v1 substrate](#22-authoring-extension-points-building-uncovered-scenarios-on-top-of-v1-substrate)
@@ -128,12 +128,12 @@ All four scenarios share the same `ApplyResult`, the same run pipeline, and the 
 
 - Authoring stage: draft, awaiting review.
 - Defaults locked from the planning round (overridable in review):
-  - **Compatibility = wrap-then-extend.** Existing `SKILL.md` and `.claude-plugin/plugin.json` repos run as-is; `open-design.json` is an additive sidecar.
+  - **Compatibility = wrap-then-extend.** Existing `SKILL.md` and `.claude-plugin/plugin.json` repos run as-is; `design-jury.json` is an additive sidecar.
   - **Trust = tiered and provenance-aware.** Bundled plugins and official-marketplace plugins are `trusted` by default; user-added third-party marketplaces, arbitrary GitHub / URL / local plugins start `restricted` unless the marketplace or plugin is explicitly trusted.
 
 ## 1. Vision
 
-Open Design becomes a **server + CLI + atomic core engine + plugin/marketplace system**. The product surface inverts: instead of "click a button, fill a form", users open a marketplace, click a plugin, and the input box hydrates with a query plus a typed strip of context chips above it. The same plugin folder is also a valid agent skill for Claude Code, Cursor, Codex, Gemini CLI, OpenClaw, Hermes, and is publishable as a standalone GitHub repo to:
+Design Jury becomes a **server + CLI + atomic core engine + plugin/marketplace system**. The product surface inverts: instead of "click a button, fill a form", users open a marketplace, click a plugin, and the input box hydrates with a query plus a typed strip of context chips above it. The same plugin folder is also a valid agent skill for Claude Code, Cursor, Codex, Gemini CLI, OpenClaw, Hermes, and is publishable as a standalone GitHub repo to:
 
 - [`anthropics/skills`](https://github.com/anthropics/skills)
 - [`anthropics/claude-code/plugins`](https://github.com/anthropics/claude-code/tree/main/plugins)
@@ -141,9 +141,9 @@ Open Design becomes a **server + CLI + atomic core engine + plugin/marketplace s
 - [`openclaw/clawhub`](https://github.com/openclaw/clawhub)
 - [`skills.sh`](https://skills.sh/)
 
-Each catalog needs a different listing format, but all of them index `SKILL.md`-shaped folders. By keeping `SKILL.md` canonical and `open-design.json` strictly sidecar, a single repo lands in every catalog without per-target rewrites.
+Each catalog needs a different listing format, but all of them index `SKILL.md`-shaped folders. By keeping `SKILL.md` canonical and `design-jury.json` strictly sidecar, a single repo lands in every catalog without per-target rewrites.
 
-A second axis of the same vision: **the CLI is the canonical agent-facing API for Open Design.** Code agents (Claude Code, Cursor, Codex, OpenClaw, Hermes, in-house orchestrators) drive OD by shelling out `od …`, not by hitting `/api/*` directly. The CLI wraps every server capability — project creation, conversation/run lifecycle, plugin apply, file system operations on a project, design library introspection, daemon control — behind a stable subcommand contract. The HTTP server is an implementation detail that backs the desktop UI and the CLI itself; agents that talk HTTP are bypassing the contract.
+A second axis of the same vision: **the CLI is the canonical agent-facing API for Design Jury.** Code agents (Claude Code, Cursor, Codex, OpenClaw, Hermes, in-house orchestrators) drive OD by shelling out `od …`, not by hitting `/api/*` directly. The CLI wraps every server capability — project creation, conversation/run lifecycle, plugin apply, file system operations on a project, design library introspection, daemon control — behind a stable subcommand contract. The HTTP server is an implementation detail that backs the desktop UI and the CLI itself; agents that talk HTTP are bypassing the contract.
 
 A third axis, derived from the second: **OD runs fully headless; the UI is a productivity layer, not a runtime dependency.** A user with nothing but Claude Code (or Cursor, Codex, Gemini CLI) and `od` installed can browse the marketplace, install a plugin, create a project, run a task, and consume the produced artifacts end-to-end without ever launching the desktop app. The desktop UI is exactly the same value-add Cursor's IDE adds on top of `cursor-agent` CLI: faster discovery, live artifact preview, chat/canvas side-by-side, marketplace browsing, direction-picker GUI, critique-theater panel — all sugar on the same primitives. Every UI feature is implementable as a CLI subcommand or a streaming event first; the UI consumes those primitives and adds presentation. The decoupling is enforced architecturally (§11.7).
 
@@ -156,11 +156,11 @@ A fifth axis is the product-shape co-evolution with the agent: **UI is requested
 **Goals**
 
 1. Every runnable, distributable OD plugin is a valid agent skill (`SKILL.md`- or `.claude-plugin/plugin.json`-anchored). No fork of the skill spec.
-2. A vanilla skill or claude-plugin repo becomes an OD plugin by adding an optional `open-design.json` sidecar — no rename, no body changes.
-3. Three install sources: local folder, GitHub repo (with optional ref/subpath), arbitrary HTTPS archive, plus federated `open-design-marketplace.json` indexes.
+2. A vanilla skill or claude-plugin repo becomes an OD plugin by adding an optional `design-jury.json` sidecar — no rename, no body changes.
+3. Three install sources: local folder, GitHub repo (with optional ref/subpath), arbitrary HTTPS archive, plus federated `design-jury-marketplace.json` indexes.
 4. One-click "use" auto-fills the brief input and a strip of `ContextItem` chips above it (skills, design-system, craft, assets, MCP, claude-plugin, atom).
 5. Tiered trust by default; capability scoping is declarative and optional.
-6. The OD core engine, atomic capabilities, and plugin runtime are all reachable from CLI so any code agent can drive Open Design headlessly.
+6. The OD core engine, atomic capabilities, and plugin runtime are all reachable from CLI so any code agent can drive Design Jury headlessly.
 7. **A plugin is a long-task wrapper.** Each plugin targets exactly one of the four product scenarios (new-generation / code-migration / figma-migration / tune-collab) and uses `od.pipeline` to assemble OD's first-party atoms into ordered stages plus an optional devloop (§10).
 8. **Reproducible + auditable.** Every apply persists an immutable `AppliedPluginSnapshot` (§8.2.1); runs and artifacts back-reference the snapshot id. A plugin upgrade never breaks an old run's prompt reconstruction.
 9. **Same artifact, many surfaces.** The artifact manifest (§11.5.1) records plugin provenance plus the export and deploy history across downstream surfaces (cli / other code agents / cloud / desktop) so subsequent tuning, migration, and collaboration always pick up the same artifact.
@@ -179,14 +179,14 @@ A fifth axis is the product-shape co-evolution with the agent: **UI is requested
 | ------------------------------------------------------------------ | -------------- | ----------------------------------------- | ----------------- | -------------------- | ------- | --------- |
 | `SKILL.md` only                                                    | yes            | yes                                       | yes               | yes                  | yes     | yes       |
 | `.claude-plugin/plugin.json` only                                  | yes            | yes (claude)                              | partial           | listable             | listable| listable  |
-| `open-design.json` only                                            | metadata-only  | no                                        | no                | no                   | no      | no        |
-| `SKILL.md` + `open-design.json`                                    | enriched       | yes                                       | yes               | yes                  | yes     | yes       |
-| `.claude-plugin/...` + `open-design.json`                          | enriched       | yes (claude)                              | partial           | listable             | listable| listable  |
-| `SKILL.md` + `.claude-plugin/...` + `open-design.json`             | fully enriched | yes                                       | yes               | yes                  | yes     | yes       |
+| `design-jury.json` only                                            | metadata-only  | no                                        | no                | no                   | no      | no        |
+| `SKILL.md` + `design-jury.json`                                    | enriched       | yes                                       | yes               | yes                  | yes     | yes       |
+| `.claude-plugin/...` + `design-jury.json`                          | enriched       | yes (claude)                              | partial           | listable             | listable| listable  |
+| `SKILL.md` + `.claude-plugin/...` + `design-jury.json`             | fully enriched | yes                                       | yes               | yes                  | yes     | yes       |
 
-The takeaway: **`SKILL.md` is the lowest common denominator**. Every plugin recommended for distribution should ship a `SKILL.md` so it lands cleanly in every major catalog, then add `open-design.json` to gain OD's product surface.
+The takeaway: **`SKILL.md` is the lowest common denominator**. Every plugin recommended for distribution should ship a `SKILL.md` so it lands cleanly in every major catalog, then add `design-jury.json` to gain OD's product surface.
 
-A folder that contains only `open-design.json` is not a runnable plugin in v1; it is a **metadata-only preset**. OD may read it to show a marketplace card, aggregate remote references, or act as a future install stub, but it cannot trigger an agent run and cannot be listed in cross-agent catalogs. `od plugin doctor` must mark this shape as `metadata-only` and prompt the author to add `SKILL.md` or `.claude-plugin/plugin.json` before publishing it as a runnable plugin.
+A folder that contains only `design-jury.json` is not a runnable plugin in v1; it is a **metadata-only preset**. OD may read it to show a marketplace card, aggregate remote references, or act as a future install stub, but it cannot trigger an agent run and cannot be listed in cross-agent catalogs. `od plugin doctor` must mark this shape as `metadata-only` and prompt the author to add `SKILL.md` or `.claude-plugin/plugin.json` before publishing it as a runnable plugin.
 
 ## 4. Plugin folder shape
 
@@ -195,7 +195,7 @@ my-plugin/
 ├── SKILL.md                          # required for portability; anchors agent behavior
 ├── .claude-plugin/                   # optional: claude-plugin compat (commands/agents/hooks/.mcp.json)
 │   └── plugin.json
-├── open-design.json                  # optional sidecar — unlocks OD product surface
+├── design-jury.json                  # optional sidecar — unlocks OD product surface
 ├── README.md                         # standard catalog readme
 ├── preview/                          # OD preview assets
 │   ├── index.html
@@ -213,15 +213,15 @@ my-plugin/
 Rules of authorship:
 
 - `SKILL.md` body never carries OD-specific metadata; it stays clean and portable.
-- `open-design.json` only ever **points** at SKILL.md / DESIGN.md / craft files; it never duplicates their bodies.
-- Existing OD-specific frontmatter on SKILL.md (the `od:` namespace already documented in [`skills-protocol.md`](skills-protocol.md) and used in [`skills/blog-post/SKILL.md`](../skills/blog-post/SKILL.md)) is honored as a fallback for plugins without `open-design.json`. We do not deprecate it; we layer over it.
-- A runnable v1 plugin must contain at least one of `SKILL.md` or `.claude-plugin/plugin.json`. `open-design.json` does not define agent behavior by itself; it only tells OD how to display, resolve, and apply that behavior.
+- `design-jury.json` only ever **points** at SKILL.md / DESIGN.md / craft files; it never duplicates their bodies.
+- Existing OD-specific frontmatter on SKILL.md (the `od:` namespace already documented in [`skills-protocol.md`](skills-protocol.md) and used in [`skills/blog-post/SKILL.md`](../skills/blog-post/SKILL.md)) is honored as a fallback for plugins without `design-jury.json`. We do not deprecate it; we layer over it.
+- A runnable v1 plugin must contain at least one of `SKILL.md` or `.claude-plugin/plugin.json`. `design-jury.json` does not define agent behavior by itself; it only tells OD how to display, resolve, and apply that behavior.
 
-## 5. `open-design.json` — schema v1
+## 5. `design-jury.json` — schema v1
 
 ```json
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "make-a-deck",
   "title": "Make a deck",
@@ -232,9 +232,9 @@ Rules of authorship:
     "en": "Generate a 12-slide investor deck from a one-line brief.",
     "zh-CN": "根据一句 brief 生成 12 页投资人 deck。"
   },
-  "author":   { "name": "Open Design", "url": "https://open-design.ai" },
+  "author":   { "name": "Design Jury", "url": "https://design-jury.ai" },
   "license":  "MIT",
-  "homepage": "https://github.com/open-design/plugins/make-a-deck",
+  "homepage": "https://github.com/design-jury/plugins/make-a-deck",
   "icon":     "./icon.svg",
   "tags":     ["deck", "marketing", "investor"],
 
@@ -352,7 +352,7 @@ Rules of authorship:
 ### 5.1 Field reference
 
 - `compat.*` — relative paths to inherited files. The loader concatenates their content into the OD prompt stack assembled by [`composeSystemPrompt()`](../apps/daemon/src/prompts/system.ts).
-- `specVersion` — the Open Design plugin spec version used to interpret the manifest. This is distinct from plugin `version` and is frozen into apply snapshots for replay.
+- `specVersion` — the Design Jury plugin spec version used to interpret the manifest. This is distinct from plugin `version` and is frozen into apply snapshots for replay.
 - `version` — the plugin package version. Bump it whenever behavior, metadata, pipeline, inputs, or bundled assets change in a way users may need to audit.
 - `title_i18n` / `description_i18n` — optional localized display metadata. Keep `title` and `description` as English fallbacks; UI surfaces resolve requested locale, base language, English, then the first available value.
 - `od.kind` — registry classification (`skill` / `scenario` / `atom` / `bundle`).
@@ -408,7 +408,7 @@ Capabilities are not isolated strings; the resolver must compute **implied capab
 
 ### 5.4 `SKILL.md` frontmatter to `PluginManifest` mapping
 
-When a plugin has no `open-design.json`, but its `SKILL.md` already contains the `od:` frontmatter defined in [`skills-protocol.md`](skills-protocol.md), `adapters/agent-skill.ts` synthesizes a minimal `PluginManifest`. The mapping must be stable so the legacy skill protocol and the new plugin schema do not drift into two semantics:
+When a plugin has no `design-jury.json`, but its `SKILL.md` already contains the `od:` frontmatter defined in [`skills-protocol.md`](skills-protocol.md), `adapters/agent-skill.ts` synthesizes a minimal `PluginManifest`. The mapping must be stable so the legacy skill protocol and the new plugin schema do not drift into two semantics:
 
 | `SKILL.md` field | Plugin manifest field | Rule |
 | --- | --- | --- |
@@ -423,28 +423,28 @@ When a plugin has no `open-design.json`, but its `SKILL.md` already contains the
 | `od.outputs` | `projectMetadata` hints | Used for artifact bookkeeping and preview defaults, not surfaced as user-editable inputs |
 | `od.capabilities_required` | `od.capabilities` | Map only capabilities that can be expressed; unknown capabilities are kept in `compatWarnings[]`, and `od plugin doctor` must surface them |
 
-If `open-design.json` and `SKILL.md` frontmatter both exist, `open-design.json` wins, but the loader must preserve adapter warnings. Authors can migrate incrementally: first keep the old skill runnable as-is, then add OD marketplace metadata.
+If `design-jury.json` and `SKILL.md` frontmatter both exist, `design-jury.json` wins, but the loader must preserve adapter warnings. Authors can migrate incrementally: first keep the old skill runnable as-is, then add OD marketplace metadata.
 
-## 6. `open-design-marketplace.json` — federated catalog
+## 6. `design-jury-marketplace.json` — federated catalog
 
 Mirrors [`anthropics/skills/.claude-plugin/marketplace.json`](https://raw.githubusercontent.com/anthropics/skills/main/.claude-plugin/marketplace.json) so existing community catalogs need only a rename to be reusable.
 
 ```json
 {
-  "$schema": "https://open-design.ai/schemas/marketplace.v1.json",
+  "$schema": "https://design-jury.ai/schemas/marketplace.v1.json",
   "specVersion": "1.0.0",
-  "name": "open-design-official",
+  "name": "design-jury-official",
   "version": "1.0.0",
-  "owner":    { "name": "Open Design", "url": "https://open-design.ai" },
+  "owner":    { "name": "Design Jury", "url": "https://design-jury.ai" },
   "metadata": { "description": "First-party plugins", "version": "1.0.0" },
   "plugins": [
-    { "name": "make-a-deck", "version": "1.0.0", "source": "github:open-design/plugins/make-a-deck", "tags": ["deck"] },
+    { "name": "make-a-deck", "version": "1.0.0", "source": "github:design-jury/plugins/make-a-deck", "tags": ["deck"] },
     { "name": "tweet-card",  "version": "1.0.0", "source": "https://files.../tweet-card-1.0.0.tgz",  "tags": ["marketing"] }
   ]
 }
 ```
 
-The marketplace top-level `version` is the catalog snapshot version; every `plugins[]` entry also declares the listed plugin version. Installers still verify the target folder's own `open-design.json` after fetching, but registry search, audit logs, and marketplace refresh events can now reason about catalog and plugin versions before install.
+The marketplace top-level `version` is the catalog snapshot version; every `plugins[]` entry also declares the listed plugin version. Installers still verify the target folder's own `design-jury.json` after fetching, but registry search, audit logs, and marketplace refresh events can now reason about catalog and plugin versions before install.
 
 Multiple marketplaces coexist — the user runs `od marketplace add <url>` to register additional indexes (Vercel's, OpenClaw's clawhub, an enterprise team's private catalog). By default, a user-added marketplace is only a discovery source and plugins from it still install as `restricted`; only the built-in official marketplace or a marketplace explicitly trusted through `od marketplace add <url> --trust` / `od marketplace trust <id>` can pass through default `trusted` status.
 
@@ -454,10 +454,10 @@ Multiple marketplaces coexist — the user runs `od marketplace add <url>` to re
 
 | Priority | Path                                             | Resource shape     | Source                                                                 |
 | -------- | ------------------------------------------------ | ------------------ | ---------------------------------------------------------------------- |
-| 1        | `<projectCwd>/.open-design/plugins/<id>/`        | plugin bundle      | New; explicitly installed into the project and committed with user code |
+| 1        | `<projectCwd>/.design-jury/plugins/<id>/`        | plugin bundle      | New; explicitly installed into the project and committed with user code |
 | 2        | `<projectCwd>/.claude/skills/<id>/`              | legacy `SKILL.md`  | Keeps the project-private skill path from [`skills-protocol.md`](skills-protocol.md) compatible |
 | 3        | `<daemonDataDir>/plugins/<id>/`                  | plugin bundle      | New; written by `od plugin install` under the daemon data root          |
-| 4        | `~/.open-design/skills/<id>/`                    | legacy `SKILL.md`  | OD canonical skill install path; may symlink into other agents          |
+| 4        | `~/.design-jury/skills/<id>/`                    | legacy `SKILL.md`  | OD canonical skill install path; may symlink into other agents          |
 | 5        | `~/.claude/skills/<id>/`                         | legacy `SKILL.md`  | Compatibility scan for external Claude Code / skills tooling            |
 | 6        | repo root `skills/`, `design-systems/`, `craft/` | bundled resources  | Existing first-party resources, unchanged                              |
 
@@ -472,7 +472,7 @@ od plugin install github:owner/repo@v1.2.0
 od plugin install github:owner/repo/path/to/subfolder
 od plugin install https://example.com/plugin.tar.gz
 od plugin install make-a-deck                   # via configured marketplaces
-od marketplace add https://.../open-design-marketplace.json
+od marketplace add https://.../design-jury-marketplace.json
 ```
 
 GitHub install path uses `https://codeload.github.com/owner/repo/tar.gz/<ref>`, no git binary required, with path-traversal guards and a configurable size cap.
@@ -814,11 +814,11 @@ Two hard constraints on devloop:
 
 Each devloop iteration writes the round's artifact diff, critique output, and consumed tokens into `runs.devloop_iterations` (§11.4 SQLite extension), which feeds audit and a future per-iteration pricing model.
 
-`GET /api/atoms` returns atoms plus the known reference pipelines. The current implementation has already started the self-hosting path: first-party atom plugins live under `plugins/_official/atoms/**`, bundled scenario plugins live under `plugins/_official/scenarios/**`, and `renderActiveStageBlock(stageId, bodies)` injects the active stage's atom bodies into the prompt. The system prompt is therefore pipeline-aware today, but not yet fully data-driven: the base Open Design designer prompt, discovery philosophy, and some entry-point defaults still live in daemon/product code. That is enough to ground the "plugins assemble the core pipeline" claim without pretending every byte of behavior has moved into plugins.
+`GET /api/atoms` returns atoms plus the known reference pipelines. The current implementation has already started the self-hosting path: first-party atom plugins live under `plugins/_official/atoms/**`, bundled scenario plugins live under `plugins/_official/scenarios/**`, and `renderActiveStageBlock(stageId, bodies)` injects the active stage's atom bodies into the prompt. The system prompt is therefore pipeline-aware today, but not yet fully data-driven: the base Design Jury designer prompt, discovery philosophy, and some entry-point defaults still live in daemon/product code. That is enough to ground the "plugins assemble the core pipeline" claim without pretending every byte of behavior has moved into plugins.
 
 ### 10.3 Generative UI: AG-UI–inspired surfaces
 
-OD adopts the useful part of [CopilotKit / the AG-UI protocol](https://github.com/CopilotKit/CopilotKit): an agent can ask for interactive UI during a run. OD does **not** let the agent freely invent app UI or styling in the main product surface. v1 ships our own `GenUISurface*` discriminated union and reuses the existing `PersistedAgentEvent` SSE / ND-JSON channel; `@open-design/agui-adapter` projects those events into AG-UI canonical events for external clients.
+OD adopts the useful part of [CopilotKit / the AG-UI protocol](https://github.com/CopilotKit/CopilotKit): an agent can ask for interactive UI during a run. OD does **not** let the agent freely invent app UI or styling in the main product surface. v1 ships our own `GenUISurface*` discriminated union and reuses the existing `PersistedAgentEvent` SSE / ND-JSON channel; `@design-jury/agui-adapter` projects those events into AG-UI canonical events for external clients.
 
 The product rule is: **agent/plugin output is data; OD owns the renderer.** A plugin can declare a `form`, `choice`, `confirmation`, or `oauth-prompt` surface, with schema and prompt data. The web / desktop / CLI renderer decides layout, typography, controls, validation affordances, accessibility, and persistence UX. This keeps plugin UI extensible across scenarios while preserving a coherent product system. Arbitrary visual or code output belongs in generated artifacts, or behind the separate custom-component sandbox and `genui:custom-component` capability gate; it does not replace the built-in renderer for core collaboration UI.
 
@@ -950,7 +950,7 @@ Prefill writes rows in `resolved` state; when the plugin triggers the surface, t
 | Wire format | OD-native `PersistedAgentEvent` over SSE / ND-JSON | Also emit AG-UI canonical events (`agent.message`, `tool_call`, `state_update`, `ui.surface_requested`, `ui.surface_responded`) |
 | Surface kinds | Four built-ins + plugin-declared in manifest | Keep OD's built-ins as the product source of truth; custom plugin React paths require the `genui:custom-component` gate and sandbox |
 | Shared state | `genui_surfaces` table + `genui_state_synced` event | Map persisted OD state onto AG-UI's `state` channel for external consumers |
-| Frontend SDK compatibility | OD desktop / web with built-in renderer | `@open-design/agui-adapter` lets CopilotKit / other AG-UI clients consume an OD run unchanged |
+| Frontend SDK compatibility | OD desktop / web with built-in renderer | `@design-jury/agui-adapter` lets CopilotKit / other AG-UI clients consume an OD run unchanged |
 
 The adapter is an interoperability surface, not the internal UI source of truth. OD should not add CopilotKit as a required product dependency unless a separate external embed/demo/client explicitly needs it. v1 plugins need no change to be consumable inside the AG-UI ecosystem because the adapter is a projection of OD's own events.
 
@@ -960,10 +960,10 @@ The adapter is an interoperability surface, not the internal UI source of truth.
 
 Pure TypeScript, no Next/Express/SQLite/browser deps:
 
-- `parsers/manifest.ts` — read `open-design.json` → `PluginManifest` (Zod-validated).
+- `parsers/manifest.ts` — read `design-jury.json` → `PluginManifest` (Zod-validated).
 - `adapters/agent-skill.ts` — read `SKILL.md` → synthesize a `PluginManifest` from the `od:` frontmatter documented in [`skills-protocol.md`](skills-protocol.md).
 - `adapters/claude-plugin.ts` — read `.claude-plugin/plugin.json` → synthesize a `PluginManifest`.
-- `merge.ts` — merge sidecar + adapters with `open-design.json` winning; foreign content lands in `compat.*`.
+- `merge.ts` — merge sidecar + adapters with `design-jury.json` winning; foreign content lands in `compat.*`.
 - `resolve.ts` — resolve `od.context.*` refs against the registry → `ResolvedContext`.
 - `validate.ts` — JSON Schema (drives both runtime checks and `od plugin doctor`).
 
@@ -1001,7 +1001,7 @@ CREATE TABLE installed_plugins (
   source_digest        TEXT,
   trust                TEXT NOT NULL,    -- trusted | restricted
   capabilities_granted TEXT NOT NULL,    -- JSON array
-  manifest_json        TEXT NOT NULL,    -- cached open-design.json (or synthesized)
+  manifest_json        TEXT NOT NULL,    -- cached design-jury.json (or synthesized)
   fs_path              TEXT NOT NULL,
   installed_at         INTEGER NOT NULL,
   updated_at           INTEGER NOT NULL
@@ -1239,9 +1239,9 @@ In practice this means:
 
 What this unlocks:
 
-- A user with **only Claude Code** (or any code agent) plus `npm i -g @open-design/cli` plus a running headless daemon can do the entire user journey: install plugin → create project → run → consume artifacts. No OD desktop required.
+- A user with **only Claude Code** (or any code agent) plus `npm i -g @design-jury/cli` plus a running headless daemon can do the entire user journey: install plugin → create project → run → consume artifacts. No OD desktop required.
 - The OD desktop UI installs the same daemon and the same CLI; it just adds a window. Users who later install the desktop find the same projects, plugins, and history that the headless flow produced — there is no "headless project format" vs. "desktop project format". Same `.od/projects/<id>/`, same SQLite db.
-- CI is a first-class citizen: a GitHub Action can `npm i -g @open-design/cli && od daemon start --headless && od plugin install … && od run start --project … --follow`. No display, no electron, no per-step UI scripting.
+- CI is a first-class citizen: a GitHub Action can `npm i -g @design-jury/cli && od daemon start --headless && od plugin install … && od run start --project … --follow`. No display, no electron, no per-step UI scripting.
 - External products can embed OD by spawning a headless daemon and shelling out — `od` is the public surface, internals are free to evolve.
 
 The cost: a small handful of `od daemon` flags and one new lifecycle subcommand (`od daemon start/stop/status` with `--headless` / `--serve-web`). Implementation lands in Phase 2 alongside the CLI parity slice.
@@ -1265,7 +1265,7 @@ This also answers the "no plugin selected" path: a run without an applied plugin
 
 ## 12. CLI surface
 
-The CLI (`od …`) is **the canonical agent-facing API** for Open Design. Plugin verbs are one slice of it; the rest of the CLI wraps the daemon's core capabilities — projects, conversations, runs, file operations, design library introspection, daemon control — so that any code agent can drive OD end-to-end through shell calls. This is the "natural-language project + task creation through CLI" path: a code agent reads a user's request, then issues a sequence of `od …` calls instead of speaking HTTP.
+The CLI (`od …`) is **the canonical agent-facing API** for Design Jury. Plugin verbs are one slice of it; the rest of the CLI wraps the daemon's core capabilities — projects, conversations, runs, file operations, design library introspection, daemon control — so that any code agent can drive OD end-to-end through shell calls. This is the "natural-language project + task creation through CLI" path: a code agent reads a user's request, then issues a sequence of `od …` calls instead of speaking HTTP.
 
 ### 12.1 Three transports of one logical API
 
@@ -1451,7 +1451,7 @@ When `--json` is set, structured error output is `{ "error": { "code": "<short-c
 
 ### 12.5 Authoring patterns for code agents
 
-A code agent driving Open Design through the CLI typically does:
+A code agent driving Design Jury through the CLI typically does:
 
 ```bash
 # 1. (Optional) Inspect what's available.
@@ -1484,22 +1484,22 @@ Every group above is additive to [`apps/daemon/src/cli.ts`](../apps/daemon/src/c
 
 > **Implementation rule:** if a code agent can do something through the desktop UI, it MUST be doable through `od …` with the same arguments and equivalent output. No silent UI-only capabilities.
 
-## 13. Public web surface (open-design.ai/marketplace)
+## 13. Public web surface (design-jury.ai/marketplace)
 
-The product site already lives at [open-design.ai](https://open-design.ai). The public marketplace ships as a path on that same site — `open-design.ai/marketplace` (canonical) with `open-design.ai/plugins` as an alias — not as a separate domain. It is a static-rendered catalog rendered from the official `open-design-marketplace.json` index, with plugin detail pages backed by the same `open-design.json` files inside each listed repo. Visually it mirrors what [`skills.sh`](https://skills.sh/) does for skills, but its detail pages render OD-specific previews (the `od.preview.entry` HTML, sample outputs, the use-case query, the chip preview).
+The product site already lives at [design-jury.ai](https://design-jury.ai). The public marketplace ships as a path on that same site — `design-jury.ai/marketplace` (canonical) with `design-jury.ai/plugins` as an alias — not as a separate domain. It is a static-rendered catalog rendered from the official `design-jury-marketplace.json` index, with plugin detail pages backed by the same `design-jury.json` files inside each listed repo. Visually it mirrors what [`skills.sh`](https://skills.sh/) does for skills, but its detail pages render OD-specific previews (the `od.preview.entry` HTML, sample outputs, the use-case query, the chip preview).
 
 The site shares one source of truth with the in-app marketplace:
 
-- Same JSON Schemas (`https://open-design.ai/schemas/plugin.v1.json`, `https://open-design.ai/schemas/marketplace.v1.json`).
-- Same federated listing format (`open-design-marketplace.json`).
-- Same plugin manifests (`open-design.json` inside each repo).
+- Same JSON Schemas (`https://design-jury.ai/schemas/plugin.v1.json`, `https://design-jury.ai/schemas/marketplace.v1.json`).
+- Same federated listing format (`design-jury-marketplace.json`).
+- Same plugin manifests (`design-jury.json` inside each repo).
 
 Two consumption surfaces, one substrate:
 
 | Surface                                                | Audience                       | Primary CTA                                                                                                       |
 | ------------------------------------------------------ | ------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
 | In-app marketplace (`/marketplace`, §11.6)             | Logged-in OD users             | "Use this plugin" → applies in place                                                                              |
-| Public marketplace (`open-design.ai/marketplace`)      | Anonymous visitors, SEO, share | Deep-link `od://plugins/<id>?apply=1` (auto-installs and applies in the desktop app), plus "Copy install command" |
+| Public marketplace (`design-jury.ai/marketplace`)      | Anonymous visitors, SEO, share | Deep-link `od://plugins/<id>?apply=1` (auto-installs and applies in the desktop app), plus "Copy install command" |
 
 Deep-link contract (Phase 4 deliverable, scoped here so the schema supports it):
 
@@ -1507,7 +1507,7 @@ Deep-link contract (Phase 4 deliverable, scoped here so the schema supports it):
 - `od://plugins/<id>?apply=1[&input.k=v...]` — install if missing, then apply with the supplied inputs.
 - `od://marketplace/add?url=<urlencoded>` — register a new federated catalog.
 
-The desktop app registers the `od://` URL scheme; clicking a button on `open-design.ai/marketplace` either launches the desktop or, if it is not installed, falls back to a "How to install Open Design" flow.
+The desktop app registers the `od://` URL scheme; clicking a button on `design-jury.ai/marketplace` either launches the desktop or, if it is not installed, falls back to a "How to install Design Jury" flow.
 
 **Status: out of scope for the v1 implementation,** but the JSON shapes and the URL scheme are locked here so the in-app marketplace and the public site can be developed independently without divergence.
 
@@ -1522,11 +1522,11 @@ A single GitHub repo per plugin, simultaneously usable across every catalog the 
 | [`VoltAgent/awesome-agent-skills`](https://github.com/VoltAgent/awesome-agent-skills)            | PR adds a row pointing at the repo URL                                     | repo URL — automation in §14.1                         |
 | [`openclaw/clawhub`](https://github.com/openclaw/clawhub)                                        | submission via clawhub web app or PR                                       | repo URL                                                |
 | [`skills.sh`](https://skills.sh/)                                                                | indexed automatically once `npx skills add owner/repo` is observed         | repo URL                                                |
-| `open-design-marketplace.json`                                                                   | entry referencing `github:owner/repo`                                      | `open-design.json` enriches the listing                |
+| `design-jury-marketplace.json`                                                                   | entry referencing `github:owner/repo`                                      | `design-jury.json` enriches the listing                |
 
 ### 14.1 Author tooling
 
-- `od plugin scaffold` — writes a starter folder containing both `SKILL.md` (industry-standard, with `od:` frontmatter for backward compat) and `open-design.json` (OD enrichment with `compat.agentSkills` pointing at the SKILL.md).
+- `od plugin scaffold` — writes a starter folder containing both `SKILL.md` (industry-standard, with `od:` frontmatter for backward compat) and `design-jury.json` (OD enrichment with `compat.agentSkills` pointing at the SKILL.md).
 - `od plugin doctor` — runs the JSON Schema, the SKILL.md frontmatter parser, and a "does this look listable on awesome-agent-skills / clawhub / skills.sh?" lint that checks for README presence, license file, and frontmatter completeness.
 - `od plugin publish --to <catalog>` (Phase 4) — opens a browser to the catalog's PR template with a pre-filled row.
 
@@ -1534,7 +1534,7 @@ A single GitHub repo per plugin, simultaneously usable across every catalog the 
 
 Any code agent that consumes a folder via `SKILL.md` works without OD installed. The plugin is one repo with three valid consumption modes:
 
-1. **Skill-only consumption (no OD).** A Cursor user runs `npx skills add open-design/make-a-deck`. Cursor reads `SKILL.md` and runs the workflow. No OD CLI, no OD daemon. The plugin's marketplace polish (`open-design.json`) is ignored — Cursor sees a vanilla skill.
+1. **Skill-only consumption (no OD).** A Cursor user runs `npx skills add design-jury/make-a-deck`. Cursor reads `SKILL.md` and runs the workflow. No OD CLI, no OD daemon. The plugin's marketplace polish (`design-jury.json`) is ignored — Cursor sees a vanilla skill.
 2. **Headless OD (CLI + code agent, no OD UI).** A power user keeps using their preferred code agent — Claude Code, Cursor, Codex, etc. — but adds OD as a side service to gain plugin context resolution, project bookkeeping, design library injection, and artifact tracking. No browser, no electron. See §14.3 below for the concrete pipeline.
 3. **Full OD (CLI + code agent + OD UI).** Same as (2) plus the desktop or web UI for live preview, marketplace browsing, chat/canvas split-view, etc.
 
@@ -1545,14 +1545,14 @@ The plugin author writes the SKILL.md once. All three modes consume it.
 This mirrors what cursor-agent + scripts can do for Cursor — code agent does the thinking, OD CLI provides the project / plugin / artifact substrate.
 
 ```bash
-# One-time setup: install the OD CLI as an npm global (publishable as @open-design/cli).
-npm install -g @open-design/cli
+# One-time setup: install the OD CLI as an npm global (publishable as @design-jury/cli).
+npm install -g @design-jury/cli
 
 # Start the daemon in headless mode — no web bundle, no electron, no browser.
 od daemon start --headless --port 17456
 
 # Install the OD plugin you want to drive (or an upstream agent skill — both work).
-od plugin install github:open-design/plugins/make-a-deck
+od plugin install github:design-jury/plugins/make-a-deck
 
 # Create a project bound to the plugin. Inputs are templated into the brief.
 PID=$(od project create \
@@ -1592,12 +1592,12 @@ What this proves:
 
 The mental model:
 
-| Layer                 | Cursor                                       | Open Design                                          |
+| Layer                 | Cursor                                       | Design Jury                                          |
 | --------------------- | -------------------------------------------- | ---------------------------------------------------- |
 | Headless agent CLI    | `cursor-agent` (drives the agent loop)       | `od run start --agent claude --follow` + `od plugin run` |
 | Local services / db   | Cursor's background indexing / state         | OD daemon, SQLite, `.od/projects/<id>/`              |
 | GUI productivity layer| Cursor IDE                                   | OD desktop / web UI (`apps/web` + `apps/desktop`)    |
-| Plugin / skill format | `.cursor/rules/`, MCP servers                | `SKILL.md` + `open-design.json` + atoms              |
+| Plugin / skill format | `.cursor/rules/`, MCP servers                | `SKILL.md` + `design-jury.json` + atoms              |
 
 Both products are decoupled the same way: the terminal flow is sufficient; the IDE/desktop is the productivity multiplier. **Plugin authors never have to choose** — they write one SKILL.md plus optional sidecar, and reach all three consumption modes.
 
@@ -1607,7 +1607,7 @@ OD ships as a single multi-arch Docker image so the full plugin/marketplace syst
 
 ### 15.1 Image shape
 
-- **Tag**: `ghcr.io/open-design/od:<version>` plus moving `:latest` and `:edge`.
+- **Tag**: `ghcr.io/design-jury/od:<version>` plus moving `:latest` and `:edge`.
 - **Architectures**: `linux/amd64` and `linux/arm64` (single manifest list).
 - **Contents**:
   - Node 24 runtime + the daemon `dist/` bundle.
@@ -1662,7 +1662,7 @@ Anything settable via the desktop UI is also settable via `docker exec od od con
 Local laptop:
 
 ```bash
-docker run --rm -p 17456:17456 ghcr.io/open-design/od:latest
+docker run --rm -p 17456:17456 ghcr.io/design-jury/od:latest
 open http://localhost:17456
 ```
 
@@ -1678,13 +1678,13 @@ docker run -d --name od \
   -e OD_BIND_HOST=0.0.0.0 \
   -e OD_API_TOKEN="$(openssl rand -hex 32)" \
   -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" \
-  ghcr.io/open-design/od:latest
+  ghcr.io/design-jury/od:latest
 ```
 
 Reach the same surfaces inside the container:
 
 ```bash
-docker exec od od plugin install github:open-design/plugins/make-a-deck
+docker exec od od plugin install github:design-jury/plugins/make-a-deck
 docker exec od od project create --plugin make-a-deck --json
 docker exec od od status --json
 ```
@@ -1706,7 +1706,7 @@ The image is deliberately cloud-agnostic. One container image runs on every majo
 Two reference manifests ship with OD and are versioned alongside the image:
 
 - New `tools/pack/docker-compose.yml` — daemon + optional reverse proxy + optional Postgres for §15.6.
-- New `tools/pack/helm/` — Helm chart with values presets for each cloud's volume + secret patterns. The chart deliberately stays generic — cloud-specific bootstrap (CloudFormation / Deployment Manager / ARM / Aliyun ROS / Tencent TIC / Huawei RFS) lives in a separate `open-design/deploy` repo so it can move at its own cadence.
+- New `tools/pack/helm/` — Helm chart with values presets for each cloud's volume + secret patterns. The chart deliberately stays generic — cloud-specific bootstrap (CloudFormation / Deployment Manager / ARM / Aliyun ROS / Tencent TIC / Huawei RFS) lives in a separate `design-jury/deploy` repo so it can move at its own cadence.
 
 ### 15.6 Pluggable storage and database (Phase 5)
 
@@ -1734,7 +1734,7 @@ Defaults shift toward safer behavior when the daemon runs in a container:
 
 ### 15.8 What this unlocks (ecosystem motions)
 
-1. **Self-hosted enterprise.** A company hosts a private OD instance, registers an internal `open-design-marketplace.json` (`od marketplace add https://internal/...`), restricting plugins to internally vetted ones. Their designers and PMs use the desktop client locally; their CI uses `docker exec od od …`.
+1. **Self-hosted enterprise.** A company hosts a private OD instance, registers an internal `design-jury-marketplace.json` (`od marketplace add https://internal/...`), restricting plugins to internally vetted ones. Their designers and PMs use the desktop client locally; their CI uses `docker exec od od …`.
 2. **Partner integrations.** Vendors (CMS, design tools, BI platforms, SaaS dashboards) embed OD inside their stack to add design generation. One image, no per-vendor port.
 3. **Cloud-native CI.** "Generate slides for the daily report" becomes a GitHub Action / GitLab pipeline / Tekton task that spins up an ephemeral OD container, applies a plugin, drops artifacts to S3 / OSS / COS / OBS.
 4. **Sovereign-cloud reach.** OD runs unchanged on Aliyun / Tencent / Huawei for customers in regulated regions — no rewrite, no separate distribution channel.
@@ -1744,11 +1744,11 @@ Defaults shift toward safer behavior when the daemon runs in a container:
 ### Phase 0 — Spec freeze (1–2 days)
 
 - This document lands as `docs/plugins-spec.md` (current).
-- JSON Schemas at `docs/schemas/open-design.plugin.v1.json` and `open-design.marketplace.v1.json`.
+- JSON Schemas at `docs/schemas/design-jury.plugin.v1.json` and `design-jury.marketplace.v1.json`.
 - Pure-TS contracts at `packages/contracts/src/plugins/{manifest,context,apply,marketplace,installed}.ts`.
 - Migration note: existing `skills/`, `design-systems/`, `craft/` are 100% backward compatible. SKILL.md frontmatter unchanged.
 
-Validation: `pnpm guard`, `pnpm typecheck`, `pnpm --filter @open-design/contracts test`.
+Validation: `pnpm guard`, `pnpm typecheck`, `pnpm --filter @design-jury/contracts test`.
 
 ### Phase 1 — Loader, installer, persistence + headless MVP CLI loop (5–7 days)
 
@@ -1766,8 +1766,8 @@ Phase 1 contents (merges the original Phase 1 with the minimum subset of the ori
 
 Validation:
 
-- `pnpm --filter @open-design/plugin-runtime test` (parser fixtures: pure SKILL.md, pure claude plugin, metadata-only open-design.json, all three combined, SKILL frontmatter mapping).
-- `pnpm --filter @open-design/daemon test`. `pnpm guard`, `pnpm typecheck`.
+- `pnpm --filter @design-jury/plugin-runtime test` (parser fixtures: pure SKILL.md, pure claude plugin, metadata-only design-jury.json, all three combined, SKILL frontmatter mapping).
+- `pnpm --filter @design-jury/daemon test`. `pnpm guard`, `pnpm typecheck`.
 - **End-to-end headless smoke** (equivalent to the §12.5 walkthrough): `od plugin install ./fixtures/sample-plugin` → `od project create --plugin <id> --json` → `od run start --project <pid> --plugin <id> --follow` → `od files read <pid> <artifact>`. The produced artifact bytes must match exactly what the same plugin produces under the Phase 2A UI flow.
 - **Apply purity smoke:** after `od plugin apply <id>` followed by cancel-before-send, the project cwd is empty of staged assets, no `.mcp.json` is generated, but the `applied_plugin_snapshots` row exists (unreferenced from any run/project).
 
@@ -1854,7 +1854,7 @@ Validation: install plugin from a local mock marketplace.json, rotate ref, unins
 - **Remaining CLI parity:** `od conversation list/new/info`, `od skills/design-systems/craft/atoms list/show`, `od status/doctor/version`, `od config get/set/list`, `od marketplace search`. All purely CLI work — endpoints exist or are trivial.
 - Optional: extract atoms into `skills/_official/<atom>/SKILL.md`. Only after Phases 1–3 are stable.
 - **§10.3.5 full AG-UI alignment:**
-  - New package `@open-design/agui-adapter` — bidirectionally maps OD's `PersistedAgentEvent` + `GenUIEvent` onto AG-UI canonical events (`agent.message`, `tool_call`, `state_update`, `ui.surface_requested`, `ui.surface_responded`).
+  - New package `@design-jury/agui-adapter` — bidirectionally maps OD's `PersistedAgentEvent` + `GenUIEvent` onto AG-UI canonical events (`agent.message`, `tool_call`, `state_update`, `ui.surface_requested`, `ui.surface_responded`).
   - Daemon adds an optional `/api/runs/:runId/agui` SSE endpoint that emits AG-UI canonical events so CopilotKit / other AG-UI clients can consume an OD run unchanged.
   - Plugin manifest upgrade allows `od.genui.surfaces[].component` — a relative path to a plugin-bundled React component (capability gate `genui:custom-component`), loaded by the desktop / web renderer inside a sandbox.
   - Open-Ended (MCP-Apps / Open-JSON) mode: plugins push arbitrary JSON UI trees through an MCP server, rendered by desktop / web under a constrained schema.
@@ -1871,7 +1871,7 @@ This phase is independent of Phases 1–4 and can run in parallel as soon as Pha
 - **`ProjectStorage` adapter for S3-compatible blob stores** (works for AWS S3, GCS S3-compat, Azure Blob via shim, Aliyun OSS, Tencent COS, Huawei OBS).
 - **`DaemonDb` adapter for Postgres** (so multi-replica deployments share state).
 - **`AppliedPluginSnapshot` retention enforcement worker:** the `expires_at` column added in Phase 1 is now enforced. A daemon background job (default every 6 h, knob `OD_SNAPSHOT_GC_INTERVAL_MS`) deletes rows where `expires_at IS NOT NULL AND expires_at <= now()`. Unreferenced snapshots get `expires_at = applied_at + OD_SNAPSHOT_UNREFERENCED_TTL_DAYS` (default `30`; `0` disables) at insert time; referenced snapshots stay `NULL` (pinned per §8.2.1). Operators may set `OD_SNAPSHOT_RETENTION_DAYS` to additionally retire referenced rows once their referencing run/conversation/project is terminal. Each deletion writes an audit log entry. CLI escape hatch: `od plugin snapshots prune --before <ts>` for forced cleanup.
-- **Per-cloud one-click templates** in a separate `open-design/deploy` repo (CloudFormation, Deployment Manager, ARM, Aliyun ROS, Tencent TIC, Huawei RFS) — non-blocking; track separately.
+- **Per-cloud one-click templates** in a separate `design-jury/deploy` repo (CloudFormation, Deployment Manager, ARM, Aliyun ROS, Tencent TIC, Huawei RFS) — non-blocking; track separately.
 
 Validation:
 
@@ -1883,7 +1883,7 @@ Validation:
 
 ### 17.1 Minimum-viable plugin (just SKILL.md)
 
-OD reads it as a plugin via the existing `od:` frontmatter loader documented in [`skills-protocol.md`](skills-protocol.md). No `open-design.json` needed — the plugin lacks marketplace polish but is fully runnable.
+OD reads it as a plugin via the existing `od:` frontmatter loader documented in [`skills-protocol.md`](skills-protocol.md). No `design-jury.json` needed — the plugin lacks marketplace polish but is fully runnable.
 
 ```
 my-plugin/
@@ -1908,7 +1908,7 @@ Workflow steps...
 my-plugin/
 ├── SKILL.md
 ├── README.md
-├── open-design.json
+├── design-jury.json
 ├── preview/
 │   ├── index.html
 │   ├── poster.png
@@ -1917,14 +1917,14 @@ my-plugin/
     └── b2b-saas/index.html
 ```
 
-`SKILL.md` stays portable — Cursor / Codex / OpenClaw read it directly. `open-design.json` adds preview, query, chip strip, capabilities. The repo lists cleanly on every catalog in §14 without modification.
+`SKILL.md` stays portable — Cursor / Codex / OpenClaw read it directly. `design-jury.json` adds preview, query, chip strip, capabilities. The repo lists cleanly on every catalog in §14 without modification.
 
 ### 17.3 Bundle plugin (multiple skills + DS + craft in one repo)
 
 ```
 my-bundle/
 ├── SKILL.md                          # bundle-level overview (catalog uses this)
-├── open-design.json                  # kind: 'bundle'; lists nested skills
+├── design-jury.json                  # kind: 'bundle'; lists nested skills
 ├── skills/
 │   ├── deck-skeleton/SKILL.md
 │   └── deck-finalize/SKILL.md
@@ -1938,12 +1938,12 @@ The installer fans out nested skills/design-systems/craft into the registry unde
 
 | Risk                                                        | Mitigation                                                                                          |
 | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Schema drift between OD plugin and the broader skill spec   | `open-design.json` is sidecar-only; it never modifies SKILL.md. CI tests run against the public anthropics/skills repo. |
+| Schema drift between OD plugin and the broader skill spec   | `design-jury.json` is sidecar-only; it never modifies SKILL.md. CI tests run against the public anthropics/skills repo. |
 | Arbitrary GitHub install = supply-chain risk                | `restricted` default; capability prompt mandatory before bash/hooks/MCP; pinned-ref recording.       |
 | `composeSystemPrompt()` is already 200+ lines               | The `## Active plugin` block is appended in the existing place; no reordering of layers.             |
 | ExamplesTab vs Marketplace overlap                          | Phase 2 keeps ExamplesTab as is; Phase 3 folds it into Marketplace as a "Local skills" tab.         |
 | Atoms-as-plugins is large                                   | Entry slice shipped: bundled atom SKILL.md bodies + `renderActiveStageBlock()` exist, while the base OD designer/discovery prompt remains in daemon code until the remaining §23 migration is complete. |
-| Project-local plugins committed to user repos | Discovery only at `<projectCwd>/.open-design/plugins/`; opt-in via `od plugin install --project`. |
+| Project-local plugins committed to user repos | Discovery only at `<projectCwd>/.design-jury/plugins/`; opt-in via `od plugin install --project`. |
 | Trust model leaves community plugins half-functional by default | Detail page surfaces a clear capability checklist with a one-click "Grant all" action; restricted-mode behavior is explicit, not silent. |
 | Plugins shipping their own MCP servers may fail to start | `od plugin doctor` runs a dry-launch of declared MCP commands; failures surfaced before "Use". |
 | Unbounded growth of `applied_plugin_snapshots` | Per PB2 (resolved): unreferenced snapshots auto-expire at `applied_at + OD_SNAPSHOT_UNREFERENCED_TTL_DAYS` (default 30 d); referenced snapshots stay pinned forever (reproducibility wins); GC worker lands in Phase 5 (§16). `od plugin snapshots prune --before <ts>` remains as a forced-cleanup escape hatch; rows with `status='stale'` can be archived to external storage in batch. |
@@ -1952,9 +1952,9 @@ The installer fans out nested skills/design-systems/craft into the registry unde
 | `OD_HOST` / `OD_BIND_HOST` naming drift | Spec uses the variable the daemon already reads, `OD_BIND_HOST`; no `OD_HOST` alias is introduced; §15.3 explicitly notes the deviation from earlier draft text. |
 | Hosted deployments without the bound-API-token guard could leak the API publicly (pre-Phase 5 must rely on a reverse proxy) | Once Phase 5 lands, daemon refuses to bind `OD_BIND_HOST=0.0.0.0` without `OD_API_TOKEN`; bearer-token middleware enforced on `/api/*`; §15.3 / §15.7 record the current vs. target gap. |
 | Sovereign-cloud customers (Aliyun / Tencent / Huawei) need provider-specific secret + storage integrations | S3-compatible adapter covers all three for blob storage (Phase 5); env-var-based secrets work everywhere; cloud-specific KMS integrations are non-blocking (post-v1). |
-| Multi-cloud testing matrix is large                         | Phase 5 ships a single canonical compose smoke (one cloud), then adds clouds incrementally; per-cloud one-click templates live in `open-design/deploy` and can move at their own cadence (§15.5). |
+| Multi-cloud testing matrix is large                         | Phase 5 ships a single canonical compose smoke (one cloud), then adds clouds incrementally; per-cloud one-click templates live in `design-jury/deploy` and can move at their own cadence (§15.5). |
 | Malicious plugins phishing the user via GenUI surfaces      | `od.genui.surfaces[]` must be declared in the manifest and pass `od plugin doctor`; runtime rejects undeclared surface kinds / surface ids; `oauth-prompt` and `confirmation` always show "from plugin <id>, vetted by marketplace <id>"; restricted plugins must explicitly grant `network` before raising an `oauth-prompt` (§9). |
-| AG-UI ecosystem may evolve, drifting OD's wire format from canonical AG-UI | OD-native `GenUIEvent` remains the internal source of truth. `@open-design/agui-adapter` is an external projection layer, so upstream protocol revs do not couple to the daemon or web renderer release cadence. |
+| AG-UI ecosystem may evolve, drifting OD's wire format from canonical AG-UI | OD-native `GenUIEvent` remains the internal source of truth. `@design-jury/agui-adapter` is an external projection layer, so upstream protocol revs do not couple to the daemon or web renderer release cadence. |
 | Cross-conversation reuse via `genui_surfaces` may make users "forget what they authorized" | The web `GenUIInbox` and `od ui list --project <id>` must enumerate every `persist=project` resolved row with revoke entry points; hosted mode can default-expire via `OD_GENUI_PROJECT_TTL_DAYS`; revoke writes an audit log entry. |
 
 Open questions worth confirming before code lands:
@@ -1972,11 +1972,11 @@ Open questions worth confirming before code lands:
 - **Whether `od.taskKind` becomes a first-class marketplace filter** — does the existing `kind` / `mode` / `scenario` UI need a reorder to surface the new `taskKind`? (Default: marketplace adds a top-level `taskKind` tab; existing filters drop to a secondary tier.)
 - ~~**Should `od.genui.surfaces[].component` ship in v1?**~~ — **resolved as a gated extension path.** The manifest schema accepts the field and `od plugin doctor` enforces `genui:custom-component` plus traversal guards. The built-in product renderer remains the default for `form` / `choice` / `confirmation` / `oauth-prompt`; custom components are sandboxed add-ons, not a replacement for core collaboration UI.
 - **Coupling between GenUI persisted state and `AppliedPluginSnapshot`** — when a plugin upgrades and `surface.schema` changes, old rows auto-`invalidate`; should we additionally **force a re-apply** (generating a new `AppliedPluginSnapshot`) or allow the surface to invalidate while leaving the snapshot untouched? (Default: surface only; `od plugin doctor` flags schema drift; replay still uses the old snapshot.)
-- ~~**Timing of AG-UI protocol adoption**~~ — **resolved.** `@open-design/agui-adapter` and `GET /api/runs/:runId/agui` have shipped as optional interoperability. OD-native GenUI remains the internal renderer and CopilotKit is not a required product dependency.
+- ~~**Timing of AG-UI protocol adoption**~~ — **resolved.** `@design-jury/agui-adapter` and `GET /api/runs/:runId/agui` have shipped as optional interoperability. OD-native GenUI remains the internal renderer and CopilotKit is not a required product dependency.
 
-## 19. Why this is a meaningful step for Open Design
+## 19. Why this is a meaningful step for Design Jury
 
-- **Inherited supply.** Every public agent skill on `anthropics/skills`, `awesome-agent-skills`, `clawhub`, and `skills.sh` is one optional `open-design.json` away from being an OD plugin — and reciprocally, every OD plugin is publishable to all four catalogs without modification.
+- **Inherited supply.** Every public agent skill on `anthropics/skills`, `awesome-agent-skills`, `clawhub`, and `skills.sh` is one optional `design-jury.json` away from being an OD plugin — and reciprocally, every OD plugin is publishable to all four catalogs without modification.
 - **Boundary-clean.** New code lives in two pure-TS packages (`packages/plugin-runtime`, `packages/contracts/src/plugins/*`) and one daemon module group (`apps/daemon/src/plugins/`); no cross-app coupling, no contracts package leaks, no SKILL.md fork. Honors every constraint in the root [`AGENTS.md`](../AGENTS.md).
 - **Reversible refactors.** Existing loaders ([`apps/daemon/src/skills.ts`](../apps/daemon/src/skills.ts) etc.) and `composeSystemPrompt()` keep their public shape; Phase 1 is a drop-in delegate, Phase 2 only **appends** a prompt block.
 - **CLI from day 1.** Every new endpoint has a matching `od plugin …` subcommand, so the same surface is reachable from any code agent without the desktop app.
@@ -2336,7 +2336,7 @@ Category C is the half v1 has shipped, and the first pieces of category A have a
 - The active design system + craft injection that drives "consistency" in §1's product brief is already a plugin-substrate read: there is no privileged path for first-party DESIGN.md vs. third-party DESIGN.md.
 - First-party atom plugins under `plugins/_official/atoms/**` carry atom SKILL.md bodies and manifest metadata; `packages/contracts/src/prompts/atom-block.ts` renders active stage blocks from those bodies.
 - Bundled scenario plugins under `plugins/_official/scenarios/**` carry default pipeline shapes, including `od-default` for Home free-form routing and task shaping. `packages/plugin-runtime/src/pipeline-fallback.ts` resolves an applied pipeline through these bundled scenarios when a plugin omits `od.pipeline`.
-- `@open-design/agui-adapter` and `/api/runs/:runId/agui` provide external AG-UI event projection without changing OD's internal GenUI renderer.
+- `@design-jury/agui-adapter` and `/api/runs/:runId/agui` provide external AG-UI event projection without changing OD's internal GenUI renderer.
 
 This is why §22 holds: the substrate is already self-hosting for plugin artifacts, snapshots, GenUI declarations, pipeline declarations, bundled scenarios, and the first atom-body injection path. The remaining hard-coded parts are narrower and more product-shaped: the base OD designer/discovery prompt, some stage-entry selection logic, Home's curated scenario rail, and the closed signal / surface vocabularies listed in §22.4.
 
@@ -2348,7 +2348,7 @@ The following patches finish lifting category A out of the daemon. Some have par
 
 Today §5's `od.kind` enum lists `'atom'` but never defines an atom plugin's shape. The patch:
 
-- An atom plugin is a folder with `open-design.json` (`od.kind: 'atom'`) plus `SKILL.md`.
+- An atom plugin is a folder with `design-jury.json` (`od.kind: 'atom'`) plus `SKILL.md`.
 - The `SKILL.md` body is the atom's prompt fragment, injected by the daemon assembler when a stage references the atom by id.
 - Optional `od.context.mcp[]` declares MCP tools the atom uses (e.g. `live-artifact`, `connector`).
 - Optional `od.atom.untilSignals[]` declares the named signal variables this atom emits, contributing to the `until` vocabulary in §10.1. This is how patch 1 also lifts §22.4's limit 1: each atom owns its own signals (e.g. `build-test` declares `build.passing` and `tests.passing`), and the `until` evaluator looks them up against the active stage's atoms instead of a hard-coded list.
@@ -2364,10 +2364,10 @@ The migration is mechanical: every prose constant in `system.ts` has a one-to-on
 
 Bundled scenario plugins and the pipeline fallback resolver now exist. The remaining work is to remove any product entrypoint that still hand-builds a default stage list instead of selecting a scenario plugin. The target remains: when `od.pipeline` is omitted, daemon/product code resolves a bundled scenario plugin per `taskKind` or explicit entrypoint route, then uses that scenario's `od.pipeline`.
 
-- `plugins/_official/scenarios/od-new-generation/open-design.json`
-- `plugins/_official/scenarios/od-figma-migration/open-design.json` (after Phase 6)
-- `plugins/_official/scenarios/od-code-migration/open-design.json` (after Phase 7)
-- `plugins/_official/scenarios/od-tune-collab/open-design.json`
+- `plugins/_official/scenarios/od-new-generation/design-jury.json`
+- `plugins/_official/scenarios/od-figma-migration/design-jury.json` (after Phase 6)
+- `plugins/_official/scenarios/od-code-migration/design-jury.json` (after Phase 7)
+- `plugins/_official/scenarios/od-tune-collab/design-jury.json`
 
 Each ships only an `od.pipeline` and (optionally) some default `od.genui.surfaces[]` for that scenario. Daemon resolution becomes: "no `od.pipeline` provided + has `taskKind` → look up the bundled scenario plugin matching that `taskKind` → use its `od.pipeline`."
 

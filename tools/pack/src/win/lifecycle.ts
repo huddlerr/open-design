@@ -12,8 +12,8 @@ import {
   type DesktopStatusSnapshot,
   type DesktopUpdateResult,
   type SidecarStamp,
-} from "@open-design/sidecar-proto";
-import { createSidecarLaunchEnv, requestJsonIpc, resolveAppIpcPath } from "@open-design/sidecar";
+} from "@design-jury/sidecar-proto";
+import { createSidecarLaunchEnv, requestJsonIpc, resolveAppIpcPath } from "@design-jury/sidecar";
 import {
   collectProcessTreePids,
   createProcessStampArgs,
@@ -22,7 +22,7 @@ import {
   readLogTail,
   spawnBackgroundProcess,
   stopProcesses,
-} from "@open-design/platform";
+} from "@design-jury/platform";
 
 import type { ToolPackConfig } from "../config.js";
 import { DESKTOP_LOG_ECHO_ENV } from "./constants.js";

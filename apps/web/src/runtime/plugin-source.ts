@@ -17,7 +17,7 @@
  *    http(s) URLs become clickable) to keep `javascript:` /
  *    `data:` payloads in a manifest from rendering as live links.
  */
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@design-jury/contracts';
 
 export interface PluginSourceLinks {
   /** Browseable URL for the install source, or null when the source
@@ -49,8 +49,8 @@ export interface PluginSourceLinks {
   contributeOnGithub: boolean;
 }
 
-const OPEN_DESIGN_REPO_URL = 'https://github.com/nexu-io/open-design';
-const OPEN_DESIGN_REPO_LABEL = 'nexu-io/open-design';
+const OPEN_DESIGN_REPO_URL = 'https://github.com/nexu-io/design-jury';
+const OPEN_DESIGN_REPO_LABEL = 'nexu-io/design-jury';
 
 const GITHUB_SOURCE_RE = /^github:([A-Za-z0-9._-]+)\/([A-Za-z0-9._-]+)(?:@([A-Za-z0-9._/-]+))?(?:\/(.+))?$/;
 const GITHUB_PROFILE_RE = /^https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9](?:[A-Za-z0-9-]{0,38}[A-Za-z0-9])?)(?:[\/?#].*)?$/;

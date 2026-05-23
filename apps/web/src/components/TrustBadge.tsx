@@ -1,7 +1,7 @@
 import type {
   MarketplaceTrust,
   TrustTier,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 
 type TrustBadgeTrust = TrustTier | MarketplaceTrust;
 type NormalizedTrustTier = 'official' | 'trusted' | 'restricted';
@@ -19,7 +19,7 @@ const TRUST_META: Record<
 > = {
   official: {
     label: 'Official',
-    description: 'Open Design official',
+    description: 'Design Jury official',
   },
   trusted: {
     label: 'Trusted',

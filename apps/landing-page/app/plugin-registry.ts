@@ -103,8 +103,8 @@ export type PublicPluginEntry = {
   searchText: string;
 };
 
-const REPO = 'https://github.com/nexu-io/open-design';
-const RAW_REPO = 'https://raw.githubusercontent.com/nexu-io/open-design/main';
+const REPO = 'https://github.com/nexu-io/design-jury';
+const RAW_REPO = 'https://raw.githubusercontent.com/nexu-io/design-jury/main';
 const findRepoRoot = () => {
   const candidates = [
     process.cwd(),
@@ -196,7 +196,7 @@ const sourceUrlFromSource = (source: string): string | undefined => {
 };
 
 const registryUrlFor = (registryId: string) =>
-  `${RAW_REPO}/plugins/registry/${registryId}/open-design-marketplace.json`;
+  `${RAW_REPO}/plugins/registry/${registryId}/design-jury-marketplace.json`;
 
 const previewLabelFor = (
   type: string | undefined,
@@ -364,7 +364,7 @@ const findManifestFiles = (dir: string): string[] => {
     const entryPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...findManifestFiles(entryPath));
-    } else if (entry.isFile() && entry.name === 'open-design.json') {
+    } else if (entry.isFile() && entry.name === 'design-jury.json') {
       files.push(entryPath);
     }
   }
@@ -403,7 +403,7 @@ const entryFromMarketplace = (
     explicitLocalizedString(
       rawEntry.description as Parameters<typeof explicitLocalizedString>[0],
       locale,
-    ) ?? 'Agent-native Open Design workflow packaged as a portable plugin.';
+    ) ?? 'Agent-native Design Jury workflow packaged as a portable plugin.';
   const localized = localizePluginText({
     id,
     title: rawTitle,
@@ -491,7 +491,7 @@ const loadRegistryEntries = (
     }
 
     const registryId = dirent.name;
-    const manifestPath = path.join(REGISTRY_ROOT, registryId, 'open-design-marketplace.json');
+    const manifestPath = path.join(REGISTRY_ROOT, registryId, 'design-jury-marketplace.json');
     const manifest = readJson<RawMarketplace>(manifestPath);
     const rawPlugins = Array.isArray(manifest?.plugins) ? manifest.plugins : [];
     const registryName =
@@ -531,10 +531,10 @@ const officialEntryFromManifest = (
   const copy = getLandingUiCopy(locale).plugins;
   const manifest = readJson<RawPluginManifest>(manifestPath);
   const pluginName = asString(manifest?.name) ?? path.basename(path.dirname(manifestPath));
-  const id = `open-design/${pluginName}`;
+  const id = `design-jury/${pluginName}`;
   const pluginDir = path.dirname(manifestPath);
   const repoPath = toPosix(path.relative(REPO_ROOT, pluginDir));
-  const source = `github:nexu-io/open-design@main/${repoPath}`;
+  const source = `github:nexu-io/design-jury@main/${repoPath}`;
   const od = asRecord(manifest?.od) as RawOdMetadata | undefined;
   const capabilities = asStringArray(od?.capabilities);
   const tags = asStringArray(manifest?.tags);
@@ -552,7 +552,7 @@ const officialEntryFromManifest = (
     explicitLocalizedString(
       manifest?.description as Parameters<typeof explicitLocalizedString>[0],
       locale,
-    ) ?? 'First-party Open Design workflow packaged as a portable plugin.';
+    ) ?? 'First-party Design Jury workflow packaged as a portable plugin.';
   const localized = localizePluginText({
     id,
     title: rawTitle,

@@ -1,13 +1,13 @@
 import type {
   ConnectionTestKind,
   ConnectionTestProtocol,
-} from '@open-design/contracts/api/connectionTest';
+} from '@design-jury/contracts/api/connectionTest';
 import type {
   ProviderModelOption,
   ProviderModelsRequest,
   ProviderModelsResponse,
-} from '@open-design/contracts/api/providerModels';
-import { isLoopbackApiHost } from '@open-design/contracts/api/connectionTest';
+} from '@design-jury/contracts/api/providerModels';
+import { isLoopbackApiHost } from '@design-jury/contracts/api/connectionTest';
 import { redactSecrets, validateBaseUrlResolved } from './connectionTest.js';
 
 type ProviderModelsInput = ProviderModelsRequest & { signal?: AbortSignal };

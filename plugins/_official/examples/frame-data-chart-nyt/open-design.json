@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-frame-data-chart-nyt",
   "title": "NYT-Style Data Chart Frame",
@@ -7,10 +7,10 @@
   "description": "NYT-newsroom typography, staggered reveal animation, and editorial-grade charts (line, bar, or range band).",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/frame-data-chart-nyt",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/frame-data-chart-nyt",
   "tags": [
     "example",
     "first-party",

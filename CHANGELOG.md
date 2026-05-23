@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.0] - 2026-05-20
 
-The rebuilt-core release: **everything is a plugin**, **headless by default**, **plugins create plugins**. Open Design's research-preview architecture has been replaced with a small, boring engine plus a plugin surface — design systems, slices, prototypes, exports, and Figma itself all live in plugins now. The desktop app is a thin wrapper around the OD CLI, so the same engine runs in Claude Code, OpenClaw, Hermes Agent, and chat bots in Lark / Discord / Slack. **Critique Theater** matures through **Phase 16** (rollout ratchet, conformance API, 9 Prometheus metrics, Grafana dashboard, M0 dark-launch by default). **149 design systems** now ship with structured `tokens.css` + components manifests across 60+ new brand fixtures. **Italian (it) locale** + **CJK font fallback**. New media providers: **Leonardo.ai**, **ElevenLabs**, **SenseAudio**. **Packaged auto-update** lands on both **macOS and Windows**, battle-hardened through the preview cycle. Plus a **top-to-bottom visual refresh**, **Quick-brief discovery overhaul**, **PostHog v2 analytics schema**, **manual edit UX overhaul** (focus mode, uploads, remove-element patch), **custom CLI agent profiles**, and **HTML Anything** landing page. 305 merged PRs by 75 contributors since 0.7.0.
+The rebuilt-core release: **everything is a plugin**, **headless by default**, **plugins create plugins**. Design Jury's research-preview architecture has been replaced with a small, boring engine plus a plugin surface — design systems, slices, prototypes, exports, and Figma itself all live in plugins now. The desktop app is a thin wrapper around the OD CLI, so the same engine runs in Claude Code, OpenClaw, Hermes Agent, and chat bots in Lark / Discord / Slack. **Critique Theater** matures through **Phase 16** (rollout ratchet, conformance API, 9 Prometheus metrics, Grafana dashboard, M0 dark-launch by default). **149 design systems** now ship with structured `tokens.css` + components manifests across 60+ new brand fixtures. **Italian (it) locale** + **CJK font fallback**. New media providers: **Leonardo.ai**, **ElevenLabs**, **SenseAudio**. **Packaged auto-update** lands on both **macOS and Windows**, battle-hardened through the preview cycle. Plus a **top-to-bottom visual refresh**, **Quick-brief discovery overhaul**, **PostHog v2 analytics schema**, **manual edit UX overhaul** (focus mode, uploads, remove-element patch), **custom CLI agent profiles**, and **HTML Anything** landing page. 305 merged PRs by 75 contributors since 0.7.0.
 
 ### Added
 
@@ -74,7 +74,7 @@ The rebuilt-core release: **everything is a plugin**, **headless by default**, *
 - **Packaged update apply observations** captured for telemetry / debugging. ([#2429])
 - **Nightly + preview package identity** so beta installs don't collide with stable. ([#2437])
 - **macOS Dock icon stays put** when desktop-pet window opens. ([#2413])
-- **Refresh Open Design app visuals** — new app icons, logo, brand glyphs. ([#2436])
+- **Refresh Design Jury app visuals** — new app icons, logo, brand glyphs. ([#2436])
 - **Linux packaged client parity smoke coverage.**
 - **Ensure node binary dir is on PATH for agent sub-processes on Windows.** ([#1989])
 
@@ -325,7 +325,7 @@ A memory-plus-UI release: **auto-memory store** carries agent context across run
 
 - **Plugin & marketplace system — Phase 2A + 1 + 1.5 + 2B + 2C entry slice + 3 (full) + 4 (full incl. OD_BUNDLED_ATOM_PROMPTS default ON) + 5 (full incl. live S3 impl; postgres adapter still stubbed) + 6 (full incl. asset rasterisation) + 7 (all six code-migration atom impls landed; full pipeline e2e covered by smoke test) + 8 (full incl. GenUI \u2192 decision bridge + handoff promotion ladder bridge) + bundled scenarios + bundled-scenario fallback resolver.** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
   - **`od plugin events purge` admin escape hatch (Phase 4).** New `purgePluginEventBuffer()` returns pre-purge stats `{ purged, firstId, lastId, preNextId }` so an operator can audit what was discarded. Loopback-only `POST /api/plugins/events/purge` route + `od plugin events purge --confirm` CLI subcommand (refuses to run without `--confirm` so a stray invocation never drops audit data accidentally).
-  - **`od plugin manifest <id>` + `od plugin sources` (Phase 4).** New CLI subcommands for plugin authors and ops: `od plugin manifest <id>` prints just the parsed manifest JSON (no wrapper, no fsPath / installedAt noise) so authors can diff against their on-disk `open-design.json`. `od plugin sources` lists every distinct `(sourceKind, source)` tuple + plugin count, sorted by descending count then alphabetically, with the per-bucket plugin list sorted by id. New `pluginSourceBuckets()` pure helper backs the CLI for byte-deterministic output.
+  - **`od plugin manifest <id>` + `od plugin sources` (Phase 4).** New CLI subcommands for plugin authors and ops: `od plugin manifest <id>` prints just the parsed manifest JSON (no wrapper, no fsPath / installedAt noise) so authors can diff against their on-disk `design-jury.json`. `od plugin sources` lists every distinct `(sourceKind, source)` tuple + plugin count, sorted by descending count then alphabetically, with the per-bucket plugin list sorted by id. New `pluginSourceBuckets()` pure helper backs the CLI for byte-deterministic output.
   - **`od plugin events snapshot/stats` + tail filters (Phase 4).** Extends §3.II1 with: `GET /api/plugins/events/snapshot` for non-SSE one-shot reads (dashboards that don't want a live connection); `GET /api/plugins/events/stats` returns a `summarisePluginEvents()` rollup (counts byKind, byPluginId — skipping empty ids — plus oldest/newest at + id range); `--kind <k>` and `--plugin-id <id>` filter flags work on both `od plugin events tail` (client-side post-render) and the new `od plugin events snapshot` subcommand. CLI pretty-prints the stats rollup with sorted-key counts for byte-determinism.
   - **More plugin event producer hooks (Phase 4).** Extends §3.II1 with: `installPlugin` accepts `eventKind: 'installed' | 'upgraded'` so the upgrade route distinguishes the operation in the live tail; `POST /api/plugins/:id/trust` emits `plugin.trust-changed`; `POST /api/applied-plugins/prune` emits `plugin.snapshot-pruned` when anything was actually removed; `POST /api/marketplaces/:id/refresh` emits `plugin.marketplace-refreshed`. Each hook is best-effort and never blocks the underlying mutation if the ring buffer throws.
   - **Plugin event ring buffer + SSE tail (Phase 4).** New `apps/daemon/src/plugins/events.ts` ships an in-memory FIFO ring buffer (capped at 1000 entries, monotonic ids, fan-out subscribers) for plugin lifecycle events: `plugin.installed` / `.upgraded` / `.uninstalled` / `.trust-changed` / `.applied` / `.snapshot-pruned` / `.marketplace-refreshed`. Producer hooks landed on the installer (install + uninstall). New `GET /api/plugins/events` SSE route emits the backlog on connect (with optional `?since=<id>` trim) then forwards live events. CLI: `od plugin events tail [-f] [--since <id>] [--json]` — non-follow mode drains backlog + exits; `-f` keeps the stream open for ops dashboards.
@@ -350,7 +350,7 @@ A memory-plus-UI release: **auto-memory store** carries agent context across run
   - **`S3ProjectStorage` live implementation via AWS SigV4 (Phase 5).** New `apps/daemon/src/storage/aws-sigv4.ts` ships a minimal AWS Signature V4 signer using only `node:crypto` (no `@aws-sdk/*` dependency \u2014 keeps the daemon shippable as a small binary). The signer is verifiably correct against the AWS-published reference vector (GetObject example). `S3ProjectStorage` now implements all five `ProjectStorage` ops (read / write / list / delete / stat) via `globalThis.fetch`, with virtual-host-style URLs by default and path-style for `OD_S3_ENDPOINT` overrides (Aliyun OSS, Tencent COS, Huawei OBS, MinIO). LIST walks `NextContinuationToken` for paginated buckets. Credentials read from `OD_S3_ACCESS_KEY_ID/SECRET/SESSION_TOKEN` first, falling back to `AWS_*` env vars so existing IAM-role / `aws configure` setups drop in unchanged.
   - **`runHandoffAtom()` pipeline-driven bridge (Phase 8 entry slice).** New helper reads the canonical state previous atoms wrote (`<cwd>/review/decision.json` from diff-review, `<cwd>/critique/build-test.json` from build-test) and returns the updated `ArtifactManifest` with the right `handoffKind` / `exportTargets[]` attached. Promotion ladder (spec §11.5.1): `reject` \u2192 `design-only`; `accept`/`partial` no-build-test \u2192 `implementation-plan`; + `build.passing`\u2228`tests.passing` \u2192 `patch`; + both signals + docker/cli export \u2192 `deployable-app`. Monotonicity enforced via `recordHandoff()`; a manifest carrying `'patch'` won't demote to `'design-only'` even when a follow-up reject arrives.
   - **`runAndPersistHandoff()` + auto-handoff from diff-review GenUI bridge (Phase 8 entry slice).** New on-disk shell round-trips `<cwd>/handoff/manifest.json`: reads existing manifest (or falls back to `manifestSeed`, then to a minimal default), calls `runHandoffAtom()`, and writes back only when something changed (`persistMode: 'created' | 'updated' | 'skipped'`). The diff-review GenUI bridge now auto-invokes this after recording the user's decision, so the Phase 8 promotion ladder closes end-to-end without an agent turn: user clicks Accept all in the web composer → daemon writes `review/decision.json` AND `handoff/manifest.json` with the right `handoffKind` set; failure surfaces on the bridge result as `handoffError` without regressing the diff-review write.
-  - **figma-migration pipeline e2e smoke (Phase 6).** New `plugins-figma-migration-e2e.test.ts` walks figma-extract (stubbed REST) → token-map → diff-review → handoff end-to-end. Locks the scenario folder roster (`plugins/_official/scenarios/od-figma-migration/open-design.json` stages: extract → tokens → generate → critique).
+  - **figma-migration pipeline e2e smoke (Phase 6).** New `plugins-figma-migration-e2e.test.ts` walks figma-extract (stubbed REST) → token-map → diff-review → handoff end-to-end. Locks the scenario folder roster (`plugins/_official/scenarios/od-figma-migration/design-jury.json` stages: extract → tokens → generate → critique).
   - **Full code-migration pipeline e2e smoke test (Phase 7-8).** First integration test that walks every code-migration atom (code-import \u2192 design-extract \u2192 token-map \u2192 rewrite-plan \u2192 patch-edit \u2192 build-test \u2192 diff-review \u2192 handoff) on a Next.js fixture repo without any agent in the loop. Locks the inter-atom file contract so a future PR can't break the chain by silently renaming `code/tokens.json` or adding a required field to `plan/steps.json` without updating every downstream reader. Ends on `handoffKind='deployable-app'` for the happy path; second case verifies the `reject` ladder rung still demotes through to `design-only`.
   - **Earlier in this changeset:**
   - **diff-review GenUI \u2192 `review/decision.json` bridge (Phase 8 entry slice).** New `apps/daemon/src/plugins/atoms/diff-review-genui-bridge.ts` owns the `__auto_diff_review_` prefix detection, strict JSON validation of the surface payload (rejects non-object payloads + unknown decisions; coerces non-string entries out of the file lists; forwards optional `reason`), and the end-to-end `applyDiffReviewDecisionToCwd({ cwd, value, reviewer })` glue. `POST /api/runs/:runId/genui/:surfaceId/respond` now bridges the choice surface response into `runDiffReview()` so the user's decision lands on `<cwd>/review/decision.json` immediately. Best-effort: failures are surfaced on the response payload as `diffReviewBridge: { ok: false, error }` without regressing the GenUI respond contract.
@@ -375,32 +375,32 @@ A memory-plus-UI release: **auto-memory store** carries agent context across run
 - **Plugin & marketplace system — earlier landing.** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
   - **`OD_SNAPSHOT_RETENTION_DAYS` referenced-row TTL (PB2).** `pruneExpiredSnapshots` now retires referenced snapshot rows whose project has been deleted AND whose `applied_at` is older than the configured window. Live-project rows stay pinned forever (reproducibility wins). The GC worker reads `readPluginEnvKnobs().snapshotRetentionDays` so the env-var contract spec PB2 reserved is now end-to-end.
   - **`OD_BUNDLED_ATOM_PROMPTS=1` activates `composeDaemonSystemPrompt`'s atom-block path.** When set AND the run carries an applied snapshot with a non-empty `od.pipeline.stages[*]`, the daemon walks each stage, calls `loadAtomBodies` + `renderActiveStageBlock`, and threads the result as `composeSystemPrompt({ activeStageBlocks })`. Default behaviour (flag unset) is byte-equal to today's prompt.
-  - **Phase 6 / 7 / 8 atom SKILL.md substrate.** Nine new `plugins/_official/atoms/<atom>/{SKILL.md, open-design.json}` pairs the bundled boot walker registers on startup: `figma-extract`, `token-map` (Phase 6); `code-import`, `design-extract`, `rewrite-plan`, `patch-edit`, `diff-review`, `build-test` (Phase 7); `handoff` (Phase 8). The fragments teach the agent what each (planned) atom expects so a plugin author who references one of these ids in `od.pipeline.stages[*].atoms[]` sees the canonical fragment without a doctor warning. The matching shell-out implementations stay scheduled per spec §16 Phase 6 / 7 / 8.
+  - **Phase 6 / 7 / 8 atom SKILL.md substrate.** Nine new `plugins/_official/atoms/<atom>/{SKILL.md, design-jury.json}` pairs the bundled boot walker registers on startup: `figma-extract`, `token-map` (Phase 6); `code-import`, `design-extract`, `rewrite-plan`, `patch-edit`, `diff-review`, `build-test` (Phase 7); `handoff` (Phase 8). The fragments teach the agent what each (planned) atom expects so a plugin author who references one of these ids in `od.pipeline.stages[*].atoms[]` sees the canonical fragment without a doctor warning. The matching shell-out implementations stay scheduled per spec §16 Phase 6 / 7 / 8.
 - **Plugin & marketplace system — earlier landing.** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
-  - **Per-cloud Helm value overrides.** `tools/pack/helm/open-design/values-{aws,gcp,azure,aliyun,tencent,huawei,self}.yaml` ship the volume + ingress diffs spec §15.5 enumerates. Operators install with `helm install od ./tools/pack/helm/open-design -f values-aws.yaml`.
+  - **Per-cloud Helm value overrides.** `tools/pack/helm/design-jury/values-{aws,gcp,azure,aliyun,tencent,huawei,self}.yaml` ship the volume + ingress diffs spec §15.5 enumerates. Operators install with `helm install od ./tools/pack/helm/design-jury -f values-aws.yaml`.
   - **`composeSystemPrompt({ activeStageBlocks })`.** Both daemon and contracts composers accept a pre-rendered list of `## Active stage` blocks (produced by `renderActiveStageBlock` + `loadAtomBodies`). Substrate slice for the §23.3.2 prompt-fragment migration; the actual call-site wiring stays gated on the next phase so default behaviour is byte-equal to today's prompt.
   - **Plugin-bundled component surface.** `GenUISurfaceRenderer` mounts a `sandbox="allow-scripts"` iframe at `/api/plugins/:id/asset/<path>` when a surface declares `od.genui.surfaces[].component`. Communication is one-way via `postMessage({ kind: 'genui:respond', surfaceId, value })`. The daemon-side asset endpoint serves files from `installed_plugins.fs_path` under the §9.2 preview CSP (`default-src 'none'; connect-src 'none'; frame-ancestors 'self'`) plus `X-Content-Type-Options: nosniff`.
   - **`ProjectStorage` + `DaemonDb` adapter substrate.** New `apps/daemon/src/storage/` module ships the Phase 5 §15.6 interface contracts. `LocalProjectStorage` (v1 default) is fully wired and tested; `S3ProjectStorage` is an interface-locked stub that throws on every op until the AWS SDK wiring lands. `resolveDaemonDbConfig({})` parses `OD_DAEMON_DB` / `OD_PG_*` env vars but the SQLite path remains the only reachable backend in v1.
 - **Plugin & marketplace system — earlier landing.** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
   - **Phase 5 bound-API-token guard.** `startServer()` refuses to bind a non-loopback `OD_BIND_HOST` without `OD_API_TOKEN`; bearer middleware on `/api/*` rejects non-loopback peers without `Authorization: Bearer <OD_API_TOKEN>`. `/api/health`, `/api/version`, `/api/daemon/status` stay open so monitoring probes (kubelet, Compose) work without secrets.
-  - **Helm chart templates.** `tools/pack/helm/open-design/templates/` ships Deployment, Service, Secret, ConfigMap, two PVCs, optional Ingress, plus _helpers.tpl + NOTES.txt. The chart installs end-to-end with `helm install od ./tools/pack/helm/open-design --set secrets.apiToken=$(openssl rand -hex 32)`.
+  - **Helm chart templates.** `tools/pack/helm/design-jury/templates/` ships Deployment, Service, Secret, ConfigMap, two PVCs, optional Ingress, plus _helpers.tpl + NOTES.txt. The chart installs end-to-end with `helm install od ./tools/pack/helm/design-jury --set secrets.apiToken=$(openssl rand -hex 32)`.
   - **`od.genui.surfaces[].component`.** `GenUISurfaceSpecSchema` accepts a `{ path, export?, sandbox? }` field; `genui:custom-component` joins `KNOWN_TOP_LEVEL_CAPABILITIES`; `doctorPlugin()` flags the missing-capability + path-traversal cases. The component path is the v1 substrate for spec §10.3.5 alignment-roadmap row 2; the web sandbox loader stays scheduled.
   - **`.github/workflows/docker-image.yml`.** Multi-arch (linux/amd64 + linux/arm64) build + push to ghcr.io: `:edge` on main, `:<version>` + `:latest` on tag, `:sha-<short>` on every push, smoke build on PRs. Authenticates via GITHUB_TOKEN with `packages:write`.
 - **Plugin & marketplace system — earlier landing.** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
-  - **`@open-design/agui-adapter` workspace package + `GET /api/runs/:runId/agui`.** Pure-TS bidirectional bridge between OD's native `PersistedAgentEvent` / `GenUIEvent` / `PluginPipelineStageEvent` union and the [AG-UI canonical event protocol](https://github.com/CopilotKit/CopilotKit). The new SSE endpoint mirrors `/api/runs/:id/events` but pipes every record through `encodeOdEventForAgui` so a CopilotKit / AG-UI client consumes an OD run unmodified. v1 plugins need no change to be consumable inside the AG-UI ecosystem (spec §10.3.5).
+  - **`@design-jury/agui-adapter` workspace package + `GET /api/runs/:runId/agui`.** Pure-TS bidirectional bridge between OD's native `PersistedAgentEvent` / `GenUIEvent` / `PluginPipelineStageEvent` union and the [AG-UI canonical event protocol](https://github.com/CopilotKit/CopilotKit). The new SSE endpoint mirrors `/api/runs/:id/events` but pipes every record through `encodeOdEventForAgui` so a CopilotKit / AG-UI client consumes an OD run unmodified. v1 plugins need no change to be consumable inside the AG-UI ecosystem (spec §10.3.5).
   - **`renderActiveStageBlock` + `loadAtomBodies`.** Substrate slice for spec §23.3.2 patch 2: the daemon-side helper reads `<bundled-fsPath>/SKILL.md` for any registered bundled atom and the contracts-side renderer assembles a `## Active stage: <id>` block. The `composeSystemPrompt()` rewiring that consumes them is the next PR; today the helpers are reachable, tested, and the bundled atom plugins from §3.I3 already ship the matching SKILL.md bodies.
-  - **Phase 5 Dockerfile + docker-compose + Helm chart entry slice.** `deploy/Dockerfile` now bundles `plugins/_official/` so `registerBundledPlugins()` finds the atom set inside the container. `tools/pack/docker-compose.yml` is the canonical hosted-mode manifest (two-volume layout, OD_API_TOKEN, /api/daemon/status healthcheck). `tools/pack/helm/open-design/` pins the Helm chart parameter surface for the per-cloud value overrides spec §15.5 enumerates; templates land in the Phase 5 follow-up PR.
+  - **Phase 5 Dockerfile + docker-compose + Helm chart entry slice.** `deploy/Dockerfile` now bundles `plugins/_official/` so `registerBundledPlugins()` finds the atom set inside the container. `tools/pack/docker-compose.yml` is the canonical hosted-mode manifest (two-volume layout, OD_API_TOKEN, /api/daemon/status healthcheck). `tools/pack/helm/design-jury/` pins the Helm chart parameter surface for the per-cloud value overrides spec §15.5 enumerates; templates land in the Phase 5 follow-up PR.
 - **Plugin & marketplace system — earlier landing.** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
   - **Pipeline runner wired into `POST /api/runs`.** Plugin runs whose snapshot carries `od.pipeline.stages[*]` now emit `pipeline_stage_started` synchronously before the agent process spawns. Subsequent stage events (`pipeline_stage_completed`, per-stage `run_devloop_iterations` audit rows, devloop convergence) fire asynchronously while the agent runs. Stage runner is a converging stub (`critique.score=4`, `preview.ok=true`) so single-pass pipelines walk through every stage in O(stages) time; loop stages still respect `OD_MAX_DEVLOOP_ITERATIONS`. Errors surface as `pipeline_stage_failed` events and never block the agent. **e2e-3** flips from entry-slice to the full §8 contract: `apps/daemon/tests/plugins-headless-run.test.ts` asserts the first SSE event on a pipeline-bearing plugin run is `pipeline_stage_started`.
   - **`od doctor`.** Repo-wide diagnostics: daemon status, installed-plugin doctor sweep, library inventory (skills / design-systems / atoms / craft). Exits 1 when any plugin doctor returns ok=false; exit 64 when the daemon is unreachable.
   - **`od config get/set/list/unset`.** Wraps `GET/PUT /api/app-config`. Top-level keys via positional or `--value`; nested values via `--value-json`.
-  - **Phase 4 / §23 entry slice — bundled atom plugins.** New `plugins/_official/atoms/{discovery-question-form,todo-write,direction-picker,critique-theater}/{SKILL.md,open-design.json}` pairs, plus a daemon boot walker (`apps/daemon/src/plugins/bundled.ts`) that registers each folder under `source_kind='bundled'` / `trust='bundled'` on every startup. Idempotent (upserts), ENOENT-silent (works outside the dev tree). Lays the substrate for the §23.3.2 patch that lifts prompt fragments out of `system.ts`.
+  - **Phase 4 / §23 entry slice — bundled atom plugins.** New `plugins/_official/atoms/{discovery-question-form,todo-write,direction-picker,critique-theater}/{SKILL.md,design-jury.json}` pairs, plus a daemon boot walker (`apps/daemon/src/plugins/bundled.ts`) that registers each folder under `source_kind='bundled'` / `trust='bundled'` on every startup. Idempotent (upserts), ENOENT-silent (works outside the dev tree). Lays the substrate for the §23.3.2 patch that lifts prompt fragments out of `system.ts`.
 - **Plugin & marketplace system — Phase 2A + 1 + 1.5 + 2B + 2C entry slice + 3 (full) + 4 (scaffold / export / publish / atoms doc / library CLI) + early 5 (earlier landing).** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
   - **Phase 4 publish.** `od plugin publish <id> --to anthropics-skills|awesome-agent-skills|clawhub|skills-sh [--repo <github>] [--open]` builds the catalog submission URL + PR body and (with `--open`) auto-launches the system browser. The author still goes through the upstream review flow; OD never POSTs anywhere.
   - **CLI parity remainder.** `od atoms list/show`, `od skills list/show`, `od design-systems list/show`, `od craft list/show`, `od status`, `od version`. New HTTP routes `GET /api/craft` + `GET /api/craft/:id` walk the `craft/` directory and return `{ id, label, bytes }` summaries.
   - **`od marketplace search "<query>" [--tag <tag>]`.** Substring match over every configured marketplace's `plugins[]`; powered entirely by the catalog metadata `od marketplace add` already cached, so a code agent can discover plugins without being inside the desktop UI.
 - **Plugin & marketplace system — Phase 2A + 1 + 1.5 + 2B (composer mount + marketplace deep UI) + 2C entry slice + 3 entry slice + 4 (scaffold / export / atoms doc) + early 5 (earlier landing).** Spec: [`docs/plugins-spec.md`](docs/plugins-spec.md). Living plan: [`docs/plans/plugins-implementation.md`](docs/plans/plugins-implementation.md).
-  - **Phase 4 author tooling.** `od plugin scaffold --id <id>` writes a starter SKILL.md + open-design.json + README.md (optionally a `.claude-plugin/plugin.json`). `od plugin export <projectId> --as od|claude-plugin|agent-skill --out <dir>` materialises a publish-ready folder from the AppliedPluginSnapshot behind a project (or a snapshot id), so any chat that ran a plugin can be re-published to anthropics/skills, awesome-agent-skills, clawhub, or skills.sh without leaving the terminal. The output's open-design.json carries a provenance block (snapshotId + manifestSourceDigest + appliedAt) that reverse-resolves to the originating run.
+  - **Phase 4 author tooling.** `od plugin scaffold --id <id>` writes a starter SKILL.md + design-jury.json + README.md (optionally a `.claude-plugin/plugin.json`). `od plugin export <projectId> --as od|claude-plugin|agent-skill --out <dir>` materialises a publish-ready folder from the AppliedPluginSnapshot behind a project (or a snapshot id), so any chat that ran a plugin can be re-published to anthropics/skills, awesome-agent-skills, clawhub, or skills.sh without leaving the terminal. The output's design-jury.json carries a provenance block (snapshotId + manifestSourceDigest + appliedAt) that reverse-resolves to the originating run.
   - **Phase 2B marketplace deep UI.** New routes `/marketplace` and `/marketplace/<pluginId>` rendered by `MarketplaceView` (catalog grid + trust filters + configured catalogs panel) and `PluginDetailView` (manifest, capability checklist, connector requirements, declared GenUI surfaces, "Use this plugin" → applyPlugin → Home). `/plugins/<id>` is a parsed alias so the public-site URL scheme reserved in spec §13 already works in-app.
   - **Phase 2B ChatComposer mount.** `ChatComposer` renders `<PluginsSection variant="strip" />` above the input whenever a `projectId` is known. Apply hydrates the draft only when empty so a mid-typing user is never overwritten.
   - **`docs/atoms.md`.** New canonical reference for the first-party atom catalog: implemented vs planned ids, task-kind mapping, how the daemon resolves an atom at run time, the closed `until`-signal vocabulary, and the §22.5 community-plugin → first-party-atom promotion path.
@@ -425,12 +425,12 @@ A memory-plus-UI release: **auto-memory store** carries agent context across run
 - **`ib-pitch-book` skill** — investment-banking strategic-alternatives pitch book (Anthropic financial-services Pitch Agent workflow); ships `example.html` and IB layout references.
 ## [0.6.0] - 2026-05-09
 
-A connectivity-and-iteration release: Open Design becomes a fully bidirectional MCP citizen (external MCP client with 39 templates), ships **Cloudflare Pages deployment** for generated artifacts (with custom domains), advances Critique Theater to **Phase 6** (interrupt + project-keyed run registry), and lands a redesigned top bar, draggable file tabs, batch delete, **vector PDF export**, **agent-callable research/search**, and **Orbit activity summaries**. Hyperframes learns the HTML-in-Canvas API. New BYOK provider (Ollama Cloud), new agent capabilities (Gemini 3 preview + GPT-5.1 codex picker + DeepSeek v4), new design systems (BMW M, Slack, Cisco, Webex, Mission Control, Urdu Modern), eight new skill bundles, and Turkish + Thai locales. 136 merged PRs since 0.5.0.
+A connectivity-and-iteration release: Design Jury becomes a fully bidirectional MCP citizen (external MCP client with 39 templates), ships **Cloudflare Pages deployment** for generated artifacts (with custom domains), advances Critique Theater to **Phase 6** (interrupt + project-keyed run registry), and lands a redesigned top bar, draggable file tabs, batch delete, **vector PDF export**, **agent-callable research/search**, and **Orbit activity summaries**. Hyperframes learns the HTML-in-Canvas API. New BYOK provider (Ollama Cloud), new agent capabilities (Gemini 3 preview + GPT-5.1 codex picker + DeepSeek v4), new design systems (BMW M, Slack, Cisco, Webex, Mission Control, Urdu Modern), eight new skill bundles, and Turkish + Thai locales. 136 merged PRs since 0.5.0.
 
 ### Added
 
 #### MCP, deployment & connectors
-- **External MCP client with daemon-managed OAuth and 39 design-focused templates.** Open Design can now consume MCP servers, not just expose itself as one. ([#898])
+- **External MCP client with daemon-managed OAuth and 39 design-focused templates.** Design Jury can now consume MCP servers, not just expose itself as one. ([#898])
 - **Cloudflare Pages artifact deployment.** One-shot publish of generated artifacts to Pages from the desktop app. ([#729])
 - **Cloudflare Pages custom domains.** Bind your own domain to deployed artifacts. ([#851])
 - Preserve OAuth state and advertised tool counts when reconnecting MCP/connector providers. ([#1036])
@@ -438,7 +438,7 @@ A connectivity-and-iteration release: Open Design becomes a fully bidirectional 
 
 #### Critique Theater
 - **Phase 6.1: critique interrupt endpoint + project-keyed run registry.** Long critiques can now be interrupted cleanly per project. ([#819])
-- Shared `CritiqueRoundSummary` / `CritiqueRunStatus` types via the `@open-design/contracts` package. ([#1016])
+- Shared `CritiqueRoundSummary` / `CritiqueRunStatus` types via the `@design-jury/contracts` package. ([#1016])
 
 #### Web / UI
 - **Top bar redesign** — Share/Present lifted to the top bar, zoom dropdown, and an explicit focus toggle. ([#1048])
@@ -572,7 +572,7 @@ A connectivity-and-iteration release: Open Design becomes a fully bidirectional 
 - Fix desktop preview interactions and connector auth feedback. ([#864])
 - Fix desktop preview and packaged app interactions. ([#879])
 - Fix desktop prompt template close hitbox. ([#1056])
-- Pack/win: close detection gaps that let `Open Design.exe` stay locked at install time. ([#823])
+- Pack/win: close detection gaps that let `Design Jury.exe` stay locked at install time. ([#823])
 - Tools-pack: mark `blake3-wasm` as external in the macOS prebundle. ([#844])
 - Packaged: swallow harmless `setTypeOfService EINVAL` from undici. ([#906])
 
@@ -606,7 +606,7 @@ A connectivity-and-iteration release: Open Design becomes a fully bidirectional 
 - Test: cover model option rendering. ([#948])
 - Test: de-flake chat-scroll-preservation across tab switches. ([#886])
 - Auto-generated metrics + contributors wall refreshes. ([#853], [#998], [#856], [#1004])
-- Release: Open Design 0.5.0 changelog landing. ([#820])
+- Release: Design Jury 0.5.0 changelog landing. ([#820])
 
 ## [0.5.0] - 2026-05-07
 
@@ -727,7 +727,7 @@ A minor release focused on iteration: live-data dashboards graduate to a first-c
 ### Fixed
 
 #### Packaging
-- Fixed packaged desktop startup by building `@open-design/contracts` to `dist/*.mjs` + `.d.ts`, pointing its exports at compiled JavaScript, and building contracts before all packaged lanes pack workspace tarballs. ([#577])
+- Fixed packaged desktop startup by building `@design-jury/contracts` to `dist/*.mjs` + `.d.ts`, pointing its exports at compiled JavaScript, and building contracts before all packaged lanes pack workspace tarballs. ([#577])
 - Added packaged runtime beta gating so release candidates install, start, inspect `/api/health`, collect logs, stop, and uninstall before promotion. ([#637])
 
 #### Daemon and agents
@@ -754,12 +754,12 @@ A minor release focused on iteration: live-data dashboards graduate to a first-c
 
 ## [0.4.0] - 2026-05-05
 
-A multi-protocol leap: Open Design now ships as an MCP server, ships Critique Theater (Design Jury) Phase 4, gains live-reload + Tweaks mode + live artifacts in the preview pane, and adds five new agent / runtime adapters. 71 merged PRs from 40+ contributors over two days. Linux AppImage packaging landed in tooling, but the stable Linux artifact is deferred from 0.4.0 while containerized release packaging is hardened.
+A multi-protocol leap: Design Jury now ships as an MCP server, ships Critique Theater (Design Jury) Phase 4, gains live-reload + Tweaks mode + live artifacts in the preview pane, and adds five new agent / runtime adapters. 71 merged PRs from 40+ contributors over two days. Linux AppImage packaging landed in tooling, but the stable Linux artifact is deferred from 0.4.0 while containerized release packaging is hardened.
 
 ### Added
 
 #### MCP & agent integration
-- **`od mcp` — expose Open Design as a stdio MCP server.** Coding agents in other repos (Claude Code, Codex, Cursor, VS Code, Antigravity, Zed, Windsurf) can read files from local Open Design projects directly, including the project the user has open in the Open Design app right now. ([#399])
+- **`od mcp` — expose Design Jury as a stdio MCP server.** Coding agents in other repos (Claude Code, Codex, Cursor, VS Code, Antigravity, Zed, Windsurf) can read files from local Design Jury projects directly, including the project the user has open in the Design Jury app right now. ([#399])
 - **Link code folder support for agent context** — point agents at any local code folder alongside the design project. ([#455])
 - Kilo CLI (ACP) agent adapter. ([#480])
 - DeepSeek TUI agent adapter. ([#439])
@@ -785,7 +785,7 @@ A multi-protocol leap: Open Design now ships as an MCP server, ships Critique Th
 
 #### Skills, design systems & prompt templates
 - **Atelier Zero** editorial collage landing-page design system. ([#366])
-- `open-design-landing` rename, **kami skill bundle**, and landing OG assets. ([#428])
+- `design-jury-landing` rename, **kami skill bundle**, and landing OG assets. ([#428])
 - Craft `animation-discipline` module + opt-ins on mobile-app, mobile-onboarding, gamified-app. ([#515])
 - Craft `state-coverage` module + opt-ins on dashboard, mobile-app, kanban-board. ([#502])
 
@@ -1016,7 +1016,7 @@ A feature-heavy follow-up to 0.1.0 — dark mode, xAI Grok Imagine media generat
 
 ## [0.1.0] - 2026-05-01
 
-First public release of Open Design — a local-first, open-source alternative to Anthropic's Claude Design. It detects your installed code-agent CLI, runs design skills against curated design systems, and streams artifacts into a sandboxed in-app preview.
+First public release of Design Jury — a local-first, open-source alternative to Anthropic's Claude Design. It detects your installed code-agent CLI, runs design skills against curated design systems, and streams artifacts into a sandboxed in-app preview.
 
 ### Added
 
@@ -1105,672 +1105,672 @@ First public release of Open Design — a local-first, open-source alternative t
 
 ### Internal
 
-- Initial project structure, project rename "Open Claude Design" → "Open Design", naming optimization. ([#1], [#2])
+- Initial project structure, project rename "Open Claude Design" → "Design Jury", naming optimization. ([#1], [#2])
 - Initial AGENTS.md and OpenCode agent instructions. ([#114])
 - Beta release workflow placeholder. ([#36])
 - Git commit co-author policy. ([#131])
 
-[Unreleased]: https://github.com/nexu-io/open-design/compare/open-design-v0.8.0...HEAD
-[0.8.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.8.0
-[0.7.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.7.0
-[0.6.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.6.0
-[0.5.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.5.0
-[0.4.1]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.4.1
-[0.4.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.4.0
-[0.3.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.3.0
-[0.2.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.2.0
-[0.1.0]: https://github.com/nexu-io/open-design/releases/tag/open-design-v0.1.0
+[Unreleased]: https://github.com/nexu-io/design-jury/compare/design-jury-v0.8.0...HEAD
+[0.8.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.8.0
+[0.7.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.7.0
+[0.6.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.6.0
+[0.5.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.5.0
+[0.4.1]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.4.1
+[0.4.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.4.0
+[0.3.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.3.0
+[0.2.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.2.0
+[0.1.0]: https://github.com/nexu-io/design-jury/releases/tag/design-jury-v0.1.0
 
-[#1]: https://github.com/nexu-io/open-design/pull/1
-[#2]: https://github.com/nexu-io/open-design/pull/2
-[#4]: https://github.com/nexu-io/open-design/pull/4
-[#5]: https://github.com/nexu-io/open-design/pull/5
-[#7]: https://github.com/nexu-io/open-design/pull/7
-[#9]: https://github.com/nexu-io/open-design/pull/9
-[#12]: https://github.com/nexu-io/open-design/pull/12
-[#13]: https://github.com/nexu-io/open-design/pull/13
-[#14]: https://github.com/nexu-io/open-design/pull/14
-[#15]: https://github.com/nexu-io/open-design/pull/15
-[#19]: https://github.com/nexu-io/open-design/pull/19
-[#24]: https://github.com/nexu-io/open-design/pull/24
-[#26]: https://github.com/nexu-io/open-design/pull/26
-[#28]: https://github.com/nexu-io/open-design/pull/28
-[#31]: https://github.com/nexu-io/open-design/pull/31
-[#34]: https://github.com/nexu-io/open-design/pull/34
-[#35]: https://github.com/nexu-io/open-design/pull/35
-[#36]: https://github.com/nexu-io/open-design/pull/36
-[#46]: https://github.com/nexu-io/open-design/pull/46
-[#54]: https://github.com/nexu-io/open-design/pull/54
-[#63]: https://github.com/nexu-io/open-design/pull/63
-[#64]: https://github.com/nexu-io/open-design/pull/64
-[#66]: https://github.com/nexu-io/open-design/pull/66
-[#68]: https://github.com/nexu-io/open-design/pull/68
-[#70]: https://github.com/nexu-io/open-design/pull/70
-[#71]: https://github.com/nexu-io/open-design/pull/71
-[#73]: https://github.com/nexu-io/open-design/pull/73
-[#74]: https://github.com/nexu-io/open-design/pull/74
-[#75]: https://github.com/nexu-io/open-design/pull/75
-[#76]: https://github.com/nexu-io/open-design/pull/76
-[#79]: https://github.com/nexu-io/open-design/pull/79
-[#80]: https://github.com/nexu-io/open-design/pull/80
-[#81]: https://github.com/nexu-io/open-design/pull/81
-[#83]: https://github.com/nexu-io/open-design/pull/83
-[#87]: https://github.com/nexu-io/open-design/pull/87
-[#88]: https://github.com/nexu-io/open-design/pull/88
-[#92]: https://github.com/nexu-io/open-design/pull/92
-[#97]: https://github.com/nexu-io/open-design/pull/97
-[#102]: https://github.com/nexu-io/open-design/pull/102
-[#104]: https://github.com/nexu-io/open-design/pull/104
-[#105]: https://github.com/nexu-io/open-design/pull/105
-[#107]: https://github.com/nexu-io/open-design/pull/107
-[#108]: https://github.com/nexu-io/open-design/pull/108
-[#111]: https://github.com/nexu-io/open-design/pull/111
-[#114]: https://github.com/nexu-io/open-design/pull/114
-[#117]: https://github.com/nexu-io/open-design/pull/117
-[#118]: https://github.com/nexu-io/open-design/pull/118
-[#123]: https://github.com/nexu-io/open-design/pull/123
-[#127]: https://github.com/nexu-io/open-design/pull/127
-[#128]: https://github.com/nexu-io/open-design/pull/128
-[#131]: https://github.com/nexu-io/open-design/pull/131
-[#133]: https://github.com/nexu-io/open-design/pull/133
-[#140]: https://github.com/nexu-io/open-design/pull/140
-[#146]: https://github.com/nexu-io/open-design/pull/146
-[#151]: https://github.com/nexu-io/open-design/pull/151
-[#153]: https://github.com/nexu-io/open-design/pull/153
-[#155]: https://github.com/nexu-io/open-design/pull/155
-[#156]: https://github.com/nexu-io/open-design/pull/156
-[#159]: https://github.com/nexu-io/open-design/pull/159
-[#160]: https://github.com/nexu-io/open-design/pull/160
-[#162]: https://github.com/nexu-io/open-design/pull/162
-[#166]: https://github.com/nexu-io/open-design/pull/166
-[#167]: https://github.com/nexu-io/open-design/pull/167
-[#168]: https://github.com/nexu-io/open-design/pull/168
-[#169]: https://github.com/nexu-io/open-design/pull/169
-[#170]: https://github.com/nexu-io/open-design/pull/170
-[#173]: https://github.com/nexu-io/open-design/pull/173
-[#174]: https://github.com/nexu-io/open-design/pull/174
-[#177]: https://github.com/nexu-io/open-design/pull/177
-[#178]: https://github.com/nexu-io/open-design/pull/178
-[#180]: https://github.com/nexu-io/open-design/pull/180
-[#182]: https://github.com/nexu-io/open-design/pull/182
-[#183]: https://github.com/nexu-io/open-design/pull/183
-[#185]: https://github.com/nexu-io/open-design/pull/185
-[#187]: https://github.com/nexu-io/open-design/pull/187
-[#190]: https://github.com/nexu-io/open-design/pull/190
-[#191]: https://github.com/nexu-io/open-design/pull/191
-[#196]: https://github.com/nexu-io/open-design/pull/196
-[#197]: https://github.com/nexu-io/open-design/pull/197
-[#199]: https://github.com/nexu-io/open-design/pull/199
-[#200]: https://github.com/nexu-io/open-design/pull/200
-[#201]: https://github.com/nexu-io/open-design/pull/201
-[#202]: https://github.com/nexu-io/open-design/pull/202
-[#204]: https://github.com/nexu-io/open-design/pull/204
-[#78]: https://github.com/nexu-io/open-design/pull/78
-[#112]: https://github.com/nexu-io/open-design/pull/112
-[#119]: https://github.com/nexu-io/open-design/pull/119
-[#120]: https://github.com/nexu-io/open-design/pull/120
-[#121]: https://github.com/nexu-io/open-design/pull/121
-[#143]: https://github.com/nexu-io/open-design/pull/143
-[#184]: https://github.com/nexu-io/open-design/pull/184
-[#186]: https://github.com/nexu-io/open-design/pull/186
-[#192]: https://github.com/nexu-io/open-design/pull/192
-[#193]: https://github.com/nexu-io/open-design/pull/193
-[#194]: https://github.com/nexu-io/open-design/pull/194
-[#207]: https://github.com/nexu-io/open-design/pull/207
-[#208]: https://github.com/nexu-io/open-design/pull/208
-[#209]: https://github.com/nexu-io/open-design/pull/209
-[#212]: https://github.com/nexu-io/open-design/pull/212
-[#219]: https://github.com/nexu-io/open-design/pull/219
-[#222]: https://github.com/nexu-io/open-design/pull/222
-[#223]: https://github.com/nexu-io/open-design/pull/223
-[#225]: https://github.com/nexu-io/open-design/pull/225
-[#226]: https://github.com/nexu-io/open-design/pull/226
-[#227]: https://github.com/nexu-io/open-design/pull/227
-[#228]: https://github.com/nexu-io/open-design/pull/228
-[#231]: https://github.com/nexu-io/open-design/pull/231
-[#232]: https://github.com/nexu-io/open-design/pull/232
-[#233]: https://github.com/nexu-io/open-design/pull/233
-[#240]: https://github.com/nexu-io/open-design/pull/240
-[#241]: https://github.com/nexu-io/open-design/pull/241
-[#247]: https://github.com/nexu-io/open-design/pull/247
-[#248]: https://github.com/nexu-io/open-design/pull/248
-[#249]: https://github.com/nexu-io/open-design/pull/249
-[#253]: https://github.com/nexu-io/open-design/pull/253
-[#258]: https://github.com/nexu-io/open-design/pull/258
-[#259]: https://github.com/nexu-io/open-design/pull/259
-[#260]: https://github.com/nexu-io/open-design/pull/260
-[#261]: https://github.com/nexu-io/open-design/pull/261
-[#262]: https://github.com/nexu-io/open-design/pull/262
-[#263]: https://github.com/nexu-io/open-design/pull/263
-[#268]: https://github.com/nexu-io/open-design/pull/268
-[#269]: https://github.com/nexu-io/open-design/pull/269
-[#271]: https://github.com/nexu-io/open-design/pull/271
-[#273]: https://github.com/nexu-io/open-design/pull/273
-[#276]: https://github.com/nexu-io/open-design/pull/276
-[#281]: https://github.com/nexu-io/open-design/pull/281
-[#284]: https://github.com/nexu-io/open-design/pull/284
-[#287]: https://github.com/nexu-io/open-design/pull/287
-[#288]: https://github.com/nexu-io/open-design/pull/288
-[#250]: https://github.com/nexu-io/open-design/pull/250
-[#251]: https://github.com/nexu-io/open-design/pull/251
-[#255]: https://github.com/nexu-io/open-design/pull/255
-[#301]: https://github.com/nexu-io/open-design/pull/301
-[#307]: https://github.com/nexu-io/open-design/pull/307
-[#308]: https://github.com/nexu-io/open-design/pull/308
-[#314]: https://github.com/nexu-io/open-design/pull/314
-[#316]: https://github.com/nexu-io/open-design/pull/316
-[#319]: https://github.com/nexu-io/open-design/pull/319
-[#320]: https://github.com/nexu-io/open-design/pull/320
-[#323]: https://github.com/nexu-io/open-design/pull/323
-[#328]: https://github.com/nexu-io/open-design/pull/328
-[#329]: https://github.com/nexu-io/open-design/pull/329
-[#330]: https://github.com/nexu-io/open-design/pull/330
-[#335]: https://github.com/nexu-io/open-design/pull/335
-[#339]: https://github.com/nexu-io/open-design/pull/339
-[#340]: https://github.com/nexu-io/open-design/pull/340
-[#341]: https://github.com/nexu-io/open-design/pull/341
-[#342]: https://github.com/nexu-io/open-design/pull/342
-[#343]: https://github.com/nexu-io/open-design/pull/343
-[#345]: https://github.com/nexu-io/open-design/pull/345
-[#346]: https://github.com/nexu-io/open-design/pull/346
-[#351]: https://github.com/nexu-io/open-design/pull/351
-[#354]: https://github.com/nexu-io/open-design/pull/354
-[#357]: https://github.com/nexu-io/open-design/pull/357
-[#358]: https://github.com/nexu-io/open-design/pull/358
-[#359]: https://github.com/nexu-io/open-design/pull/359
-[#360]: https://github.com/nexu-io/open-design/pull/360
-[#363]: https://github.com/nexu-io/open-design/pull/363
-[#364]: https://github.com/nexu-io/open-design/pull/364
-[#373]: https://github.com/nexu-io/open-design/pull/373
-[#376]: https://github.com/nexu-io/open-design/pull/376
-[#282]: https://github.com/nexu-io/open-design/pull/282
-[#289]: https://github.com/nexu-io/open-design/pull/289
-[#296]: https://github.com/nexu-io/open-design/pull/296
-[#300]: https://github.com/nexu-io/open-design/pull/300
-[#309]: https://github.com/nexu-io/open-design/pull/309
-[#270]: https://github.com/nexu-io/open-design/pull/270
-[#326]: https://github.com/nexu-io/open-design/pull/326
-[#352]: https://github.com/nexu-io/open-design/pull/352
-[#365]: https://github.com/nexu-io/open-design/pull/365
-[#366]: https://github.com/nexu-io/open-design/pull/366
-[#369]: https://github.com/nexu-io/open-design/pull/369
-[#381]: https://github.com/nexu-io/open-design/pull/381
-[#382]: https://github.com/nexu-io/open-design/pull/382
-[#384]: https://github.com/nexu-io/open-design/pull/384
-[#385]: https://github.com/nexu-io/open-design/pull/385
-[#387]: https://github.com/nexu-io/open-design/pull/387
-[#391]: https://github.com/nexu-io/open-design/pull/391
-[#392]: https://github.com/nexu-io/open-design/pull/392
-[#393]: https://github.com/nexu-io/open-design/pull/393
-[#395]: https://github.com/nexu-io/open-design/pull/395
-[#396]: https://github.com/nexu-io/open-design/pull/396
-[#397]: https://github.com/nexu-io/open-design/pull/397
-[#399]: https://github.com/nexu-io/open-design/pull/399
-[#400]: https://github.com/nexu-io/open-design/pull/400
-[#401]: https://github.com/nexu-io/open-design/pull/401
-[#403]: https://github.com/nexu-io/open-design/pull/403
-[#404]: https://github.com/nexu-io/open-design/pull/404
-[#405]: https://github.com/nexu-io/open-design/pull/405
-[#406]: https://github.com/nexu-io/open-design/pull/406
-[#407]: https://github.com/nexu-io/open-design/pull/407
-[#409]: https://github.com/nexu-io/open-design/pull/409
-[#410]: https://github.com/nexu-io/open-design/pull/410
-[#411]: https://github.com/nexu-io/open-design/pull/411
-[#412]: https://github.com/nexu-io/open-design/pull/412
-[#417]: https://github.com/nexu-io/open-design/pull/417
-[#418]: https://github.com/nexu-io/open-design/pull/418
-[#421]: https://github.com/nexu-io/open-design/pull/421
-[#424]: https://github.com/nexu-io/open-design/pull/424
-[#428]: https://github.com/nexu-io/open-design/pull/428
-[#429]: https://github.com/nexu-io/open-design/pull/429
-[#434]: https://github.com/nexu-io/open-design/pull/434
-[#435]: https://github.com/nexu-io/open-design/pull/435
-[#439]: https://github.com/nexu-io/open-design/pull/439
-[#440]: https://github.com/nexu-io/open-design/pull/440
-[#447]: https://github.com/nexu-io/open-design/pull/447
-[#448]: https://github.com/nexu-io/open-design/pull/448
-[#453]: https://github.com/nexu-io/open-design/pull/453
-[#455]: https://github.com/nexu-io/open-design/pull/455
-[#457]: https://github.com/nexu-io/open-design/pull/457
-[#458]: https://github.com/nexu-io/open-design/pull/458
-[#460]: https://github.com/nexu-io/open-design/pull/460
-[#465]: https://github.com/nexu-io/open-design/pull/465
-[#466]: https://github.com/nexu-io/open-design/pull/466
-[#468]: https://github.com/nexu-io/open-design/pull/468
-[#471]: https://github.com/nexu-io/open-design/pull/471
-[#476]: https://github.com/nexu-io/open-design/pull/476
-[#477]: https://github.com/nexu-io/open-design/pull/477
-[#480]: https://github.com/nexu-io/open-design/pull/480
-[#481]: https://github.com/nexu-io/open-design/pull/481
-[#488]: https://github.com/nexu-io/open-design/pull/488
-[#489]: https://github.com/nexu-io/open-design/pull/489
-[#490]: https://github.com/nexu-io/open-design/pull/490
-[#492]: https://github.com/nexu-io/open-design/pull/492
-[#494]: https://github.com/nexu-io/open-design/pull/494
-[#496]: https://github.com/nexu-io/open-design/pull/496
-[#502]: https://github.com/nexu-io/open-design/pull/502
-[#504]: https://github.com/nexu-io/open-design/pull/504
-[#513]: https://github.com/nexu-io/open-design/pull/513
-[#514]: https://github.com/nexu-io/open-design/pull/514
-[#515]: https://github.com/nexu-io/open-design/pull/515
-[#522]: https://github.com/nexu-io/open-design/pull/522
-[#523]: https://github.com/nexu-io/open-design/pull/523
-[#537]: https://github.com/nexu-io/open-design/pull/537
-[#535]: https://github.com/nexu-io/open-design/pull/535
-[#548]: https://github.com/nexu-io/open-design/pull/548
-[#549]: https://github.com/nexu-io/open-design/pull/549
-[#556]: https://github.com/nexu-io/open-design/pull/556
-[#563]: https://github.com/nexu-io/open-design/pull/563
-[#570]: https://github.com/nexu-io/open-design/pull/570
-[#577]: https://github.com/nexu-io/open-design/pull/577
-[#578]: https://github.com/nexu-io/open-design/pull/578
-[#586]: https://github.com/nexu-io/open-design/pull/586
-[#587]: https://github.com/nexu-io/open-design/pull/587
-[#592]: https://github.com/nexu-io/open-design/pull/592
-[#595]: https://github.com/nexu-io/open-design/pull/595
-[#604]: https://github.com/nexu-io/open-design/pull/604
-[#605]: https://github.com/nexu-io/open-design/pull/605
-[#608]: https://github.com/nexu-io/open-design/pull/608
-[#612]: https://github.com/nexu-io/open-design/pull/612
-[#618]: https://github.com/nexu-io/open-design/pull/618
-[#619]: https://github.com/nexu-io/open-design/pull/619
-[#620]: https://github.com/nexu-io/open-design/pull/620
-[#623]: https://github.com/nexu-io/open-design/pull/623
-[#627]: https://github.com/nexu-io/open-design/pull/627
-[#637]: https://github.com/nexu-io/open-design/pull/637
-[#275]: https://github.com/nexu-io/open-design/pull/275
-[#277]: https://github.com/nexu-io/open-design/pull/277
-[#283]: https://github.com/nexu-io/open-design/pull/283
-[#293]: https://github.com/nexu-io/open-design/pull/293
-[#306]: https://github.com/nexu-io/open-design/pull/306
-[#362]: https://github.com/nexu-io/open-design/pull/362
-[#390]: https://github.com/nexu-io/open-design/pull/390
-[#414]: https://github.com/nexu-io/open-design/pull/414
-[#493]: https://github.com/nexu-io/open-design/pull/493
-[#507]: https://github.com/nexu-io/open-design/pull/507
-[#524]: https://github.com/nexu-io/open-design/pull/524
-[#530]: https://github.com/nexu-io/open-design/pull/530
-[#531]: https://github.com/nexu-io/open-design/pull/531
-[#555]: https://github.com/nexu-io/open-design/pull/555
-[#591]: https://github.com/nexu-io/open-design/pull/591
-[#611]: https://github.com/nexu-io/open-design/pull/611
-[#614]: https://github.com/nexu-io/open-design/pull/614
-[#621]: https://github.com/nexu-io/open-design/pull/621
-[#622]: https://github.com/nexu-io/open-design/pull/622
-[#625]: https://github.com/nexu-io/open-design/pull/625
-[#626]: https://github.com/nexu-io/open-design/pull/626
-[#631]: https://github.com/nexu-io/open-design/pull/631
-[#655]: https://github.com/nexu-io/open-design/pull/655
-[#664]: https://github.com/nexu-io/open-design/pull/664
-[#667]: https://github.com/nexu-io/open-design/pull/667
-[#670]: https://github.com/nexu-io/open-design/pull/670
-[#671]: https://github.com/nexu-io/open-design/pull/671
-[#674]: https://github.com/nexu-io/open-design/pull/674
-[#675]: https://github.com/nexu-io/open-design/pull/675
-[#678]: https://github.com/nexu-io/open-design/pull/678
-[#680]: https://github.com/nexu-io/open-design/pull/680
-[#683]: https://github.com/nexu-io/open-design/pull/683
-[#685]: https://github.com/nexu-io/open-design/pull/685
-[#686]: https://github.com/nexu-io/open-design/pull/686
-[#696]: https://github.com/nexu-io/open-design/pull/696
-[#697]: https://github.com/nexu-io/open-design/pull/697
-[#698]: https://github.com/nexu-io/open-design/pull/698
-[#700]: https://github.com/nexu-io/open-design/pull/700
-[#708]: https://github.com/nexu-io/open-design/pull/708
-[#712]: https://github.com/nexu-io/open-design/pull/712
-[#718]: https://github.com/nexu-io/open-design/pull/718
-[#720]: https://github.com/nexu-io/open-design/pull/720
-[#722]: https://github.com/nexu-io/open-design/pull/722
-[#727]: https://github.com/nexu-io/open-design/pull/727
-[#735]: https://github.com/nexu-io/open-design/pull/735
-[#738]: https://github.com/nexu-io/open-design/pull/738
-[#740]: https://github.com/nexu-io/open-design/pull/740
-[#747]: https://github.com/nexu-io/open-design/pull/747
-[#755]: https://github.com/nexu-io/open-design/pull/755
-[#768]: https://github.com/nexu-io/open-design/pull/768
-[#778]: https://github.com/nexu-io/open-design/pull/778
-[#781]: https://github.com/nexu-io/open-design/pull/781
-[#788]: https://github.com/nexu-io/open-design/pull/788
-[#795]: https://github.com/nexu-io/open-design/pull/795
-[#799]: https://github.com/nexu-io/open-design/pull/799
-[#801]: https://github.com/nexu-io/open-design/pull/801
-[#805]: https://github.com/nexu-io/open-design/pull/805
-[#65]: https://github.com/nexu-io/open-design/pull/65
-[#422]: https://github.com/nexu-io/open-design/pull/422
-[#532]: https://github.com/nexu-io/open-design/pull/532
-[#579]: https://github.com/nexu-io/open-design/pull/579
-[#581]: https://github.com/nexu-io/open-design/pull/581
-[#615]: https://github.com/nexu-io/open-design/pull/615
-[#624]: https://github.com/nexu-io/open-design/pull/624
-[#666]: https://github.com/nexu-io/open-design/pull/666
-[#681]: https://github.com/nexu-io/open-design/pull/681
-[#704]: https://github.com/nexu-io/open-design/pull/704
-[#714]: https://github.com/nexu-io/open-design/pull/714
-[#716]: https://github.com/nexu-io/open-design/pull/716
-[#729]: https://github.com/nexu-io/open-design/pull/729
-[#751]: https://github.com/nexu-io/open-design/pull/751
-[#752]: https://github.com/nexu-io/open-design/pull/752
-[#756]: https://github.com/nexu-io/open-design/pull/756
-[#757]: https://github.com/nexu-io/open-design/pull/757
-[#763]: https://github.com/nexu-io/open-design/pull/763
-[#767]: https://github.com/nexu-io/open-design/pull/767
-[#771]: https://github.com/nexu-io/open-design/pull/771
-[#773]: https://github.com/nexu-io/open-design/pull/773
-[#794]: https://github.com/nexu-io/open-design/pull/794
-[#796]: https://github.com/nexu-io/open-design/pull/796
-[#800]: https://github.com/nexu-io/open-design/pull/800
-[#804]: https://github.com/nexu-io/open-design/pull/804
-[#806]: https://github.com/nexu-io/open-design/pull/806
-[#809]: https://github.com/nexu-io/open-design/pull/809
-[#810]: https://github.com/nexu-io/open-design/pull/810
-[#811]: https://github.com/nexu-io/open-design/pull/811
-[#812]: https://github.com/nexu-io/open-design/pull/812
-[#813]: https://github.com/nexu-io/open-design/pull/813
-[#819]: https://github.com/nexu-io/open-design/pull/819
-[#820]: https://github.com/nexu-io/open-design/pull/820
-[#822]: https://github.com/nexu-io/open-design/pull/822
-[#823]: https://github.com/nexu-io/open-design/pull/823
-[#824]: https://github.com/nexu-io/open-design/pull/824
-[#827]: https://github.com/nexu-io/open-design/pull/827
-[#829]: https://github.com/nexu-io/open-design/pull/829
-[#830]: https://github.com/nexu-io/open-design/pull/830
-[#832]: https://github.com/nexu-io/open-design/pull/832
-[#833]: https://github.com/nexu-io/open-design/pull/833
-[#834]: https://github.com/nexu-io/open-design/pull/834
-[#838]: https://github.com/nexu-io/open-design/pull/838
-[#839]: https://github.com/nexu-io/open-design/pull/839
-[#840]: https://github.com/nexu-io/open-design/pull/840
-[#841]: https://github.com/nexu-io/open-design/pull/841
-[#842]: https://github.com/nexu-io/open-design/pull/842
-[#843]: https://github.com/nexu-io/open-design/pull/843
-[#844]: https://github.com/nexu-io/open-design/pull/844
-[#845]: https://github.com/nexu-io/open-design/pull/845
-[#846]: https://github.com/nexu-io/open-design/pull/846
-[#847]: https://github.com/nexu-io/open-design/pull/847
-[#851]: https://github.com/nexu-io/open-design/pull/851
-[#852]: https://github.com/nexu-io/open-design/pull/852
-[#853]: https://github.com/nexu-io/open-design/pull/853
-[#856]: https://github.com/nexu-io/open-design/pull/856
-[#857]: https://github.com/nexu-io/open-design/pull/857
-[#858]: https://github.com/nexu-io/open-design/pull/858
-[#859]: https://github.com/nexu-io/open-design/pull/859
-[#863]: https://github.com/nexu-io/open-design/pull/863
-[#864]: https://github.com/nexu-io/open-design/pull/864
-[#867]: https://github.com/nexu-io/open-design/pull/867
-[#875]: https://github.com/nexu-io/open-design/pull/875
-[#877]: https://github.com/nexu-io/open-design/pull/877
-[#879]: https://github.com/nexu-io/open-design/pull/879
-[#884]: https://github.com/nexu-io/open-design/pull/884
-[#886]: https://github.com/nexu-io/open-design/pull/886
-[#888]: https://github.com/nexu-io/open-design/pull/888
-[#896]: https://github.com/nexu-io/open-design/pull/896
-[#898]: https://github.com/nexu-io/open-design/pull/898
-[#899]: https://github.com/nexu-io/open-design/pull/899
-[#900]: https://github.com/nexu-io/open-design/pull/900
-[#906]: https://github.com/nexu-io/open-design/pull/906
-[#907]: https://github.com/nexu-io/open-design/pull/907
-[#908]: https://github.com/nexu-io/open-design/pull/908
-[#915]: https://github.com/nexu-io/open-design/pull/915
-[#923]: https://github.com/nexu-io/open-design/pull/923
-[#924]: https://github.com/nexu-io/open-design/pull/924
-[#927]: https://github.com/nexu-io/open-design/pull/927
-[#933]: https://github.com/nexu-io/open-design/pull/933
-[#935]: https://github.com/nexu-io/open-design/pull/935
-[#936]: https://github.com/nexu-io/open-design/pull/936
-[#937]: https://github.com/nexu-io/open-design/pull/937
-[#938]: https://github.com/nexu-io/open-design/pull/938
-[#940]: https://github.com/nexu-io/open-design/pull/940
-[#941]: https://github.com/nexu-io/open-design/pull/941
-[#943]: https://github.com/nexu-io/open-design/pull/943
-[#944]: https://github.com/nexu-io/open-design/pull/944
-[#946]: https://github.com/nexu-io/open-design/pull/946
-[#947]: https://github.com/nexu-io/open-design/pull/947
-[#948]: https://github.com/nexu-io/open-design/pull/948
-[#949]: https://github.com/nexu-io/open-design/pull/949
-[#950]: https://github.com/nexu-io/open-design/pull/950
-[#952]: https://github.com/nexu-io/open-design/pull/952
-[#958]: https://github.com/nexu-io/open-design/pull/958
-[#961]: https://github.com/nexu-io/open-design/pull/961
-[#962]: https://github.com/nexu-io/open-design/pull/962
-[#964]: https://github.com/nexu-io/open-design/pull/964
-[#967]: https://github.com/nexu-io/open-design/pull/967
-[#969]: https://github.com/nexu-io/open-design/pull/969
-[#971]: https://github.com/nexu-io/open-design/pull/971
-[#972]: https://github.com/nexu-io/open-design/pull/972
-[#975]: https://github.com/nexu-io/open-design/pull/975
-[#976]: https://github.com/nexu-io/open-design/pull/976
-[#979]: https://github.com/nexu-io/open-design/pull/979
-[#986]: https://github.com/nexu-io/open-design/pull/986
-[#987]: https://github.com/nexu-io/open-design/pull/987
-[#988]: https://github.com/nexu-io/open-design/pull/988
-[#989]: https://github.com/nexu-io/open-design/pull/989
-[#990]: https://github.com/nexu-io/open-design/pull/990
-[#991]: https://github.com/nexu-io/open-design/pull/991
-[#992]: https://github.com/nexu-io/open-design/pull/992
-[#993]: https://github.com/nexu-io/open-design/pull/993
-[#994]: https://github.com/nexu-io/open-design/pull/994
-[#995]: https://github.com/nexu-io/open-design/pull/995
-[#998]: https://github.com/nexu-io/open-design/pull/998
-[#1004]: https://github.com/nexu-io/open-design/pull/1004
-[#1005]: https://github.com/nexu-io/open-design/pull/1005
-[#1016]: https://github.com/nexu-io/open-design/pull/1016
-[#1018]: https://github.com/nexu-io/open-design/pull/1018
-[#1031]: https://github.com/nexu-io/open-design/pull/1031
-[#1032]: https://github.com/nexu-io/open-design/pull/1032
-[#1035]: https://github.com/nexu-io/open-design/pull/1035
-[#1036]: https://github.com/nexu-io/open-design/pull/1036
-[#1039]: https://github.com/nexu-io/open-design/pull/1039
-[#1045]: https://github.com/nexu-io/open-design/pull/1045
-[#1046]: https://github.com/nexu-io/open-design/pull/1046
-[#1048]: https://github.com/nexu-io/open-design/pull/1048
-[#1053]: https://github.com/nexu-io/open-design/pull/1053
-[#1054]: https://github.com/nexu-io/open-design/pull/1054
-[#1056]: https://github.com/nexu-io/open-design/pull/1056
-[#1065]: https://github.com/nexu-io/open-design/pull/1065
-[#1067]: https://github.com/nexu-io/open-design/pull/1067
-[#1068]: https://github.com/nexu-io/open-design/pull/1068
-[#1071]: https://github.com/nexu-io/open-design/pull/1071
-[#1079]: https://github.com/nexu-io/open-design/pull/1079
-[#402]: https://github.com/nexu-io/open-design/pull/402
-[#687]: https://github.com/nexu-io/open-design/pull/687
-[#701]: https://github.com/nexu-io/open-design/pull/701
-[#753]: https://github.com/nexu-io/open-design/pull/753
-[#759]: https://github.com/nexu-io/open-design/pull/759
-[#760]: https://github.com/nexu-io/open-design/pull/760
-[#797]: https://github.com/nexu-io/open-design/pull/797
-[#818]: https://github.com/nexu-io/open-design/pull/818
-[#866]: https://github.com/nexu-io/open-design/pull/866
-[#873]: https://github.com/nexu-io/open-design/pull/873
-[#894]: https://github.com/nexu-io/open-design/pull/894
-[#932]: https://github.com/nexu-io/open-design/pull/932
-[#953]: https://github.com/nexu-io/open-design/pull/953
-[#954]: https://github.com/nexu-io/open-design/pull/954
-[#955]: https://github.com/nexu-io/open-design/pull/955
-[#957]: https://github.com/nexu-io/open-design/pull/957
-[#960]: https://github.com/nexu-io/open-design/pull/960
-[#965]: https://github.com/nexu-io/open-design/pull/965
-[#973]: https://github.com/nexu-io/open-design/pull/973
-[#974]: https://github.com/nexu-io/open-design/pull/974
-[#985]: https://github.com/nexu-io/open-design/pull/985
-[#997]: https://github.com/nexu-io/open-design/pull/997
-[#999]: https://github.com/nexu-io/open-design/pull/999
-[#1001]: https://github.com/nexu-io/open-design/pull/1001
-[#1003]: https://github.com/nexu-io/open-design/pull/1003
-[#1033]: https://github.com/nexu-io/open-design/pull/1033
-[#1034]: https://github.com/nexu-io/open-design/pull/1034
-[#1038]: https://github.com/nexu-io/open-design/pull/1038
-[#1043]: https://github.com/nexu-io/open-design/pull/1043
-[#1044]: https://github.com/nexu-io/open-design/pull/1044
-[#1060]: https://github.com/nexu-io/open-design/pull/1060
-[#1061]: https://github.com/nexu-io/open-design/pull/1061
-[#1063]: https://github.com/nexu-io/open-design/pull/1063
-[#1069]: https://github.com/nexu-io/open-design/pull/1069
-[#1081]: https://github.com/nexu-io/open-design/pull/1081
-[#1082]: https://github.com/nexu-io/open-design/pull/1082
-[#1083]: https://github.com/nexu-io/open-design/pull/1083
-[#1085]: https://github.com/nexu-io/open-design/pull/1085
-[#1086]: https://github.com/nexu-io/open-design/pull/1086
-[#1091]: https://github.com/nexu-io/open-design/pull/1091
-[#1092]: https://github.com/nexu-io/open-design/pull/1092
-[#1093]: https://github.com/nexu-io/open-design/pull/1093
-[#1095]: https://github.com/nexu-io/open-design/pull/1095
-[#1097]: https://github.com/nexu-io/open-design/pull/1097
-[#1103]: https://github.com/nexu-io/open-design/pull/1103
-[#1104]: https://github.com/nexu-io/open-design/pull/1104
-[#1105]: https://github.com/nexu-io/open-design/pull/1105
-[#1115]: https://github.com/nexu-io/open-design/pull/1115
-[#1117]: https://github.com/nexu-io/open-design/pull/1117
-[#1126]: https://github.com/nexu-io/open-design/pull/1126
-[#1128]: https://github.com/nexu-io/open-design/pull/1128
-[#1132]: https://github.com/nexu-io/open-design/pull/1132
-[#1136]: https://github.com/nexu-io/open-design/pull/1136
-[#1137]: https://github.com/nexu-io/open-design/pull/1137
-[#1139]: https://github.com/nexu-io/open-design/pull/1139
-[#1140]: https://github.com/nexu-io/open-design/pull/1140
-[#1144]: https://github.com/nexu-io/open-design/pull/1144
-[#1145]: https://github.com/nexu-io/open-design/pull/1145
-[#1148]: https://github.com/nexu-io/open-design/pull/1148
-[#1150]: https://github.com/nexu-io/open-design/pull/1150
-[#1156]: https://github.com/nexu-io/open-design/pull/1156
-[#1159]: https://github.com/nexu-io/open-design/pull/1159
-[#1171]: https://github.com/nexu-io/open-design/pull/1171
-[#1173]: https://github.com/nexu-io/open-design/pull/1173
-[#1183]: https://github.com/nexu-io/open-design/pull/1183
-[#1188]: https://github.com/nexu-io/open-design/pull/1188
-[#1203]: https://github.com/nexu-io/open-design/pull/1203
-[#1206]: https://github.com/nexu-io/open-design/pull/1206
-[#1205]: https://github.com/nexu-io/open-design/pull/1205
-[#1207]: https://github.com/nexu-io/open-design/pull/1207
-[#1219]: https://github.com/nexu-io/open-design/pull/1219
-[#1230]: https://github.com/nexu-io/open-design/pull/1230
-[#1231]: https://github.com/nexu-io/open-design/pull/1231
-[#1232]: https://github.com/nexu-io/open-design/pull/1232
-[#1238]: https://github.com/nexu-io/open-design/pull/1238
-[#1240]: https://github.com/nexu-io/open-design/pull/1240
-[#1244]: https://github.com/nexu-io/open-design/pull/1244
-[#1249]: https://github.com/nexu-io/open-design/pull/1249
-[#1256]: https://github.com/nexu-io/open-design/pull/1256
-[#1259]: https://github.com/nexu-io/open-design/pull/1259
-[#1263]: https://github.com/nexu-io/open-design/pull/1263
-[#1266]: https://github.com/nexu-io/open-design/pull/1266
-[#1267]: https://github.com/nexu-io/open-design/pull/1267
-[#1268]: https://github.com/nexu-io/open-design/pull/1268
-[#1270]: https://github.com/nexu-io/open-design/pull/1270
-[#1271]: https://github.com/nexu-io/open-design/pull/1271
-[#1284]: https://github.com/nexu-io/open-design/pull/1284
-[#1285]: https://github.com/nexu-io/open-design/pull/1285
-[#1287]: https://github.com/nexu-io/open-design/pull/1287
-[#1290]: https://github.com/nexu-io/open-design/pull/1290
-[#1291]: https://github.com/nexu-io/open-design/pull/1291
-[#1300]: https://github.com/nexu-io/open-design/pull/1300
-[#1307]: https://github.com/nexu-io/open-design/pull/1307
-[#1308]: https://github.com/nexu-io/open-design/pull/1308
-[#1328]: https://github.com/nexu-io/open-design/pull/1328
-[#1330]: https://github.com/nexu-io/open-design/pull/1330
-[#1161]: https://github.com/nexu-io/open-design/pull/1161
-[#1167]: https://github.com/nexu-io/open-design/pull/1167
-[#1208]: https://github.com/nexu-io/open-design/pull/1208
-[#1224]: https://github.com/nexu-io/open-design/pull/1224
-[#1276]: https://github.com/nexu-io/open-design/pull/1276
-[#1292]: https://github.com/nexu-io/open-design/pull/1292
-[#1341]: https://github.com/nexu-io/open-design/pull/1341
-[#1360]: https://github.com/nexu-io/open-design/pull/1360
-[#1365]: https://github.com/nexu-io/open-design/pull/1365
-[#1368]: https://github.com/nexu-io/open-design/pull/1368
-[#1402]: https://github.com/nexu-io/open-design/pull/1402
-[#1439]: https://github.com/nexu-io/open-design/pull/1439
-[#1442]: https://github.com/nexu-io/open-design/pull/1442
-[#327]: https://github.com/nexu-io/open-design/issues/327
-[#378]: https://github.com/nexu-io/open-design/pull/378
-[#892]: https://github.com/nexu-io/open-design/pull/892
-[#1123]: https://github.com/nexu-io/open-design/pull/1123
-[#1277]: https://github.com/nexu-io/open-design/pull/1277
-[#1315]: https://github.com/nexu-io/open-design/pull/1315
-[#1316]: https://github.com/nexu-io/open-design/pull/1316
-[#1317]: https://github.com/nexu-io/open-design/pull/1317
-[#1318]: https://github.com/nexu-io/open-design/pull/1318
-[#1319]: https://github.com/nexu-io/open-design/pull/1319
-[#1320]: https://github.com/nexu-io/open-design/pull/1320
-[#1323]: https://github.com/nexu-io/open-design/pull/1323
-[#1338]: https://github.com/nexu-io/open-design/pull/1338
-[#1384]: https://github.com/nexu-io/open-design/pull/1384
-[#1390]: https://github.com/nexu-io/open-design/pull/1390
-[#1392]: https://github.com/nexu-io/open-design/pull/1392
-[#1448]: https://github.com/nexu-io/open-design/pull/1448
-[#1476]: https://github.com/nexu-io/open-design/pull/1476
-[#1482]: https://github.com/nexu-io/open-design/pull/1482
-[#1483]: https://github.com/nexu-io/open-design/pull/1483
-[#1484]: https://github.com/nexu-io/open-design/pull/1484
-[#1485]: https://github.com/nexu-io/open-design/pull/1485
-[#1491]: https://github.com/nexu-io/open-design/pull/1491
-[#1499]: https://github.com/nexu-io/open-design/pull/1499
-[#1505]: https://github.com/nexu-io/open-design/issues/1505
-[#1514]: https://github.com/nexu-io/open-design/pull/1514
-[#1516]: https://github.com/nexu-io/open-design/pull/1516
-[#1519]: https://github.com/nexu-io/open-design/pull/1519
-[#1538]: https://github.com/nexu-io/open-design/pull/1538
-[#1540]: https://github.com/nexu-io/open-design/pull/1540
-[#1544]: https://github.com/nexu-io/open-design/pull/1544
-[#1633]: https://github.com/nexu-io/open-design/pull/1633
-[#1652]: https://github.com/nexu-io/open-design/pull/1652
-[#1708]: https://github.com/nexu-io/open-design/pull/1708
-[#1747]: https://github.com/nexu-io/open-design/pull/1747
-[#1774]: https://github.com/nexu-io/open-design/issues/1774
-[#1781]: https://github.com/nexu-io/open-design/pull/1781
-[#1794]: https://github.com/nexu-io/open-design/pull/1794
-[#1806]: https://github.com/nexu-io/open-design/pull/1806
-[#1841]: https://github.com/nexu-io/open-design/pull/1841
-[#1846]: https://github.com/nexu-io/open-design/pull/1846
-[#1861]: https://github.com/nexu-io/open-design/pull/1861
-[#1899]: https://github.com/nexu-io/open-design/pull/1899
-[#1903]: https://github.com/nexu-io/open-design/pull/1903
-[#1989]: https://github.com/nexu-io/open-design/pull/1989
-[#2023]: https://github.com/nexu-io/open-design/pull/2023
-[#2028]: https://github.com/nexu-io/open-design/pull/2028
-[#2029]: https://github.com/nexu-io/open-design/pull/2029
-[#2033]: https://github.com/nexu-io/open-design/pull/2033
-[#2037]: https://github.com/nexu-io/open-design/pull/2037
-[#2040]: https://github.com/nexu-io/open-design/pull/2040
-[#2043]: https://github.com/nexu-io/open-design/pull/2043
-[#2049]: https://github.com/nexu-io/open-design/pull/2049
-[#2051]: https://github.com/nexu-io/open-design/pull/2051
-[#2064]: https://github.com/nexu-io/open-design/pull/2064
-[#2065]: https://github.com/nexu-io/open-design/pull/2065
-[#2071]: https://github.com/nexu-io/open-design/pull/2071
-[#2087]: https://github.com/nexu-io/open-design/pull/2087
-[#2226]: https://github.com/nexu-io/open-design/pull/2226
-[#2227]: https://github.com/nexu-io/open-design/pull/2227
-[#2228]: https://github.com/nexu-io/open-design/pull/2228
-[#2243]: https://github.com/nexu-io/open-design/pull/2243
-[#2245]: https://github.com/nexu-io/open-design/pull/2245
-[#2264]: https://github.com/nexu-io/open-design/pull/2264
-[#2270]: https://github.com/nexu-io/open-design/pull/2270
-[#2285]: https://github.com/nexu-io/open-design/pull/2285
-[#2309]: https://github.com/nexu-io/open-design/pull/2309
-[#2332]: https://github.com/nexu-io/open-design/pull/2332
-[#2360]: https://github.com/nexu-io/open-design/pull/2360
-[#2362]: https://github.com/nexu-io/open-design/pull/2362
-[#2363]: https://github.com/nexu-io/open-design/pull/2363
-[#2364]: https://github.com/nexu-io/open-design/pull/2364
-[#2369]: https://github.com/nexu-io/open-design/pull/2369
-[#2374]: https://github.com/nexu-io/open-design/pull/2374
-[#2376]: https://github.com/nexu-io/open-design/pull/2376
-[#2380]: https://github.com/nexu-io/open-design/pull/2380
-[#2388]: https://github.com/nexu-io/open-design/pull/2388
-[#2390]: https://github.com/nexu-io/open-design/pull/2390
-[#2397]: https://github.com/nexu-io/open-design/pull/2397
-[#2403]: https://github.com/nexu-io/open-design/pull/2403
-[#2409]: https://github.com/nexu-io/open-design/pull/2409
-[#2413]: https://github.com/nexu-io/open-design/pull/2413
-[#2429]: https://github.com/nexu-io/open-design/pull/2429
-[#2436]: https://github.com/nexu-io/open-design/pull/2436
-[#2437]: https://github.com/nexu-io/open-design/pull/2437
-[#2446]: https://github.com/nexu-io/open-design/pull/2446
-[#2452]: https://github.com/nexu-io/open-design/pull/2452
-[#2565]: https://github.com/nexu-io/open-design/pull/2565
-[#2575]: https://github.com/nexu-io/open-design/pull/2575
-[#2592]: https://github.com/nexu-io/open-design/pull/2592
-[#2595]: https://github.com/nexu-io/open-design/pull/2595
-[#2677]: https://github.com/nexu-io/open-design/pull/2677
-[#2687]: https://github.com/nexu-io/open-design/pull/2687
-[#2700]: https://github.com/nexu-io/open-design/pull/2700
+[#1]: https://github.com/nexu-io/design-jury/pull/1
+[#2]: https://github.com/nexu-io/design-jury/pull/2
+[#4]: https://github.com/nexu-io/design-jury/pull/4
+[#5]: https://github.com/nexu-io/design-jury/pull/5
+[#7]: https://github.com/nexu-io/design-jury/pull/7
+[#9]: https://github.com/nexu-io/design-jury/pull/9
+[#12]: https://github.com/nexu-io/design-jury/pull/12
+[#13]: https://github.com/nexu-io/design-jury/pull/13
+[#14]: https://github.com/nexu-io/design-jury/pull/14
+[#15]: https://github.com/nexu-io/design-jury/pull/15
+[#19]: https://github.com/nexu-io/design-jury/pull/19
+[#24]: https://github.com/nexu-io/design-jury/pull/24
+[#26]: https://github.com/nexu-io/design-jury/pull/26
+[#28]: https://github.com/nexu-io/design-jury/pull/28
+[#31]: https://github.com/nexu-io/design-jury/pull/31
+[#34]: https://github.com/nexu-io/design-jury/pull/34
+[#35]: https://github.com/nexu-io/design-jury/pull/35
+[#36]: https://github.com/nexu-io/design-jury/pull/36
+[#46]: https://github.com/nexu-io/design-jury/pull/46
+[#54]: https://github.com/nexu-io/design-jury/pull/54
+[#63]: https://github.com/nexu-io/design-jury/pull/63
+[#64]: https://github.com/nexu-io/design-jury/pull/64
+[#66]: https://github.com/nexu-io/design-jury/pull/66
+[#68]: https://github.com/nexu-io/design-jury/pull/68
+[#70]: https://github.com/nexu-io/design-jury/pull/70
+[#71]: https://github.com/nexu-io/design-jury/pull/71
+[#73]: https://github.com/nexu-io/design-jury/pull/73
+[#74]: https://github.com/nexu-io/design-jury/pull/74
+[#75]: https://github.com/nexu-io/design-jury/pull/75
+[#76]: https://github.com/nexu-io/design-jury/pull/76
+[#79]: https://github.com/nexu-io/design-jury/pull/79
+[#80]: https://github.com/nexu-io/design-jury/pull/80
+[#81]: https://github.com/nexu-io/design-jury/pull/81
+[#83]: https://github.com/nexu-io/design-jury/pull/83
+[#87]: https://github.com/nexu-io/design-jury/pull/87
+[#88]: https://github.com/nexu-io/design-jury/pull/88
+[#92]: https://github.com/nexu-io/design-jury/pull/92
+[#97]: https://github.com/nexu-io/design-jury/pull/97
+[#102]: https://github.com/nexu-io/design-jury/pull/102
+[#104]: https://github.com/nexu-io/design-jury/pull/104
+[#105]: https://github.com/nexu-io/design-jury/pull/105
+[#107]: https://github.com/nexu-io/design-jury/pull/107
+[#108]: https://github.com/nexu-io/design-jury/pull/108
+[#111]: https://github.com/nexu-io/design-jury/pull/111
+[#114]: https://github.com/nexu-io/design-jury/pull/114
+[#117]: https://github.com/nexu-io/design-jury/pull/117
+[#118]: https://github.com/nexu-io/design-jury/pull/118
+[#123]: https://github.com/nexu-io/design-jury/pull/123
+[#127]: https://github.com/nexu-io/design-jury/pull/127
+[#128]: https://github.com/nexu-io/design-jury/pull/128
+[#131]: https://github.com/nexu-io/design-jury/pull/131
+[#133]: https://github.com/nexu-io/design-jury/pull/133
+[#140]: https://github.com/nexu-io/design-jury/pull/140
+[#146]: https://github.com/nexu-io/design-jury/pull/146
+[#151]: https://github.com/nexu-io/design-jury/pull/151
+[#153]: https://github.com/nexu-io/design-jury/pull/153
+[#155]: https://github.com/nexu-io/design-jury/pull/155
+[#156]: https://github.com/nexu-io/design-jury/pull/156
+[#159]: https://github.com/nexu-io/design-jury/pull/159
+[#160]: https://github.com/nexu-io/design-jury/pull/160
+[#162]: https://github.com/nexu-io/design-jury/pull/162
+[#166]: https://github.com/nexu-io/design-jury/pull/166
+[#167]: https://github.com/nexu-io/design-jury/pull/167
+[#168]: https://github.com/nexu-io/design-jury/pull/168
+[#169]: https://github.com/nexu-io/design-jury/pull/169
+[#170]: https://github.com/nexu-io/design-jury/pull/170
+[#173]: https://github.com/nexu-io/design-jury/pull/173
+[#174]: https://github.com/nexu-io/design-jury/pull/174
+[#177]: https://github.com/nexu-io/design-jury/pull/177
+[#178]: https://github.com/nexu-io/design-jury/pull/178
+[#180]: https://github.com/nexu-io/design-jury/pull/180
+[#182]: https://github.com/nexu-io/design-jury/pull/182
+[#183]: https://github.com/nexu-io/design-jury/pull/183
+[#185]: https://github.com/nexu-io/design-jury/pull/185
+[#187]: https://github.com/nexu-io/design-jury/pull/187
+[#190]: https://github.com/nexu-io/design-jury/pull/190
+[#191]: https://github.com/nexu-io/design-jury/pull/191
+[#196]: https://github.com/nexu-io/design-jury/pull/196
+[#197]: https://github.com/nexu-io/design-jury/pull/197
+[#199]: https://github.com/nexu-io/design-jury/pull/199
+[#200]: https://github.com/nexu-io/design-jury/pull/200
+[#201]: https://github.com/nexu-io/design-jury/pull/201
+[#202]: https://github.com/nexu-io/design-jury/pull/202
+[#204]: https://github.com/nexu-io/design-jury/pull/204
+[#78]: https://github.com/nexu-io/design-jury/pull/78
+[#112]: https://github.com/nexu-io/design-jury/pull/112
+[#119]: https://github.com/nexu-io/design-jury/pull/119
+[#120]: https://github.com/nexu-io/design-jury/pull/120
+[#121]: https://github.com/nexu-io/design-jury/pull/121
+[#143]: https://github.com/nexu-io/design-jury/pull/143
+[#184]: https://github.com/nexu-io/design-jury/pull/184
+[#186]: https://github.com/nexu-io/design-jury/pull/186
+[#192]: https://github.com/nexu-io/design-jury/pull/192
+[#193]: https://github.com/nexu-io/design-jury/pull/193
+[#194]: https://github.com/nexu-io/design-jury/pull/194
+[#207]: https://github.com/nexu-io/design-jury/pull/207
+[#208]: https://github.com/nexu-io/design-jury/pull/208
+[#209]: https://github.com/nexu-io/design-jury/pull/209
+[#212]: https://github.com/nexu-io/design-jury/pull/212
+[#219]: https://github.com/nexu-io/design-jury/pull/219
+[#222]: https://github.com/nexu-io/design-jury/pull/222
+[#223]: https://github.com/nexu-io/design-jury/pull/223
+[#225]: https://github.com/nexu-io/design-jury/pull/225
+[#226]: https://github.com/nexu-io/design-jury/pull/226
+[#227]: https://github.com/nexu-io/design-jury/pull/227
+[#228]: https://github.com/nexu-io/design-jury/pull/228
+[#231]: https://github.com/nexu-io/design-jury/pull/231
+[#232]: https://github.com/nexu-io/design-jury/pull/232
+[#233]: https://github.com/nexu-io/design-jury/pull/233
+[#240]: https://github.com/nexu-io/design-jury/pull/240
+[#241]: https://github.com/nexu-io/design-jury/pull/241
+[#247]: https://github.com/nexu-io/design-jury/pull/247
+[#248]: https://github.com/nexu-io/design-jury/pull/248
+[#249]: https://github.com/nexu-io/design-jury/pull/249
+[#253]: https://github.com/nexu-io/design-jury/pull/253
+[#258]: https://github.com/nexu-io/design-jury/pull/258
+[#259]: https://github.com/nexu-io/design-jury/pull/259
+[#260]: https://github.com/nexu-io/design-jury/pull/260
+[#261]: https://github.com/nexu-io/design-jury/pull/261
+[#262]: https://github.com/nexu-io/design-jury/pull/262
+[#263]: https://github.com/nexu-io/design-jury/pull/263
+[#268]: https://github.com/nexu-io/design-jury/pull/268
+[#269]: https://github.com/nexu-io/design-jury/pull/269
+[#271]: https://github.com/nexu-io/design-jury/pull/271
+[#273]: https://github.com/nexu-io/design-jury/pull/273
+[#276]: https://github.com/nexu-io/design-jury/pull/276
+[#281]: https://github.com/nexu-io/design-jury/pull/281
+[#284]: https://github.com/nexu-io/design-jury/pull/284
+[#287]: https://github.com/nexu-io/design-jury/pull/287
+[#288]: https://github.com/nexu-io/design-jury/pull/288
+[#250]: https://github.com/nexu-io/design-jury/pull/250
+[#251]: https://github.com/nexu-io/design-jury/pull/251
+[#255]: https://github.com/nexu-io/design-jury/pull/255
+[#301]: https://github.com/nexu-io/design-jury/pull/301
+[#307]: https://github.com/nexu-io/design-jury/pull/307
+[#308]: https://github.com/nexu-io/design-jury/pull/308
+[#314]: https://github.com/nexu-io/design-jury/pull/314
+[#316]: https://github.com/nexu-io/design-jury/pull/316
+[#319]: https://github.com/nexu-io/design-jury/pull/319
+[#320]: https://github.com/nexu-io/design-jury/pull/320
+[#323]: https://github.com/nexu-io/design-jury/pull/323
+[#328]: https://github.com/nexu-io/design-jury/pull/328
+[#329]: https://github.com/nexu-io/design-jury/pull/329
+[#330]: https://github.com/nexu-io/design-jury/pull/330
+[#335]: https://github.com/nexu-io/design-jury/pull/335
+[#339]: https://github.com/nexu-io/design-jury/pull/339
+[#340]: https://github.com/nexu-io/design-jury/pull/340
+[#341]: https://github.com/nexu-io/design-jury/pull/341
+[#342]: https://github.com/nexu-io/design-jury/pull/342
+[#343]: https://github.com/nexu-io/design-jury/pull/343
+[#345]: https://github.com/nexu-io/design-jury/pull/345
+[#346]: https://github.com/nexu-io/design-jury/pull/346
+[#351]: https://github.com/nexu-io/design-jury/pull/351
+[#354]: https://github.com/nexu-io/design-jury/pull/354
+[#357]: https://github.com/nexu-io/design-jury/pull/357
+[#358]: https://github.com/nexu-io/design-jury/pull/358
+[#359]: https://github.com/nexu-io/design-jury/pull/359
+[#360]: https://github.com/nexu-io/design-jury/pull/360
+[#363]: https://github.com/nexu-io/design-jury/pull/363
+[#364]: https://github.com/nexu-io/design-jury/pull/364
+[#373]: https://github.com/nexu-io/design-jury/pull/373
+[#376]: https://github.com/nexu-io/design-jury/pull/376
+[#282]: https://github.com/nexu-io/design-jury/pull/282
+[#289]: https://github.com/nexu-io/design-jury/pull/289
+[#296]: https://github.com/nexu-io/design-jury/pull/296
+[#300]: https://github.com/nexu-io/design-jury/pull/300
+[#309]: https://github.com/nexu-io/design-jury/pull/309
+[#270]: https://github.com/nexu-io/design-jury/pull/270
+[#326]: https://github.com/nexu-io/design-jury/pull/326
+[#352]: https://github.com/nexu-io/design-jury/pull/352
+[#365]: https://github.com/nexu-io/design-jury/pull/365
+[#366]: https://github.com/nexu-io/design-jury/pull/366
+[#369]: https://github.com/nexu-io/design-jury/pull/369
+[#381]: https://github.com/nexu-io/design-jury/pull/381
+[#382]: https://github.com/nexu-io/design-jury/pull/382
+[#384]: https://github.com/nexu-io/design-jury/pull/384
+[#385]: https://github.com/nexu-io/design-jury/pull/385
+[#387]: https://github.com/nexu-io/design-jury/pull/387
+[#391]: https://github.com/nexu-io/design-jury/pull/391
+[#392]: https://github.com/nexu-io/design-jury/pull/392
+[#393]: https://github.com/nexu-io/design-jury/pull/393
+[#395]: https://github.com/nexu-io/design-jury/pull/395
+[#396]: https://github.com/nexu-io/design-jury/pull/396
+[#397]: https://github.com/nexu-io/design-jury/pull/397
+[#399]: https://github.com/nexu-io/design-jury/pull/399
+[#400]: https://github.com/nexu-io/design-jury/pull/400
+[#401]: https://github.com/nexu-io/design-jury/pull/401
+[#403]: https://github.com/nexu-io/design-jury/pull/403
+[#404]: https://github.com/nexu-io/design-jury/pull/404
+[#405]: https://github.com/nexu-io/design-jury/pull/405
+[#406]: https://github.com/nexu-io/design-jury/pull/406
+[#407]: https://github.com/nexu-io/design-jury/pull/407
+[#409]: https://github.com/nexu-io/design-jury/pull/409
+[#410]: https://github.com/nexu-io/design-jury/pull/410
+[#411]: https://github.com/nexu-io/design-jury/pull/411
+[#412]: https://github.com/nexu-io/design-jury/pull/412
+[#417]: https://github.com/nexu-io/design-jury/pull/417
+[#418]: https://github.com/nexu-io/design-jury/pull/418
+[#421]: https://github.com/nexu-io/design-jury/pull/421
+[#424]: https://github.com/nexu-io/design-jury/pull/424
+[#428]: https://github.com/nexu-io/design-jury/pull/428
+[#429]: https://github.com/nexu-io/design-jury/pull/429
+[#434]: https://github.com/nexu-io/design-jury/pull/434
+[#435]: https://github.com/nexu-io/design-jury/pull/435
+[#439]: https://github.com/nexu-io/design-jury/pull/439
+[#440]: https://github.com/nexu-io/design-jury/pull/440
+[#447]: https://github.com/nexu-io/design-jury/pull/447
+[#448]: https://github.com/nexu-io/design-jury/pull/448
+[#453]: https://github.com/nexu-io/design-jury/pull/453
+[#455]: https://github.com/nexu-io/design-jury/pull/455
+[#457]: https://github.com/nexu-io/design-jury/pull/457
+[#458]: https://github.com/nexu-io/design-jury/pull/458
+[#460]: https://github.com/nexu-io/design-jury/pull/460
+[#465]: https://github.com/nexu-io/design-jury/pull/465
+[#466]: https://github.com/nexu-io/design-jury/pull/466
+[#468]: https://github.com/nexu-io/design-jury/pull/468
+[#471]: https://github.com/nexu-io/design-jury/pull/471
+[#476]: https://github.com/nexu-io/design-jury/pull/476
+[#477]: https://github.com/nexu-io/design-jury/pull/477
+[#480]: https://github.com/nexu-io/design-jury/pull/480
+[#481]: https://github.com/nexu-io/design-jury/pull/481
+[#488]: https://github.com/nexu-io/design-jury/pull/488
+[#489]: https://github.com/nexu-io/design-jury/pull/489
+[#490]: https://github.com/nexu-io/design-jury/pull/490
+[#492]: https://github.com/nexu-io/design-jury/pull/492
+[#494]: https://github.com/nexu-io/design-jury/pull/494
+[#496]: https://github.com/nexu-io/design-jury/pull/496
+[#502]: https://github.com/nexu-io/design-jury/pull/502
+[#504]: https://github.com/nexu-io/design-jury/pull/504
+[#513]: https://github.com/nexu-io/design-jury/pull/513
+[#514]: https://github.com/nexu-io/design-jury/pull/514
+[#515]: https://github.com/nexu-io/design-jury/pull/515
+[#522]: https://github.com/nexu-io/design-jury/pull/522
+[#523]: https://github.com/nexu-io/design-jury/pull/523
+[#537]: https://github.com/nexu-io/design-jury/pull/537
+[#535]: https://github.com/nexu-io/design-jury/pull/535
+[#548]: https://github.com/nexu-io/design-jury/pull/548
+[#549]: https://github.com/nexu-io/design-jury/pull/549
+[#556]: https://github.com/nexu-io/design-jury/pull/556
+[#563]: https://github.com/nexu-io/design-jury/pull/563
+[#570]: https://github.com/nexu-io/design-jury/pull/570
+[#577]: https://github.com/nexu-io/design-jury/pull/577
+[#578]: https://github.com/nexu-io/design-jury/pull/578
+[#586]: https://github.com/nexu-io/design-jury/pull/586
+[#587]: https://github.com/nexu-io/design-jury/pull/587
+[#592]: https://github.com/nexu-io/design-jury/pull/592
+[#595]: https://github.com/nexu-io/design-jury/pull/595
+[#604]: https://github.com/nexu-io/design-jury/pull/604
+[#605]: https://github.com/nexu-io/design-jury/pull/605
+[#608]: https://github.com/nexu-io/design-jury/pull/608
+[#612]: https://github.com/nexu-io/design-jury/pull/612
+[#618]: https://github.com/nexu-io/design-jury/pull/618
+[#619]: https://github.com/nexu-io/design-jury/pull/619
+[#620]: https://github.com/nexu-io/design-jury/pull/620
+[#623]: https://github.com/nexu-io/design-jury/pull/623
+[#627]: https://github.com/nexu-io/design-jury/pull/627
+[#637]: https://github.com/nexu-io/design-jury/pull/637
+[#275]: https://github.com/nexu-io/design-jury/pull/275
+[#277]: https://github.com/nexu-io/design-jury/pull/277
+[#283]: https://github.com/nexu-io/design-jury/pull/283
+[#293]: https://github.com/nexu-io/design-jury/pull/293
+[#306]: https://github.com/nexu-io/design-jury/pull/306
+[#362]: https://github.com/nexu-io/design-jury/pull/362
+[#390]: https://github.com/nexu-io/design-jury/pull/390
+[#414]: https://github.com/nexu-io/design-jury/pull/414
+[#493]: https://github.com/nexu-io/design-jury/pull/493
+[#507]: https://github.com/nexu-io/design-jury/pull/507
+[#524]: https://github.com/nexu-io/design-jury/pull/524
+[#530]: https://github.com/nexu-io/design-jury/pull/530
+[#531]: https://github.com/nexu-io/design-jury/pull/531
+[#555]: https://github.com/nexu-io/design-jury/pull/555
+[#591]: https://github.com/nexu-io/design-jury/pull/591
+[#611]: https://github.com/nexu-io/design-jury/pull/611
+[#614]: https://github.com/nexu-io/design-jury/pull/614
+[#621]: https://github.com/nexu-io/design-jury/pull/621
+[#622]: https://github.com/nexu-io/design-jury/pull/622
+[#625]: https://github.com/nexu-io/design-jury/pull/625
+[#626]: https://github.com/nexu-io/design-jury/pull/626
+[#631]: https://github.com/nexu-io/design-jury/pull/631
+[#655]: https://github.com/nexu-io/design-jury/pull/655
+[#664]: https://github.com/nexu-io/design-jury/pull/664
+[#667]: https://github.com/nexu-io/design-jury/pull/667
+[#670]: https://github.com/nexu-io/design-jury/pull/670
+[#671]: https://github.com/nexu-io/design-jury/pull/671
+[#674]: https://github.com/nexu-io/design-jury/pull/674
+[#675]: https://github.com/nexu-io/design-jury/pull/675
+[#678]: https://github.com/nexu-io/design-jury/pull/678
+[#680]: https://github.com/nexu-io/design-jury/pull/680
+[#683]: https://github.com/nexu-io/design-jury/pull/683
+[#685]: https://github.com/nexu-io/design-jury/pull/685
+[#686]: https://github.com/nexu-io/design-jury/pull/686
+[#696]: https://github.com/nexu-io/design-jury/pull/696
+[#697]: https://github.com/nexu-io/design-jury/pull/697
+[#698]: https://github.com/nexu-io/design-jury/pull/698
+[#700]: https://github.com/nexu-io/design-jury/pull/700
+[#708]: https://github.com/nexu-io/design-jury/pull/708
+[#712]: https://github.com/nexu-io/design-jury/pull/712
+[#718]: https://github.com/nexu-io/design-jury/pull/718
+[#720]: https://github.com/nexu-io/design-jury/pull/720
+[#722]: https://github.com/nexu-io/design-jury/pull/722
+[#727]: https://github.com/nexu-io/design-jury/pull/727
+[#735]: https://github.com/nexu-io/design-jury/pull/735
+[#738]: https://github.com/nexu-io/design-jury/pull/738
+[#740]: https://github.com/nexu-io/design-jury/pull/740
+[#747]: https://github.com/nexu-io/design-jury/pull/747
+[#755]: https://github.com/nexu-io/design-jury/pull/755
+[#768]: https://github.com/nexu-io/design-jury/pull/768
+[#778]: https://github.com/nexu-io/design-jury/pull/778
+[#781]: https://github.com/nexu-io/design-jury/pull/781
+[#788]: https://github.com/nexu-io/design-jury/pull/788
+[#795]: https://github.com/nexu-io/design-jury/pull/795
+[#799]: https://github.com/nexu-io/design-jury/pull/799
+[#801]: https://github.com/nexu-io/design-jury/pull/801
+[#805]: https://github.com/nexu-io/design-jury/pull/805
+[#65]: https://github.com/nexu-io/design-jury/pull/65
+[#422]: https://github.com/nexu-io/design-jury/pull/422
+[#532]: https://github.com/nexu-io/design-jury/pull/532
+[#579]: https://github.com/nexu-io/design-jury/pull/579
+[#581]: https://github.com/nexu-io/design-jury/pull/581
+[#615]: https://github.com/nexu-io/design-jury/pull/615
+[#624]: https://github.com/nexu-io/design-jury/pull/624
+[#666]: https://github.com/nexu-io/design-jury/pull/666
+[#681]: https://github.com/nexu-io/design-jury/pull/681
+[#704]: https://github.com/nexu-io/design-jury/pull/704
+[#714]: https://github.com/nexu-io/design-jury/pull/714
+[#716]: https://github.com/nexu-io/design-jury/pull/716
+[#729]: https://github.com/nexu-io/design-jury/pull/729
+[#751]: https://github.com/nexu-io/design-jury/pull/751
+[#752]: https://github.com/nexu-io/design-jury/pull/752
+[#756]: https://github.com/nexu-io/design-jury/pull/756
+[#757]: https://github.com/nexu-io/design-jury/pull/757
+[#763]: https://github.com/nexu-io/design-jury/pull/763
+[#767]: https://github.com/nexu-io/design-jury/pull/767
+[#771]: https://github.com/nexu-io/design-jury/pull/771
+[#773]: https://github.com/nexu-io/design-jury/pull/773
+[#794]: https://github.com/nexu-io/design-jury/pull/794
+[#796]: https://github.com/nexu-io/design-jury/pull/796
+[#800]: https://github.com/nexu-io/design-jury/pull/800
+[#804]: https://github.com/nexu-io/design-jury/pull/804
+[#806]: https://github.com/nexu-io/design-jury/pull/806
+[#809]: https://github.com/nexu-io/design-jury/pull/809
+[#810]: https://github.com/nexu-io/design-jury/pull/810
+[#811]: https://github.com/nexu-io/design-jury/pull/811
+[#812]: https://github.com/nexu-io/design-jury/pull/812
+[#813]: https://github.com/nexu-io/design-jury/pull/813
+[#819]: https://github.com/nexu-io/design-jury/pull/819
+[#820]: https://github.com/nexu-io/design-jury/pull/820
+[#822]: https://github.com/nexu-io/design-jury/pull/822
+[#823]: https://github.com/nexu-io/design-jury/pull/823
+[#824]: https://github.com/nexu-io/design-jury/pull/824
+[#827]: https://github.com/nexu-io/design-jury/pull/827
+[#829]: https://github.com/nexu-io/design-jury/pull/829
+[#830]: https://github.com/nexu-io/design-jury/pull/830
+[#832]: https://github.com/nexu-io/design-jury/pull/832
+[#833]: https://github.com/nexu-io/design-jury/pull/833
+[#834]: https://github.com/nexu-io/design-jury/pull/834
+[#838]: https://github.com/nexu-io/design-jury/pull/838
+[#839]: https://github.com/nexu-io/design-jury/pull/839
+[#840]: https://github.com/nexu-io/design-jury/pull/840
+[#841]: https://github.com/nexu-io/design-jury/pull/841
+[#842]: https://github.com/nexu-io/design-jury/pull/842
+[#843]: https://github.com/nexu-io/design-jury/pull/843
+[#844]: https://github.com/nexu-io/design-jury/pull/844
+[#845]: https://github.com/nexu-io/design-jury/pull/845
+[#846]: https://github.com/nexu-io/design-jury/pull/846
+[#847]: https://github.com/nexu-io/design-jury/pull/847
+[#851]: https://github.com/nexu-io/design-jury/pull/851
+[#852]: https://github.com/nexu-io/design-jury/pull/852
+[#853]: https://github.com/nexu-io/design-jury/pull/853
+[#856]: https://github.com/nexu-io/design-jury/pull/856
+[#857]: https://github.com/nexu-io/design-jury/pull/857
+[#858]: https://github.com/nexu-io/design-jury/pull/858
+[#859]: https://github.com/nexu-io/design-jury/pull/859
+[#863]: https://github.com/nexu-io/design-jury/pull/863
+[#864]: https://github.com/nexu-io/design-jury/pull/864
+[#867]: https://github.com/nexu-io/design-jury/pull/867
+[#875]: https://github.com/nexu-io/design-jury/pull/875
+[#877]: https://github.com/nexu-io/design-jury/pull/877
+[#879]: https://github.com/nexu-io/design-jury/pull/879
+[#884]: https://github.com/nexu-io/design-jury/pull/884
+[#886]: https://github.com/nexu-io/design-jury/pull/886
+[#888]: https://github.com/nexu-io/design-jury/pull/888
+[#896]: https://github.com/nexu-io/design-jury/pull/896
+[#898]: https://github.com/nexu-io/design-jury/pull/898
+[#899]: https://github.com/nexu-io/design-jury/pull/899
+[#900]: https://github.com/nexu-io/design-jury/pull/900
+[#906]: https://github.com/nexu-io/design-jury/pull/906
+[#907]: https://github.com/nexu-io/design-jury/pull/907
+[#908]: https://github.com/nexu-io/design-jury/pull/908
+[#915]: https://github.com/nexu-io/design-jury/pull/915
+[#923]: https://github.com/nexu-io/design-jury/pull/923
+[#924]: https://github.com/nexu-io/design-jury/pull/924
+[#927]: https://github.com/nexu-io/design-jury/pull/927
+[#933]: https://github.com/nexu-io/design-jury/pull/933
+[#935]: https://github.com/nexu-io/design-jury/pull/935
+[#936]: https://github.com/nexu-io/design-jury/pull/936
+[#937]: https://github.com/nexu-io/design-jury/pull/937
+[#938]: https://github.com/nexu-io/design-jury/pull/938
+[#940]: https://github.com/nexu-io/design-jury/pull/940
+[#941]: https://github.com/nexu-io/design-jury/pull/941
+[#943]: https://github.com/nexu-io/design-jury/pull/943
+[#944]: https://github.com/nexu-io/design-jury/pull/944
+[#946]: https://github.com/nexu-io/design-jury/pull/946
+[#947]: https://github.com/nexu-io/design-jury/pull/947
+[#948]: https://github.com/nexu-io/design-jury/pull/948
+[#949]: https://github.com/nexu-io/design-jury/pull/949
+[#950]: https://github.com/nexu-io/design-jury/pull/950
+[#952]: https://github.com/nexu-io/design-jury/pull/952
+[#958]: https://github.com/nexu-io/design-jury/pull/958
+[#961]: https://github.com/nexu-io/design-jury/pull/961
+[#962]: https://github.com/nexu-io/design-jury/pull/962
+[#964]: https://github.com/nexu-io/design-jury/pull/964
+[#967]: https://github.com/nexu-io/design-jury/pull/967
+[#969]: https://github.com/nexu-io/design-jury/pull/969
+[#971]: https://github.com/nexu-io/design-jury/pull/971
+[#972]: https://github.com/nexu-io/design-jury/pull/972
+[#975]: https://github.com/nexu-io/design-jury/pull/975
+[#976]: https://github.com/nexu-io/design-jury/pull/976
+[#979]: https://github.com/nexu-io/design-jury/pull/979
+[#986]: https://github.com/nexu-io/design-jury/pull/986
+[#987]: https://github.com/nexu-io/design-jury/pull/987
+[#988]: https://github.com/nexu-io/design-jury/pull/988
+[#989]: https://github.com/nexu-io/design-jury/pull/989
+[#990]: https://github.com/nexu-io/design-jury/pull/990
+[#991]: https://github.com/nexu-io/design-jury/pull/991
+[#992]: https://github.com/nexu-io/design-jury/pull/992
+[#993]: https://github.com/nexu-io/design-jury/pull/993
+[#994]: https://github.com/nexu-io/design-jury/pull/994
+[#995]: https://github.com/nexu-io/design-jury/pull/995
+[#998]: https://github.com/nexu-io/design-jury/pull/998
+[#1004]: https://github.com/nexu-io/design-jury/pull/1004
+[#1005]: https://github.com/nexu-io/design-jury/pull/1005
+[#1016]: https://github.com/nexu-io/design-jury/pull/1016
+[#1018]: https://github.com/nexu-io/design-jury/pull/1018
+[#1031]: https://github.com/nexu-io/design-jury/pull/1031
+[#1032]: https://github.com/nexu-io/design-jury/pull/1032
+[#1035]: https://github.com/nexu-io/design-jury/pull/1035
+[#1036]: https://github.com/nexu-io/design-jury/pull/1036
+[#1039]: https://github.com/nexu-io/design-jury/pull/1039
+[#1045]: https://github.com/nexu-io/design-jury/pull/1045
+[#1046]: https://github.com/nexu-io/design-jury/pull/1046
+[#1048]: https://github.com/nexu-io/design-jury/pull/1048
+[#1053]: https://github.com/nexu-io/design-jury/pull/1053
+[#1054]: https://github.com/nexu-io/design-jury/pull/1054
+[#1056]: https://github.com/nexu-io/design-jury/pull/1056
+[#1065]: https://github.com/nexu-io/design-jury/pull/1065
+[#1067]: https://github.com/nexu-io/design-jury/pull/1067
+[#1068]: https://github.com/nexu-io/design-jury/pull/1068
+[#1071]: https://github.com/nexu-io/design-jury/pull/1071
+[#1079]: https://github.com/nexu-io/design-jury/pull/1079
+[#402]: https://github.com/nexu-io/design-jury/pull/402
+[#687]: https://github.com/nexu-io/design-jury/pull/687
+[#701]: https://github.com/nexu-io/design-jury/pull/701
+[#753]: https://github.com/nexu-io/design-jury/pull/753
+[#759]: https://github.com/nexu-io/design-jury/pull/759
+[#760]: https://github.com/nexu-io/design-jury/pull/760
+[#797]: https://github.com/nexu-io/design-jury/pull/797
+[#818]: https://github.com/nexu-io/design-jury/pull/818
+[#866]: https://github.com/nexu-io/design-jury/pull/866
+[#873]: https://github.com/nexu-io/design-jury/pull/873
+[#894]: https://github.com/nexu-io/design-jury/pull/894
+[#932]: https://github.com/nexu-io/design-jury/pull/932
+[#953]: https://github.com/nexu-io/design-jury/pull/953
+[#954]: https://github.com/nexu-io/design-jury/pull/954
+[#955]: https://github.com/nexu-io/design-jury/pull/955
+[#957]: https://github.com/nexu-io/design-jury/pull/957
+[#960]: https://github.com/nexu-io/design-jury/pull/960
+[#965]: https://github.com/nexu-io/design-jury/pull/965
+[#973]: https://github.com/nexu-io/design-jury/pull/973
+[#974]: https://github.com/nexu-io/design-jury/pull/974
+[#985]: https://github.com/nexu-io/design-jury/pull/985
+[#997]: https://github.com/nexu-io/design-jury/pull/997
+[#999]: https://github.com/nexu-io/design-jury/pull/999
+[#1001]: https://github.com/nexu-io/design-jury/pull/1001
+[#1003]: https://github.com/nexu-io/design-jury/pull/1003
+[#1033]: https://github.com/nexu-io/design-jury/pull/1033
+[#1034]: https://github.com/nexu-io/design-jury/pull/1034
+[#1038]: https://github.com/nexu-io/design-jury/pull/1038
+[#1043]: https://github.com/nexu-io/design-jury/pull/1043
+[#1044]: https://github.com/nexu-io/design-jury/pull/1044
+[#1060]: https://github.com/nexu-io/design-jury/pull/1060
+[#1061]: https://github.com/nexu-io/design-jury/pull/1061
+[#1063]: https://github.com/nexu-io/design-jury/pull/1063
+[#1069]: https://github.com/nexu-io/design-jury/pull/1069
+[#1081]: https://github.com/nexu-io/design-jury/pull/1081
+[#1082]: https://github.com/nexu-io/design-jury/pull/1082
+[#1083]: https://github.com/nexu-io/design-jury/pull/1083
+[#1085]: https://github.com/nexu-io/design-jury/pull/1085
+[#1086]: https://github.com/nexu-io/design-jury/pull/1086
+[#1091]: https://github.com/nexu-io/design-jury/pull/1091
+[#1092]: https://github.com/nexu-io/design-jury/pull/1092
+[#1093]: https://github.com/nexu-io/design-jury/pull/1093
+[#1095]: https://github.com/nexu-io/design-jury/pull/1095
+[#1097]: https://github.com/nexu-io/design-jury/pull/1097
+[#1103]: https://github.com/nexu-io/design-jury/pull/1103
+[#1104]: https://github.com/nexu-io/design-jury/pull/1104
+[#1105]: https://github.com/nexu-io/design-jury/pull/1105
+[#1115]: https://github.com/nexu-io/design-jury/pull/1115
+[#1117]: https://github.com/nexu-io/design-jury/pull/1117
+[#1126]: https://github.com/nexu-io/design-jury/pull/1126
+[#1128]: https://github.com/nexu-io/design-jury/pull/1128
+[#1132]: https://github.com/nexu-io/design-jury/pull/1132
+[#1136]: https://github.com/nexu-io/design-jury/pull/1136
+[#1137]: https://github.com/nexu-io/design-jury/pull/1137
+[#1139]: https://github.com/nexu-io/design-jury/pull/1139
+[#1140]: https://github.com/nexu-io/design-jury/pull/1140
+[#1144]: https://github.com/nexu-io/design-jury/pull/1144
+[#1145]: https://github.com/nexu-io/design-jury/pull/1145
+[#1148]: https://github.com/nexu-io/design-jury/pull/1148
+[#1150]: https://github.com/nexu-io/design-jury/pull/1150
+[#1156]: https://github.com/nexu-io/design-jury/pull/1156
+[#1159]: https://github.com/nexu-io/design-jury/pull/1159
+[#1171]: https://github.com/nexu-io/design-jury/pull/1171
+[#1173]: https://github.com/nexu-io/design-jury/pull/1173
+[#1183]: https://github.com/nexu-io/design-jury/pull/1183
+[#1188]: https://github.com/nexu-io/design-jury/pull/1188
+[#1203]: https://github.com/nexu-io/design-jury/pull/1203
+[#1206]: https://github.com/nexu-io/design-jury/pull/1206
+[#1205]: https://github.com/nexu-io/design-jury/pull/1205
+[#1207]: https://github.com/nexu-io/design-jury/pull/1207
+[#1219]: https://github.com/nexu-io/design-jury/pull/1219
+[#1230]: https://github.com/nexu-io/design-jury/pull/1230
+[#1231]: https://github.com/nexu-io/design-jury/pull/1231
+[#1232]: https://github.com/nexu-io/design-jury/pull/1232
+[#1238]: https://github.com/nexu-io/design-jury/pull/1238
+[#1240]: https://github.com/nexu-io/design-jury/pull/1240
+[#1244]: https://github.com/nexu-io/design-jury/pull/1244
+[#1249]: https://github.com/nexu-io/design-jury/pull/1249
+[#1256]: https://github.com/nexu-io/design-jury/pull/1256
+[#1259]: https://github.com/nexu-io/design-jury/pull/1259
+[#1263]: https://github.com/nexu-io/design-jury/pull/1263
+[#1266]: https://github.com/nexu-io/design-jury/pull/1266
+[#1267]: https://github.com/nexu-io/design-jury/pull/1267
+[#1268]: https://github.com/nexu-io/design-jury/pull/1268
+[#1270]: https://github.com/nexu-io/design-jury/pull/1270
+[#1271]: https://github.com/nexu-io/design-jury/pull/1271
+[#1284]: https://github.com/nexu-io/design-jury/pull/1284
+[#1285]: https://github.com/nexu-io/design-jury/pull/1285
+[#1287]: https://github.com/nexu-io/design-jury/pull/1287
+[#1290]: https://github.com/nexu-io/design-jury/pull/1290
+[#1291]: https://github.com/nexu-io/design-jury/pull/1291
+[#1300]: https://github.com/nexu-io/design-jury/pull/1300
+[#1307]: https://github.com/nexu-io/design-jury/pull/1307
+[#1308]: https://github.com/nexu-io/design-jury/pull/1308
+[#1328]: https://github.com/nexu-io/design-jury/pull/1328
+[#1330]: https://github.com/nexu-io/design-jury/pull/1330
+[#1161]: https://github.com/nexu-io/design-jury/pull/1161
+[#1167]: https://github.com/nexu-io/design-jury/pull/1167
+[#1208]: https://github.com/nexu-io/design-jury/pull/1208
+[#1224]: https://github.com/nexu-io/design-jury/pull/1224
+[#1276]: https://github.com/nexu-io/design-jury/pull/1276
+[#1292]: https://github.com/nexu-io/design-jury/pull/1292
+[#1341]: https://github.com/nexu-io/design-jury/pull/1341
+[#1360]: https://github.com/nexu-io/design-jury/pull/1360
+[#1365]: https://github.com/nexu-io/design-jury/pull/1365
+[#1368]: https://github.com/nexu-io/design-jury/pull/1368
+[#1402]: https://github.com/nexu-io/design-jury/pull/1402
+[#1439]: https://github.com/nexu-io/design-jury/pull/1439
+[#1442]: https://github.com/nexu-io/design-jury/pull/1442
+[#327]: https://github.com/nexu-io/design-jury/issues/327
+[#378]: https://github.com/nexu-io/design-jury/pull/378
+[#892]: https://github.com/nexu-io/design-jury/pull/892
+[#1123]: https://github.com/nexu-io/design-jury/pull/1123
+[#1277]: https://github.com/nexu-io/design-jury/pull/1277
+[#1315]: https://github.com/nexu-io/design-jury/pull/1315
+[#1316]: https://github.com/nexu-io/design-jury/pull/1316
+[#1317]: https://github.com/nexu-io/design-jury/pull/1317
+[#1318]: https://github.com/nexu-io/design-jury/pull/1318
+[#1319]: https://github.com/nexu-io/design-jury/pull/1319
+[#1320]: https://github.com/nexu-io/design-jury/pull/1320
+[#1323]: https://github.com/nexu-io/design-jury/pull/1323
+[#1338]: https://github.com/nexu-io/design-jury/pull/1338
+[#1384]: https://github.com/nexu-io/design-jury/pull/1384
+[#1390]: https://github.com/nexu-io/design-jury/pull/1390
+[#1392]: https://github.com/nexu-io/design-jury/pull/1392
+[#1448]: https://github.com/nexu-io/design-jury/pull/1448
+[#1476]: https://github.com/nexu-io/design-jury/pull/1476
+[#1482]: https://github.com/nexu-io/design-jury/pull/1482
+[#1483]: https://github.com/nexu-io/design-jury/pull/1483
+[#1484]: https://github.com/nexu-io/design-jury/pull/1484
+[#1485]: https://github.com/nexu-io/design-jury/pull/1485
+[#1491]: https://github.com/nexu-io/design-jury/pull/1491
+[#1499]: https://github.com/nexu-io/design-jury/pull/1499
+[#1505]: https://github.com/nexu-io/design-jury/issues/1505
+[#1514]: https://github.com/nexu-io/design-jury/pull/1514
+[#1516]: https://github.com/nexu-io/design-jury/pull/1516
+[#1519]: https://github.com/nexu-io/design-jury/pull/1519
+[#1538]: https://github.com/nexu-io/design-jury/pull/1538
+[#1540]: https://github.com/nexu-io/design-jury/pull/1540
+[#1544]: https://github.com/nexu-io/design-jury/pull/1544
+[#1633]: https://github.com/nexu-io/design-jury/pull/1633
+[#1652]: https://github.com/nexu-io/design-jury/pull/1652
+[#1708]: https://github.com/nexu-io/design-jury/pull/1708
+[#1747]: https://github.com/nexu-io/design-jury/pull/1747
+[#1774]: https://github.com/nexu-io/design-jury/issues/1774
+[#1781]: https://github.com/nexu-io/design-jury/pull/1781
+[#1794]: https://github.com/nexu-io/design-jury/pull/1794
+[#1806]: https://github.com/nexu-io/design-jury/pull/1806
+[#1841]: https://github.com/nexu-io/design-jury/pull/1841
+[#1846]: https://github.com/nexu-io/design-jury/pull/1846
+[#1861]: https://github.com/nexu-io/design-jury/pull/1861
+[#1899]: https://github.com/nexu-io/design-jury/pull/1899
+[#1903]: https://github.com/nexu-io/design-jury/pull/1903
+[#1989]: https://github.com/nexu-io/design-jury/pull/1989
+[#2023]: https://github.com/nexu-io/design-jury/pull/2023
+[#2028]: https://github.com/nexu-io/design-jury/pull/2028
+[#2029]: https://github.com/nexu-io/design-jury/pull/2029
+[#2033]: https://github.com/nexu-io/design-jury/pull/2033
+[#2037]: https://github.com/nexu-io/design-jury/pull/2037
+[#2040]: https://github.com/nexu-io/design-jury/pull/2040
+[#2043]: https://github.com/nexu-io/design-jury/pull/2043
+[#2049]: https://github.com/nexu-io/design-jury/pull/2049
+[#2051]: https://github.com/nexu-io/design-jury/pull/2051
+[#2064]: https://github.com/nexu-io/design-jury/pull/2064
+[#2065]: https://github.com/nexu-io/design-jury/pull/2065
+[#2071]: https://github.com/nexu-io/design-jury/pull/2071
+[#2087]: https://github.com/nexu-io/design-jury/pull/2087
+[#2226]: https://github.com/nexu-io/design-jury/pull/2226
+[#2227]: https://github.com/nexu-io/design-jury/pull/2227
+[#2228]: https://github.com/nexu-io/design-jury/pull/2228
+[#2243]: https://github.com/nexu-io/design-jury/pull/2243
+[#2245]: https://github.com/nexu-io/design-jury/pull/2245
+[#2264]: https://github.com/nexu-io/design-jury/pull/2264
+[#2270]: https://github.com/nexu-io/design-jury/pull/2270
+[#2285]: https://github.com/nexu-io/design-jury/pull/2285
+[#2309]: https://github.com/nexu-io/design-jury/pull/2309
+[#2332]: https://github.com/nexu-io/design-jury/pull/2332
+[#2360]: https://github.com/nexu-io/design-jury/pull/2360
+[#2362]: https://github.com/nexu-io/design-jury/pull/2362
+[#2363]: https://github.com/nexu-io/design-jury/pull/2363
+[#2364]: https://github.com/nexu-io/design-jury/pull/2364
+[#2369]: https://github.com/nexu-io/design-jury/pull/2369
+[#2374]: https://github.com/nexu-io/design-jury/pull/2374
+[#2376]: https://github.com/nexu-io/design-jury/pull/2376
+[#2380]: https://github.com/nexu-io/design-jury/pull/2380
+[#2388]: https://github.com/nexu-io/design-jury/pull/2388
+[#2390]: https://github.com/nexu-io/design-jury/pull/2390
+[#2397]: https://github.com/nexu-io/design-jury/pull/2397
+[#2403]: https://github.com/nexu-io/design-jury/pull/2403
+[#2409]: https://github.com/nexu-io/design-jury/pull/2409
+[#2413]: https://github.com/nexu-io/design-jury/pull/2413
+[#2429]: https://github.com/nexu-io/design-jury/pull/2429
+[#2436]: https://github.com/nexu-io/design-jury/pull/2436
+[#2437]: https://github.com/nexu-io/design-jury/pull/2437
+[#2446]: https://github.com/nexu-io/design-jury/pull/2446
+[#2452]: https://github.com/nexu-io/design-jury/pull/2452
+[#2565]: https://github.com/nexu-io/design-jury/pull/2565
+[#2575]: https://github.com/nexu-io/design-jury/pull/2575
+[#2592]: https://github.com/nexu-io/design-jury/pull/2592
+[#2595]: https://github.com/nexu-io/design-jury/pull/2595
+[#2677]: https://github.com/nexu-io/design-jury/pull/2677
+[#2687]: https://github.com/nexu-io/design-jury/pull/2687
+[#2700]: https://github.com/nexu-io/design-jury/pull/2700

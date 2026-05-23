@@ -13,7 +13,7 @@ Run the full product locally.
 
 ### Local agent CLI and PATH
 
-The daemon scans your **`PATH`** (plus common user toolchain directories). If you install a CLI with **`npm install -g`** or **Homebrew** and Open Design still shows it as *not installed*, the GUI may be starting with a minimal `PATH` that does not include your global npm or Homebrew `bin` directory (common on macOS when the app is not launched from a full login shell). Ensure the executable’s directory is on `PATH` for the process that runs the daemon, then use **Rescan** in **Settings → Execution mode**.
+The daemon scans your **`PATH`** (plus common user toolchain directories). If you install a CLI with **`npm install -g`** or **Homebrew** and Design Jury still shows it as *not installed*, the GUI may be starting with a minimal `PATH` that does not include your global npm or Homebrew `bin` directory (common on macOS when the app is not launched from a full login shell). Ensure the executable’s directory is on `PATH` for the process that runs the daemon, then use **Rescan** in **Settings → Execution mode**.
 
 [`nvm`](https://github.com/nvm-sh/nvm) / [`fnm`](https://github.com/Schniz/fnm) are optional convenience tools, not required project setup. If you use one, install/select Node 24 before running pnpm:
 
@@ -36,7 +36,7 @@ corepack pnpm --version   # should print 10.33.2
 
 ## Docker Setup
 
-Run Open Design in a fully containerised environment without installing Node.js or pnpm locally.
+Run Design Jury in a fully containerised environment without installing Node.js or pnpm locally.
 
 ### Requirements
 
@@ -51,7 +51,7 @@ docker compose version
 
 ---
 
-## Start Open Design
+## Start Design Jury
 
 From the repository root:
 
@@ -120,14 +120,14 @@ OPEN_DESIGN_MEM_LIMIT=384m
 OPEN_DESIGN_ALLOWED_ORIGINS=https://yourdomain.com
 
 # Docker image tag
-OPEN_DESIGN_IMAGE=docker.io/vanjayak/open-design:latest
+OPEN_DESIGN_IMAGE=docker.io/vanjayak/design-jury:latest
 ```
 
 ---
 
 ## Persistent Storage
 
-Open Design stores projects and SQLite data inside a Docker volume:
+Design Jury stores projects and SQLite data inside a Docker volume:
 
 ```text
 open_design_data
@@ -144,7 +144,7 @@ Data persists across container restarts and image updates.
 Inspect the volume:
 
 ```bash
-docker volume inspect open-design_open_design_data
+docker volume inspect design-jury_open_design_data
 ```
 
 ---
@@ -195,8 +195,8 @@ pnpm tools-dev status          # inspect managed runtimes
 pnpm tools-dev logs            # show daemon/web/desktop logs
 pnpm tools-dev check           # status + recent logs + common diagnostics
 pnpm tools-dev stop            # stop managed runtimes
-pnpm --filter @open-design/daemon build  # build apps/daemon/dist/cli.js for `od`
-pnpm --filter @open-design/web build     # build the web package when needed
+pnpm --filter @design-jury/daemon build  # build apps/daemon/dist/cli.js for `od`
+pnpm --filter @design-jury/web build     # build the web package when needed
 pnpm typecheck                 # workspace typecheck
 ```
 
@@ -216,13 +216,13 @@ Image, video, audio, and HyperFrames skills call the local `od` CLI through envi
 If media generation fails with `OD_BIN: parameter not set`, `apps/daemon/dist/cli.js` missing, or `failed to reach daemon at http://127.0.0.1:0`, rebuild the daemon CLI and restart the managed runtime:
 
 ```bash
-pnpm --filter @open-design/daemon build
+pnpm --filter @design-jury/daemon build
 pnpm tools-dev restart --daemon-port 7457 --web-port 5175
 ls -la apps/daemon/dist/cli.js
 curl -s http://127.0.0.1:7457/api/health
 ```
 
-Then open the project from the Open Design app again instead of resuming an old terminal agent session. A daemon-spawned agent should see values like:
+Then open the project from the Design Jury app again instead of resuming an old terminal agent session. A daemon-spawned agent should see values like:
 
 ```bash
 echo "OD_BIN=$OD_BIN"
@@ -281,7 +281,7 @@ Swap the skill or the design system in the top bar and the next send uses the ne
 ## File map
 
 ```
-open-design/
+design-jury/
 ├── apps/
 │   ├── daemon/                # Node/Express — spawns local agents + serves APIs
 │   │   └── src/
@@ -306,7 +306,7 @@ open-design/
 │   └── desktop/               # Electron runtime, launched/inspected by tools-dev
 ├── packages/
 │   ├── contracts/             # shared web/daemon app contracts
-│   ├── sidecar-proto/         # Open Design sidecar protocol contract
+│   ├── sidecar-proto/         # Design Jury sidecar protocol contract
 │   ├── sidecar/               # generic sidecar runtime primitives
 │   └── platform/              # generic process/platform primitives
 ├── tools/dev/                 # `pnpm tools-dev` lifecycle and inspect CLI
@@ -341,18 +341,18 @@ open-design/
 
 ## Troubleshooting
 
-- **`better-sqlite3` fails to load / ABI mismatch after a Node.js version change** — `pnpm install` re-runs `postinstall` automatically and rebuilds the native addon for the current Node.js. To rebuild manually or verify the fix: `pnpm --filter @open-design/daemon rebuild better-sqlite3` then `pnpm --filter @open-design/daemon exec node -e "require('better-sqlite3')"`. Requires build tools: `python3`, `make`, `g++` (or `clang++`). If you have `ignore-scripts=true` in your `.npmrc`, run `node scripts/postinstall.mjs` after `pnpm install`.
+- **`better-sqlite3` fails to load / ABI mismatch after a Node.js version change** — `pnpm install` re-runs `postinstall` automatically and rebuilds the native addon for the current Node.js. To rebuild manually or verify the fix: `pnpm --filter @design-jury/daemon rebuild better-sqlite3` then `pnpm --filter @design-jury/daemon exec node -e "require('better-sqlite3')"`. Requires build tools: `python3`, `make`, `g++` (or `clang++`). If you have `ignore-scripts=true` in your `.npmrc`, run `node scripts/postinstall.mjs` after `pnpm install`.
 - **"no agents found on PATH"** — install one of: `claude`, `codex`, `devin`, `gemini`, `opencode`, `cursor-agent`, `qwen`, `qodercli`, `copilot`. Or switch to API mode in Settings and paste a provider key.
-- **Claude Code exits with code 1** — Open Design was able to start `claude`, but the spawned non-interactive run failed before producing a response. From the same shell or app environment that starts Open Design, check:
+- **Claude Code exits with code 1** — Design Jury was able to start `claude`, but the spawned non-interactive run failed before producing a response. From the same shell or app environment that starts Design Jury, check:
   ```bash
   claude --version
   claude auth status --text
   printf 'hello' | claude -p --output-format stream-json --verbose --permission-mode bypassPermissions
   ```
-  If the smoke test reports `401`, `apiKeySource: "none"`, or another auth error without a custom endpoint, run `claude`, use `/login`, exit Claude, and retry Open Design. If you use multiple Claude profiles, set **Settings -> Execution mode -> Claude Code config directory** to the profile path such as `~/.claude-2`. If `ANTHROPIC_BASE_URL` or a proxy is set, check the endpoint URL, proxy credentials, endpoint auth environment, and model access; remove the custom endpoint only if you want to retry with standard Claude Code auth. On Windows, native PowerShell and WSL use separate Claude installs and credential stores; re-authenticate in the same environment Open Design uses, and check Windows Credential Manager if `/login` does not repair native Windows credentials.
+  If the smoke test reports `401`, `apiKeySource: "none"`, or another auth error without a custom endpoint, run `claude`, use `/login`, exit Claude, and retry Design Jury. If you use multiple Claude profiles, set **Settings -> Execution mode -> Claude Code config directory** to the profile path such as `~/.claude-2`. If `ANTHROPIC_BASE_URL` or a proxy is set, check the endpoint URL, proxy credentials, endpoint auth environment, and model access; remove the custom endpoint only if you want to retry with standard Claude Code auth. On Windows, native PowerShell and WSL use separate Claude installs and credential stores; re-authenticate in the same environment Design Jury uses, and check Windows Credential Manager if `/login` does not repair native Windows credentials.
 - **daemon 500 on /api/chat** — check the daemon terminal for the stderr tail; usually the CLI rejected its args. Different CLIs take different argv shapes; see `apps/daemon/src/agents.ts` `buildArgs` if you need to tweak.
-- **media generation says `OD_BIN` is missing or daemon URL is `:0`** — run the media dispatcher checks above. Do not resume the old CLI session; reopen the project from the Open Design app so the daemon can inject fresh `OD_*` variables.
-- **Codex loads too much plugin context** — start Open Design with `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` to make daemon-spawned Codex processes run with `--disable plugins`.
+- **media generation says `OD_BIN` is missing or daemon URL is `:0`** — run the media dispatcher checks above. Do not resume the old CLI session; reopen the project from the Design Jury app so the daemon can inject fresh `OD_*` variables.
+- **Codex loads too much plugin context** — start Design Jury with `OD_CODEX_DISABLE_PLUGINS=1 pnpm tools-dev` to make daemon-spawned Codex processes run with `--disable plugins`.
 - **artifact never renders** — the model produced text without wrapping in `<artifact>`. Confirm the system prompt is going through (check daemon log) and consider switching to a more capable model or a stricter skill.
 
 ## Mapping back to the vision

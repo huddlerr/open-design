@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-simple-deck",
   "title": "Simple Deck",
@@ -7,10 +7,10 @@
   "description": "Single-file horizontal-swipe HTML deck. Built by copying the seed\n`assets/template.html` (which carries the proven 5-rule iframe nav script)\nand pasting slide layouts from `references/layouts.md`. Pitch decks,\nproduct overviews, study material — when you don't need the magazine\naesthetic of `magazine-web-ppt`.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/simple-deck",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/simple-deck",
   "tags": [
     "example",
     "first-party",

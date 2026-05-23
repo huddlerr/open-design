@@ -64,7 +64,7 @@ import { spawn } from 'node:child_process';
 import { promises as fsp } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { createCommandInvocation } from '@open-design/platform';
+import { createCommandInvocation } from '@design-jury/platform';
 import {
   applyAgentLaunchEnv,
   getAgentDef,

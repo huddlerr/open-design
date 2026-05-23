@@ -10,7 +10,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@design-jury/contracts';
 
 import { PluginShareMenu } from '../../src/components/plugin-details/PluginShareMenu';
 
@@ -114,15 +114,15 @@ describe('PluginShareMenu', () => {
       make({
         id: 'mp-plugin',
         sourceKind: 'github',
-        source: 'github:open-design/plugins/mp-plugin',
+        source: 'github:design-jury/plugins/mp-plugin',
         marketplaceId: 'official',
-        marketplaceEntryName: 'open-design/mp-plugin',
+        marketplaceEntryName: 'design-jury/mp-plugin',
       }),
     );
     openPopover();
     clickItem('Copy install command');
     await Promise.resolve();
-    expect(writes).toContain('od plugin install open-design/mp-plugin');
+    expect(writes).toContain('od plugin install design-jury/mp-plugin');
   });
 
   it('copies the github source string for github-installed plugins', async () => {
@@ -220,7 +220,7 @@ describe('PluginShareMenu', () => {
     openPopover();
     const repoLinks = Array.from(
       container.querySelectorAll<HTMLAnchorElement>(
-        'a.plugin-share-item[href="https://github.com/nexu-io/open-design"]',
+        'a.plugin-share-item[href="https://github.com/nexu-io/design-jury"]',
       ),
     );
     expect(repoLinks.length).toBeGreaterThan(0);

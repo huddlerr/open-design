@@ -11,7 +11,7 @@ a style-shape exemplar for the `agent-review.md` template
 
 ## Identification
 
-- Title: `feat(daemon): load user design systems from ~/.open-design/design-systems`
+- Title: `feat(daemon): load user design systems from ~/.design-jury/design-systems`
 - Author: mathd (external)
 - Status: OPEN · **CHANGES_REQUESTED** · DIRTY (no push since reviews)
 - Labels: `size/M`, `risk/medium`, `type/feature`
@@ -23,13 +23,13 @@ a style-shape exemplar for the `agent-review.md` template
 Two human MEMBER reviews on file, both still unaddressed in the current head:
 
 - **@lefarcen** (`CHANGES_REQUESTED`): "one critical path traversal vulnerability plus several edge-case gaps". `readDesignSystem(root, id)` and the new `readDesignSystemFromAny(bundledRoot, userRoot, id)` (`apps/daemon/src/design-systems.ts:54-71`) both do `path.join(root, id, 'DESIGN.md')` with no validation that `id` stays inside `root`. An `id` like `../../../etc/passwd` escapes the design-systems directory if reachable from user input.
-- **@mrcfps** (`COMMENTED`): `OD_USER_STATE_DIR` override is non-deterministic for tests/programmatic callers, and `userDesignSystemsDir()` falling back to `~/.open-design/design-systems` causes isolated finalize runs to silently read host-local design systems.
+- **@mrcfps** (`COMMENTED`): `OD_USER_STATE_DIR` override is non-deterministic for tests/programmatic callers, and `userDesignSystemsDir()` falling back to `~/.design-jury/design-systems` causes isolated finalize runs to silently read host-local design systems.
 
 ## Findings
 
 ### Test isolation risk
 
-`apps/daemon/tests/design-systems.test.ts` adds 104 lines. If those cases don't explicitly set `OD_USER_STATE_DIR` to a tmpdir, they hit the developer's real `~/.open-design/design-systems` and become non-reproducible across machines — same shape as @mrcfps's host-leak concern but in test scope.
+`apps/daemon/tests/design-systems.test.ts` adds 104 lines. If those cases don't explicitly set `OD_USER_STATE_DIR` to a tmpdir, they hit the developer's real `~/.design-jury/design-systems` and become non-reproducible across machines — same shape as @mrcfps's host-leak concern but in test scope.
 
 ### Severity vs label
 
@@ -46,8 +46,8 @@ Two human MEMBER reviews on file, both still unaddressed in the current head:
 ```bash
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/daemon typecheck
-pnpm --filter @open-design/daemon test
+pnpm --filter @design-jury/daemon typecheck
+pnpm --filter @design-jury/daemon test
 ```
 
 Test re-runs should include a path-traversal regression (`readDesignSystem(root, '../etc/passwd')` returns `null` or throws) and an `OD_USER_STATE_DIR=<tmpdir>` isolation case.

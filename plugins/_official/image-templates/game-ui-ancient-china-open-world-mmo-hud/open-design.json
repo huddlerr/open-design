@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-game-ui-ancient-china-open-world-mmo-hud",
   "title": "Game UI - Ancient China Open-World MMO HUD",
@@ -7,10 +7,10 @@
   "description": "Generates an in-game HUD screenshot mockup for a AAA ancient-China open-world MMO, in the cinematic photoreal style of Black Myth: Wukong. A beautiful female swordswoman protagonist anchors the center of the frame in a misty mountain ancient-shrine scene, surrounded by a complete MMO HUD: top-left character portrait with HP/MP/stamina bars and buff icons, bottom-center skill hotbar with Chinese-calligraphy skill icons, top-right minimap with quest markers, right-side quest tracker panel, bottom-left scrolling chat window, floating world-space NPC nameplates and quest exclamation mark. Rendered as a realistic monitor screenshot, 16:9, suitable for pitch decks, gamescom-style key art, and Xiaohongshu/bilibili game teasers.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "image-template",
     "first-party",
@@ -31,7 +31,7 @@
     "surface": "image",
     "preview": {
       "type": "image",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/image/game-ui-ancient-china-open-world-mmo-hud.jpg"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/image/game-ui-ancient-china-open-world-mmo-hud.jpg"
     },
     "useCase": {
       "query": {

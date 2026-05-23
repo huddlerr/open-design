@@ -11,7 +11,7 @@ import type { Page } from '@playwright/test';
 // the pinned-todo element is observed; this spec confirms that the resulting
 // scroll behaviour is correct end-to-end.
 
-const STORAGE_KEY = 'open-design:config';
+const STORAGE_KEY = 'design-jury:config';
 
 // Reusable app-config seed: skip onboarding, mock agent, no real model calls.
 async function seedAppConfig(page: Page) {
@@ -181,7 +181,7 @@ async function seedProjectWithTodos(
 // question 1" so waiting for that text confirms the daemon responded with
 // the stored message list.
 async function waitForChatReady(page: Page) {
-  const loading = page.getByText('Loading Open Design…');
+  const loading = page.getByText('Loading Design Jury…');
   await loading.waitFor({ state: 'detached', timeout: 10_000 }).catch(() => {});
   await expect(page.locator('.chat-log')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByTestId('chat-composer')).toBeVisible({ timeout: 10_000 });

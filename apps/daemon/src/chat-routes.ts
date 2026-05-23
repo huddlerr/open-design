@@ -10,7 +10,7 @@ import {
   type BYOKToolContext,
 } from './byok-tools.js';
 import { isSafeId as isSafeProjectId } from './projects.js';
-import { projectKindToTracking } from '@open-design/contracts/analytics';
+import { projectKindToTracking } from '@design-jury/contracts/analytics';
 import { validateBaseUrlResolved } from './connectionTest.js';
 
 // Allowlist for the `/feedback` route. Mirrors the
@@ -74,7 +74,7 @@ export function registerChatRoutes(app: Express, ctx: RegisterChatRoutesDeps) {
   app.get('/api/runs', (req, res) => {
     const { projectId, conversationId, status } = req.query;
     const runs = design.runs.list({ projectId, conversationId, status });
-    /** @type {import('@open-design/contracts').ChatRunListResponse} */
+    /** @type {import('@design-jury/contracts').ChatRunListResponse} */
     const body = { runs: runs.map(design.runs.statusBody) };
     res.json(body);
   });
@@ -95,7 +95,7 @@ export function registerChatRoutes(app: Express, ctx: RegisterChatRoutesDeps) {
     const run = design.runs.get(req.params.id);
     if (!run) return sendApiError(res, 404, 'NOT_FOUND', 'run not found');
     design.runs.cancel(run);
-    /** @type {import('@open-design/contracts').ChatRunCancelResponse} */
+    /** @type {import('@design-jury/contracts').ChatRunCancelResponse} */
     const body = { ok: true };
     res.json(body);
   });

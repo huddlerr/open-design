@@ -3,7 +3,7 @@ import type {
   ApplyResult,
   InstalledPluginRecord,
   ProjectMetadata,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import {
   applyPlugin,
   listPlugins,

@@ -17,12 +17,12 @@
  * intermediate daemon down state).
  *
  * @see tools/dev/src/desktop-auth-gate.ts
- * @see https://github.com/nexu-io/open-design/pull/974
+ * @see https://github.com/nexu-io/design-jury/pull/974
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { APP_KEYS, type DaemonStatusSnapshot, type WebStatusSnapshot } from "@open-design/sidecar-proto";
+import { APP_KEYS, type DaemonStatusSnapshot, type WebStatusSnapshot } from "@design-jury/sidecar-proto";
 
 import {
   ensureDaemonGateForDesktop,

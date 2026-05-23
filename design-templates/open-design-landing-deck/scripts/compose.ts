@@ -1,11 +1,11 @@
 #!/usr/bin/env -S npx -y tsx
 /**
- * open-design-landing-deck — slide deck composer.
+ * design-jury-landing-deck — slide deck composer.
  *
  * Reads `inputs.json` (matching `../schema.ts`) and writes a single
  * self-contained HTML file: a horizontal magazine-style swipe deck
  * where every slide occupies one viewport. Reuses the Atelier Zero
- * stylesheet from the sister `open-design-landing` skill, then layers
+ * stylesheet from the sister `design-jury-landing` skill, then layers
  * deck-specific rules (horizontal flex track, slide layouts, HUD,
  * keyboard / wheel / touch nav, ESC overview).
  *
@@ -38,7 +38,7 @@ import type {
 } from '../schema';
 
 const SKILL_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const SISTER_STYLES = resolve(SKILL_ROOT, '..', 'open-design-landing', 'styles.css');
+const SISTER_STYLES = resolve(SKILL_ROOT, '..', 'design-jury-landing', 'styles.css');
 
 /* ------------------------------------------------------------------ *
  * helpers
@@ -68,7 +68,7 @@ function imgFor(slot: string | undefined, assets: string): string {
 }
 
 /* ------------------------------------------------------------------ *
- * deck-specific stylesheet (layered on top of open-design-landing CSS).
+ * deck-specific stylesheet (layered on top of design-jury-landing CSS).
  *
  * Strategy: keep tokens, type scale, paper texture from the base CSS.
  * Override only the things a horizontal deck demands — body overflow,
@@ -845,7 +845,7 @@ const RUNTIME_SCRIPT = `
   function applySlide(n) {
     idx = Math.max(0, Math.min(total - 1, n));
     deck.style.transform = 'translateX(' + (-idx * 100) + 'vw)';
-    /* load-bearing: .slide.active is read by Open Design's host bridge
+    /* load-bearing: .slide.active is read by Design Jury's host bridge
        (src/runtime/srcdoc.ts findActiveByClass) to drive the slide
        counter. No CSS targets it — do not remove. */
     slides.forEach(function (s, i) { s.classList.toggle('active', i === idx); });
@@ -946,7 +946,7 @@ const RUNTIME_SCRIPT = `
     }
   }, { passive: true });
 
-  /* Host-driven navigation: Open Design's host bridge classifies this deck
+  /* Host-driven navigation: Design Jury's host bridge classifies this deck
      as class-driven (because go() toggles .slide.active) but the visible
      slide is moved by deck.style.transform, which the bridge can't drive.
      Two cooperating handlers keep the deck in sync with the host:

@@ -1,7 +1,7 @@
 /*
- * Open Design — Atelier Zero landing page.
+ * Design Jury — Atelier Zero landing page.
  *
- * Mirrors `design-templates/open-design-landing/example.html` 1:1. When the canonical
+ * Mirrors `design-templates/design-jury-landing/example.html` 1:1. When the canonical
  * example.html changes, mirror the diff here and into `app/globals.css`.
  *
  * Static React component rendered by Astro. The Header and Wire components
@@ -77,13 +77,13 @@ const arrowPlus = (
 
 const NBSP = '\u00A0';
 
-// Canonical project URLs. Keep in sync with design-templates/open-design-landing/example.html.
+// Canonical project URLs. Keep in sync with design-templates/design-jury-landing/example.html.
 //
 // `data-github-version` invariant: every wrapper must contain ONLY the version
 // string (e.g. `v0.3.0`), never any surrounding label or punctuation. The
 // inline enhancement script in `app/pages/index.astro` assigns `textContent`
 // on each slot, so any extra text inside the wrapper would be clobbered.
-const REPO = 'https://github.com/nexu-io/open-design';
+const REPO = 'https://github.com/nexu-io/design-jury';
 const REPO_RELEASES = `${REPO}/releases`;
 const REPO_ISSUES = `${REPO}/issues`;
 const REPO_CONTRIBUTORS = `${REPO}/graphs/contributors`;
@@ -383,7 +383,7 @@ export default function Page({
               <span className='annot annot-br'>
                 {home.hero.composedIn}
                 {NBSP}
-                <span style={{ color: 'var(--coral)' }}>Open Design</span>
+                <span style={{ color: 'var(--coral)' }}>Design Jury</span>
               </span>
               <img
                 src={heroImage}
@@ -924,7 +924,7 @@ export default function Page({
               </div>
               <div className='right'>
                 <a className='method-repo-link' href={REPO} {...ext}>
-                  <b>github.com/nexu-io/open-design</b>
+                  <b>github.com/nexu-io/design-jury</b>
                 </a>
                 {NBSP}·{NBSP}Apache-2.0
               </div>
@@ -1192,7 +1192,7 @@ export default function Page({
                 {home.faqSection.label} <span className='ix'>· Nº 06.5</span>
               </span>
               <h2 className='display'>
-                {home.faqSection.titlePrefix} <em>Open Design</em>,{' '}
+                {home.faqSection.titlePrefix} <em>Design Jury</em>,{' '}
                 <em>OpenDesign</em>, {home.faqSection.titleMiddle}{' '}
                 <em>{home.faqSection.titleSuffix}</em>
                 <span className='dot'>.</span>
@@ -1283,7 +1283,7 @@ export default function Page({
                   <span className='brand-mark'>
                     <img src='/logo.webp' alt='' width={44} height={44} />
                   </span>
-                  <span className='brand-name'>Open Design</span>
+                  <span className='brand-name'>Design Jury</span>
                 </a>
                 <p style={{ marginTop: 18 }}>
                   {home.footer.summary}
@@ -1345,7 +1345,7 @@ export default function Page({
                   {/*
                    * Sister product: HTML Anything is the agent-driven HTML
                    * editor from the same team. Listed here as a peer to the
-                   * Open Design library facets so the home delivers a real
+                   * Design Jury library facets so the home delivers a real
                    * inline anchor link to /html-anything/ — nav-only entries
                    * (the Product dropdown) carry less SEO weight than a body
                    * anchor in a discoverable section like the footer. The

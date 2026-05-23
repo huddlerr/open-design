@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "video-template-video-seedance-three-kingdoms-guanyu-slaying-yanliang",
   "title": "Video - Three Kingdoms ARPG - Guan Yu Slays Yan Liang (Seedance 2.0)",
@@ -7,10 +7,10 @@
   "description": "A ~10s in-engine cinematic action sequence bringing the companion image template game-screenshot-three-kingdoms-guanyu-slaying-yanliang to life. Guan Yu (关羽) rides his Red Hare horse straight into an enemy battle line, raises the Green Dragon Crescent Blade, and executes a single clean cleave of the opposing general Yan Liang. Tuned for Seedance 2.0 — tight camera discipline, one decisive strike, clean horse-and-blade physics, photoreal lighting, absolutely no gore on-screen (the strike is implied by a gold qi flash, not by any blood). Designed as the direct video companion to the matching image template so the still and the clip can be served as a pair. Reference image: the Guan Yu slaying-Yan-Liang screenshot template.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "video-template",
     "first-party",
@@ -35,8 +35,8 @@
     "surface": "video",
     "preview": {
       "type": "video",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/video/video-seedance-three-kingdoms-guanyu-slaying-yanliang-poster.jpg",
-      "video": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/video/video-seedance-three-kingdoms-guanyu-slaying-yanliang.mp4"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/video/video-seedance-three-kingdoms-guanyu-slaying-yanliang-poster.jpg",
+      "video": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/video/video-seedance-three-kingdoms-guanyu-slaying-yanliang.mp4"
     },
     "useCase": {
       "query": {

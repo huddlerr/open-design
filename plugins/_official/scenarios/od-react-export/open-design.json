@@ -1,16 +1,16 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "od-react-export",
   "title": "Export to React",
   "version": "0.1.0",
-  "description": "Starter downstream export plugin for turning an accepted Open Design artifact into a React component handoff.",
+  "description": "Starter downstream export plugin for turning an accepted Design Jury artifact into a React component handoff.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/scenarios/od-react-export",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/scenarios/od-react-export",
   "tags": [
     "scenario",
     "first-party",
@@ -49,8 +49,8 @@
     ],
     "useCase": {
       "query": {
-        "en": "Export the accepted Open Design artifact to a React 18 + TypeScript component. Preserve the visual system, extract reusable props only where they clarify intent, and finish with integration notes.",
-        "zh-CN": "将已确认的 Open Design 产物导出为 React 18 + TypeScript 组件。保持视觉系统一致，只在有助于表达意图时抽出可复用 props，并在最后给出集成说明。"
+        "en": "Export the accepted Design Jury artifact to a React 18 + TypeScript component. Preserve the visual system, extract reusable props only where they clarify intent, and finish with integration notes.",
+        "zh-CN": "将已确认的 Design Jury 产物导出为 React 18 + TypeScript 组件。保持视觉系统一致，只在有助于表达意图时抽出可复用 props，并在最后给出集成说明。"
       },
       "exampleOutputs": []
     },

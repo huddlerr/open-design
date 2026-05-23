@@ -34,7 +34,7 @@ import type {
   ApplyResult,
   ContextItem,
   InstalledPluginRecord,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import {
   applyPlugin,
   renderPluginBriefTemplate,

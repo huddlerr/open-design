@@ -30,7 +30,7 @@ import type {
   PluginConnectorBinding,
   PluginConnectorRef,
   PluginManifest,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 
 export type ConnectorGateStatus = 'connected' | 'pending' | 'unavailable';
 

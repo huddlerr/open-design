@@ -1,4 +1,4 @@
-# Contribuindo com o Open Design
+# Contribuindo com o Design Jury
 
 Obrigado por considerar contribuir. O OD é pequeno de propósito — a maior parte do valor mora em **arquivos** (skills, design systems, fragmentos de prompt) e não em código de framework. Isso significa que as contribuições com maior alavancagem geralmente são uma pasta, um arquivo Markdown ou um adapter do tamanho de um PR.
 
@@ -18,7 +18,7 @@ Este guia diz exatamente onde olhar para cada tipo de contribuição e qual a ba
 | Adicionar uma feature, corrigir um bug, trazer um padrão de UX do [`open-codesign`][ocod] | código | `apps/web/src/`, `apps/daemon/` | PR normal |
 | Melhorar docs, traduzir uma seção para Français / Deutsch / 中文, corrigir typos | docs | `README.md`, `README.fr.md`, `README.de.md`, `README.zh-CN.md`, `docs/`, `QUICKSTART.md` | um PR |
 
-Se você não tem certeza em qual balde sua ideia se encaixa, [abra primeiro uma discussion / issue](https://github.com/nexu-io/open-design/issues/new) e te apontamos para a superfície certa.
+Se você não tem certeza em qual balde sua ideia se encaixa, [abra primeiro uma discussion / issue](https://github.com/nexu-io/design-jury/issues/new) e te apontamos para a superfície certa.
 
 ---
 
@@ -27,13 +27,13 @@ Se você não tem certeza em qual balde sua ideia se encaixa, [abra primeiro uma
 O setup completo numa página mora em [`QUICKSTART.pt-BR.md`](QUICKSTART.pt-BR.md). O TL;DR para contribuidores:
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury
 corepack enable           # selects the pinned pnpm from packageManager
 pnpm install
 pnpm tools-dev run web    # daemon + web foreground loop
 pnpm typecheck            # tsc -b --noEmit
-pnpm --filter @open-design/web build  # build do pacote web quando necessário
+pnpm --filter @design-jury/web build  # build do pacote web quando necessário
 ```
 
 Node `~24` e pnpm `10.33.x` são obrigatórios. `nvm` / `fnm` são opcionais; use `nvm install 24 && nvm use 24` ou `fnm install 24 && fnm use 24` se preferir gerenciar Node assim. macOS, Linux e WSL2 são os caminhos principais. Windows nativo costuma funcionar, mas não é alvo principal — abra uma issue se quebrar.
@@ -217,7 +217,7 @@ A tabela OVERRIDES em `maxTokens.ts` é para o caso raro em que o LiteLLM está 
 
 ## Manutenção de localização
 
-Alemão usa o formal `Sie` porque o OD fala com uma audiência mista de criadores solo, agências e times de engenharia; até feedback do projeto mostrar que uma voz informal `du` se encaixa melhor, alemão formal é o default menos surpreendente. PRs de locale devem traduzir chrome de UI, docs principais e metadados visuais de galeria em `apps/web/src/i18n/content.ts`, mas não devem traduzir `skills/`, `design-systems/` nem corpos de prompt que os agentes executam. Esses prompts-fonte são mantidos como entradas de workflow, e manter um único idioma de fonte evita multiplicar QA de prompt entre locales. Ao adicionar ou renomear uma skill, design system ou prompt template, atualize os metadados de display em alemão e rode `pnpm --filter @open-design/web test`; o `content.test.ts` falha se a cobertura de display em alemão sair de sincronia. Erros do daemon, nomes de arquivos exportados e texto de artifact gerado pelo agente são limitações conhecidas, a menos que um PR explicitamente os englobe.
+Alemão usa o formal `Sie` porque o OD fala com uma audiência mista de criadores solo, agências e times de engenharia; até feedback do projeto mostrar que uma voz informal `du` se encaixa melhor, alemão formal é o default menos surpreendente. PRs de locale devem traduzir chrome de UI, docs principais e metadados visuais de galeria em `apps/web/src/i18n/content.ts`, mas não devem traduzir `skills/`, `design-systems/` nem corpos de prompt que os agentes executam. Esses prompts-fonte são mantidos como entradas de workflow, e manter um único idioma de fonte evita multiplicar QA de prompt entre locales. Ao adicionar ou renomear uma skill, design system ou prompt template, atualize os metadados de display em alemão e rode `pnpm --filter @design-jury/web test`; o `content.test.ts` falha se a cobertura de display em alemão sair de sincronia. Erros do daemon, nomes de arquivos exportados e texto de artifact gerado pelo agente são limitações conhecidas, a menos que um PR explicitamente os englobe.
 
 Para instruções passo a passo sobre adicionar um novo locale (dicionário de UI, README, language switcher, terminologia regional), veja [`TRANSLATIONS.md`](TRANSLATIONS.md).
 
@@ -268,7 +268,7 @@ Para bugs da pilha de prompt ("o agente emitiu um hero com gradiente roxo, a bla
 
 ## Fazendo perguntas
 
-- Pergunta de arquitetura, pergunta de design, "isso é bug ou mau uso" → [GitHub Discussions](https://github.com/nexu-io/open-design/discussions) (preferido — pesquisável para o próximo).
+- Pergunta de arquitetura, pergunta de design, "isso é bug ou mau uso" → [GitHub Discussions](https://github.com/nexu-io/design-jury/discussions) (preferido — pesquisável para o próximo).
 - "Como escrevo uma skill que faz X" → Abra uma discussion. Respondemos e transformamos a resposta em [`docs/skills-protocol.md`](docs/skills-protocol.md) se for um padrão faltante.
 
 ---
@@ -299,7 +299,7 @@ Se você vem contribuindo de forma consistente e quer saber como é o caminho pa
 
 O tl;dr: mande bons PRs, revise com cuidado, apareça nas [Discussions][discussions] / no [Discord][discord], e o resto se resolve sozinho.
 
-[discussions]: https://github.com/nexu-io/open-design/discussions
+[discussions]: https://github.com/nexu-io/design-jury/discussions
 [discord]: https://discord.gg/qhbcCH8Am4
 
 ---

@@ -14,7 +14,7 @@ let tmpRoot: string;
 
 const SAMPLE_MANIFEST = (id: string) =>
   JSON.stringify({
-    $schema: 'https://open-design.ai/schemas/plugin.v1.json',
+    $schema: 'https://design-jury.ai/schemas/plugin.v1.json',
     name: id,
     title: id,
     version: '0.1.0',
@@ -43,15 +43,15 @@ afterEach(async () => {
 describe('registerBundledPlugins', () => {
   it('registers every <bundledRoot>/<tier>/<id>/ folder under source_kind=bundled', async () => {
     // Build a layout with one atom + one scenario:
-    //   <bundledRoot>/atoms/discovery-question-form/{open-design.json,SKILL.md}
-    //   <bundledRoot>/scenarios/od-new-generation/{open-design.json,SKILL.md}
+    //   <bundledRoot>/atoms/discovery-question-form/{design-jury.json,SKILL.md}
+    //   <bundledRoot>/scenarios/od-new-generation/{design-jury.json,SKILL.md}
     const atomDir = path.join(tmpRoot, 'atoms', 'discovery-question-form');
     const sceneDir = path.join(tmpRoot, 'scenarios', 'od-new-generation');
     await mkdir(atomDir, { recursive: true });
     await mkdir(sceneDir, { recursive: true });
-    await writeFile(path.join(atomDir, 'open-design.json'), SAMPLE_MANIFEST('discovery-question-form'));
+    await writeFile(path.join(atomDir, 'design-jury.json'), SAMPLE_MANIFEST('discovery-question-form'));
     await writeFile(path.join(atomDir, 'SKILL.md'), SAMPLE_SKILL('discovery-question-form'));
-    await writeFile(path.join(sceneDir, 'open-design.json'), SAMPLE_MANIFEST('od-new-generation'));
+    await writeFile(path.join(sceneDir, 'design-jury.json'), SAMPLE_MANIFEST('od-new-generation'));
     await writeFile(path.join(sceneDir, 'SKILL.md'), SAMPLE_SKILL('od-new-generation'));
 
     const result = await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -67,7 +67,7 @@ describe('registerBundledPlugins', () => {
   it('can stamp official registry provenance on bundled preinstalls', async () => {
     const folder = path.join(tmpRoot, 'scenarios', 'starter');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('starter'));
+    await writeFile(path.join(folder, 'design-jury.json'), SAMPLE_MANIFEST('starter'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('starter'));
 
     const result = await registerBundledPlugins({
@@ -76,27 +76,27 @@ describe('registerBundledPlugins', () => {
       marketplaceProvenance: {
         sourceMarketplaceId: 'official',
         marketplaceTrust: 'official',
-        entryNamePrefix: 'open-design',
+        entryNamePrefix: 'design-jury',
       },
     });
 
     expect(result.registered[0]?.sourceKind).toBe('bundled');
     expect(result.registered[0]?.sourceMarketplaceId).toBe('official');
-    expect(result.registered[0]?.sourceMarketplaceEntryName).toBe('open-design/starter');
+    expect(result.registered[0]?.sourceMarketplaceEntryName).toBe('design-jury/starter');
     expect(result.registered[0]?.sourceMarketplaceEntryVersion).toBe('0.1.0');
     expect(result.registered[0]?.marketplaceTrust).toBe('official');
     expect(result.registered[0]?.resolvedSource).toBe(folder);
 
     const [row] = listInstalledPlugins(db);
     expect(row?.sourceMarketplaceId).toBe('official');
-    expect(row?.sourceMarketplaceEntryName).toBe('open-design/starter');
+    expect(row?.sourceMarketplaceEntryName).toBe('design-jury/starter');
   });
 
   it('also registers a direct <bundledRoot>/<plugin-id>/ folder', async () => {
     // Direct layout (no tier): <bundledRoot>/sample-plugin/...
     const folder = path.join(tmpRoot, 'sample-plugin');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample-plugin'));
+    await writeFile(path.join(folder, 'design-jury.json'), SAMPLE_MANIFEST('sample-plugin'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample-plugin'));
 
     const result = await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -106,7 +106,7 @@ describe('registerBundledPlugins', () => {
   it('is idempotent — re-running upserts the same row', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'sample');
     await mkdir(folder, { recursive: true });
-    await writeFile(path.join(folder, 'open-design.json'), SAMPLE_MANIFEST('sample'));
+    await writeFile(path.join(folder, 'design-jury.json'), SAMPLE_MANIFEST('sample'));
     await writeFile(path.join(folder, 'SKILL.md'), SAMPLE_SKILL('sample'));
 
     await registerBundledPlugins({ db, bundledRoot: tmpRoot });
@@ -123,7 +123,7 @@ describe('registerBundledPlugins', () => {
     expect(result.warnings).toEqual([]);
   });
 
-  it('skips folders without open-design.json without warning', async () => {
+  it('skips folders without design-jury.json without warning', async () => {
     const folder = path.join(tmpRoot, 'atoms', 'no-manifest');
     await mkdir(folder, { recursive: true });
     await writeFile(path.join(folder, 'README.md'), '# nothing\n');

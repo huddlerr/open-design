@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "image-template-game-screenshot-three-kingdoms-guanyu-slaying-yanliang",
   "title": "Game Screenshot - Three Kingdoms ARPG: Guan Yu Slaying Yan Liang",
@@ -7,10 +7,10 @@
   "description": "An in-game action-RPG screenshot of the iconic Three Kingdoms scene where Guan Yu rides his Red Hare warhorse through a torrential-rain battlefield and charges toward the enemy general Yan Liang. Rendered in the cinematic photoreal style of Black Myth: Wukong, Unreal Engine 5, third-person tracking camera from behind-and-left of the mounted hero. Full boss-fight HUD (portrait, minimap with dense enemy dots, skill hotbar with a finisher prompt, floating boss HP bar on the enemy general) turns the scene into a AAA ARPG combat moment. Tuned for gpt-image-2 at 16:9.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "image-template",
     "first-party",
@@ -33,7 +33,7 @@
     "surface": "image",
     "preview": {
       "type": "image",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/image/game-screenshot-three-kingdoms-guanyu-slaying-yanliang.jpg"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/image/game-screenshot-three-kingdoms-guanyu-slaying-yanliang.jpg"
     },
     "useCase": {
       "query": {

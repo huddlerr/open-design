@@ -18,16 +18,16 @@ importers:
 
   .:
     devDependencies:
-      '@open-design/tools-dev':
+      '@design-jury/tools-dev':
         specifier: workspace:*
         version: link:tools/dev
-      '@open-design/tools-pack':
+      '@design-jury/tools-pack':
         specifier: workspace:*
         version: link:tools/pack
-      '@open-design/tools-pr':
+      '@design-jury/tools-pr':
         specifier: workspace:*
         version: link:tools/pr
-      '@open-design/tools-serve':
+      '@design-jury/tools-serve':
         specifier: workspace:*
         version: link:tools/serve
       '@types/node':
@@ -42,33 +42,33 @@ importers:
 
   apps/daemon:
     dependencies:
+      '@design-jury/agui-adapter':
+        specifier: workspace:*
+        version: link:../../packages/agui-adapter
+      '@design-jury/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@design-jury/diagnostics':
+        specifier: workspace:*
+        version: link:../../packages/diagnostics
+      '@design-jury/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
+      '@design-jury/plugin-runtime':
+        specifier: workspace:*
+        version: link:../../packages/plugin-runtime
+      '@design-jury/registry-protocol':
+        specifier: workspace:*
+        version: link:../../packages/registry-protocol
+      '@design-jury/sidecar':
+        specifier: workspace:*
+        version: link:../../packages/sidecar
+      '@design-jury/sidecar-proto':
+        specifier: workspace:*
+        version: link:../../packages/sidecar-proto
       '@modelcontextprotocol/sdk':
         specifier: 1.29.0
         version: 1.29.0(zod@4.4.2)
-      '@open-design/agui-adapter':
-        specifier: workspace:*
-        version: link:../../packages/agui-adapter
-      '@open-design/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@open-design/diagnostics':
-        specifier: workspace:*
-        version: link:../../packages/diagnostics
-      '@open-design/platform':
-        specifier: workspace:*
-        version: link:../../packages/platform
-      '@open-design/plugin-runtime':
-        specifier: workspace:*
-        version: link:../../packages/plugin-runtime
-      '@open-design/registry-protocol':
-        specifier: workspace:*
-        version: link:../../packages/registry-protocol
-      '@open-design/sidecar':
-        specifier: workspace:*
-        version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
-        specifier: workspace:*
-        version: link:../../packages/sidecar-proto
       '@opentelemetry/api':
         specifier: 1.9.1
         version: 1.9.1
@@ -127,22 +127,22 @@ importers:
 
   apps/desktop:
     dependencies:
-      '@open-design/diagnostics':
+      '@design-jury/diagnostics':
         specifier: workspace:*
         version: link:../../packages/diagnostics
-      '@open-design/download':
+      '@design-jury/download':
         specifier: workspace:*
         version: link:../../packages/download
-      '@open-design/host':
+      '@design-jury/host':
         specifier: workspace:*
         version: link:../../packages/host
-      '@open-design/platform':
+      '@design-jury/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/sidecar':
+      '@design-jury/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@design-jury/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
     devDependencies:
@@ -213,22 +213,22 @@ importers:
 
   apps/packaged:
     dependencies:
-      '@open-design/daemon':
+      '@design-jury/daemon':
         specifier: workspace:*
         version: link:../daemon
-      '@open-design/desktop':
+      '@design-jury/desktop':
         specifier: workspace:*
         version: link:../desktop
-      '@open-design/platform':
+      '@design-jury/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/sidecar':
+      '@design-jury/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@design-jury/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
-      '@open-design/web':
+      '@design-jury/web':
         specifier: workspace:*
         version: link:../web
     devDependencies:
@@ -262,19 +262,19 @@ importers:
       '@anthropic-ai/sdk':
         specifier: 0.32.1
         version: 0.32.1
-      '@open-design/contracts':
+      '@design-jury/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@open-design/host':
+      '@design-jury/host':
         specifier: workspace:*
         version: link:../../packages/host
-      '@open-design/platform':
+      '@design-jury/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/sidecar':
+      '@design-jury/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@design-jury/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
       lucide-react:
@@ -362,7 +362,7 @@ importers:
 
   packages/agui-adapter:
     dependencies:
-      '@open-design/contracts':
+      '@design-jury/contracts':
         specifier: workspace:*
         version: link:../contracts
     devDependencies:
@@ -416,7 +416,7 @@ importers:
 
   packages/download:
     dependencies:
-      '@open-design/platform':
+      '@design-jury/platform':
         specifier: workspace:*
         version: link:../platform
     devDependencies:
@@ -465,7 +465,7 @@ importers:
 
   packages/plugin-runtime:
     dependencies:
-      '@open-design/contracts':
+      '@design-jury/contracts':
         specifier: workspace:*
         version: link:../contracts
       zod:
@@ -533,13 +533,13 @@ importers:
 
   tools/dev:
     dependencies:
-      '@open-design/platform':
+      '@design-jury/platform':
         specifier: workspace:*
         version: link:../../packages/platform
-      '@open-design/sidecar':
+      '@design-jury/sidecar':
         specifier: workspace:*
         version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
+      '@design-jury/sidecar-proto':
         specifier: workspace:*
         version: link:../../packages/sidecar-proto
       cac:
@@ -561,21 +561,21 @@ importers:
 
   tools/pack:
     dependencies:
+      '@design-jury/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
+      '@design-jury/sidecar':
+        specifier: workspace:*
+        version: link:../../packages/sidecar
+      '@design-jury/sidecar-proto':
+        specifier: workspace:*
+        version: link:../../packages/sidecar-proto
       '@electron/notarize':
         specifier: 3.1.1
         version: 3.1.1
       '@electron/rebuild':
         specifier: 4.0.4
         version: 4.0.4
-      '@open-design/platform':
-        specifier: workspace:*
-        version: link:../../packages/platform
-      '@open-design/sidecar':
-        specifier: workspace:*
-        version: link:../../packages/sidecar
-      '@open-design/sidecar-proto':
-        specifier: workspace:*
-        version: link:../../packages/sidecar-proto
       cac:
         specifier: 6.7.14
         version: 6.7.14

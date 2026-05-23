@@ -2,15 +2,15 @@
 
 **Parent:** [`spec.md`](spec.md) · **Siblings:** [`self-hosting.md`](self-hosting.md) · [`network-security.md`](network-security.md)
 
-Deploy Open Design on Linux or macOS with a single command. The installer wraps the existing Docker Compose stack — no build step required.
+Deploy Design Jury on Linux or macOS with a single command. The installer wraps the existing Docker Compose stack — no build step required.
 
 ## Quick reference
 
 Clone the repository and run the installer:
 
 ```bash
-git clone https://github.com/nexu-io/open-design.git
-cd open-design
+git clone https://github.com/nexu-io/design-jury.git
+cd design-jury
 bash deploy/scripts/install.sh
 ```
 
@@ -38,26 +38,26 @@ Running the installer without flags launches an interactive wizard:
   ║          One-Click Installer         ║
   ╚══════════════════════════════════════╝
 
-[open-design] OS: Linux ubuntu 24.04 (x86_64)
-[open-design] Docker: Docker version 26.1.3, build b72abbb
-[open-design] Compose: Docker Compose version v2.27.1
+[design-jury] OS: Linux ubuntu 24.04 (x86_64)
+[design-jury] Docker: Docker version 26.1.3, build b72abbb
+[design-jury] Compose: Docker Compose version v2.27.1
 
-Docker image [docker.io/vanjayak/open-design:latest]:
+Docker image [docker.io/vanjayak/design-jury:latest]:
 Port [7456]:
 Allowed origins (CORS, comma-separated, or empty) []:
 Memory limit [384m]:
 
-[open-design] Pulling image: docker.io/vanjayak/open-design:latest
-[open-design] Starting Open Design...
-[open-design] Waiting for health check (up to 60s)...
-[open-design] Daemon is healthy (200 OK)
+[design-jury] Pulling image: docker.io/vanjayak/design-jury:latest
+[design-jury] Starting Design Jury...
+[design-jury] Waiting for health check (up to 60s)...
+[design-jury] Daemon is healthy (200 OK)
 ```
 
 ### What each prompt does
 
 | Prompt | Default | Notes |
 |--------|---------|-------|
-| **Docker image** | `docker.io/vanjayak/open-design:latest` | Pin a digest for reproducibility: `docker.io/vanjayak/open-design@sha256:<digest>` |
+| **Docker image** | `docker.io/vanjayak/design-jury:latest` | Pin a digest for reproducibility: `docker.io/vanjayak/design-jury@sha256:<digest>` |
 | **Port** | `7456` | The port the daemon listens on. Must not be in use. |
 | **Allowed origins** | _(empty)_ | CORS origins for reverse-proxy setups. See [`network-security.md`](network-security.md). Leave empty for localhost-only use. |
 | **Memory limit** | `384m` | Container memory cap. Raise for large concurrent agent runs. |
@@ -100,28 +100,28 @@ The installer creates a `systemd --user` unit that wraps Docker Compose. No `sud
 
 ```bash
 # Check status
-systemctl --user status open-design
+systemctl --user status design-jury
 
 # Start / stop / restart
-systemctl --user start open-design
-systemctl --user stop open-design
-systemctl --user restart open-design
+systemctl --user start design-jury
+systemctl --user stop design-jury
+systemctl --user restart design-jury
 
 # View logs
-journalctl --user -u open-design -f
+journalctl --user -u design-jury -f
 
 # Disable auto-start
-systemctl --user disable open-design
+systemctl --user disable design-jury
 
 # Re-enable auto-start
-systemctl --user enable open-design
+systemctl --user enable design-jury
 ```
 
 To skip systemd unit creation, pass `--no-systemd` to the installer.
 
 ### macOS (Docker Desktop)
 
-Docker Desktop manages the container lifecycle. Use Docker Desktop's dashboard to start, stop, or restart the `open-design` container, or use the CLI:
+Docker Desktop manages the container lifecycle. Use Docker Desktop's dashboard to start, stop, or restart the `design-jury` container, or use the CLI:
 
 ```bash
 # Using docker compose directly
@@ -141,7 +141,7 @@ bash deploy/scripts/update.sh
 To update to a specific image:
 
 ```bash
-bash deploy/scripts/update.sh --image=docker.io/vanjayak/open-design@sha256:<digest>
+bash deploy/scripts/update.sh --image=docker.io/vanjayak/design-jury@sha256:<digest>
 ```
 
 The update script:
@@ -173,7 +173,7 @@ All settings live in `deploy/.env`. Edit it directly or re-run the installer to 
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `OPEN_DESIGN_IMAGE` | `docker.io/vanjayak/open-design:latest` | Full image reference |
+| `OPEN_DESIGN_IMAGE` | `docker.io/vanjayak/design-jury:latest` | Full image reference |
 | `OPEN_DESIGN_PORT` | `7456` | Host-side port (bound to `127.0.0.1`) |
 | `OPEN_DESIGN_ALLOWED_ORIGINS` | _(empty)_ | CORS origins for reverse-proxy setups |
 | `OPEN_DESIGN_MEM_LIMIT` | `384m` | Container memory cap |

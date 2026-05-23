@@ -43,13 +43,13 @@ Two optional fields added to existing request DTOs (`DeployProjectFileRequest.li
 ```bash
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/contracts typecheck
-pnpm --filter @open-design/daemon typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/daemon build
-pnpm --filter @open-design/web typecheck
-pnpm --filter @open-design/web test
-pnpm --filter @open-design/web build
+pnpm --filter @design-jury/contracts typecheck
+pnpm --filter @design-jury/daemon typecheck
+pnpm --filter @design-jury/daemon test
+pnpm --filter @design-jury/daemon build
+pnpm --filter @design-jury/web typecheck
+pnpm --filter @design-jury/web test
+pnpm --filter @design-jury/web build
 ```
 
 Plus a manual sandbox smoke: deploy a 3-page linked-HTML project to a test Vercel target, confirm clean-URL routing and that the entry-page index resolution still works.

@@ -14,7 +14,7 @@ function localAgentProfilesFile(): string {
   if (typeof explicit === 'string' && explicit.trim()) {
     return explicit.trim();
   }
-  return path.join(homedir(), '.open-design', 'agents.local.json');
+  return path.join(homedir(), '.design-jury', 'agents.local.json');
 }
 
 function normalizeStringList(value: unknown): string[] {

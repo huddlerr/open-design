@@ -56,7 +56,7 @@ function defaultHost(): OpenDesignHostBridge {
       }),
       pickAndReplaceWorkingDir: async () => ({
         ok: true,
-        baseDir: "/tmp/open-design-test",
+        baseDir: "/tmp/design-jury-test",
         entryFile: null,
       }),
     },

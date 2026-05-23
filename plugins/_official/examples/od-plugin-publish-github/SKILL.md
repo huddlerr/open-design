@@ -1,6 +1,6 @@
 ---
 name: od-plugin-publish-github
-description: Publish a local Open Design plugin to a new public GitHub repository using gh CLI.
+description: Publish a local Design Jury plugin to a new public GitHub repository using gh CLI.
 triggers:
   - publish plugin
   - github repo
@@ -18,7 +18,7 @@ Use this workflow when the active project contains a copied plugin folder and th
 ## Workflow
 
 1. Read the active plugin inputs. `plugin_context_path` is the copied plugin folder relative to the project working directory.
-2. Inspect `open-design.json`, `SKILL.md`, and any compatibility metadata in the copied folder.
+2. Inspect `design-jury.json`, `SKILL.md`, and any compatibility metadata in the copied folder.
 3. Call the local daemon endpoint instead of hand-rolling GitHub commands:
    `curl -sS -X POST "$OD_DAEMON_URL/api/projects/$OD_PROJECT_ID/plugins/publish-github" -H 'content-type: application/json' -d '{"path":"<plugin_context_path>"}'`
 4. Read the JSON response. If `ok` is true, report the final repository URL and any useful log/validation summary.

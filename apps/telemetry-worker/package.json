@@ -1,5 +1,5 @@
 {
-  "name": "@open-design/telemetry-worker",
+  "name": "@design-jury/telemetry-worker",
   "version": "0.0.0",
   "private": true,
   "type": "module",

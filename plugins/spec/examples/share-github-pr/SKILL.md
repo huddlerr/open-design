@@ -1,9 +1,9 @@
 ---
 name: share-github-pr
-description: Use this plugin when the user wants to package an accepted plugin or artifact as a GitHub pull request for Open Design or another target repository.
+description: Use this plugin when the user wants to package an accepted plugin or artifact as a GitHub pull request for Design Jury or another target repository.
 license: MIT
 metadata:
-  author: open-design-spec
+  author: design-jury-spec
   version: "0.1.0"
 ---
 

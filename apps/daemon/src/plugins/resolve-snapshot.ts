@@ -26,7 +26,7 @@ import type {
   ApplyResult,
   InstalledPluginRecord,
   PluginConnectorBinding,
-} from '@open-design/contracts';
+} from '@design-jury/contracts';
 import {
   applyPlugin,
   MissingInputError,
@@ -45,7 +45,7 @@ import {
 import {
   type ConnectorProbe,
 } from './connector-gate.js';
-import type { RegistryView } from '@open-design/plugin-runtime';
+import type { RegistryView } from '@design-jury/plugin-runtime';
 
 type SqliteDb = Database.Database;
 

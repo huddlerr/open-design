@@ -10,7 +10,7 @@
 
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@design-jury/contracts';
 
 import { PluginDetailsModal } from '../../src/components/PluginDetailsModal';
 import { I18nProvider } from '../../src/i18n';
@@ -284,7 +284,7 @@ describe('PluginDetailsModal common metadata coverage', () => {
     expect(html).not.toContain('plugin-meta-sections__heading');
   });
 
-  it('routes official plugin author and source links to the Open Design repo', () => {
+  it('routes official plugin author and source links to the Design Jury repo', () => {
     const html = render(
       pluginWithMeta({
         id: 'official-link-meta',
@@ -293,8 +293,8 @@ describe('PluginDetailsModal common metadata coverage', () => {
       }),
     );
 
-    expect(html).toContain('href="https://github.com/nexu-io/open-design"');
-    expect(html).toContain('nexu-io/open-design');
+    expect(html).toContain('href="https://github.com/nexu-io/design-jury"');
+    expect(html).toContain('nexu-io/design-jury');
     expect(html).toContain('Official');
   });
 });

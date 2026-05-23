@@ -1,5 +1,5 @@
 /**
- * open-design-landing — input schema.
+ * design-jury-landing — input schema.
  *
  * This is the contract between users and `scripts/compose.ts`. A valid
  * `inputs.json` matching `EditorialCollageInputs` is enough to produce

@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 
-export const STORAGE_KEY = 'open-design:config';
+export const STORAGE_KEY = 'design-jury:config';
 
 const STANDARD_CONFIG = {
   mode: 'daemon',

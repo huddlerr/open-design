@@ -116,8 +116,8 @@ Deferred to a follow-up:
 ## File map
 
 **New (planned across stages)**
-- `plugins/_official/scenarios/od-media-generation/{open-design.json,SKILL.md}`
-- `plugins/_official/atoms/media-generate/{open-design.json,SKILL.md}`
+- `plugins/_official/scenarios/od-media-generation/{design-jury.json,SKILL.md}`
+- `plugins/_official/atoms/media-generate/{design-jury.json,SKILL.md}`
 - `apps/daemon/src/plugins/atoms/media-generate.ts`
 - `apps/daemon/src/plugins/atoms/registry.ts`
 - `apps/web/src/components/home-hero/chips.ts`
@@ -153,6 +153,6 @@ Deferred to a follow-up:
 ```bash
 pnpm guard
 pnpm typecheck
-pnpm --filter @open-design/daemon test
-pnpm --filter @open-design/web test
+pnpm --filter @design-jury/daemon test
+pnpm --filter @design-jury/web test
 ```

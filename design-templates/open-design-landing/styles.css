@@ -1,7 +1,7 @@
 /*
  * Atelier Zero — canonical landing-page stylesheet.
  *
- * This file is the SINGLE SOURCE OF TRUTH for the open-design-landing
+ * This file is the SINGLE SOURCE OF TRUTH for the design-jury-landing
  * skill's visual system. It is consumed by:
  *
  *   1. `scripts/compose.ts` — inlined into the standalone HTML output.

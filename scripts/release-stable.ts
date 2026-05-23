@@ -9,7 +9,7 @@ const execFile = promisify(execFileCallback);
 
 const stableVersionPattern = /^(\d+)\.(\d+)\.(\d+)$/;
 const stableReleaseBranchPattern = /^release\/v(\d+\.\d+\.\d+)$/;
-const stableTagPattern = /^open-design-v(\d+\.\d+\.\d+)$/;
+const stableTagPattern = /^design-jury-v(\d+\.\d+\.\d+)$/;
 const nightlyVersionPattern = /^(\d+\.\d+\.\d+)\.nightly\.(\d+)$/;
 
 type ReleaseChannel = "nightly" | "stable";
@@ -465,7 +465,7 @@ if (branchVersion !== packagedVersion) {
 }
 
 const releases = await fetchReleases(repository);
-const versionTag = `open-design-v${packagedVersion}`;
+const versionTag = `design-jury-v${packagedVersion}`;
 
 let latestStable: ParsedStableVersion | null = null;
 for (const release of releases) {
@@ -488,7 +488,7 @@ if (latestStable != null && compareVersions(packagedParsed, latestStable.parsed)
 }
 
 let releaseVersion = packagedVersion;
-let releaseName = `Open Design ${packagedVersion}`;
+let releaseName = `Design Jury ${packagedVersion}`;
 let nightlyNumber = "";
 let stateSource = channel === "nightly" ? "R2 metadata.json" : "GitHub Releases";
 
@@ -530,7 +530,7 @@ if (channel === "nightly") {
 
   nightlyNumber = String(nextNightlyNumber);
   releaseVersion = `${packagedVersion}.nightly.${nightlyNumber}`;
-  releaseName = `Open Design Nightly ${releaseVersion}`;
+  releaseName = `Design Jury Nightly ${releaseVersion}`;
   console.log(`[release-stable] latest nightly: ${latestNightly.nightlyVersion}`);
 } else {
   const stableNightly = await validateStableNightlyMetadata({

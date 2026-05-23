@@ -1,4 +1,4 @@
-# Open Design Helm chart
+# Design Jury Helm chart
 
 > Spec §15.5 reference deployment.
 > Status: **values + templates shipped; per-cloud override files pending.**
@@ -24,8 +24,8 @@ values-self.yaml     persistence.backend=hostPath  secrets.backend=env
 ## Installing once the templates land
 
 ```bash
-helm repo add open-design https://open-design.ai/charts
-helm install od open-design/open-design \
+helm repo add design-jury https://design-jury.ai/charts
+helm install od design-jury/design-jury \
   --set image.tag=edge \
   --set secrets.apiToken="$(openssl rand -hex 32)" \
   -f values-aws.yaml      # one of the cloud overrides above

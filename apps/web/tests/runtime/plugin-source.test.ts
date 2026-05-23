@@ -4,7 +4,7 @@ import {
   authorInitials,
   derivePluginSourceLinks,
 } from '../../src/runtime/plugin-source';
-import type { InstalledPluginRecord } from '@open-design/contracts';
+import type { InstalledPluginRecord } from '@design-jury/contracts';
 
 type Record = Parameters<typeof derivePluginSourceLinks>[0];
 
@@ -26,13 +26,13 @@ describe('derivePluginSourceLinks · github sources', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'github',
-        source:     'github:open-design/plugins@v1.2.0/make-a-deck',
+        source:     'github:design-jury/plugins@v1.2.0/make-a-deck',
       }),
     );
-    expect(out.sourceUrl).toBe('https://github.com/open-design/plugins/tree/v1.2.0/make-a-deck');
-    expect(out.sourceLabel).toBe('open-design/plugins @v1.2.0/make-a-deck');
+    expect(out.sourceUrl).toBe('https://github.com/design-jury/plugins/tree/v1.2.0/make-a-deck');
+    expect(out.sourceLabel).toBe('design-jury/plugins @v1.2.0/make-a-deck');
     expect(out.sourceKindLabel).toBe('GitHub');
-    expect(out.contributeUrl).toBe('https://github.com/open-design/plugins/issues/new');
+    expect(out.contributeUrl).toBe('https://github.com/design-jury/plugins/issues/new');
     expect(out.contributeOnGithub).toBe(true);
   });
 
@@ -40,45 +40,45 @@ describe('derivePluginSourceLinks · github sources', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'github',
-        source:     'github:open-design/plugins',
+        source:     'github:design-jury/plugins',
       }),
     );
-    expect(out.sourceUrl).toBe('https://github.com/open-design/plugins');
-    expect(out.sourceLabel).toBe('open-design/plugins');
+    expect(out.sourceUrl).toBe('https://github.com/design-jury/plugins');
+    expect(out.sourceLabel).toBe('design-jury/plugins');
   });
 
   it('uses pinnedRef when source has no inline ref', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'github',
-        source:     'github:open-design/plugins',
+        source:     'github:design-jury/plugins',
         pinnedRef:  'a1b2c3d4',
       }),
     );
-    expect(out.sourceUrl).toBe('https://github.com/open-design/plugins/tree/a1b2c3d4');
-    expect(out.sourceLabel).toBe('open-design/plugins @a1b2c3d4');
+    expect(out.sourceUrl).toBe('https://github.com/design-jury/plugins/tree/a1b2c3d4');
+    expect(out.sourceLabel).toBe('design-jury/plugins @a1b2c3d4');
   });
 
   it('preserves slash-separated branch refs (release/1.0)', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'github',
-        source:     'github:open-design/plugins',
+        source:     'github:design-jury/plugins',
         pinnedRef:  'release/1.0',
       }),
     );
-    expect(out.sourceUrl).toBe('https://github.com/open-design/plugins/tree/release/1.0');
+    expect(out.sourceUrl).toBe('https://github.com/design-jury/plugins/tree/release/1.0');
   });
 
   it('treats HEAD pinnedRef as no ref', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'github',
-        source:     'github:open-design/plugins',
+        source:     'github:design-jury/plugins',
         pinnedRef:  'HEAD',
       }),
     );
-    expect(out.sourceUrl).toBe('https://github.com/open-design/plugins');
+    expect(out.sourceUrl).toBe('https://github.com/design-jury/plugins');
   });
 
   it('falls back gracefully on a malformed github source', () => {
@@ -129,18 +129,18 @@ describe('derivePluginSourceLinks · url + local + bundled sources', () => {
     expect(out.sourceKindLabel).toBe('Local');
   });
 
-  it('routes bundled official sources to the Open Design repo', () => {
+  it('routes bundled official sources to the Design Jury repo', () => {
     const out = derivePluginSourceLinks(
       makeRecord({
         sourceKind: 'bundled',
         source:     'plugins/_official/scenarios/od-code-migration',
       }),
     );
-    expect(out.sourceUrl).toBe('https://github.com/nexu-io/open-design');
+    expect(out.sourceUrl).toBe('https://github.com/nexu-io/design-jury');
     expect(out.sourceKindLabel).toBe('Official');
-    expect(out.sourceLabel).toBe('nexu-io/open-design');
-    expect(out.authorProfileUrl).toBe('https://github.com/nexu-io/open-design');
-    expect(out.homepageUrl).toBe('https://github.com/nexu-io/open-design');
+    expect(out.sourceLabel).toBe('nexu-io/design-jury');
+    expect(out.authorProfileUrl).toBe('https://github.com/nexu-io/design-jury');
+    expect(out.homepageUrl).toBe('https://github.com/nexu-io/design-jury');
   });
 });
 
@@ -151,11 +151,11 @@ describe('derivePluginSourceLinks · author + contribute', () => {
         manifest: {
           name:    'p',
           version: '1.0.0',
-          author:  { name: 'Open Design', url: 'https://github.com/nexu-io' },
+          author:  { name: 'Design Jury', url: 'https://github.com/nexu-io' },
         } as InstalledPluginRecord['manifest'],
       }),
     );
-    expect(out.authorName).toBe('Open Design');
+    expect(out.authorName).toBe('Design Jury');
     expect(out.authorProfileUrl).toBe('https://github.com/nexu-io');
     expect(out.authorAvatarUrl).toBe('https://github.com/nexu-io.png?size=80');
   });
@@ -195,13 +195,13 @@ describe('derivePluginSourceLinks · author + contribute', () => {
         manifest: {
           name:    'p',
           version: '1.0.0',
-          homepage: 'https://github.com/nexu-io/open-design',
+          homepage: 'https://github.com/nexu-io/design-jury',
         } as InstalledPluginRecord['manifest'],
       }),
     );
-    expect(out.contributeUrl).toBe('https://github.com/nexu-io/open-design/issues/new');
+    expect(out.contributeUrl).toBe('https://github.com/nexu-io/design-jury/issues/new');
     expect(out.contributeOnGithub).toBe(true);
-    expect(out.homepageUrl).toBe('https://github.com/nexu-io/open-design');
+    expect(out.homepageUrl).toBe('https://github.com/nexu-io/design-jury');
   });
 
   it('drops malformed homepage values', () => {
@@ -229,7 +229,7 @@ describe('derivePluginSourceLinks · author + contribute', () => {
 
 describe('authorInitials', () => {
   it('builds two-letter monograms', () => {
-    expect(authorInitials('Open Design')).toBe('OD');
+    expect(authorInitials('Design Jury')).toBe('OD');
     expect(authorInitials('jane')).toBe('J');
     expect(authorInitials('Long Multi Word Name')).toBe('LM');
   });

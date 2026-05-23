@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Issue: https://github.com/nexu-io/open-design/issues/709
+Issue: https://github.com/nexu-io/design-jury/issues/709
 
 This plan defines the durable Linux packaged-client scope: bring Linux closer
 to the macOS and Windows packaged lifecycle without claiming stable public Linux
@@ -84,7 +84,7 @@ Do not flip `vars.ENABLE_STABLE_LINUX` until all checklist items are true:
 - Stable Linux workflow has completed successfully with
   `vars.ENABLE_STABLE_LINUX == 'true'`.
 - Linux release artifact bundle contains the expected AppImage, metadata, and
-  uploaded `open-design-release-linux-e2e-report`.
+  uploaded `design-jury-release-linux-e2e-report`.
 - The report artifact contains:
   - `tools-pack.json`
   - `tools-pack.log`
@@ -123,10 +123,10 @@ Use the focused checks below after Linux packaged-client changes:
 
 ```bash
 corepack pnpm guard
-corepack pnpm --filter @open-design/tools-pack test -- linux.test.ts
-corepack pnpm --filter @open-design/tools-pack typecheck
-corepack pnpm --filter @open-design/e2e test -- tests/linux-helpers.test.ts tests/packaged-smoke-workflow.test.ts
-corepack pnpm --filter @open-design/e2e typecheck
+corepack pnpm --filter @design-jury/tools-pack test -- linux.test.ts
+corepack pnpm --filter @design-jury/tools-pack typecheck
+corepack pnpm --filter @design-jury/e2e test -- tests/linux-helpers.test.ts tests/packaged-smoke-workflow.test.ts
+corepack pnpm --filter @design-jury/e2e typecheck
 git diff --check
 ```
 

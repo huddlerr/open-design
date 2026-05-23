@@ -22,7 +22,7 @@ async function createWorkspaceFixture(workspaceRoot: string): Promise<void> {
     recursive: true,
   });
   await writeFile(
-    join(workspaceRoot, "plugins", "_official", "sample", "open-design.json"),
+    join(workspaceRoot, "plugins", "_official", "sample", "design-jury.json"),
     "{\"id\":\"sample\"}\n",
     "utf8",
   );
@@ -30,7 +30,7 @@ async function createWorkspaceFixture(workspaceRoot: string): Promise<void> {
     recursive: true,
   });
   await writeFile(
-    join(workspaceRoot, "plugins", "registry", "community", "open-design-marketplace.json"),
+    join(workspaceRoot, "plugins", "registry", "community", "design-jury-marketplace.json"),
     "{\"plugins\":[]}\n",
     "utf8",
   );
@@ -48,9 +48,9 @@ async function createWorkspaceFixture(workspaceRoot: string): Promise<void> {
 
 describe("prepareResourceTree", () => {
   it("invalidates the Windows resource tree cache when design templates change", async () => {
-    const root = await mkdtemp(join(tmpdir(), "open-design-win-resources-"));
+    const root = await mkdtemp(join(tmpdir(), "design-jury-win-resources-"));
     const workspaceRoot = join(root, "workspace");
-    const resourceRoot = join(root, "materialized", "open-design");
+    const resourceRoot = join(root, "materialized", "design-jury");
     const cache = new ToolPackCache(join(root, "cache"));
     const config = { workspaceRoot } as ToolPackConfig;
     const paths = { resourceRoot } as WinPaths;

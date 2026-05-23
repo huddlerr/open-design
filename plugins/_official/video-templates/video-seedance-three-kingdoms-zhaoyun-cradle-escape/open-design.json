@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "video-template-video-seedance-three-kingdoms-zhaoyun-cradle-escape",
   "title": "Video - Three Kingdoms ARPG - Zhao Yun Cradle Escape (Seedance 2.0)",
@@ -7,10 +7,10 @@
   "description": "A ~12s in-engine cinematic action sequence bringing the companion image template game-screenshot-three-kingdoms-zhaoyun-cradle-escape to life. Zhao Yun (赵云) rides his warhorse through a broken Changban battlefield, cradling the infant heir A Dou in the crook of his left arm and wielding his spear in the right, parrying an incoming strike with a single PERFECT DODGE and vaulting past a fallen war-chariot to clear a path. Tuned for Seedance 2.0 — tight camera discipline, single continuous beat, believable one-arm spearwork, clean horse physics, and absolutely no visible harm to the infant. Designed as the direct video companion to the matching image template so the still and the clip can be served as a pair. Reference image: the Zhao Yun cradle-escape screenshot template.",
   "license": "Apache-2.0",
   "author": {
-    "name": "open-design contributors",
-    "url": "https://github.com/nexu-io/open-design"
+    "name": "design-jury contributors",
+    "url": "https://github.com/nexu-io/design-jury"
   },
-  "homepage": "https://github.com/nexu-io/open-design",
+  "homepage": "https://github.com/nexu-io/design-jury",
   "tags": [
     "video-template",
     "first-party",
@@ -36,8 +36,8 @@
     "surface": "video",
     "preview": {
       "type": "video",
-      "poster": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/video/video-seedance-three-kingdoms-zhaoyun-cradle-escape-poster.jpg",
-      "video": "https://raw.githubusercontent.com/nexu-io/open-design/main/assets/prompt-templates/video/video-seedance-three-kingdoms-zhaoyun-cradle-escape.mp4"
+      "poster": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/video/video-seedance-three-kingdoms-zhaoyun-cradle-escape-poster.jpg",
+      "video": "https://raw.githubusercontent.com/nexu-io/design-jury/main/assets/prompt-templates/video/video-seedance-three-kingdoms-zhaoyun-cradle-escape.mp4"
     },
     "useCase": {
       "query": {

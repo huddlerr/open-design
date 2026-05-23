@@ -252,7 +252,7 @@ describe('AssistantMessage unfinished todo state', () => {
               kind: 'tool_use',
               id: 'write-manifest',
               name: 'Write',
-              input: { path: 'open-design.json' },
+              input: { path: 'design-jury.json' },
             },
             {
               kind: 'tool_result',
@@ -266,7 +266,7 @@ describe('AssistantMessage unfinished todo state', () => {
         streaming={false}
         projectId="project-1"
         projectFiles={[
-          workspaceFile('generated-plugin/open-design.json'),
+          workspaceFile('generated-plugin/design-jury.json'),
           workspaceFile('generated-plugin/SKILL.md'),
           workspaceFile('generated-plugin/examples/demo.md'),
         ]}
@@ -288,6 +288,6 @@ describe('AssistantMessage unfinished todo state', () => {
     ).toBeNull();
 
     fireEvent.click(screen.getByTestId('assistant-plugin-open-manifest-generated-plugin'));
-    expect(onOpen).toHaveBeenCalledWith('generated-plugin/open-design.json');
+    expect(onOpen).toHaveBeenCalledWith('generated-plugin/design-jury.json');
   });
 });

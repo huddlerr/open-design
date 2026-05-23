@@ -8,7 +8,7 @@
 // official trademarked logos — so we keep visual identification without
 // shipping brand assets we don't have a license for.
 
-import type { HostEditorId } from '@open-design/contracts';
+import type { HostEditorId } from '@design-jury/contracts';
 
 interface Props {
   editorId: HostEditorId | string;

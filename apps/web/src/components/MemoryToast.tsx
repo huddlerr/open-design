@@ -8,7 +8,7 @@
 // be dropped into App.tsx with no other plumbing.
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import type { MemoryChangeEvent } from '@open-design/contracts';
+import type { MemoryChangeEvent } from '@design-jury/contracts';
 import { useT } from '../i18n';
 
 interface ActiveToast {

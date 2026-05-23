@@ -140,7 +140,7 @@ Phased plan from "spec-only today" to "usable MVP" to "published v1." All estima
 1. All four modes fully functional.
 2. Three adapters working (Claude Code, Codex, Cursor Agent); fallback chain shipping.
 3. PDF + PPTX export working for at least the `magazine-web-ppt` + `pitch-deck` skills.
-4. Deployed example at `demo.open-design.dev` (Topology C).
+4. Deployed example at `demo.design-jury.dev` (Topology C).
 5. Skill author docs published; at least one third-party skill submitted.
 6. Documentation site rebuilt from these spec docs.
 

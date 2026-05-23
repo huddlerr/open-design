@@ -13,7 +13,7 @@ import {
 
 // The Home "Create plugin" chip sends this prompt as the project's first
 // user turn. When QA exercised it (issue #2332 transcript), the agent's
-// summary turn freeform-recommended `od plugin publish --to open-design`
+// summary turn freeform-recommended `od plugin publish --to design-jury`
 // and `gh repo create lefarcen/<name>` — recreating the exact flows the
 // plugin-folder card buttons already own. The button prompts (PR #2363)
 // encode auth gates, jq fallback, retry rules; agent summaries that
@@ -34,7 +34,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
   it('still asks the agent to scaffold generated-plugin with SKILL.md + manifest', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('generated-plugin');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('SKILL.md');
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('open-design.json');
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('design-jury.json');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('plugin.repo');
   });
 
@@ -51,7 +51,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('gh auth login -h github.com -s repo,workflow');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('od plugin publish-repo generated-plugin --owner <github-login-or-org>');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/Never write placeholder owners/i);
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('open-design-user');
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('design-jury-user');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('<vendor>');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('your-username');
   });
@@ -64,7 +64,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
 
   it('bans freeform publish / repo CLI suggestions in the summary turn', () => {
     // The agent transcript in #2332 had the agent recommending
-    // `od plugin publish --to open-design`, `gh repo create
+    // `od plugin publish --to design-jury`, `gh repo create
     // lefarcen/<name>`, and `git init && git push` in its summary —
     // recreating the exact flows the plugin-folder card buttons own.
     // The ban list must name those workarounds explicitly so the agent
@@ -72,7 +72,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(
       /Do NOT.*suggest follow-up CLI commands/i,
     );
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('od plugin publish --to open-design');
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('od plugin publish --to design-jury');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('gh repo create');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('git push');
   });
@@ -80,7 +80,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
   it('points the user at the plugin-folder card buttons instead', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('Add to My plugins');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('Publish repo');
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('Open Design PR');
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('Design Jury PR');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(
       /Point the user at whichever button|Tell the user to click whichever button/i,
     );
@@ -97,7 +97,7 @@ describe('PLUGIN_AUTHORING_PROMPT_TEMPLATE', () => {
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(
       /Do NOT\W*assume the standalone `jq` binary is installed/i,
     );
-    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/cat .*open-design\.json/);
+    expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/cat .*design-jury\.json/);
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toContain('node -e');
     expect(PLUGIN_AUTHORING_PROMPT_TEMPLATE).toMatch(/`gh \.\.\. --jq` flag is fine|gh ships its own embedded library/i);
   });

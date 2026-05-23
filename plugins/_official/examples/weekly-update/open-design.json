@@ -1,5 +1,5 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-weekly-update",
   "title": "Weekly Update",
@@ -7,10 +7,10 @@
   "description": "Single-file horizontal-swipe slide deck for a weekly team update —\nshipped, in flight, blocked, metrics, asks. 6–8 slides. Use when the\nbrief mentions \"weekly update\", \"team update slides\", \"weekly status\",\n\"周报演示\".",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/weekly-update",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/weekly-update",
   "tags": [
     "example",
     "first-party",

@@ -1,16 +1,16 @@
 {
-  "$schema": "https://open-design.ai/schemas/plugin.v1.json",
+  "$schema": "https://design-jury.ai/schemas/plugin.v1.json",
   "specVersion": "1.0.0",
   "name": "example-live-artifact",
   "title": "Live Artifact",
   "version": "0.1.0",
-  "description": "Create refreshable, auditable Open Design artifacts backed by connector or local data.\nTrigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts.",
+  "description": "Create refreshable, auditable Design Jury artifacts backed by connector or local data.\nTrigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts.",
   "license": "MIT",
   "author": {
-    "name": "Open Design",
+    "name": "Design Jury",
     "url": "https://github.com/nexu-io"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/live-artifact",
+  "homepage": "https://github.com/nexu-io/design-jury/tree/main/plugins/_official/examples/live-artifact",
   "tags": [
     "example",
     "first-party",
@@ -44,8 +44,8 @@
     },
     "useCase": {
       "query": {
-        "en": "Create refreshable, auditable Open Design artifacts backed by connector or local data. Trigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts.",
-        "zh-CN": "使用这个插件完成以下任务：Create refreshable, auditable Open Design artifacts backed by connector or local data. Trigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts."
+        "en": "Create refreshable, auditable Design Jury artifacts backed by connector or local data. Trigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts.",
+        "zh-CN": "使用这个插件完成以下任务：Create refreshable, auditable Design Jury artifacts backed by connector or local data. Trigger when the user asks for live dashboards, refreshable reports, synced views, or reusable data-backed artifacts."
       }
     },
     "context": {

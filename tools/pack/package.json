@@ -1,5 +1,5 @@
 {
-  "name": "@open-design/tools-pack",
+  "name": "@design-jury/tools-pack",
   "version": "0.8.0",
   "private": true,
   "type": "module",
@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@electron/rebuild": "4.0.4",
-    "@open-design/platform": "workspace:*",
-    "@open-design/sidecar": "workspace:*",
-    "@open-design/sidecar-proto": "workspace:*",
+    "@design-jury/platform": "workspace:*",
+    "@design-jury/sidecar": "workspace:*",
+    "@design-jury/sidecar-proto": "workspace:*",
     "@electron/notarize": "3.1.1",
     "cac": "6.7.14",
     "electron-builder": "26.8.1"

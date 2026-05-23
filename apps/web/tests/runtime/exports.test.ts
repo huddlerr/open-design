@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { installMockOpenDesignHost } from '@open-design/host/testing';
+import { installMockOpenDesignHost } from '@design-jury/host/testing';
 import {
   archiveFilenameFrom,
   archiveRootFromFilePath,
@@ -109,7 +109,7 @@ describe('buildDesignHandoffContent', () => {
       files: ['index.html', 'src/app.css', 'src/app.js'],
     }));
 
-    expect(manifest.schema).toBe('open-design.design-manifest.v1');
+    expect(manifest.schema).toBe('design-jury.design-manifest.v1');
     expect(manifest.entryFile).toBe('index.html');
     expect(manifest.sourceFiles.css).toEqual(['src/app.css']);
     expect(manifest.sourceFiles.scriptsAndComponents).toEqual(['src/app.js']);
